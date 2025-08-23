@@ -1,0 +1,34 @@
+@import '@fontsource/montserrat';
+@import '@fontsource/lora';
+@import '@fontsource/barlow';
+@import '@fontsource/ibm-plex-sans';
+/* @import '@fontsource/futura-pt';*/
+
+:root {
+  --primary-dark: #122324;
+  --secondary-dark: #2E3A33;
+  --neutral: #535748;
+  --accent-light: #DB9E75;
+  --accent-medium: #804011;
+  --accent-dark: #3F2411;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: white;
+  color: var(--primary-dark);
+}
+
+h1, h2 {
+  font-family: 'Futura PT', sans-serif;
+}
+
+p {
+  font-family: 'Lora', serif;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

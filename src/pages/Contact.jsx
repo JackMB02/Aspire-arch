@@ -1,41 +1,79 @@
 import AnimatedSection from '../components/AnimatedSection';
 import styled from 'styled-components';
 
-const Form = styled.form`
+const ContactWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 1.5rem 4rem;
+  background: #f9f9f9; /* subtle light background */
+  min-height: 80vh;
+`;
+
+const FormCard = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  max-width: 500px;
-  margin: 0 auto;
-  input, textarea {
-    padding: 0.5rem;
-    font-family: 'Lora', serif;
+  gap: 1.5rem;
+  max-width: 550px;
+  width: 100%;
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  font-family: 'Lora', serif;
+
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #1a1a1a;
   }
+
+  input,
+  textarea {
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border 0.3s, box-shadow 0.3s;
+    &:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      outline: none;
+    }
+  }
+
   button {
-    background: var(--accent-light);
+    background: #3b82f6;
     color: white;
     border: none;
-    padding: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    border-radius: 1rem;
     cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
     &:hover {
-      background: var(--accent-medium);
+      background: #2563eb;
+      transform: translateY(-2px);
     }
   }
 `;
 
 function Contact() {
   return (
-    <div style={{ padding: '6rem 2rem 2rem' }}>
+    <ContactWrapper>
       <AnimatedSection>
-        <h1>Contact Us</h1>
-        <Form>
-          <input type="text" placeholder="Name" />
-          <input type="email" placeholder="Email" />
-          <textarea placeholder="Message" rows="5"></textarea>
-          <button type="submit">Send</button>
-        </Form>
+        <FormCard>
+          <h1>Contact Us</h1>
+          <input type="text" placeholder="Name" required />
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Message" rows="6" required></textarea>
+          <button type="submit">Send Message</button>
+        </FormCard>
       </AnimatedSection>
-    </div>
+    </ContactWrapper>
   );
 }
 

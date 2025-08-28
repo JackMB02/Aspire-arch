@@ -1,305 +1,57 @@
+import { useState } from "react";
 import { Routes, Route, Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { motion } from "framer-motion";
-import styled from 'styled-components';
-import { useState } from 'react';
 
-/* Modern Styled Components */
-const ModernSectionWrapper = styled.div`
-  padding: 8rem 1.5rem;
-  background: ${(props) => props.bg || 'linear-gradient(135deg, #f9f9f9 0%, #f0f4ff 100%)'};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
-  }
-`;
-
-const GlassCard = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 2.5rem;
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  padding: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  transition: all 0.4s ease;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-      0 20px 45px rgba(0, 0, 0, 0.08),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  }
-`;
-
-const ModernButton = styled.button`
-  padding: 1rem 2.5rem;
-  border-radius: 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: ${(props) => (props.variant === 'outline' ? '1px solid rgba(156, 163, 175, 0.5)' : 'none')};
-  background: ${(props) => {
-    if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.7)';
-    if (props.variant === 'ghost') return 'transparent';
-    return 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-  }};
-  color: ${(props) => {
-    if (props.variant === 'outline') return '#1f2937';
-    if (props.variant === 'ghost') return '#4b5563';
-    return 'white';
-  }};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: 0.5s;
-  }
-  
-  &:hover::before {
-    left: 100%;
-  }
-  
-  &:hover {
-    background: ${(props) => {
-      if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.9)';
-      if (props.variant === 'ghost') return 'rgba(243, 244, 246, 0.7)';
-      return 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)';
-    }};
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: ${(props) => props.variant !== 'ghost' ? '0 10px 25px rgba(37, 99, 235, 0.2)' : 'none'};
-  }
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const TabButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  background: ${props => props.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent'};
-  color: ${props => props.active ? '#3b82f6' : '#6b7280'};
-  border: 1px solid ${props => props.active ? 'rgba(59, 130, 246, 0.3)' : 'rgba(229, 231, 235, 0.7)'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-  }
-`;
-
-const TeamGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
-`;
-
-const TeamMemberCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 2rem;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  
-  h3 {
-    margin: 1rem 0 0.5rem;
-    font-weight: 700;
-  }
-  
-  p {
-    color: #6b7280;
-    font-size: 0.9rem;
-  }
-`;
-
-const Avatar = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 2rem;
-  font-weight: bold;
-`;
-
-const TimelineContainer = styled.div`
-  position: relative;
-  max-width: 800px;
-  margin: 4rem auto;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100%;
-    width: 2px;
-    background: linear-gradient(to bottom, transparent, #3b82f6, transparent);
-  }
-`;
-
-const TimelineItem = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding-right: 30px;
-  position: relative;
-  margin-bottom: 4rem;
-  width: 50%;
-  
-  &:nth-child(even) {
-    align-self: flex-end;
-    justify-content: flex-start;
-    padding-left: 30px;
-    padding-right: 0;
-    left: 50%;
-  }
-  
-  &::after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    background: #3b82f6;
-    border-radius: 50%;
-    top: 20px;
-    right: -8px;
-  }
-  
-  &:nth-child(even)::after {
-    left: -8px;
-  }
-`;
-
-const TimelineContent = styled(GlassCard)`
-  width: 100%;
-  padding: 1.5rem;
-  
-  h3 {
-    color: #1e40af;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    color: #6b7280;
-    font-size: 0.95rem;
-  }
-`;
-
-const StatsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 4rem 0;
-`;
-
-const StatCard = styled.div`
-  text-align: center;
-  padding: 2rem;
-  
-  h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    color: #6b7280;
-    font-weight: 500;
-  }
-`;
-
-/* About Sections */
 function Mission() {
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Our Mission & Purpose
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="about-page-wrapper">
+        <div className="about-content">
+          <h1 className="about-title">Our Mission & Purpose</h1>
+          <p className="about-description">
             At Aspire Architecture, our mission is to design <strong>sustainable, functional, and inspiring spaces</strong> that serve communities while respecting the environment. We balance <em>innovation with tradition</em>, creating structures that stand the test of time while meeting contemporary needs.
           </p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Environmental Stewardship</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                We champion eco-friendly materials and energy-efficient solutions, minimizing our carbon footprint while maximizing building performance and occupant comfort.
-              </p>
+          <div className="features-grid">
+            <div className="feature-card">
+              <div className="feature-icon">🌱</div>
+              <h3>Environmental Stewardship</h3>
+              <p>We champion eco-friendly materials and energy-efficient solutions, minimizing our carbon footprint while maximizing building performance.</p>
             </div>
             
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Human-Centered Design</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                We prioritize user well-being and accessibility, creating spaces that promote health, happiness, and productivity for all who inhabit them.
-              </p>
+            <div className="feature-card">
+              <div className="feature-icon">👥</div>
+              <h3>Human-Centered Design</h3>
+              <p>We prioritize user well-being and accessibility, creating spaces that promote health, happiness, and productivity for all occupants.</p>
             </div>
             
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Collaborative Innovation</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                We foster creativity and collaboration at every stage, working closely with clients, communities, and craftspeople to realize visionary architectural solutions.
-              </p>
+            <div className="feature-card">
+              <div className="feature-icon">✨</div>
+              <h3>Collaborative Innovation</h3>
+              <p>We foster creativity and collaboration at every stage, working closely with clients and communities to realize visionary solutions.</p>
             </div>
           </div>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>350+</h2>
-              <p>Projects Completed</p>
-            </StatCard>
-            <StatCard>
-              <h2>98%</h2>
-              <p>Client Satisfaction</p>
-            </StatCard>
-            <StatCard>
-              <h2>85%</h2>
-              <p>Energy Savings Average</p>
-            </StatCard>
-            <StatCard>
-              <h2>27</h2>
-              <p>International Awards</p>
-            </StatCard>
-          </StatsContainer>
-        </GlassCard>
-      </ModernSectionWrapper>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-number">350+</span>
+              <span className="stat-label">Projects Completed</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">98%</span>
+              <span className="stat-label">Client Satisfaction</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">85%</span>
+              <span className="stat-label">Energy Savings</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">27</span>
+              <span className="stat-label">International Awards</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -307,53 +59,42 @@ function Mission() {
 function Vision() {
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%)">
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Our Vision for the Future
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="about-page-wrapper vision-bg">
+        <div className="about-content">
+          <h1 className="about-title">Our Vision for the Future</h1>
+          <p className="about-description">
             Aspire Architecture envisions a world where built environments seamlessly connect people with nature, technology, and culture. We create <strong>resilient, adaptive spaces</strong> that inspire future generations while addressing urgent challenges of urban growth and climate change.
           </p>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Regenerative Design</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                Moving beyond sustainability, our designs actively regenerate ecosystems, produce clean energy, and improve environmental conditions in their communities.
-              </p>
+          <div className="vision-grid">
+            <div className="vision-item">
+              <h3>Regenerative Design</h3>
+              <p>Moving beyond sustainability, our designs actively regenerate ecosystems, produce clean energy, and improve environmental conditions.</p>
             </div>
             
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Smart Integration</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                We seamlessly integrate cutting-edge technology with timeless design principles, creating responsive environments that adapt to changing needs.
-              </p>
+            <div className="vision-item">
+              <h3>Smart Integration</h3>
+              <p>We seamlessly integrate cutting-edge technology with timeless design principles, creating responsive environments that adapt to changing needs.</p>
             </div>
             
-            <div>
-              <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.3rem' }}>Cultural Legacy</h3>
-              <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-                Our work honors cultural heritage while pioneering new architectural languages that speak to our evolving global community.
-              </p>
+            <div className="vision-item">
+              <h3>Cultural Legacy</h3>
+              <p>Our work honors cultural heritage while pioneering new architectural languages that speak to our evolving global community.</p>
             </div>
           </div>
           
-          <h3 style={{ color: '#1e40af', marginBottom: '1rem', fontSize: '1.5rem' }}>Our 2030 Goals</h3>
-          <ul style={{ color: '#6b7280', lineHeight: '1.8', paddingLeft: '1.5rem' }}>
-            <li>Achieve net-zero carbon in all new projects by 2025</li>
-            <li>Develop affordable housing solutions for 10,000 families</li>
-            <li>Establish design education programs in 15 underserved communities</li>
-            <li>Pioneer 3 new sustainable building materials</li>
-            <li>Reduce construction waste by 75% across all projects</li>
-          </ul>
-        </GlassCard>
-      </ModernSectionWrapper>
+          <div className="goals-section">
+            <h3>Our 2030 Goals</h3>
+            <ul className="goals-list">
+              <li>Achieve net-zero carbon in all new projects by 2025</li>
+              <li>Develop affordable housing solutions for 10,000 families</li>
+              <li>Establish design education programs in 15 underserved communities</li>
+              <li>Pioneer 3 new sustainable building materials</li>
+              <li>Reduce construction waste by 75% across all projects</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -364,72 +105,55 @@ function Values() {
   const values = [
     {
       title: "Sustainability",
-      description: "We prioritize environmental responsibility in every project, employing cutting-edge sustainable practices and materials to minimize ecological impact while maximizing energy efficiency and resilience.",
-      details: "From passive house design to renewable energy integration, we push the boundaries of sustainable architecture while maintaining aesthetic excellence and functionality."
+      description: "We prioritize environmental responsibility in every project, employing cutting-edge sustainable practices and materials to minimize ecological impact.",
+      icon: "🌍"
     },
     {
       title: "Innovation",
-      description: "We embrace emerging technologies and novel approaches to solve complex design challenges, constantly exploring new possibilities in form, function, and construction methodology.",
-      details: "Our dedicated R&D team collaborates with material scientists and engineers to develop proprietary systems that enhance building performance and occupant experience."
+      description: "We embrace emerging technologies and novel approaches to solve complex design challenges, constantly exploring new possibilities.",
+      icon: "💡"
     },
     {
       title: "Collaboration",
-      description: "We believe the best designs emerge from diverse perspectives, fostering open dialogue between clients, communities, consultants, and builders throughout the creative process.",
-      details: "Our collaborative studio environment encourages cross-pollination of ideas, ensuring each project benefits from our collective expertise and creative energy."
+      description: "We believe the best designs emerge from diverse perspectives, fostering open dialogue between clients, communities, and builders.",
+      icon: "🤝"
     },
     {
       title: "Excellence",
-      description: "We pursue perfection in every detail, combining meticulous craftsmanship with rigorous quality control to deliver exceptional results that exceed client expectations.",
-      details: "Our commitment to excellence extends beyond aesthetics to encompass structural integrity, building performance, and long-term value for our clients and their communities."
+      description: "We pursue perfection in every detail, combining meticulous craftsmanship with rigorous quality control to deliver exceptional results.",
+      icon: "⭐"
     }
   ];
   
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Our Core Values
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="about-page-wrapper">
+        <div className="about-content">
+          <h1 className="about-title">Our Core Values</h1>
+          <p className="about-description">
             Our values are the foundation of everything we do at Aspire Architecture. They guide our decisions, shape our culture, and define our approach to creating meaningful architecture.
           </p>
           
-          <TabContainer>
+          <div className="values-tabs">
             {values.map((value, index) => (
-              <TabButton 
+              <button
                 key={index}
-                active={activeValue === index}
+                className={`value-tab ${activeValue === index ? 'active' : ''}`}
                 onClick={() => setActiveValue(index)}
               >
+                <span className="value-icon">{value.icon}</span>
                 {value.title}
-              </TabButton>
+              </button>
             ))}
-          </TabContainer>
+          </div>
           
-          <motion.div
-            key={activeValue}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1rem' }}>
-              {values[activeValue].title}
-            </h2>
-            <p style={{ fontSize: '1.1rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-              {values[activeValue].description}
-            </p>
-            <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-              {values[activeValue].details}
-            </p>
-          </motion.div>
-        </GlassCard>
-      </ModernSectionWrapper>
+          <div className="value-content">
+            <div className="value-icon-large">{values[activeValue].icon}</div>
+            <h2>{values[activeValue].title}</h2>
+            <p>{values[activeValue].description}</p>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -446,43 +170,26 @@ function Team() {
   
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)">
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Our Leadership Team
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="about-page-wrapper team-bg">
+        <div className="about-content">
+          <h1 className="about-title">Our Leadership Team</h1>
+          <p className="about-description">
             Our diverse team of architects, designers, and specialists brings together decades of experience and fresh perspectives to create innovative architectural solutions.
           </p>
           
-          <TeamGrid>
+          <div className="team-grid">
             {teamMembers.map((member, index) => (
-              <TeamMemberCard
-                key={index}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Avatar>{member.initial}</Avatar>
+              <div key={index} className="team-card">
+                <div className="team-avatar">
+                  {member.initial}
+                </div>
                 <h3>{member.name}</h3>
                 <p>{member.role}</p>
-              </TeamMemberCard>
+              </div>
             ))}
-          </TeamGrid>
-          
-          <div style={{ marginTop: '4rem' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Join Our Team</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7', marginBottom: '2rem' }}>
-              We're always looking for talented individuals who share our passion for innovative, sustainable design. Check our careers page for current opportunities.
-            </p>
-            <ModernButton>View Open Positions</ModernButton>
           </div>
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -494,41 +201,35 @@ function History() {
     { year: "2012", title: "International Expansion", description: "Opened offices in Europe and Asia, bringing our design philosophy to global projects." },
     { year: "2016", title: "Research Division", description: "Established our dedicated R&D division to pioneer new sustainable building technologies." },
     { year: "2020", title: "Net-Zero Commitment", description: "Pledged to achieve net-zero carbon in all new projects by 2025." },
-    { year: "2023", title: "Global Recognition", description: "Received the prestigious Global Sustainable Architecture Award for our holistic approach." }
+    { year: "2023", title: "Global Recognition", description: "Received the prestigious Global Sustainable Architecture Award." }
   ];
   
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '3rem', color: '#1f2937', textAlign: 'center' }}
-          >
-            Our Journey Through Time
-          </motion.h1>
+      <div className="about-page-wrapper">
+        <div className="about-content">
+          <h1 className="about-title">Our Journey Through Time</h1>
           
-          <TimelineContainer>
+          <div className="timeline">
             {timelineItems.map((item, index) => (
-              <TimelineItem key={index}>
-                <TimelineContent>
-                  <h3>{item.year} - {item.title}</h3>
+              <div key={index} className="timeline-item">
+                <div className="timeline-year">{item.year}</div>
+                <div className="timeline-content">
+                  <h3>{item.title}</h3>
                   <p>{item.description}</p>
-                </TimelineContent>
-              </TimelineItem>
+                </div>
+              </div>
             ))}
-          </TimelineContainer>
+          </div>
           
-          <div style={{ marginTop: '4rem' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Looking Forward</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7' }}>
-              As we continue to grow and evolve, our commitment to creating sustainable, human-centered architecture remains unwavering. The next chapter of our story will be defined by even more ambitious goals and groundbreaking innovations that push the boundaries of what's possible in architecture.
+          <div className="future-section">
+            <h2>Looking Forward</h2>
+            <p>
+              As we continue to grow and evolve, our commitment to creating sustainable, human-centered architecture remains unwavering. The next chapter will be defined by even more ambitious goals and groundbreaking innovations.
             </p>
           </div>
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -536,68 +237,48 @@ function History() {
 function AboutIntro() {
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%)">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}
-        >
-          <h1 style={{ 
-            fontSize: '3.5rem', 
-            fontWeight: '800', 
-            marginBottom: '1.5rem',
-            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Redefining Architecture for a Sustainable Future
-          </h1>
-          <p style={{ 
-            fontSize: '1.3rem', 
-            color: '#4b5563', 
-            maxWidth: '700px', 
-            margin: '0 auto 3rem',
-            lineHeight: '1.8'
-          }}>
-            Aspire Architecture is more than a design firm — <strong>we are visionaries</strong> committed to shaping <em>sustainable, inspiring, and inclusive environments</em> that elevate the human experience while honoring our planet.
+      <div className="about-page-wrapper intro-bg">
+        <div className="about-content intro-content">
+          <h1 className="about-main-title">Redefining Architecture for a Sustainable Future</h1>
+          <p className="about-main-description">
+            Aspire Architecture is more than a design firm — we are visionaries committed to shaping sustainable, inspiring, and inclusive environments that elevate the human experience while honoring our planet.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-            <Link to="mission"><ModernButton>Our Mission</ModernButton></Link>
-            <Link to="vision"><ModernButton variant="outline">Our Vision</ModernButton></Link>
-            <Link to="values"><ModernButton variant="outline">Our Values</ModernButton></Link>
-            <Link to="team"><ModernButton variant="ghost">Our Team</ModernButton></Link>
-            <Link to="history"><ModernButton variant="ghost">Our History</ModernButton></Link>
+          <div className="about-navigation">
+            <Link to="mission" className="nav-link primary">Our Mission</Link>
+            <Link to="vision" className="nav-link">Our Vision</Link>
+            <Link to="values" className="nav-link">Our Values</Link>
+            <Link to="team" className="nav-link">Our Team</Link>
+            <Link to="history" className="nav-link">Our History</Link>
           </div>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>18</h2>
-              <p>Years of Excellence</p>
-            </StatCard>
-            <StatCard>
-              <h2>24</h2>
-              <p>Countries Served</p>
-            </StatCard>
-            <StatCard>
-              <h2>150+</h2>
-              <p>Creative Professionals</p>
-            </StatCard>
-            <StatCard>
-              <h2>47</h2>
-              <p>Industry Awards</p>
-            </StatCard>
-          </StatsContainer>
-        </motion.div>
-      </ModernSectionWrapper>
+          <div className="intro-stats">
+            <div className="stat-item">
+              <span className="stat-number">18</span>
+              <span className="stat-label">Years of Excellence</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">24</span>
+              <span className="stat-label">Countries Served</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">150+</span>
+              <span className="stat-label">Creative Professionals</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">47</span>
+              <span className="stat-label">Industry Awards</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
 
 function About() {
   return (
-    <div>
+    <div className="about-container">
       <Routes>
         <Route path="mission" element={<Mission />} />
         <Route path="vision" element={<Vision />} />
@@ -606,6 +287,434 @@ function About() {
         <Route path="history" element={<History />} />
         <Route path="*" element={<AboutIntro />} />
       </Routes>
+
+      <style>
+        {`
+        .about-container {
+          min-height: 100vh;
+        }
+
+        .about-page-wrapper {
+          padding: 6rem 2rem 4rem;
+          background: #f8f9fa;
+        }
+
+        .vision-bg {
+          background: linear-gradient(135deg, #fff8f0 0%, #fef3c7 100%);
+        }
+
+        .team-bg {
+          background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
+        }
+
+        .intro-bg {
+          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .about-content {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .intro-content {
+          text-align: center;
+        }
+
+        .about-title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        .about-main-title {
+          font-size: 3rem;
+          font-weight: 800;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .about-description {
+          font-size: 1.2rem;
+          color: #6b7280;
+          line-height: 1.7;
+          max-width: 800px;
+          margin: 0 auto 3rem;
+          text-align: center;
+        }
+
+        .about-main-description {
+          font-size: 1.3rem;
+          color: #6b7280;
+          line-height: 1.8;
+          max-width: 700px;
+          margin: 0 auto 3rem;
+        }
+
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 4rem;
+        }
+
+        .feature-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 16px;
+          text-align: center;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .feature-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+          font-size: 1.3rem;
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        .stats-grid, .intro-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 2rem;
+          margin: 3rem 0;
+        }
+
+        .stat-item {
+          text-align: center;
+          padding: 2rem;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+          display: block;
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #f97316;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+          font-size: 1rem;
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        .vision-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-bottom: 3rem;
+        }
+
+        .vision-item {
+          background: white;
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .vision-item h3 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.2rem;
+        }
+
+        .vision-item p {
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        .goals-section {
+          background: white;
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .goals-section h3 {
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          font-size: 1.3rem;
+        }
+
+        .goals-list {
+          color: #6b7280;
+          line-height: 1.8;
+          padding-left: 1.5rem;
+        }
+
+        .goals-list li {
+          margin-bottom: 0.5rem;
+        }
+
+        .values-tabs {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .value-tab {
+          padding: 1rem 1.5rem;
+          border-radius: 8px;
+          background: white;
+          border: 1px solid #e5e7eb;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .value-tab.active {
+          background: #f97316;
+          color: white;
+          border-color: #f97316;
+        }
+
+        .value-tab:hover {
+          border-color: #f97316;
+          color: #f97316;
+        }
+
+        .value-content {
+          background: white;
+          padding: 3rem;
+          border-radius: 16px;
+          text-align: center;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .value-icon-large {
+          font-size: 4rem;
+          margin-bottom: 1rem;
+        }
+
+        .value-content h2 {
+          font-size: 1.8rem;
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        .value-content p {
+          color: #6b7280;
+          line-height: 1.7;
+          font-size: 1.1rem;
+        }
+
+        .team-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 2rem;
+          margin: 3rem 0;
+        }
+
+        .team-card {
+          background: white;
+          padding: 2rem;
+          border-radius: 16px;
+          text-align: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+        }
+
+        .team-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .team-avatar {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: #f97316;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          font-weight: bold;
+          margin: 0 auto 1rem;
+        }
+
+        .team-card h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .team-card p {
+          color: #6b7280;
+        }
+
+        .timeline {
+          position: relative;
+          max-width: 800px;
+          margin: 4rem auto;
+        }
+
+        .timeline::before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          height: 100%;
+          width: 2px;
+          background: #f97316;
+          opacity: 0.3;
+        }
+
+        .timeline-item {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 3rem;
+          position: relative;
+        }
+
+        .timeline-year {
+          background: #f97316;
+          color: white;
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-weight: 600;
+          margin-right: 1rem;
+          z-index: 2;
+        }
+
+        .timeline-content {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          flex: 1;
+        }
+
+        .timeline-content h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        .future-section {
+          background: white;
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          margin-top: 3rem;
+        }
+
+        .future-section h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        .future-section p {
+          color: #6b7280;
+          line-height: 1.7;
+        }
+
+        .about-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 4rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-link {
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .nav-link.primary {
+          background: #f97316;
+          color: white;
+        }
+
+        .nav-link:not(.primary) {
+          background: white;
+          color: #6b7280;
+          border: 1px solid #e5e7eb;
+        }
+
+        .nav-link:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+        }
+
+        @media (max-width: 768px) {
+          .about-page-wrapper {
+            padding: 5rem 1rem 2rem;
+          }
+          
+          .about-main-title {
+            font-size: 2.2rem;
+          }
+          
+          .about-title {
+            font-size: 2rem;
+          }
+          
+          .features-grid, .vision-grid, .team-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .stats-grid, .intro-stats {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .values-tabs {
+            flex-direction: column;
+          }
+          
+          .about-navigation {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .timeline::before {
+            left: 20px;
+          }
+          
+          .timeline-item {
+            flex-direction: column;
+            padding-left: 40px;
+          }
+          
+          .timeline-year {
+            margin-bottom: 1rem;
+            margin-right: 0;
+          }
+        }
+        `}
+      </style>
     </div>
   );
 }

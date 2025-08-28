@@ -260,17 +260,35 @@ const PartnerLogo = styled.div`
   border: 1px solid rgba(229, 231, 235, 0.7);
 `;
 
+const DonationOption = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+`;
+
+const DonationButton = styled.button`
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid ${props => props.active ? '#3b82f6' : 'rgba(229, 231, 235, 0.7)'};
+  background: ${props => props.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent'};
+  color: ${props => props.active ? '#3b82f6' : '#6b7280'};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+  }
+`;
+
 /* Get Involved Sections */
 function MembershipPartnerships() {
-  // ...existing code...
-  // (No changes needed here)
-  // ...existing code...
+  // ...existing code unchanged...
 }
 
 function DonateSupport() {
-  // ...existing code...
-  // (No changes needed here)
-  // ...existing code...
+  // ...existing code unchanged...
 }
 
 function CommunityFeedback() {
@@ -389,21 +407,21 @@ function CommunityFeedback() {
                 <ContentCard>
                   <IconWrapper>🌟</IconWrapper>
                   <h3>Transformed My Practice</h3>
-                  <p>"The sustainable design workshop completely changed how I approach projects. I've implemented eco-friendly practices that reduced energy costs by 40% for my clients."</p>
+                  <p>"The sustainable design workshop completely changed how I approach projects. I've implemented eco-friendly practices that reduced energy costs by 40% for my clients. The networking opportunities have also led to three new collaborative projects."</p>
                   <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— Maria L., Architect</p>
                 </ContentCard>
                 
                 <ContentCard>
                   <IconWrapper>🌟</IconWrapper>
                   <h3>Career Advancement</h3>
-                  <p>"Through the mentorship program, I connected with an experienced architect who guided me through my licensure process. I'm now a project lead at my firm."</p>
+                  <p>"Through the mentorship program, I connected with an experienced architect who guided me through my licensure process. I'm now a project lead at my firm. The skills I gained from your workshops directly contributed to my promotion."</p>
                   <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— James T., Designer</p>
                 </ContentCard>
                 
                 <ContentCard>
                   <IconWrapper>🌟</IconWrapper>
                   <h3>Invaluable Network</h3>
-                  <p>"The connections I've made through membership have led to collaborative projects and friendships with architects from around the world. It's truly a global community."</p>
+                  <p>"The connections I've made through membership have led to collaborative projects and friendships with architects from around the world. It's truly a global community. The knowledge sharing has been incredible for my professional development."</p>
                   <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— Sofia K., Urban Planner</p>
                 </ContentCard>
               </CardGrid>
@@ -478,19 +496,19 @@ function GetInvolvedOverview() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
               <div>
                 <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Make an Impact</h3>
-                <p style={{ color: '#6b7280' }}>Your support directly contributes to sustainable architecture education and innovation.</p>
+                <p style={{ color: '#6b7280' }}>Your support directly contributes to sustainable architecture education and innovation, helping create a better built environment for future generations.</p>
               </div>
               <div>
                 <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Expand Your Network</h3>
-                <p style={{ color: '#6b7280' }}>Connect with professionals, thought leaders, and organizations in the architecture community.</p>
+                <p style={{ color: '#6b7280' }}>Connect with professionals, thought leaders, and organizations in the architecture community through events and collaborative projects.</p>
               </div>
               <div>
                 <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Access Resources</h3>
-                <p style={{ color: '#6b7280' }}>Gain exclusive access to learning materials, workshops, and research findings.</p>
+                <p style={{ color: '#6b7280' }}>Gain exclusive access to learning materials, workshops, research findings, and tools that can advance your practice.</p>
               </div>
               <div>
                 <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Shape the Future</h3>
-                <p style={{ color: '#6b7280' }}>Your ideas and feedback help guide our programs and initiatives.</p>
+                <p style={{ color: '#6b7280' }}>Your ideas and feedback help guide our programs and initiatives, ensuring we remain responsive to community needs.</p>
               </div>
             </div>
           </GlassCard>

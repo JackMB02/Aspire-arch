@@ -24,48 +24,60 @@ const NavContainer = styled.nav`
   display: flex; justify-content: space-between; align-items: center;
   padding: 1.5rem 2rem;
   z-index: 1000;
-  box-shadow: ${props => props.$isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.1)' : 'none'};
+  box-shadow: ${props => props.$isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.2)' : 'none'};
   transition: all 0.3s ease;
 
   @media (max-width: 768px) { padding: 1rem 1.5rem; }
 `;
 
 const Logo = styled(Link)`
-  font-family: 'Futura PT', sans-serif;
-  font-size: 1.3rem; font-weight: bold; color: white; text-decoration: none;
   display: flex; align-items: center;
+  padding-left: 1.5rem; /* Increased space on the left */
+  margin-right: 1rem; /* Space on the right for balance */
 
-  @media (max-width: 768px) { font-size: 1.1rem; }
+  img {
+    height: 40px; /* Fixed height for logo */
+    object-fit: contain; /* Maintain aspect ratio */
+  }
+
+  @media (max-width: 768px) {
+    padding-left: 1rem; /* Adjusted for mobile */
+    margin-right: 0.75rem;
+    img {
+      height: 32px; /* Slightly smaller for mobile */
+    }
+  }
 `;
 
 const NavList = styled.ul`
-  list-style: none; display: flex; gap: 1rem; margin: 0; align-items: center; position: relative;
+  list-style: none; display: flex; gap: 1.5rem; margin: 0; align-items: center; position: relative;
 
   @media (max-width: 768px) {
     flex-direction: column;
     position: absolute; top: 100%; left: 0; width: 100%;
     background: var(--primary-dark);
     display: ${props => (props.$isOpen ? 'flex' : 'none')};
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    gap: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    gap: 1rem;
   }
 `;
 
 const NavItem = styled.li`
-  cursor: pointer; font-size: 0.8rem; transition: color 0.3s, transform 0.3s;
-  padding: 0.2rem 0; position: relative;
+  cursor: pointer; font-size: 0.9rem; transition: color 0.3s, transform 0.3s;
+  padding: 0.3rem 0; position: relative;
+  font-family: 'Montserrat', sans-serif;
 
-  &:hover { color: var(--accent-light); transform: scale(1.03); }
+  &:hover { color: var(--accent-light); transform: scale(1.05); }
 
   @media (max-width: 768px) {
-    font-size: 0.75rem; padding: 0.5rem 0; width: 100%;
+    font-size: 0.85rem; padding: 0.75rem 0; width: 100%;
   }
 `;
 
 const NavItemButton = styled.div`
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0.2rem 0; width: 100%;
+  padding: 0.3rem 0; width: 100%;
   @media (min-width: 769px) { justify-content: center; }
 `;
 
@@ -76,9 +88,10 @@ const NavItemText = styled.span`
 const SubMenu = styled(motion.div)`
   position: absolute; top: 100%; left: 0; width: 100%;
   background: #ffffff;
-  padding: 0.3rem 0;
+  padding: 0.5rem 0;
   display: flex; justify-content: flex-start;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
 
   @media (max-width: 768px) {
     position: static; width: 100%; box-shadow: none;
@@ -87,53 +100,55 @@ const SubMenu = styled(motion.div)`
 `;
 
 const SubList = styled.ul`
-  list-style: none; display: flex; gap: 1rem; padding: 0 0 0 8rem; flex-wrap: wrap;
+  list-style: none; display: flex; gap: 1.5rem; padding: 0 0 0 8rem; flex-wrap: wrap;
 
   @media (max-width: 1024px) { padding: 0 0 0 6rem; }
   @media (max-width: 768px) {
     flex-direction: column; align-items: flex-start;
-    padding: 0 1rem; gap: 0.5rem;
+    padding: 0 1rem; gap: 0.75rem;
   }
 `;
 
 const SubItem = styled.li`
-  font-family: 'Montserrat', sans-serif; font-size: 0.75rem; color: #000000; transition: color 0.3s;
+  font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: #000000; transition: all 0.3s ease;
+  padding: 0.3rem 0.5rem;
 
-  &.active { text-decoration: underline; text-decoration-color: #000000; }
-  &:hover { color: var(--accent-light); }
+  &.active { text-decoration: underline; text-decoration-color: #000000; font-weight: 600; }
+  &:hover { color: var(--accent-light); background: rgba(122, 158, 217, 0.1); border-radius: 4px; }
 
   @media (max-width: 768px) {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.9);
-    padding: 0.5rem 0.7rem; width: 100%;
-    &:hover { background: rgba(255, 255, 255, 0.1); color: white; }
-    &.active { background: rgba(255, 255, 255, 0.15); color: white; text-decoration-color: white; }
+    padding: 0.75rem 1rem; width: 100%;
+    &:hover { background: rgba(255, 255, 255, 0.15); color: white; }
+    &.active { background: rgba(255, 255, 255, 0.2); color: white; text-decoration-color: white; }
   }
 `;
 
 const IconWrapper = styled.div`
-  display: flex; align-items: center; gap: 1rem;
+  display: flex; align-items: center; gap: 1.2rem;
   @media (max-width: 768px) { margin-left: auto; margin-right: 1rem; }
 `;
 
 const IconButton = styled.button`
-  background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer;
-  padding: 0.5rem; border-radius: 50%; transition: all 0.3s ease;
+  background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;
+  padding: 0.6rem; border-radius: 50%; transition: all 0.3s ease;
   display: flex; align-items: center; justify-content: center;
 
-  &:hover { color: var(--accent-light); background: rgba(255, 255, 255, 0.1); }
-  &.search-active { background: rgba(122, 158, 217, 0.2); color: var(--accent-light); animation: ${pulse} 2s infinite; }
+  &:hover { color: var(--accent-light); background: rgba(255, 255, 255, 0.15); }
+  &.search-active { background: rgba(122, 158, 217, 0.3); color: var(--accent-light); animation: ${pulse} 1.8s infinite; }
 `;
 
 const SearchContainer = styled(motion.div)`
   position: absolute; top: 100%; right: 2rem;
-  background: white; border-radius: 4px; padding: 0.5rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); z-index: 1001; animation: ${slideIn} 0.3s ease;
+  background: white; border-radius: 6px; padding: 0.6rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); z-index: 1001; animation: ${slideIn} 0.3s ease;
 
   input {
-    border: none; outline: none; padding: 0.8rem 1rem; width: 250px; border-radius: 4px; font-size: 0.85rem;
+    border: none; outline: none; padding: 0.9rem 1.2rem; width: 280px; border-radius: 6px; font-size: 0.9rem;
     background: #f8f9fa; transition: all 0.3s ease;
-    &:focus { background: white; box-shadow: 0 0 0 2px rgba(122, 158, 217, 0.5); }
+    font-family: 'Montserrat', sans-serif;
+    &:focus { background: white; box-shadow: 0 0 0 2px rgba(122, 158, 217, 0.6); }
   }
 
   @media (max-width: 768px) {
@@ -143,14 +158,14 @@ const SearchContainer = styled(motion.div)`
 `;
 
 const CloseButton = styled.button`
-  position: absolute; top: 0.5rem; right: 0.5rem;
-  background: none; border: none; font-size: 0.8rem; color: #6c757d; cursor: pointer;
-  padding: 0.2rem; border-radius: 50%;
+  position: absolute; top: 0.6rem; right: 0.6rem;
+  background: none; border: none; font-size: 0.9rem; color: #6c757d; cursor: pointer;
+  padding: 0.3rem; border-radius: 50%;
   &:hover { background: #e9ecef; color: #495057; }
 `;
 
 const HamburgerIcon = styled.div`
-  display: none; cursor: pointer; font-size: 1.2rem; color: white; padding: 0.5rem;
+  display: none; cursor: pointer; font-size: 1.3rem; color: white; padding: 0.6rem;
   &:hover { color: var(--accent-light); }
   @media (max-width: 768px) { display: block; }
 `;
@@ -224,9 +239,14 @@ function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleMenu = (menu) => {
-    setActiveMenu(activeMenu === menu ? null : menu);
-    if (activeMenu === menu) setActiveSubLink(null);
+  const toggleMenu = (menu, path) => {
+    if (activeMenu === menu) {
+      setActiveMenu(null);
+      setActiveSubLink(null);
+    } else {
+      setActiveMenu(menu);
+      navigate(path);
+    }
   };
 
   const handleSubLinkClick = (path) => {
@@ -262,7 +282,9 @@ function Navbar() {
   return (
     <>
       <NavContainer $isScrolled={isScrolled}>
-        <Logo to="/" onClick={closeAllMenus}>ASPIRE</Logo>
+        <Logo to="/" onClick={closeAllMenus}>
+          <img src="/office.jpg" alt="ASPIRE Logo" />
+        </Logo>
 
         <IconWrapper>
           <IconButton
@@ -280,7 +302,7 @@ function Navbar() {
 
         <NavList $isOpen={isNavOpen}>
           {Object.keys(subMenus).map((key) => (
-            <NavItem key={key} onClick={() => toggleMenu(key)}>
+            <NavItem key={key} onClick={() => toggleMenu(key, `/${key}`)}>
               <NavItemButton>
                 <NavItemText>{formatMenuText(key)}</NavItemText>
               </NavItemButton>
@@ -294,7 +316,6 @@ function Navbar() {
           </NavItem>
         </NavList>
 
-        {/* Global SubMenu */}
         <AnimatePresence>
           {activeMenu && (
             <SubMenu
@@ -323,7 +344,6 @@ function Navbar() {
           )}
         </AnimatePresence>
 
-        {/* Search input */}
         <AnimatePresence>
           {showSearch && (
             <SearchContainer

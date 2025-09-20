@@ -3,7 +3,6 @@ import AnimatedSection from '../components/AnimatedSection';
 
 function NewsEvents() {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [selectedArticle, setSelectedArticle] = useState(null);
   
   const newsArticles = [
     {
@@ -15,25 +14,7 @@ function NewsEvents() {
       image: "/images/park.jpg",
       category: "news",
       readTime: "3 min read",
-      content: [
-        {
-          type: "paragraph",
-          text: "We are thrilled to announce that Aspire Architecture has been awarded the prestigious Sustainable Design Award for our innovative work on the Urban Green Park project. This recognition highlights our commitment to creating environmentally conscious spaces that harmonize with their natural surroundings."
-        },
-        {
-          type: "paragraph",
-          text: "The Urban Green Park project transformed a previously underutilized urban area into a vibrant community space that incorporates native vegetation, sustainable drainage systems, and energy-efficient lighting. Our design approach focused on creating a space that not only serves the community but also contributes positively to the local ecosystem."
-        },
-        {
-          type: "image",
-          src: "/images/park2.jpg",
-          caption: "The award-winning Urban Green Park featuring sustainable design elements"
-        },
-        {
-          type: "paragraph",
-          text: "The judging panel particularly praised our use of recycled materials in the construction and the innovative rainwater harvesting system that reduces the park's water consumption by 65%. This project exemplifies our philosophy that sustainable design can be both beautiful and functional."
-        }
-      ]
+      content: "We are thrilled to announce that Aspire Architecture has been awarded the prestigious Sustainable Design Award for our innovative work on the Urban Green Park project. This recognition highlights our commitment to creating environmentally conscious spaces that harmonize with their natural surroundings."
     },
     {
       id: 2,
@@ -41,28 +22,10 @@ function NewsEvents() {
       date: "June 2, 2023",
       author: "Michael Chen",
       excerpt: "Join our lead architects as they discuss the future of sustainable urban development...",
-      image: "/images/library.jpg",
+      image: "/images/conference.jpg",
       category: "event",
       readTime: "5 min read",
-      content: [
-        {
-          type: "paragraph",
-          text: "Join us for an exclusive conference on the Future of Urban Living, where leading architects, urban planners, and sustainability experts will explore innovative approaches to creating more livable, sustainable cities."
-        },
-        {
-          type: "paragraph",
-          text: "The conference will feature keynote presentations from renowned thought leaders, interactive workshops, and panel discussions addressing the most pressing challenges in urban design. Topics will include sustainable infrastructure, community-centered design, adaptive reuse of existing structures, and technological innovations in architecture."
-        },
-        {
-          type: "image",
-          src: "/images/conference.jpg",
-          caption: "Last year's Urban Living Conference attendees participating in a workshop"
-        },
-        {
-          type: "paragraph",
-          text: "Our principal architect, Dr. Elena Rodriguez, will present our firm's research on 'Biophilic Design in Urban Environments,' sharing insights from our recent projects that integrate natural elements into urban settings to improve wellbeing and environmental performance."
-        }
-      ]
+      content: "Join us for an exclusive conference on the Future of Urban Living, where leading architects, urban planners, and sustainability experts will explore innovative approaches to creating more livable, sustainable cities."
     },
     {
       id: 3,
@@ -70,28 +33,10 @@ function NewsEvents() {
       date: "April 28, 2023",
       author: "James Wilson",
       excerpt: "After months of planning, construction has officially begun on our innovative campus library design...",
-      image: "/images/library2.jpg",
+      image: "/images/library.jpg",
       category: "news",
       readTime: "4 min read",
-      content: [
-        {
-          type: "paragraph",
-          text: "We're excited to announce that construction has officially commenced on the Modern Campus Library project at Northwood University. This state-of-the-art facility represents a new era in academic architecture, blending traditional learning spaces with cutting-edge technology and sustainable design principles."
-        },
-        {
-          type: "paragraph",
-          text: "The design features an innovative glass façade that maximizes natural light while maintaining energy efficiency, open collaborative spaces that encourage student interaction, and quiet study areas designed for focused work. The library will also include a digital media lab, maker space, and rooftop garden."
-        },
-        {
-          type: "image",
-          src: "/images/construction.jpg",
-          caption: "Construction underway at the Modern Campus Library site"
-        },
-        {
-          type: "paragraph",
-          text: "The project is scheduled for completion in Fall 2024 and is expected to achieve LEED Platinum certification, making it one of the most sustainable educational buildings in the region."
-        }
-      ]
+      content: "We're excited to announce that construction has officially commenced on the Modern Campus Library project at Northwood University. This state-of-the-art facility represents a new era in academic architecture."
     },
     {
       id: 4,
@@ -99,250 +44,16 @@ function NewsEvents() {
       date: "June 15, 2023",
       author: "Lisa Martinez",
       excerpt: "Participate in our hands-on workshop focused on designing community-centered spaces...",
-      image: "/images/housing.jpg",
+      image: "/images/workshop.jpg",
       category: "event",
       readTime: "2 min read",
-      content: [
-        {
-          type: "paragraph",
-          text: "We invite you to join our interactive workshop on designing community-centered spaces, where participants will learn practical approaches to creating public areas that foster connection, engagement, and wellbeing."
-        },
-        {
-          type: "paragraph",
-          text: "This hands-on session will guide attendees through the process of designing public spaces that truly serve community needs. You'll learn about participatory design methods, accessibility considerations, and how to incorporate sustainable elements into public space design."
-        },
-        {
-          type: "image",
-          src: "/images/workshop.jpg",
-          caption: "Previous community design workshop in session"
-        },
-        {
-          type: "paragraph",
-          text: "The workshop is open to architects, urban planners, community organizers, and anyone interested in the creation of meaningful public spaces. No prior design experience is necessary - just bring your ideas and enthusiasm for building better communities."
-        }
-      ]
+      content: "We invite you to join our interactive workshop on designing community-centered spaces, where participants will learn practical approaches to creating public areas that foster connection, engagement, and wellbeing."
     }
   ];
 
   const filteredArticles = activeFilter === "all" 
     ? newsArticles 
     : newsArticles.filter(article => article.category === activeFilter);
-
-  const handleReadMore = (article) => {
-    setSelectedArticle(article);
-  };
-
-  const handleBackToList = () => {
-    setSelectedArticle(null);
-  };
-
-  if (selectedArticle) {
-    return (
-      <div className="news-events-page">
-        <AnimatedSection>
-          <div className="article-wrapper">
-            <button onClick={handleBackToList} className="back-button">← Back to News & Events</button>
-            
-            <article className="article-content">
-              <header className="article-header">
-                <span className={`article-category ${selectedArticle.category}`}>
-                  {selectedArticle.category === "news" ? "News" : "Event"}
-                </span>
-                <h1 className="article-title">{selectedArticle.title}</h1>
-                <div className="article-meta">
-                  <span className="article-date">{selectedArticle.date}</span>
-                  <span className="article-author">By {selectedArticle.author}</span>
-                  <span className="article-read-time">{selectedArticle.readTime}</span>
-                </div>
-                <img src={selectedArticle.image} alt={selectedArticle.title} className="article-hero-image" />
-              </header>
-
-              <div className="article-body">
-                {selectedArticle.content.map((item, index) => {
-                  if (item.type === "paragraph") {
-                    return <p key={index} className="article-paragraph">{item.text}</p>;
-                  } else if (item.type === "image") {
-                    return (
-                      <figure key={index} className="article-figure">
-                        <img src={item.src} alt={item.caption} />
-                        <figcaption>{item.caption}</figcaption>
-                      </figure>
-                    );
-                  }
-                  return null;
-                })}
-              </div>
-
-              <footer className="article-footer">
-                <div className="article-tags">
-                  <span>Tags: </span>
-                  <span className="tag">Architecture</span>
-                  <span className="tag">Design</span>
-                  <span className="tag">{selectedArticle.category === "news" ? "News" : "Event"}</span>
-                </div>
-              </footer>
-            </article>
-          </div>
-        </AnimatedSection>
-
-        <style>
-          {`
-          .news-events-page {
-            padding: 6rem 2rem 2rem;
-            min-height: 100vh;
-            background: #f8f9fa;
-          }
-
-          .article-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-          }
-
-          .back-button {
-            background: none;
-            border: none;
-            color: #f97316;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            transition: color 0.2s ease;
-          }
-
-          .back-button:hover {
-            color: #e55c00;
-          }
-
-          .article-content {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          }
-
-          .article-header {
-            margin-bottom: 2rem;
-          }
-
-          .article-category {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-          }
-
-          .article-category.news {
-            background: #f97316;
-            color: white;
-          }
-
-          .article-category.event {
-            background: #3b82f6;
-            color: white;
-          }
-
-          .article-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-          }
-
-          .article-meta {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            color: #666;
-            flex-wrap: wrap;
-          }
-
-          .article-hero-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 8px;
-          }
-
-          .article-body {
-            line-height: 1.8;
-            color: #333;
-          }
-
-          .article-paragraph {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-          }
-
-          .article-figure {
-            margin: 2rem 0;
-            text-align: center;
-          }
-
-          .article-figure img {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-            border-radius: 8px;
-          }
-
-          .article-figure figcaption {
-            margin-top: 0.5rem;
-            font-style: italic;
-            color: #666;
-            font-size: 0.9rem;
-          }
-
-          .article-footer {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #eee;
-          }
-
-          .article-tags {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-          }
-
-          .tag {
-            background: #f1f5f9;
-            padding: 4px 10px;
-            border-radius: 16px;
-            font-size: 0.8rem;
-            color: #64748b;
-          }
-
-          @media (max-width: 768px) {
-            .news-events-page {
-              padding: 5rem 1rem 1rem;
-            }
-            
-            .article-title {
-              font-size: 1.8rem;
-            }
-            
-            .article-hero-image {
-              height: 250px;
-            }
-            
-            .article-meta {
-              flex-direction: column;
-              gap: 0.5rem;
-            }
-          }
-          `}
-        </style>
-      </div>
-    );
-  }
 
   return (
     <div className="news-events-page">
@@ -385,21 +96,82 @@ function NewsEvents() {
                   </span>
                 </div>
                 <div className="news-content">
-                  <h3>{article.title}</h3>
+                  <h3 className="news-card-title">{article.title}</h3>
                   <div className="news-meta">
                     <span className="news-date">{article.date}</span>
                     <span className="news-read-time">{article.readTime}</span>
                   </div>
                   <p className="news-excerpt">{article.excerpt}</p>
-                  <button 
-                    className="news-read-more"
-                    onClick={() => handleReadMore(article)}
-                  >
-                    Read More →
-                  </button>
+                  <p className="news-full-content">{article.content}</p>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </AnimatedSection>
+
+      {/* Featured Projects Section */}
+      <AnimatedSection>
+        <div className="featured-projects">
+          <h2>Featured Projects</h2>
+          <div className="projects-grid">
+            <div className="project-card">
+              <img src="/images/park.jpg" alt="Urban Green Park" />
+              <h3>Urban Green Park</h3>
+              <p>Award-winning sustainable park design that incorporates native vegetation and eco-friendly systems.</p>
+            </div>
+            <div className="project-card">
+              <img src="/images/library.jpg" alt="Modern Campus Library" />
+              <h3>Modern Campus Library</h3>
+              <p>State-of-the-art academic facility with innovative glass façade and energy-efficient design.</p>
+            </div>
+            <div className="project-card">
+              <img src="/images/housing.jpg" alt="Eco Housing Complex" />
+              <h3>Eco Housing Complex</h3>
+              <p>Sustainable residential development with green roofs and renewable energy integration.</p>
+            </div>
+          </div>
+        </div>
+      </AnimatedSection>
+
+      {/* Upcoming Events Section */}
+      <AnimatedSection>
+        <div className="upcoming-events">
+          <h2>Upcoming Events</h2>
+          <div className="events-list">
+            <div className="event-item">
+              <div className="event-date">
+                <span className="event-day">15</span>
+                <span className="event-month">Jun</span>
+              </div>
+              <div className="event-details">
+                <h3>Design Workshop: Community Spaces</h3>
+                <p>Interactive session on creating public areas that foster connection and engagement.</p>
+                <span className="event-time">10:00 AM - 4:00 PM</span>
+              </div>
+            </div>
+            <div className="event-item">
+              <div className="event-date">
+                <span className="event-day">22</span>
+                <span className="event-month">Jun</span>
+              </div>
+              <div className="event-details">
+                <h3>Sustainable Architecture Tour</h3>
+                <p>Guided tour of our award-winning eco-friendly projects in the city.</p>
+                <span className="event-time">2:00 PM - 5:00 PM</span>
+              </div>
+            </div>
+            <div className="event-item">
+              <div className="event-date">
+                <span className="event-day">05</span>
+                <span className="event-month">Jul</span>
+              </div>
+              <div className="event-details">
+                <h3>Future of Urban Living Conference</h3>
+                <p>Keynote presentations and discussions on sustainable urban development.</p>
+                <span className="event-time">9:00 AM - 6:00 PM</span>
+              </div>
+            </div>
           </div>
         </div>
       </AnimatedSection>
@@ -423,6 +195,7 @@ function NewsEvents() {
           font-weight: 700;
           color: #222;
           margin-bottom: 1rem;
+          text-align: center;
         }
 
         .news-page-description {
@@ -431,12 +204,16 @@ function NewsEvents() {
           margin-bottom: 2.5rem;
           line-height: 1.6;
           max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
         }
 
         .news-filters {
           display: flex;
           gap: 0.5rem;
           margin-bottom: 2rem;
+          justify-content: center;
         }
 
         .filter-btn {
@@ -462,8 +239,9 @@ function NewsEvents() {
 
         .news-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
           gap: 2rem;
+          margin-bottom: 4rem;
         }
 
         .news-card {
@@ -472,6 +250,9 @@ function NewsEvents() {
           overflow: hidden;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
         }
 
         .news-card:hover {
@@ -481,7 +262,7 @@ function NewsEvents() {
 
         .news-image {
           position: relative;
-          height: 220px;
+          height: 200px;
           overflow: hidden;
         }
 
@@ -518,13 +299,17 @@ function NewsEvents() {
 
         .news-content {
           padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
         }
 
-        .news-content h3 {
-          font-size: 1.3rem;
+        .news-card-title {
+          font-size: 1.1rem;
           margin-bottom: 0.75rem;
           color: #222;
           line-height: 1.4;
+          font-weight: 600;
         }
 
         .news-meta {
@@ -545,28 +330,157 @@ function NewsEvents() {
         .news-excerpt {
           color: #555;
           line-height: 1.6;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
+          flex-grow: 1;
+          font-size: 0.95rem;
         }
 
-        .news-read-more {
-          background: none;
-          border: none;
-          color: #f97316;
+        .news-full-content {
+          color: #777;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #eee;
+        }
+
+        /* Featured Projects Section */
+        .featured-projects {
+          max-width: 1200px;
+          margin: 0 auto 4rem;
+          padding: 0 1rem;
+        }
+
+        .featured-projects h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #222;
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 2rem;
+        }
+
+        .project-card {
+          background: white;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .project-card img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+        }
+
+        .project-card h3 {
+          font-size: 1.2rem;
           font-weight: 600;
-          cursor: pointer;
-          padding: 0;
-          transition: color 0.2s ease;
-          display: flex;
-          align-items: center;
+          color: #222;
+          margin: 1rem 1.5rem 0.5rem;
         }
 
-        .news-read-more:hover {
-          color: #e55c00;
+        .project-card p {
+          color: #666;
+          line-height: 1.5;
+          margin: 0 1.5rem 1.5rem;
+          font-size: 0.95rem;
+        }
+
+        /* Upcoming Events Section */
+        .upcoming-events {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem 4rem;
+        }
+
+        .upcoming-events h2 {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #222;
+          margin-bottom: 2rem;
+          text-align: center;
+        }
+
+        .events-list {
+          display: grid;
+          gap: 1.5rem;
+        }
+
+        .event-item {
+          display: flex;
+          background: white;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+        }
+
+        .event-item:hover {
+          transform: translateY(-3px);
+        }
+
+        .event-date {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          min-width: 80px;
+          background: #f97316;
+          color: white;
+          padding: 1rem;
+        }
+
+        .event-day {
+          font-size: 1.8rem;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .event-month {
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+
+        .event-details {
+          padding: 1.5rem;
+          flex-grow: 1;
+        }
+
+        .event-details h3 {
+          font-size: 1.2rem;
+          font-weight: 600;
+          color: #222;
+          margin-bottom: 0.5rem;
+        }
+
+        .event-details p {
+          color: #666;
+          line-height: 1.5;
+          margin-bottom: 0.5rem;
+          font-size: 0.95rem;
+        }
+
+        .event-time {
+          color: #f97316;
+          font-size: 0.9rem;
+          font-weight: 600;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-          .news-grid {
+          .news-grid, .projects-grid {
             grid-template-columns: repeat(2, 1fr);
           }
         }
@@ -576,16 +490,28 @@ function NewsEvents() {
             padding: 5rem 1rem 1rem;
           }
           
-          .news-page-title {
+          .news-page-title, .featured-projects h2, .upcoming-events h2 {
             font-size: 2rem;
           }
           
-          .news-grid {
+          .news-grid, .projects-grid {
             grid-template-columns: 1fr;
           }
           
           .news-filters {
-            justify-content: center;
+            flex-wrap: wrap;
+          }
+          
+          .event-item {
+            flex-direction: column;
+          }
+          
+          .event-date {
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            min-width: auto;
+            padding: 0.8rem 1.5rem;
           }
         }
         `}

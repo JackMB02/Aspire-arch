@@ -116,7 +116,7 @@ function SustainableDesign() {
 
   return (
     <AnimatedSection>
-      <div className="research-page-wrapper sustainable-bg">
+      <div className="research-page-wrapper">
         <div className="research-content">
           <h1 className="research-title">Sustainable Design Practices</h1>
           <p className="research-description">
@@ -202,7 +202,7 @@ function ResilienceClimate() {
 
   return (
     <AnimatedSection>
-      <div className="research-page-wrapper resilience-bg">
+      <div className="research-page-wrapper">
         <div className="research-content">
           <h1 className="research-title">Resilience & Climate Adaptation</h1>
           <p className="research-description">
@@ -279,7 +279,7 @@ function CulturalSocial() {
 
   return (
     <AnimatedSection>
-      <div className="research-page-wrapper cultural-bg">
+      <div className="research-page-wrapper">
         <div className="research-content">
           <h1 className="research-title">Cultural & Social Impact Studies</h1>
           <p className="research-description">
@@ -335,7 +335,7 @@ function CulturalSocial() {
 function ResearchOverview() {
   return (
     <AnimatedSection>
-      <div className="research-page-wrapper overview-bg">
+      <div className="research-page-wrapper">
         <div className="research-content overview-content">
           <h1 className="research-main-title">Research & Insights</h1>
           <p className="research-main-description">
@@ -343,7 +343,7 @@ function ResearchOverview() {
           </p>
 
           <div className="research-navigation">
-            <Link to="articles-case-studies" className="nav-link primary">Case Studies</Link>
+            <Link to="articles-case-studies" className="nav-link">Case Studies</Link>
             <Link to="sustainable-design" className="nav-link">Sustainable Design</Link>
             <Link to="resilience-climate" className="nav-link">Climate Adaptation</Link>
             <Link to="cultural-social" className="nav-link">Social Impact</Link>
@@ -398,29 +398,15 @@ function ResearchInsights() {
         }
 
         .research-page-wrapper {
-          padding: 6rem 2rem 4rem;
+          padding: 8rem 2rem 2rem;
+          min-height: 100vh;
           background: #f8f9fa;
-        }
-
-        .sustainable-bg {
-          background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-        }
-
-        .resilience-bg {
-          background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-        }
-
-        .cultural-bg {
-          background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
-        }
-
-        .overview-bg {
-          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .research-content {
           max-width: 1200px;
           margin: 0 auto;
+          padding: 0 1rem;
         }
 
         .overview-content {
@@ -428,7 +414,7 @@ function ResearchInsights() {
         }
 
         .research-title {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
           font-weight: 700;
           color: #1f2937;
           margin-bottom: 1.5rem;
@@ -436,45 +422,43 @@ function ResearchInsights() {
         }
 
         .research-main-title {
-          font-size: 3rem;
-          font-weight: 800;
+          font-size: 2.5rem;
+          font-weight: 700;
           color: #1f2937;
           margin-bottom: 1.5rem;
-          background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
         }
 
         .research-description {
-          font-size: 1.2rem;
+          font-size: 1rem;
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.6;
           max-width: 800px;
-          margin: 0 auto 3rem;
+          margin: 0 auto 2.5rem;
           text-align: center;
         }
 
         .research-main-description {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
           color: #6b7280;
-          line-height: 1.8;
+          line-height: 1.6;
           max-width: 700px;
           margin: 0 auto 3rem;
         }
 
         .research-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2rem;
-          margin-bottom: 4rem;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         .research-card {
           background: white;
-          padding: 2rem;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .research-card:hover {
@@ -482,197 +466,205 @@ function ResearchInsights() {
         }
 
         .research-icon {
-          font-size: 2.5rem;
+          font-size: 2rem;
           margin-bottom: 1rem;
         }
 
         .research-tag {
           display: inline-block;
           padding: 0.4rem 0.8rem;
-          background: #ffedd5;
-          color: #f97316;
-          border-radius: 20px;
+          background: #f3f4f6;
+          color: #1f2937;
+          border-radius: 16px;
           font-size: 0.8rem;
           font-weight: 600;
           margin-bottom: 1rem;
         }
 
         .research-card h3 {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           color: #1f2937;
           margin-bottom: 1rem;
+          font-weight: 600;
         }
 
         .research-card p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .stats-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 2rem;
-          margin: 3rem 0;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
+          margin: 2.5rem 0;
         }
 
         .stat-item {
           text-align: center;
-          padding: 2rem;
+          padding: 1.5rem;
           background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .stat-number {
           display: block;
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: #f97316;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #1f2937;
           margin-bottom: 0.5rem;
         }
 
         .stat-label {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #6b7280;
           font-weight: 500;
         }
 
         .section-subtitle {
           color: #1f2937;
-          font-size: 1.8rem;
-          margin: 3rem 0 1.5rem;
+          font-size: 1.4rem;
+          margin: 2.5rem 0 1.5rem;
           text-align: center;
+          font-weight: 600;
         }
 
         .methodology-section, .certifications-section, .partnerships-section {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-          margin-top: 3rem;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
         }
 
         .methodology-section h2, .certifications-section h2, .partnerships-section h2 {
           color: #1f2937;
           margin-bottom: 1rem;
-          font-size: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 600;
         }
 
         .methodology-section p, .certifications-section p, .partnerships-section p {
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .approach-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
-          margin-bottom: 3rem;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         .approach-item {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .approach-item h3 {
           color: #1f2937;
           margin-bottom: 1rem;
           font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .approach-item p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .studies-list {
-          margin: 3rem 0;
+          margin: 2.5rem 0;
         }
 
         .study-item {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .study-item h3 {
           color: #1f2937;
           margin-bottom: 1rem;
           font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .study-item p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
           margin-bottom: 1rem;
+          font-size: 0.9rem;
         }
 
         .study-meta {
           display: flex;
           justify-content: space-between;
-          font-size: 0.9rem;
+          font-size: 0.85rem;
         }
 
         .study-focus {
-          background: #ffedd5;
-          color: #f97316;
+          background: #f3f4f6;
+          color: #1f2937;
           padding: 0.3rem 0.8rem;
           border-radius: 12px;
           font-weight: 600;
         }
 
         .study-year {
-          color: #9ca3af;
+          color: #6b7280;
         }
 
         .research-navigation {
           display: flex;
           justify-content: center;
           gap: 1rem;
-          margin-bottom: 4rem;
+          margin-bottom: 3rem;
           flex-wrap: wrap;
         }
 
         .nav-link {
-          padding: 1rem 2rem;
+          padding: 0.8rem 1.5rem;
           border-radius: 8px;
           text-decoration: none;
           font-weight: 600;
           transition: all 0.3s ease;
-        }
-
-        .nav-link.primary {
-          background: #f97316;
-          color: white;
-        }
-
-        .nav-link:not(.primary) {
           background: white;
-          color: #6b7280;
+          color: #1f2937;
           border: 1px solid #e5e7eb;
+          font-size: 0.9rem;
         }
 
         .nav-link:hover {
+          background: #1f2937;
+          color: white;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         @media (max-width: 768px) {
           .research-page-wrapper {
-            padding: 5rem 1rem 2rem;
+            padding: 7rem 1rem 1rem;
           }
           
           .research-main-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
           }
           
           .research-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
           
           .research-grid, .approach-grid {
@@ -687,16 +679,16 @@ function ResearchInsights() {
             flex-direction: column;
             align-items: center;
           }
+          
+          .study-meta {
+            flex-direction: column;
+            gap: 0.5rem;
+          }
         }
 
         @media (max-width: 480px) {
           .stats-grid {
             grid-template-columns: 1fr;
-          }
-          
-          .study-meta {
-            flex-direction: column;
-            gap: 0.5rem;
           }
         }
         `}

@@ -280,31 +280,136 @@ function Design() {
           element={
             <AnimatedSection>
               <div className="design-intro">
-                <h1>Design Portfolio</h1>
-                <p>
-                  Explore a diverse collection of architectural works — from
-                  academic concepts to professional projects and competition
-                  entries.
-                </p>
-                <div className="design-links">
-                  <Link to="academic">Academic</Link>
-                  <Link to="profession">Professional</Link>
-                  <Link to="competition">Competition</Link>
-                </div>
-
-                {/* Mixed Preview */}
-                <div style={{ marginTop: "2rem" }}>
-                  <PageWrapper
-                    title="Featured Projects"
-                    description="A curated mix of projects across all categories."
-                    projects={mixedProjects}
-                  />
-                </div>
+                {/* Mixed Preview - Directly showing the projects without title/links */}
+                <PageWrapper
+                  title="Featured Projects"
+                  description="A curated mix of projects across all categories."
+                  projects={mixedProjects}
+                />
               </div>
             </AnimatedSection>
           }
         />
       </Routes>
+
+      <style>
+        {`
+        .design-page {
+          padding: 6rem 2rem 2rem;
+          min-height: 100vh;
+          background: #f8f9fa;
+        }
+
+        .design-intro {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem 1rem;
+        }
+
+        .page-wrapper {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem 1rem;
+        }
+
+        .page-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #222;
+          margin-bottom: 1rem;
+        }
+
+        .page-description {
+          font-size: 1rem;
+          color: #666;
+          margin-bottom: 2.5rem;
+          line-height: 1.6;
+        }
+
+        .masonry {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .project-card {
+          position: relative;
+          border-radius: 12px;
+          overflow: hidden;
+          background: white;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          cursor: pointer;
+        }
+
+        .project-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .project-card img {
+          width: 100%;
+          height: 220px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+          color: white;
+          opacity: 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 1.5rem;
+          transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .overlay {
+          opacity: 1;
+        }
+
+        .overlay h3 {
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .overlay p {
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+          opacity: 0.9;
+        }
+
+        .overlay button {
+          background: #f97316;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: background 0.2s ease;
+          align-self: flex-start;
+        }
+
+        .overlay button:hover {
+          background: #e55c00;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .design-page {
+            padding: 5rem 1rem 1rem;
+          }
+          
+          .masonry {
+            grid-template-columns: 1fr;
+          }
+        }
+        `}
+      </style>
     </div>
   );
 }

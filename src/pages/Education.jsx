@@ -1,272 +1,7 @@
+import { useState } from "react";
 import { Routes, Route, Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { motion } from "framer-motion";
-import styled from 'styled-components';
-import { useState } from 'react';
 
-/* Modern Styled Components */
-const ModernSectionWrapper = styled.div`
-  padding: 8rem 1.5rem 4rem;
-  background: ${(props) => props.bg || 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
-  }
-`;
-
-const GlassCard = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 2.5rem;
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  padding: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  transition: all 0.4s ease;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-      0 20px 45px rgba(0, 0, 0, 0.08),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  }
-`;
-
-const ModernButton = styled.button`
-  padding: 1rem 2.5rem;
-  border-radius: 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: ${(props) => (props.variant === 'outline' ? '1px solid rgba(156, 163, 175, 0.5)' : 'none')};
-  background: ${(props) => {
-    if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.7)';
-    if (props.variant === 'ghost') return 'transparent';
-    return 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-  }};
-  color: ${(props) => {
-    if (props.variant === 'outline') return '#1f2937';
-    if (props.variant === 'ghost') return '#4b5563';
-    return 'white';
-  }};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: 0.5s;
-  }
-  
-  &:hover::before {
-    left: 100%;
-  }
-  
-  &:hover {
-    background: ${(props) => {
-      if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.9)';
-      if (props.variant === 'ghost') return 'rgba(243, 244, 246, 0.7)';
-      return 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)';
-    }};
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: ${(props) => props.variant !== 'ghost' ? '0 10px 25px rgba(37, 99, 235, 0.2)' : 'none'};
-  }
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const TabButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  background: ${props => props.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent'};
-  color: ${props => props.active ? '#3b82f6' : '#6b7280'};
-  border: 1px solid ${props => props.active ? 'rgba(59, 130, 246, 0.3)' : 'rgba(229, 231, 235, 0.7)'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-  }
-`;
-
-const CardGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2.5rem;
-  margin-top: 3rem;
-`;
-
-const ContentCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 2rem;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  
-  h3 {
-    margin: 1rem 0 0.5rem;
-    font-weight: 700;
-    color: #1e40af;
-  }
-  
-  p {
-    color: #6b7280;
-    flex-grow: 1;
-  }
-  
-  .meta {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1.5rem;
-    color: #9ca3af;
-    font-size: 0.9rem;
-  }
-  
-  .tag {
-    display: inline-block;
-    padding: 0.3rem 0.8rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-    margin-bottom: 1rem;
-  }
-`;
-
-const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-`;
-
-const StatsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 4rem 0;
-`;
-
-const StatCard = styled.div`
-  text-align: center;
-  padding: 2rem;
-  
-  h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    color: #6b7280;
-    font-weight: 500;
-  }
-`;
-
-const CalendarGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
-`;
-
-const CalendarItem = styled.div`
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 1.5rem;
-  border-left: 4px solid #3b82f6;
-  
-  .date {
-    font-weight: 700;
-    color: #1e40af;
-    margin-bottom: 0.5rem;
-  }
-  
-  h4 {
-    margin: 0 0 0.5rem;
-    color: #1f2937;
-  }
-  
-  p {
-    color: #6b7280;
-    margin: 0;
-    font-size: 0.9rem;
-  }
-`;
-
-const ResourceList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 2rem 0;
-  
-  li {
-    padding: 1.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    transition: background 0.3s ease;
-    
-    &:hover {
-      background: rgba(59, 130, 246, 0.05);
-    }
-    
-    &:last-child {
-      border-bottom: none;
-    }
-    
-    h4 {
-      margin: 0 0 0.5rem;
-      color: #1f2937;
-    }
-    
-    p {
-      color: #6b7280;
-      margin: 0;
-      font-size: 0.9rem;
-    }
-    
-    .meta {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-  }
-`;
-
-/* Education Sections */
 function WorkshopsTraining() {
   const workshops = [
     {
@@ -275,7 +10,8 @@ function WorkshopsTraining() {
       tag: "Beginner",
       duration: "2 Days",
       date: "June 15-16, 2023",
-      instructor: "Dr. Elena Martinez"
+      instructor: "Dr. Elena Martinez",
+      icon: "🌱"
     },
     {
       title: "BIM Implementation Masterclass",
@@ -283,7 +19,8 @@ function WorkshopsTraining() {
       tag: "Advanced",
       duration: "3 Days",
       date: "July 5-7, 2023",
-      instructor: "Marcus Johnson"
+      instructor: "Marcus Johnson",
+      icon: "💻"
     },
     {
       title: "Parametric Design with Rhino & Grasshopper",
@@ -291,7 +28,8 @@ function WorkshopsTraining() {
       tag: "Intermediate",
       duration: "2 Days",
       date: "June 22-23, 2023",
-      instructor: "Sophie Chen"
+      instructor: "Sophie Chen",
+      icon: "📐"
     },
     {
       title: "Architectural Photography",
@@ -299,7 +37,8 @@ function WorkshopsTraining() {
       tag: "All Levels",
       duration: "1 Day",
       date: "July 12, 2023",
-      instructor: "David Wilson"
+      instructor: "David Wilson",
+      icon: "📷"
     },
     {
       title: "Passive House Design Certification",
@@ -307,7 +46,8 @@ function WorkshopsTraining() {
       tag: "Intermediate",
       duration: "4 Days",
       date: "August 8-11, 2023",
-      instructor: "Olivia Zhang"
+      instructor: "Olivia Zhang",
+      icon: "🏠"
     },
     {
       title: "Urban Planning for Sustainable Communities",
@@ -315,84 +55,68 @@ function WorkshopsTraining() {
       tag: "Advanced",
       duration: "3 Days",
       date: "July 19-21, 2023",
-      instructor: "Robert Kim"
+      instructor: "Robert Kim",
+      icon: "🏙️"
     }
   ];
 
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Workshops & Training Programs
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="education-page-wrapper">
+        <div className="education-content">
+          <h1 className="education-title">Workshops & Training Programs</h1>
+          <p className="education-description">
             Expand your skills and knowledge through our hands-on workshops and professional training programs. 
             Learn from industry experts and connect with fellow architects and designers.
           </p>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>42</h2>
-              <p>Workshops Offered</p>
-            </StatCard>
-            <StatCard>
-              <h2>98%</h2>
-              <p>Satisfaction Rate</p>
-            </StatCard>
-            <StatCard>
-              <h2>2,500+</h2>
-              <p>Participants Trained</p>
-            </StatCard>
-            <StatCard>
-              <h2>16</h2>
-              <p>Expert Instructors</p>
-            </StatCard>
-          </StatsContainer>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-number">42</span>
+              <span className="stat-label">Workshops Offered</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">98%</span>
+              <span className="stat-label">Satisfaction Rate</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">2,500+</span>
+              <span className="stat-label">Participants Trained</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">16</span>
+              <span className="stat-label">Expert Instructors</span>
+            </div>
+          </div>
           
-          <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Upcoming Workshops</h2>
+          <h2 className="section-subtitle">Upcoming Workshops</h2>
           
-          <CardGrid>
+          <div className="education-grid">
             {workshops.map((workshop, index) => (
-              <ContentCard
-                key={index}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <IconWrapper>📚</IconWrapper>
-                <span className="tag">{workshop.tag}</span>
+              <div key={index} className="education-card">
+                <div className="education-icon">{workshop.icon}</div>
+                <span className="education-tag">{workshop.tag}</span>
                 <h3>{workshop.title}</h3>
                 <p>{workshop.description}</p>
-                <div className="meta">
+                <div className="education-meta">
                   <span>{workshop.duration}</span>
                   <span>{workshop.date}</span>
                 </div>
-                <p style={{ marginTop: '1rem', color: '#6b7280', fontSize: '0.9rem' }}>
-                  Instructor: <strong>{workshop.instructor}</strong>
-                </p>
-                <ModernButton variant="outline" style={{ marginTop: '1.5rem' }}>
-                  Register Now
-                </ModernButton>
-              </ContentCard>
+                <p className="education-instructor">Instructor: {workshop.instructor}</p>
+              </div>
             ))}
-          </CardGrid>
+          </div>
           
-          <div style={{ marginTop: '4rem' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Custom Corporate Training</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7', marginBottom: '2rem' }}>
+          <div className="info-section">
+            <h2>Custom Corporate Training</h2>
+            <p>
               We offer customized training programs for architecture firms and design teams. Our programs can be tailored 
               to your specific needs and delivered at your location or virtually. Topics range from software proficiency 
               to sustainable design practices and project management.
             </p>
-            <ModernButton>Request Information</ModernButton>
           </div>
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -404,112 +128,113 @@ function TutorialsGuides() {
       description: "Complete guide to creating professional architectural documentation using Autodesk Revit.",
       category: "Software",
       level: "Beginner",
-      format: "Video Series"
+      format: "Video Series",
+      icon: "📊"
     },
     {
       title: "Sustainable Material Selection",
       description: "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
       category: "Materials",
       level: "Intermediate",
-      format: "PDF Guide"
+      format: "PDF Guide",
+      icon: "🌿"
     },
     {
       title: "Architectural Rendering with V-Ray",
       description: "Step-by-step tutorial for creating photorealistic architectural visualizations.",
       category: "Visualization",
       level: "Advanced",
-      format: "Video Tutorial"
+      format: "Video Tutorial",
+      icon: "🎨"
     },
     {
       title: "Building Code Compliance",
       description: "Comprehensive reference for navigating building codes and regulations.",
       category: "Regulations",
       level: "All Levels",
-      format: "Interactive Guide"
+      format: "Interactive Guide",
+      icon: "📋"
     },
     {
       title: "Parametric Facade Design",
       description: "Advanced techniques for designing complex building envelopes using computational tools.",
       category: "Design",
       level: "Advanced",
-      format: "Video Series"
+      format: "Video Series",
+      icon: "🏗️"
     },
     {
       title: "Client Presentation Techniques",
       description: "Strategies for effectively communicating design concepts to clients and stakeholders.",
       category: "Communication",
       level: "Intermediate",
-      format: "Guidebook"
+      format: "Guidebook",
+      icon: "🗣️"
     }
   ];
 
   const [activeCategory, setActiveCategory] = useState('All');
-
   const categories = ['All', 'Software', 'Design', 'Materials', 'Visualization', 'Regulations', 'Communication'];
 
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%)">
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Tutorials & Learning Resources
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="education-page-wrapper">
+        <div className="education-content">
+          <h1 className="education-title">Tutorials & Learning Resources</h1>
+          <p className="education-description">
             Access our comprehensive library of tutorials, guides, and learning materials designed to help architects 
             at all stages of their career develop new skills and deepen their expertise.
           </p>
           
-          <TabContainer>
+          <div className="category-tabs">
             {categories.map((category, index) => (
-              <TabButton 
+              <button
                 key={index}
-                active={activeCategory === category}
+                className={`category-tab ${activeCategory === category ? 'active' : ''}`}
                 onClick={() => setActiveCategory(category)}
               >
                 {category}
-              </TabButton>
+              </button>
             ))}
-          </TabContainer>
+          </div>
           
-          <ResourceList>
+          <div className="tutorials-list">
             {tutorials
               .filter(tutorial => activeCategory === 'All' || tutorial.category === activeCategory)
               .map((tutorial, index) => (
-                <li key={index}>
-                  <h4>{tutorial.title}</h4>
-                  <p>{tutorial.description}</p>
-                  <div className="meta">
-                    <span>{tutorial.category}</span>
-                    <span>{tutorial.level}</span>
-                    <span>{tutorial.format}</span>
+                <div key={index} className="tutorial-item">
+                  <div className="tutorial-icon">{tutorial.icon}</div>
+                  <div className="tutorial-content">
+                    <h3>{tutorial.title}</h3>
+                    <p>{tutorial.description}</p>
+                    <div className="tutorial-meta">
+                      <span>{tutorial.category}</span>
+                      <span>{tutorial.level}</span>
+                      <span>{tutorial.format}</span>
+                    </div>
                   </div>
-                </li>
+                </div>
               ))
             }
-          </ResourceList>
+          </div>
           
-          <div style={{ marginTop: '4rem' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Learning Pathways</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7', marginBottom: '2rem' }}>
+          <div className="info-section">
+            <h2>Learning Pathways</h2>
+            <p>
               Our structured learning pathways help you build skills systematically. Whether you're focusing on sustainable 
               design, computational methods, or project management, we have curated collections of resources to guide your 
               learning journey.
             </p>
             
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
-              <ModernButton variant="outline">Sustainable Design Path</ModernButton>
-              <ModernButton variant="outline">BIM Specialist Path</ModernButton>
-              <ModernButton variant="outline">Project Management Path</ModernButton>
-              <ModernButton variant="outline">Digital Fabrication Path</ModernButton>
+            <div className="pathways-grid">
+              <div className="pathway-item">Sustainable Design Path</div>
+              <div className="pathway-item">BIM Specialist Path</div>
+              <div className="pathway-item">Project Management Path</div>
+              <div className="pathway-item">Digital Fabrication Path</div>
             </div>
           </div>
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -521,122 +246,107 @@ function Exhibitions() {
       description: "Exploring innovative approaches to urban design that address climate change and population growth.",
       date: "June 1 - August 31, 2023",
       location: "Main Gallery",
-      curator: "Dr. Amanda Chen"
+      curator: "Dr. Amanda Chen",
+      icon: "🏙️"
     },
     {
       title: "Material Innovations in Architecture",
       description: "Showcasing cutting-edge materials and their applications in contemporary architecture.",
       date: "July 15 - September 15, 2023",
       location: "Materials Gallery",
-      curator: "Prof. Michael Rodriguez"
+      curator: "Prof. Michael Rodriguez",
+      icon: "🧱"
     },
     {
       title: "Digital Fabrication: From Concept to Construction",
       description: "Exhibition of projects demonstrating advanced digital fabrication techniques.",
       date: "September 1 - November 30, 2023",
       location: "Technology Pavilion",
-      curator: "Alexandra Wong"
+      curator: "Alexandra Wong",
+      icon: "⚙️"
     },
     {
       title: "Women in Architecture: Pioneers and Innovators",
       description: "Celebrating the contributions of women architects throughout history and today.",
       date: "October 10 - December 20, 2023",
       location: "Heritage Hall",
-      curator: "Sarah Johnson"
+      curator: "Sarah Johnson",
+      icon: "👩‍💼"
     },
     {
       title: "Adaptive Reuse: Transforming Existing Structures",
       description: "Exhibition featuring innovative adaptive reuse projects from around the world.",
       date: "November 5, 2023 - January 15, 2024",
       location: "Main Gallery",
-      curator: "David Kim"
+      curator: "David Kim",
+      icon: "🔄"
     },
     {
       title: "Biomimicry in Architecture",
       description: "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
       date: "January 20 - March 30, 2024",
       location: "Nature & Design Pavilion",
-      curator: "Elena Martinez"
+      curator: "Elena Martinez",
+      icon: "🌿"
     }
   ];
 
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)">
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Current & Upcoming Exhibitions
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="education-page-wrapper">
+        <div className="education-content">
+          <h1 className="education-title">Current & Upcoming Exhibitions</h1>
+          <p className="education-description">
             Explore our rotating exhibitions that showcase innovative architectural projects, emerging trends, 
             and groundbreaking research in the field of architecture and design.
           </p>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>6</h2>
-              <p>Current Exhibitions</p>
-            </StatCard>
-            <StatCard>
-              <h2>12</h2>
-              <p>Featured Architects</p>
-            </StatCard>
-            <StatCard>
-              <h2>150+</h2>
-              <p>Exhibition Pieces</p>
-            </StatCard>
-            <StatCard>
-              <h2>4</h2>
-              <p>Interactive Installations</p>
-            </StatCard>
-          </StatsContainer>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-number">6</span>
+              <span className="stat-label">Current Exhibitions</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">12</span>
+              <span className="stat-label">Featured Architects</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">150+</span>
+              <span className="stat-label">Exhibition Pieces</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">4</span>
+              <span className="stat-label">Interactive Installations</span>
+            </div>
+          </div>
           
-          <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Exhibition Schedule</h2>
+          <h2 className="section-subtitle">Exhibition Schedule</h2>
           
-          <CardGrid>
+          <div className="education-grid">
             {exhibitions.map((exhibition, index) => (
-              <ContentCard
-                key={index}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.2 }}
-              >
-                <IconWrapper>🎨</IconWrapper>
+              <div key={index} className="education-card">
+                <div className="education-icon">{exhibition.icon}</div>
                 <h3>{exhibition.title}</h3>
                 <p>{exhibition.description}</p>
-                <div style={{ marginTop: '1.5rem' }}>
-                  <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: '0.5rem 0' }}>
-                    <strong>Dates:</strong> {exhibition.date}
-                  </p>
-                  <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: '0.5rem 0' }}>
-                    <strong>Location:</strong> {exhibition.location}
-                  </p>
-                  <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: '0.5rem 0' }}>
-                    <strong>Curated by:</strong> {exhibition.curator}
-                  </p>
+                <div className="exhibition-details">
+                  <p><strong>Dates:</strong> {exhibition.date}</p>
+                  <p><strong>Location:</strong> {exhibition.location}</p>
+                  <p><strong>Curated by:</strong> {exhibition.curator}</p>
                 </div>
-                <ModernButton variant="outline" style={{ marginTop: '1.5rem' }}>
-                  View Details
-                </ModernButton>
-              </ContentCard>
+              </div>
             ))}
-          </CardGrid>
+          </div>
           
-          <div style={{ marginTop: '4rem' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Virtual Tours</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7', marginBottom: '2rem' }}>
+          <div className="info-section">
+            <h2>Virtual Tours</h2>
+            <p>
               Can't visit in person? Explore our exhibitions through immersive virtual tours that allow you to 
               experience the displays from anywhere in the world. Our virtual tours include curator commentary, 
               additional resources, and interactive elements.
             </p>
-            <ModernButton>Explore Virtual Tours</ModernButton>
           </div>
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -651,102 +361,505 @@ function EducationOverview() {
 
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}
-        >
-          <h1 style={{ 
-            fontSize: '3.5rem', 
-            fontWeight: '800', 
-            marginBottom: '1.5rem',
-            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Education & Learning
-          </h1>
-          <p style={{ 
-            fontSize: '1.3rem', 
-            color: '#4b5563', 
-            maxWidth: '700px', 
-            margin: '0 auto 3rem',
-            lineHeight: '1.8'
-          }}>
+      <div className="education-page-wrapper">
+        <div className="education-content overview-content">
+          <h1 className="education-main-title">Education & Learning</h1>
+          <p className="education-main-description">
             Expand your knowledge, develop new skills, and stay at the forefront of architectural innovation 
             through our comprehensive educational programs, resources, and exhibitions.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-            <Link to="workshops-training"><ModernButton>Workshops</ModernButton></Link>
-            <Link to="tutorials-guides"><ModernButton variant="outline">Tutorials</ModernButton></Link>
-            <Link to="exhibitions"><ModernButton variant="outline">Exhibitions</ModernButton></Link>
+          <div className="education-navigation">
+            <Link to="workshops-training" className="nav-link">Workshops</Link>
+            <Link to="tutorials-guides" className="nav-link">Tutorials</Link>
+            <Link to="exhibitions" className="nav-link">Exhibitions</Link>
           </div>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>200+</h2>
-              <p>Learning Resources</p>
-            </StatCard>
-            <StatCard>
-              <h2>42</h2>
-              <p>Workshops per Year</p>
-            </StatCard>
-            <StatCard>
-              <h2>6</h2>
-              <p>Annual Exhibitions</p>
-            </StatCard>
-            <StatCard>
-              <h2>98%</h2>
-              <p>Satisfaction Rate</p>
-            </StatCard>
-          </StatsContainer>
-          
-          <GlassCard style={{ marginTop: '4rem', textAlign: 'left' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Upcoming Events</h2>
-            <CalendarGrid>
-              {upcomingEvents.map((event, index) => (
-                <CalendarItem key={index}>
-                  <div className="date">{event.date}</div>
-                  <h4>{event.title}</h4>
-                  <p>{event.time}</p>
-                </CalendarItem>
-              ))}
-            </CalendarGrid>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-              <ModernButton variant="outline">View Full Calendar</ModernButton>
+          <div className="stats-grid">
+            <div className="stat-item">
+              <span className="stat-number">200+</span>
+              <span className="stat-label">Learning Resources</span>
             </div>
-          </GlassCard>
+            <div className="stat-item">
+              <span className="stat-number">42</span>
+              <span className="stat-label">Workshops per Year</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">6</span>
+              <span className="stat-label">Annual Exhibitions</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">98%</span>
+              <span className="stat-label">Satisfaction Rate</span>
+            </div>
+          </div>
+          
+          <div className="events-section">
+            <h2>Upcoming Events</h2>
+            <div className="events-grid">
+              {upcomingEvents.map((event, index) => (
+                <div key={index} className="event-item">
+                  <div className="event-date">{event.date}</div>
+                  <h3>{event.title}</h3>
+                  <p>{event.time}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-          <GlassCard style={{ marginTop: '2rem', textAlign: 'left' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Learning Membership</h2>
-            <p style={{ color: '#6b7280', lineHeight: '1.7', marginBottom: '2rem' }}>
+          <div className="membership-section">
+            <h2>Learning Membership</h2>
+            <p>
               Join our learning membership program for unlimited access to all resources, exclusive workshops, 
               and priority registration for exhibitions and events. Choose from individual or organizational 
               membership options.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <ModernButton>Individual Membership</ModernButton>
-              <ModernButton variant="outline">Organizational Membership</ModernButton>
-            </div>
-          </GlassCard>
-        </motion.div>
-      </ModernSectionWrapper>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
 
 function Education() {
   return (
-    <div style={{ padding: '8rem 2rem 2rem' }}>
+    <div className="education-container">
       <Routes>
         <Route path="workshops-training" element={<WorkshopsTraining />} />
         <Route path="tutorials-guides" element={<TutorialsGuides />} />
         <Route path="exhibitions" element={<Exhibitions />} />
         <Route path="*" element={<EducationOverview />} />
       </Routes>
+
+      <style>
+        {`
+        .education-container {
+          min-height: 100vh;
+        }
+
+        .education-page-wrapper {
+          padding: 8rem 2rem 2rem;
+          min-height: 100vh;
+          background: #f8f9fa;
+        }
+
+        .education-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+
+        .overview-content {
+          text-align: center;
+        }
+
+        .education-title {
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        .education-main-title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+        }
+
+        .education-description {
+          font-size: 1rem;
+          color: #6b7280;
+          line-height: 1.6;
+          max-width: 800px;
+          margin: 0 auto 2.5rem;
+          text-align: center;
+        }
+
+        .education-main-description {
+          font-size: 1.1rem;
+          color: #6b7280;
+          line-height: 1.6;
+          max-width: 700px;
+          margin: 0 auto 3rem;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
+          margin: 2.5rem 0;
+        }
+
+        .stat-item {
+          text-align: center;
+          padding: 1.5rem;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
+        }
+
+        .stat-number {
+          display: block;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+          font-size: 0.9rem;
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        .section-subtitle {
+          color: #1f2937;
+          font-size: 1.4rem;
+          margin: 2.5rem 0 1.5rem;
+          text-align: center;
+          font-weight: 600;
+        }
+
+        .education-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .education-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 12px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
+        }
+
+        .education-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .education-icon {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .education-tag {
+          display: inline-block;
+          padding: 0.4rem 0.8rem;
+          background: #f3f4f6;
+          color: #1f2937;
+          border-radius: 16px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .education-card h3 {
+          font-size: 1.2rem;
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-weight: 600;
+        }
+
+        .education-card p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .education-meta {
+          display: flex;
+          justify-content: space-between;
+          color: #6b7280;
+          font-size: 0.85rem;
+          margin-bottom: 1rem;
+        }
+
+        .education-instructor {
+          color: #6b7280;
+          font-size: 0.9rem;
+          font-style: italic;
+        }
+
+        .exhibition-details p {
+          margin: 0.5rem 0;
+          font-size: 0.9rem;
+          color: #6b7280;
+        }
+
+        .info-section {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .info-section h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .info-section p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
+        }
+
+        .category-tabs {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .category-tab {
+          padding: 0.8rem 1.2rem;
+          border-radius: 8px;
+          background: white;
+          border: 1px solid #e5e7eb;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        .category-tab.active {
+          background: #1f2937;
+          color: white;
+          border-color: #1f2937;
+        }
+
+        .category-tab:hover {
+          border-color: #1f2937;
+          color: #1f2937;
+        }
+
+        .tutorials-list {
+          margin: 2rem 0;
+        }
+
+        .tutorial-item {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          display: flex;
+          align-items: flex-start;
+          gap: 1rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .tutorial-icon {
+          font-size: 1.5rem;
+          margin-top: 0.25rem;
+        }
+
+        .tutorial-content {
+          flex: 1;
+        }
+
+        .tutorial-content h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .tutorial-content p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .tutorial-meta {
+          display: flex;
+          gap: 1rem;
+          font-size: 0.8rem;
+          color: #6b7280;
+        }
+
+        .pathways-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1rem;
+          margin-top: 1.5rem;
+        }
+
+        .pathway-item {
+          background: #f3f4f6;
+          color: #1f2937;
+          padding: 1rem;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .education-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-link {
+          padding: 0.8rem 1.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          background: white;
+          color: #1f2937;
+          border: 1px solid #e5e7eb;
+          font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+          background: #1f2937;
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .events-section {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin: 2.5rem 0;
+          border: 1px solid #f3f4f6;
+        }
+
+        .events-section h2 {
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          text-align: center;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .events-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .event-item {
+          background: #f8f9fa;
+          padding: 1.2rem;
+          border-radius: 8px;
+          text-align: center;
+        }
+
+        .event-date {
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          font-size: 1rem;
+        }
+
+        .event-item h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          font-size: 0.95rem;
+          font-weight: 600;
+        }
+
+        .event-item p {
+          color: #6b7280;
+          margin: 0;
+          font-size: 0.9rem;
+        }
+
+        .membership-section {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .membership-section h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .membership-section p {
+          color: #6b7280;
+          line-height: 1.5;
+          font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+          .education-page-wrapper {
+            padding: 7rem 1rem 1rem;
+          }
+          
+          .education-main-title {
+            font-size: 2rem;
+          }
+          
+          .education-title {
+            font-size: 1.8rem;
+          }
+          
+          .education-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .education-navigation {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .category-tabs {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .tutorial-item {
+            flex-direction: column;
+            text-align: center;
+          }
+          
+          .tutorial-meta {
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .events-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+        `}
+      </style>
     </div>
   );
 }

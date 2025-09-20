@@ -101,6 +101,7 @@ function Home() {
                 <div className="design-content">
                   <h3>{design.title}</h3>
                   <p>{design.description}</p>
+                  <button className="view-project-btn">View Project →</button>
                 </div>
               </div>
             ))}
@@ -123,6 +124,7 @@ function Home() {
                     <span className="research-date">{research.date}</span>
                   </div>
                   <p className="research-excerpt">{research.excerpt}</p>
+                  <button className="read-more-btn">Read More →</button>
                 </div>
               </div>
             ))}
@@ -140,14 +142,24 @@ function Home() {
               <div key={event.id} className="event-card">
                 <div className="event-image">
                   <img src={event.image} alt={event.title} />
-                  <div className="event-date">{event.date}</div>
+                  <div className="event-date-overlay">
+                    <span className="event-day">15</span>
+                    <span className="event-month">JUN</span>
+                  </div>
                 </div>
                 <div className="event-content">
                   <h3>{event.title}</h3>
                   <div className="event-details">
-                    <span className="event-time">{event.time}</span>
-                    <span className="event-location">{event.location}</span>
+                    <div className="event-info">
+                      <span className="event-icon">⏰</span>
+                      <span>{event.time}</span>
+                    </div>
+                    <div className="event-info">
+                      <span className="event-icon">📍</span>
+                      <span>{event.location}</span>
+                    </div>
                   </div>
+                  <button className="rsvp-btn">RSVP Now</button>
                 </div>
               </div>
             ))}
@@ -186,58 +198,60 @@ function Home() {
         .home-content {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 3rem 1rem;
+          padding: 2rem 1rem;
         }
 
         .section-header {
           text-align: center;
-          margin-bottom: 3rem;
+          margin-bottom: 2.5rem;
         }
 
         .section-header h2 {
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: 700;
           color: #1f2937;
-          margin-bottom: 1rem;
+          margin-bottom: 0.8rem;
+          letter-spacing: -0.5px;
         }
 
         .section-header p {
-          font-size: 1.1rem;
+          font-size: 1rem;
           color: #6b7280;
-          max-width: 600px;
+          max-width: 500px;
           margin: 0 auto;
-          line-height: 1.6;
+          line-height: 1.5;
         }
 
         .section-divider {
           height: 1px;
           background: linear-gradient(to right, transparent, #e5e7eb, transparent);
-          margin: 4rem 0;
+          margin: 3rem 0;
         }
 
         .designs-grid, .research-grid, .events-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2rem;
-          margin-bottom: 4rem;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 3rem;
         }
 
         .design-card {
           background: white;
-          border-radius: 16px;
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .design-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
 
         .design-image {
           position: relative;
-          height: 250px;
+          height: 200px;
           overflow: hidden;
         }
 
@@ -254,77 +268,119 @@ function Home() {
 
         .design-type {
           position: absolute;
-          top: 15px;
-          right: 15px;
-          background: #f97316;
+          top: 12px;
+          right: 12px;
+          background: rgba(249, 115, 22, 0.95);
           color: white;
-          padding: 5px 12px;
-          border-radius: 20px;
-          font-size: 0.8rem;
+          padding: 4px 10px;
+          border-radius: 16px;
+          font-size: 0.75rem;
           font-weight: 600;
+          backdrop-filter: blur(4px);
         }
 
         .design-content {
-          padding: 1.5rem;
+          padding: 1.2rem;
         }
 
         .design-content h3 {
-          font-size: 1.3rem;
-          margin-bottom: 0.75rem;
+          font-size: 1.1rem;
+          margin-bottom: 0.6rem;
           color: #1f2937;
+          font-weight: 600;
         }
 
         .design-content p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        .view-project-btn {
+          background: transparent;
+          color: #f97316;
+          border: none;
+          padding: 0;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: color 0.2s ease;
+        }
+
+        .view-project-btn:hover {
+          color: #ea580c;
         }
 
         .research-card {
           background: white;
-          border-radius: 16px;
-          padding: 2rem;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          transition: transform 0.3s ease;
+          border-radius: 12px;
+          padding: 1.5rem;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .research-card:hover {
           transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .research-content h3 {
-          font-size: 1.3rem;
-          margin-bottom: 1rem;
+          font-size: 1.1rem;
+          margin-bottom: 0.8rem;
           color: #1f2937;
+          font-weight: 600;
+          line-height: 1.4;
         }
 
         .research-meta {
           display: flex;
-          gap: 1rem;
-          margin-bottom: 1rem;
-          font-size: 0.9rem;
+          gap: 0.8rem;
+          margin-bottom: 0.8rem;
+          font-size: 0.8rem;
           color: #6b7280;
         }
 
         .research-excerpt {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        .read-more-btn {
+          background: transparent;
+          color: #f97316;
+          border: none;
+          padding: 0;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: color 0.2s ease;
+        }
+
+        .read-more-btn:hover {
+          color: #ea580c;
         }
 
         .event-card {
           background: white;
-          border-radius: 16px;
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          transition: transform 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .event-card:hover {
           transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .event-image {
           position: relative;
-          height: 200px;
+          height: 160px;
         }
 
         .event-image img {
@@ -333,62 +389,109 @@ function Home() {
           object-fit: cover;
         }
 
-        .event-date {
+        .event-date-overlay {
           position: absolute;
-          top: 15px;
-          left: 15px;
-          background: #f97316;
-          color: white;
-          padding: 5px 12px;
-          border-radius: 20px;
-          font-size: 0.8rem;
+          top: 12px;
+          left: 12px;
+          background: rgba(255, 255, 255, 0.95);
+          color: #1f2937;
+          padding: 8px;
+          border-radius: 8px;
+          text-align: center;
+          backdrop-filter: blur(4px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-day {
+          display: block;
+          font-size: 1.1rem;
+          font-weight: 700;
+          line-height: 1;
+        }
+
+        .event-month {
+          display: block;
+          font-size: 0.7rem;
           font-weight: 600;
+          text-transform: uppercase;
+          margin-top: 2px;
         }
 
         .event-content {
-          padding: 1.5rem;
+          padding: 1.2rem;
         }
 
         .event-content h3 {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           margin-bottom: 1rem;
           color: #1f2937;
+          font-weight: 600;
         }
 
         .event-details {
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
-          font-size: 0.9rem;
+          margin-bottom: 1rem;
+        }
+
+        .event-info {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.85rem;
           color: #6b7280;
         }
 
+        .event-icon {
+          font-size: 0.75rem;
+        }
+
+        .rsvp-btn {
+          width: 100%;
+          background: #f97316;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 6px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 0.2s ease;
+        }
+
+        .rsvp-btn:hover {
+          background: #ea580c;
+        }
+
         .stats-section {
-          margin-top: 4rem;
-          padding: 3rem 0;
+          margin-top: 3rem;
+          padding: 2.5rem 0;
+          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+          border-radius: 16px;
         }
 
         .stats-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 2rem;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
           text-align: center;
         }
 
         .stat-item {
-          padding: 2rem;
+          padding: 1rem;
         }
 
         .stat-number {
           display: block;
-          font-size: 2.5rem;
+          font-size: 2rem;
           font-weight: 700;
           color: #f97316;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.4rem;
         }
 
         .stat-label {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #6b7280;
           font-weight: 500;
         }
@@ -396,15 +499,16 @@ function Home() {
         /* Responsive Design */
         @media (max-width: 768px) {
           .home-content {
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
           }
           
           .section-header h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
           
           .designs-grid, .research-grid, .events-grid {
             grid-template-columns: 1fr;
+            gap: 1.2rem;
           }
           
           .stats-grid {
@@ -412,13 +516,17 @@ function Home() {
           }
           
           .stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
         }
 
         @media (max-width: 480px) {
           .stats-grid {
             grid-template-columns: 1fr;
+          }
+          
+          .section-header h2 {
+            font-size: 1.6rem;
           }
         }
         `}

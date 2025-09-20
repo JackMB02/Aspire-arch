@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaInstagram, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -36,6 +37,7 @@ const FooterLink = styled(Link)`
 const SocialIcons = styled.div`
   display: flex;
   gap: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const SocialIcon = styled.a`
@@ -62,15 +64,34 @@ const NewsletterForm = styled.form`
   button {
     background: var(--accent-light);
     color: white;
-    border: none;
+    border: nothing;
     padding: 0.5rem;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem; /* Smaller font */
+  font-size: 0.9rem; /* Smaller font */
     border-radius: 4px;
     transition: background 0.3s;
     &:hover {
       background: var(--accent-medium);
+    }
+  }
+`;
+
+const MapContainer = styled.div`
+  iframe {
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+    height: 150px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+    
+    @media (min-width: 768px) {
+      opacity: 0.7;
+      
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 `;
@@ -121,10 +142,22 @@ function Footer() {
         <FooterSection>
           <FooterTitle>Connect</FooterTitle>
           <SocialIcons>
-            <SocialIcon href="https://twitter.com" target="_blank"><FaTwitter /></SocialIcon>
+            <SocialIcon href="https://twitter.com" target="_blank"><FaXTwitter /></SocialIcon>
             <SocialIcon href="https://linkedin.com" target="_blank"><FaLinkedin /></SocialIcon>
             <SocialIcon href="https://instagram.com" target="_blank"><FaInstagram /></SocialIcon>
+            <SocialIcon href="mailto:info@aspirearchitecture.com" target="_blank"><FaEnvelope /></SocialIcon>
+            <SocialIcon href="https://wa.me/1234567890" target="_blank"><FaWhatsapp /></SocialIcon>
           </SocialIcons>
+          <FooterTitle>Visit Us</FooterTitle>
+          <MapContainer>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.475737568968!2d30.058889774997!3d-1.9535379980286423!2m3!1f0!2f0!3f0!3m2!1i1020!2i768!4f13.1!3m3!1m2!1s0x19dca4258ed8f3a3%3A0xf4e7c2f8e5f4b4e!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="ASPIRE Architecture Firm Location in Kigali"
+            ></iframe>
+          </MapContainer>
         </FooterSection>
       </motion.div>
       <motion.div

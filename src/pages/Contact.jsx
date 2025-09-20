@@ -121,7 +121,7 @@ function Contact() {
       <style>
         {`
         .contact-page {
-          padding: 6rem 2rem 4rem;
+          padding: 8rem 2rem 2rem;
           min-height: 100vh;
           background: #f8f9fa;
         }
@@ -143,26 +143,25 @@ function Contact() {
 
         .contact-info {
           padding: 3rem;
-          background: #1f2937;
-          color: white;
+          background: white;
+          color: #1f2937;
           display: flex;
           flex-direction: column;
           justify-content: center;
         }
 
         .contact-info h1 {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
           font-weight: 700;
           margin-bottom: 1rem;
-          color: white;
+          color: #1f2937;
         }
 
         .contact-description {
-          font-size: 1.1rem;
+          font-size: 1rem;
           line-height: 1.6;
           margin-bottom: 2.5rem;
-          opacity: 0.9;
-          color: #e5e7eb;
+          color: #6b7280;
         }
 
         .contact-details {
@@ -180,20 +179,20 @@ function Contact() {
         .contact-icon {
           font-size: 1.5rem;
           margin-top: 0.25rem;
-          color: #f97316;
+          color: #1f2937;
         }
 
         .contact-item h3 {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           font-weight: 600;
           margin-bottom: 0.5rem;
-          color: white;
+          color: #1f2937;
         }
 
         .contact-item p {
-          opacity: 0.9;
           line-height: 1.5;
-          color: #d1d5db;
+          color: #6b7280;
+          font-size: 0.9rem;
         }
 
         .contact-form-section {
@@ -221,7 +220,7 @@ function Contact() {
         }
 
         .contact-form h2 {
-          font-size: 1.8rem;
+          font-size: 1.6rem;
           font-weight: 700;
           color: #1f2937;
           margin-bottom: 2rem;
@@ -237,16 +236,16 @@ function Contact() {
           font-weight: 600;
           color: #374151;
           margin-bottom: 0.5rem;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
         .form-group input,
         .form-group textarea {
           width: 100%;
-          padding: 0.875rem 1rem;
+          padding: 0.8rem 1rem;
           border: 2px solid #e5e7eb;
           border-radius: 8px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           transition: all 0.3s ease;
           font-family: inherit;
         }
@@ -254,8 +253,8 @@ function Contact() {
         .form-group input:focus,
         .form-group textarea:focus {
           outline: none;
-          border-color: #f97316;
-          box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+          border-color: #1f2937;
+          box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
         }
 
         .form-group textarea {
@@ -265,11 +264,11 @@ function Contact() {
 
         .submit-btn {
           width: 100%;
-          background: #f97316;
+          background: #1f2937;
           color: white;
           border: none;
-          padding: 1rem 2rem;
-          font-size: 1.1rem;
+          padding: 0.8rem 1.5rem;
+          font-size: 0.9rem;
           font-weight: 600;
           border-radius: 8px;
           cursor: pointer;
@@ -278,9 +277,9 @@ function Contact() {
         }
 
         .submit-btn:hover {
-          background: #ea580c;
+          background: #374151;
           transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(249, 115, 22, 0.3);
+          box-shadow: 0 10px 25px rgba(31, 41, 55, 0.3);
         }
 
         /* Responsive Design */
@@ -301,7 +300,7 @@ function Contact() {
 
         @media (max-width: 640px) {
           .contact-page {
-            padding: 5rem 1rem 2rem;
+            padding: 7rem 1rem 1rem;
           }
           
           .contact-info h1 {
@@ -309,7 +308,7 @@ function Contact() {
           }
           
           .contact-form h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
           }
           
           .contact-item {

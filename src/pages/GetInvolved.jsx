@@ -1,294 +1,182 @@
+import { useState } from "react";
 import { Routes, Route, Link } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
-import { motion } from "framer-motion";
-import styled from 'styled-components';
-import { useState } from 'react';
 
-/* Modern Styled Components */
-const ModernSectionWrapper = styled.div`
-  padding: 8rem 1.5rem 4rem;
-  background: ${(props) => props.bg || 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
-  }
-`;
-
-const GlassCard = styled.div`
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 2.5rem;
-  box-shadow: 
-    0 15px 35px rgba(0, 0, 0, 0.05),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  padding: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  transition: all 0.4s ease;
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-      0 20px 45px rgba(0, 0, 0, 0.08),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  }
-`;
-
-const ModernButton = styled.button`
-  padding: 1rem 2.5rem;
-  border-radius: 1.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: ${(props) => (props.variant === 'outline' ? '1px solid rgba(156, 163, 175, 0.5)' : 'none')};
-  background: ${(props) => {
-    if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.7)';
-    if (props.variant === 'ghost') return 'transparent';
-    return 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)';
-  }};
-  color: ${(props) => {
-    if (props.variant === 'outline') return '#1f2937';
-    if (props.variant === 'ghost') return '#4b5563';
-    return 'white';
-  }};
-  position: relative;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    transition: 0.5s;
-  }
-  
-  &:hover::before {
-    left: 100%;
-  }
-  
-  &:hover {
-    background: ${(props) => {
-      if (props.variant === 'outline') return 'rgba(255, 255, 255, 0.9)';
-      if (props.variant === 'ghost') return 'rgba(243, 244, 246, 0.7)';
-      return 'linear-gradient(135deg, #2563eb 0%, #1e40af 100%)';
-    }};
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: ${(props) => props.variant !== 'ghost' ? '0 10px 25px rgba(37, 99, 235, 0.2)' : 'none'};
-  }
-`;
-
-const TabContainer = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin: 2rem 0;
-  flex-wrap: wrap;
-  justify-content: center;
-`;
-
-const TabButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  background: ${props => props.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent'};
-  color: ${props => props.active ? '#3b82f6' : '#6b7280'};
-  border: 1px solid ${props => props.active ? 'rgba(59, 130, 246, 0.3)' : 'rgba(229, 231, 235, 0.7)'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-  }
-`;
-
-const CardGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2.5rem;
-  margin-top: 3rem;
-`;
-
-const ContentCard = styled(motion.div)`
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 2rem;
-  padding: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  
-  h3 {
-    margin: 1rem 0 0.5rem;
-    font-weight: 700;
-    color: #1e40af;
-  }
-  
-  p {
-    color: #6b7280;
-    flex-grow: 1;
-  }
-  
-  .tag {
-    display: inline-block;
-    padding: 0.3rem 0.8rem;
-    border-radius: 1rem;
-    font-size: 0.8rem;
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-    margin-bottom: 1rem;
-  }
-`;
-
-const IconWrapper = styled.div`
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-`;
-
-const StatsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 4rem 0;
-`;
-
-const StatCard = styled.div`
-  text-align: center;
-  padding: 2rem;
-  
-  h2 {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    color: #6b7280;
-    font-weight: 500;
-  }
-`;
-
-const BenefitList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 2rem 0;
-  
-  li {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    
-    &:last-child {
-      border-bottom: none;
-    }
-    
-    &::before {
-      content: '✓';
-      color: #10b981;
-      font-weight: bold;
-      margin-right: 0.5rem;
-    }
-  }
-`;
-
-const FormContainer = styled.form`
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 2rem;
-  
-  input, textarea, select {
-    padding: 1rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(229, 231, 235, 0.7);
-    background: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-    
-    &:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-  }
-  
-  textarea {
-    min-height: 150px;
-    resize: vertical;
-  }
-  
-  .form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-`;
-
-const PartnerGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin: 3rem 0;
-`;
-
-const PartnerLogo = styled.div`
-  height: 100px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: #6b7280;
-  border: 1px solid rgba(229, 231, 235, 0.7);
-`;
-
-const DonationOption = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1.5rem 0;
-`;
-
-const DonationButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 1rem;
-  border: 1px solid ${props => props.active ? '#3b82f6' : 'rgba(229, 231, 235, 0.7)'};
-  background: ${props => props.active ? 'rgba(59, 130, 246, 0.1)' : 'transparent'};
-  color: ${props => props.active ? '#3b82f6' : '#6b7280'};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
-  }
-`;
-
-/* Get Involved Sections */
 function MembershipPartnerships() {
-  // ...existing code unchanged...
+  const membershipOptions = [
+    {
+      title: "Individual Membership",
+      description: "Perfect for architects, designers, and students looking to expand their knowledge and network.",
+      benefits: ["Access to all workshops", "Learning resources library", "Networking events", "Career development"],
+      price: "$199/year",
+      icon: "👤"
+    },
+    {
+      title: "Firm Membership",
+      description: "Designed for architecture firms seeking team development and industry connections.",
+      benefits: ["Team training packages", "Company profile listing", "Recruitment opportunities", "Custom workshops"],
+      price: "$999/year",
+      icon: "🏢"
+    },
+    {
+      title: "Student Membership",
+      description: "Affordable access for students pursuing careers in architecture and design.",
+      benefits: ["Discounted workshops", "Mentorship programs", "Portfolio reviews", "Career guidance"],
+      price: "$49/year",
+      icon: "🎓"
+    }
+  ];
+
+  return (
+    <AnimatedSection>
+      <div className="involved-page-wrapper">
+        <div className="involved-content">
+          <h1 className="involved-title">Membership & Partnerships</h1>
+          <p className="involved-description">
+            Join our community of architects, designers, and sustainability advocates. Choose the membership 
+            that fits your needs or explore partnership opportunities to collaborate on meaningful projects.
+          </p>
+          
+          <div className="membership-grid">
+            {membershipOptions.map((option, index) => (
+              <div key={index} className="membership-card">
+                <div className="membership-icon">{option.icon}</div>
+                <h3>{option.title}</h3>
+                <p className="membership-price">{option.price}</p>
+                <p>{option.description}</p>
+                <ul className="benefits-list">
+                  {option.benefits.map((benefit, idx) => (
+                    <li key={idx}>{benefit}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          
+          <div className="partnerships-section">
+            <h2>Partnership Opportunities</h2>
+            <p>
+              We collaborate with organizations, educational institutions, and industry partners to advance 
+              sustainable architecture. Partner with us to co-create programs, sponsor events, or develop 
+              research initiatives.
+            </p>
+            
+            <div className="partnership-types">
+              <div className="partnership-type">
+                <h3>Educational Partnerships</h3>
+                <p>Collaborate on curriculum development, student exchanges, and joint research projects.</p>
+              </div>
+              
+              <div className="partnership-type">
+                <h3>Corporate Sponsorship</h3>
+                <p>Support our initiatives while gaining visibility among architecture professionals.</p>
+              </div>
+              
+              <div className="partnership-type">
+                <h3>Research Collaboration</h3>
+                <p>Partner on innovative research projects addressing sustainability challenges.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function DonateSupport() {
-  // ...existing code unchanged...
+  const donationOptions = [50, 100, 250, 500, 1000];
+  const [selectedAmount, setSelectedAmount] = useState(100);
+
+  return (
+    <AnimatedSection>
+      <div className="involved-page-wrapper">
+        <div className="involved-content">
+          <h1 className="involved-title">Donate & Support</h1>
+          <p className="involved-description">
+            Your support enables us to provide scholarships, develop free educational resources, and advance 
+            sustainable architecture research. Every contribution makes a difference.
+          </p>
+          
+          <div className="impact-stats">
+            <div className="impact-stat">
+              <span className="stat-number">$1.2M</span>
+              <span className="stat-label">Annual Scholarships</span>
+            </div>
+            <div className="impact-stat">
+              <span className="stat-number">85%</span>
+              <span className="stat-label">Program Funding</span>
+            </div>
+            <div className="impact-stat">
+              <span className="stat-number">2,300+</span>
+              <span className="stat-label">Students Supported</span>
+            </div>
+          </div>
+          
+          <div className="donation-section">
+            <h2>Make a Donation</h2>
+            
+            <div className="donation-options">
+              {donationOptions.map((amount) => (
+                <button
+                  key={amount}
+                  className={`donation-option ${selectedAmount === amount ? 'selected' : ''}`}
+                  onClick={() => setSelectedAmount(amount)}
+                >
+                  ${amount}
+                </button>
+              ))}
+              
+              <div className="custom-amount">
+                <input
+                  type="number"
+                  placeholder="Custom amount"
+                  value={selectedAmount}
+                  onChange={(e) => setSelectedAmount(Number(e.target.value))}
+                />
+              </div>
+            </div>
+            
+            <div className="donation-form">
+              <div className="form-row">
+                <input type="text" placeholder="Full Name" />
+                <input type="email" placeholder="Email Address" />
+              </div>
+              
+              <div className="payment-details">
+                <h3>Payment Information</h3>
+                <input type="text" placeholder="Card Number" />
+                <div className="card-details">
+                  <input type="text" placeholder="MM/YY" />
+                  <input type="text" placeholder="CVV" />
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="other-ways">
+            <h2>Other Ways to Support</h2>
+            <div className="support-options">
+              <div className="support-option">
+                <h3>Corporate Matching</h3>
+                <p>Many employers match charitable contributions. Check if your company offers matching gifts.</p>
+              </div>
+              
+              <div className="support-option">
+                <h3>In-Kind Donations</h3>
+                <p>Donate materials, software licenses, or professional services to support our programs.</p>
+              </div>
+              
+              <div className="support-option">
+                <h3>Legacy Giving</h3>
+                <p>Include us in your estate planning to create a lasting impact on architectural education.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function CommunityFeedback() {
@@ -296,51 +184,41 @@ function CommunityFeedback() {
 
   return (
     <AnimatedSection>
-      <ModernSectionWrapper bg="linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)">
-        <GlassCard>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '2rem', color: '#1f2937' }}
-          >
-            Community Feedback & Ideas
-          </motion.h1>
-          <p style={{ fontSize: '1.2rem', color: '#4b5563', lineHeight: '1.8', marginBottom: '2rem' }}>
+      <div className="involved-page-wrapper">
+        <div className="involved-content">
+          <h1 className="involved-title">Community Feedback & Ideas</h1>
+          <p className="involved-description">
             Your voice matters. Help us improve our programs, suggest new initiatives, and share your ideas for 
-            how we can better serve the architectural community. We're listening.
+            how we can better serve the architectural community.
           </p>
           
-          <TabContainer>
-            <TabButton 
-              active={activeTab === 'feedback'}
+          <div className="feedback-tabs">
+            <button 
+              className={`feedback-tab ${activeTab === 'feedback' ? 'active' : ''}`}
               onClick={() => setActiveTab('feedback')}
             >
               Share Feedback
-            </TabButton>
-            <TabButton 
-              active={activeTab === 'ideas'}
+            </button>
+            <button 
+              className={`feedback-tab ${activeTab === 'ideas' ? 'active' : ''}`}
               onClick={() => setActiveTab('ideas')}
             >
               Submit Ideas
-            </TabButton>
-            <TabButton 
-              active={activeTab === 'testimonials'}
-              onClick={() => setActiveTab('testimonials')}
+            </button>
+            <button 
+              className={`feedback-tab ${activeTab === 'stories' ? 'active' : ''}`}
+              onClick={() => setActiveTab('stories')}
             >
               Community Stories
-            </TabButton>
-          </TabContainer>
+            </button>
+          </div>
           
           {activeTab === 'feedback' && (
-            <div>
-              <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Share Your Feedback</h2>
-              <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
-                We're constantly working to improve our programs and services. Your honest feedback helps us understand 
-                what's working well and where we can do better.
-              </p>
+            <div className="feedback-form">
+              <h2>Share Your Feedback</h2>
+              <p>We're constantly working to improve our programs and services. Your honest feedback helps us understand what's working well and where we can do better.</p>
               
-              <FormContainer>
+              <form>
                 <div className="form-row">
                   <input type="text" placeholder="Your Name" />
                   <input type="email" placeholder="Your Email" />
@@ -353,25 +231,19 @@ function CommunityFeedback() {
                   <option value="events">Events & Exhibitions</option>
                   <option value="membership">Membership</option>
                   <option value="website">Website Experience</option>
-                  <option value="other">Other</option>
                 </select>
                 
                 <textarea placeholder="Please share your feedback, suggestions, or concerns..."></textarea>
-                
-                <ModernButton type="submit">Submit Feedback</ModernButton>
-              </FormContainer>
+              </form>
             </div>
           )}
           
           {activeTab === 'ideas' && (
-            <div>
-              <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Submit Your Ideas</h2>
-              <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
-                Have an idea for a workshop, event, or initiative? We're always looking for fresh perspectives 
-                and innovative concepts from our community.
-              </p>
+            <div className="ideas-form">
+              <h2>Submit Your Ideas</h2>
+              <p>Have an idea for a workshop, event, or initiative? We're always looking for fresh perspectives and innovative concepts from our community.</p>
               
-              <FormContainer>
+              <form>
                 <div className="form-row">
                   <input type="text" placeholder="Your Name" />
                   <input type="email" placeholder="Your Email" />
@@ -385,52 +257,44 @@ function CommunityFeedback() {
                   <option value="event">Event Idea</option>
                   <option value="resource">Learning Resource</option>
                   <option value="partnership">Partnership Opportunity</option>
-                  <option value="technology">Technology Solution</option>
-                  <option value="other">Other</option>
                 </select>
                 
                 <textarea placeholder="Describe your idea in detail..."></textarea>
-                
-                <ModernButton type="submit">Submit Idea</ModernButton>
-              </FormContainer>
+              </form>
             </div>
           )}
           
-          {activeTab === 'testimonials' && (
-            <div>
-              <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Community Stories</h2>
-              <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
-                Read how our community members have benefited from our programs and initiatives.
-              </p>
+          {activeTab === 'stories' && (
+            <div className="community-stories">
+              <h2>Community Stories</h2>
+              <p>Read how our community members have benefited from our programs and initiatives.</p>
               
-              <CardGrid>
-                <ContentCard>
-                  <IconWrapper>🌟</IconWrapper>
+              <div className="stories-grid">
+                <div className="story-card">
+                  <div className="story-icon">🌟</div>
                   <h3>Transformed My Practice</h3>
-                  <p>"The sustainable design workshop completely changed how I approach projects. I've implemented eco-friendly practices that reduced energy costs by 40% for my clients. The networking opportunities have also led to three new collaborative projects."</p>
-                  <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— Maria L., Architect</p>
-                </ContentCard>
+                  <p>"The sustainable design workshop completely changed how I approach projects. I've implemented eco-friendly practices that reduced energy costs by 40% for my clients."</p>
+                  <p className="story-author">— Maria L., Architect</p>
+                </div>
                 
-                <ContentCard>
-                  <IconWrapper>🌟</IconWrapper>
+                <div className="story-card">
+                  <div className="story-icon">🌟</div>
                   <h3>Career Advancement</h3>
-                  <p>"Through the mentorship program, I connected with an experienced architect who guided me through my licensure process. I'm now a project lead at my firm. The skills I gained from your workshops directly contributed to my promotion."</p>
-                  <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— James T., Designer</p>
-                </ContentCard>
+                  <p>"Through the mentorship program, I connected with an experienced architect who guided me through my licensure process. I'm now a project lead at my firm."</p>
+                  <p className="story-author">— James T., Designer</p>
+                </div>
                 
-                <ContentCard>
-                  <IconWrapper>🌟</IconWrapper>
+                <div className="story-card">
+                  <div className="story-icon">🌟</div>
                   <h3>Invaluable Network</h3>
-                  <p>"The connections I've made through membership have led to collaborative projects and friendships with architects from around the world. It's truly a global community. The knowledge sharing has been incredible for my professional development."</p>
-                  <p style={{ fontWeight: '600', color: '#6b7280', marginTop: '1rem' }}>— Sofia K., Urban Planner</p>
-                </ContentCard>
-              </CardGrid>
-              
-              <ModernButton variant="outline" style={{ marginTop: '2rem' }}>Share Your Story</ModernButton>
+                  <p>"The connections I've made through membership have led to collaborative projects and friendships with architects from around the world."</p>
+                  <p className="story-author">— Sofia K., Urban Planner</p>
+                </div>
+              </div>
             </div>
           )}
-        </GlassCard>
-      </ModernSectionWrapper>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
@@ -438,95 +302,651 @@ function CommunityFeedback() {
 function GetInvolvedOverview() {
   return (
     <AnimatedSection>
-      <ModernSectionWrapper>
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}
-        >
-          <h1 style={{ 
-            fontSize: '3.5rem', 
-            fontWeight: '800', 
-            marginBottom: '1.5rem',
-            background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            Get Involved
-          </h1>
-          <p style={{ 
-            fontSize: '1.3rem', 
-            color: '#4b5563', 
-            maxWidth: '700px', 
-            margin: '0 auto 3rem',
-            lineHeight: '1.8'
-          }}>
+      <div className="involved-page-wrapper">
+        <div className="involved-content overview-content">
+          <h1 className="involved-main-title">Get Involved</h1>
+          <p className="involved-main-description">
             Join our movement to advance sustainable architecture and design education. Whether through membership, 
             donations, or sharing your ideas, there are many ways to contribute to our community and mission.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', marginBottom: '4rem' }}>
-            <Link to="membership-partnerships"><ModernButton>Membership</ModernButton></Link>
-            <Link to="donate-support"><ModernButton variant="outline">Donate</ModernButton></Link>
-            <Link to="community-feedback"><ModernButton variant="outline">Share Feedback</ModernButton></Link>
+          <div className="involved-navigation">
+            <Link to="membership-partnerships" className="nav-link">Membership</Link>
+            <Link to="donate-support" className="nav-link">Donate</Link>
+            <Link to="community-feedback" className="nav-link">Share Feedback</Link>
           </div>
           
-          <StatsContainer>
-            <StatCard>
-              <h2>2.5K+</h2>
-              <p>Community Members</p>
-            </StatCard>
-            <StatCard>
-              <h2>$1.2M</h2>
-              <p>Annual Scholarships</p>
-            </StatCard>
-            <StatCard>
-              <h2>120</h2>
-              <p>Partner Organizations</p>
-            </StatCard>
-            <StatCard>
-              <h2>450</h2>
-              <p>Volunteers</p>
-            </StatCard>
-          </StatsContainer>
+          <div className="impact-stats">
+            <div className="impact-stat">
+              <span className="stat-number">2.5K+</span>
+              <span className="stat-label">Community Members</span>
+            </div>
+            <div className="impact-stat">
+              <span className="stat-number">$1.2M</span>
+              <span className="stat-label">Annual Scholarships</span>
+            </div>
+            <div className="impact-stat">
+              <span className="stat-number">120</span>
+              <span className="stat-label">Partner Organizations</span>
+            </div>
+            <div className="impact-stat">
+              <span className="stat-number">450</span>
+              <span className="stat-label">Volunteers</span>
+            </div>
+          </div>
           
-          <GlassCard style={{ marginTop: '4rem', textAlign: 'left' }}>
-            <h2 style={{ color: '#1e40af', fontSize: '1.8rem', marginBottom: '1.5rem' }}>Why Get Involved?</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-              <div>
-                <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Make an Impact</h3>
-                <p style={{ color: '#6b7280' }}>Your support directly contributes to sustainable architecture education and innovation, helping create a better built environment for future generations.</p>
+          <div className="why-involved">
+            <h2>Why Get Involved?</h2>
+            <div className="reasons-grid">
+              <div className="reason">
+                <h3>Make an Impact</h3>
+                <p>Your support directly contributes to sustainable architecture education and innovation.</p>
               </div>
-              <div>
-                <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Expand Your Network</h3>
-                <p style={{ color: '#6b7280' }}>Connect with professionals, thought leaders, and organizations in the architecture community through events and collaborative projects.</p>
+              
+              <div className="reason">
+                <h3>Expand Your Network</h3>
+                <p>Connect with professionals and thought leaders in the architecture community.</p>
               </div>
-              <div>
-                <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Access Resources</h3>
-                <p style={{ color: '#6b7280' }}>Gain exclusive access to learning materials, workshops, research findings, and tools that can advance your practice.</p>
+              
+              <div className="reason">
+                <h3>Access Resources</h3>
+                <p>Gain exclusive access to learning materials, workshops, and research findings.</p>
               </div>
-              <div>
-                <h3 style={{ color: '#3b82f6', marginBottom: '1rem' }}>Shape the Future</h3>
-                <p style={{ color: '#6b7280' }}>Your ideas and feedback help guide our programs and initiatives, ensuring we remain responsive to community needs.</p>
+              
+              <div className="reason">
+                <h3>Shape the Future</h3>
+                <p>Your ideas help guide our programs and ensure we meet community needs.</p>
               </div>
             </div>
-          </GlassCard>
-        </motion.div>
-      </ModernSectionWrapper>
+          </div>
+        </div>
+      </div>
     </AnimatedSection>
   );
 }
 
 function GetInvolved() {
   return (
-    <div style={{ padding: '8rem 2rem 2rem' }}>
+    <div className="involved-container">
       <Routes>
         <Route path="membership-partnerships" element={<MembershipPartnerships />} />
         <Route path="donate-support" element={<DonateSupport />} />
         <Route path="community-feedback" element={<CommunityFeedback />} />
         <Route path="*" element={<GetInvolvedOverview />} />
       </Routes>
+
+      <style>
+        {`
+        .involved-container {
+          min-height: 100vh;
+        }
+
+        .involved-page-wrapper {
+          padding: 8rem 2rem 2rem;
+          min-height: 100vh;
+          background: #f8f9fa;
+        }
+
+        .involved-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+
+        .overview-content {
+          text-align: center;
+        }
+
+        .involved-title {
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        .involved-main-title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+        }
+
+        .involved-description {
+          font-size: 1rem;
+          color: #6b7280;
+          line-height: 1.6;
+          max-width: 800px;
+          margin: 0 auto 2.5rem;
+          text-align: center;
+        }
+
+        .involved-main-description {
+          font-size: 1.1rem;
+          color: #6b7280;
+          line-height: 1.6;
+          max-width: 700px;
+          margin: 0 auto 3rem;
+        }
+
+        .membership-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin: 2.5rem 0;
+        }
+
+        .membership-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
+        }
+
+        .membership-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .membership-icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .membership-card h3 {
+          font-size: 1.2rem;
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-weight: 600;
+        }
+
+        .membership-price {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1rem;
+        }
+
+        .membership-card p {
+          color: #6b7280;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin-bottom: 1.5rem;
+        }
+
+        .benefits-list {
+          list-style: none;
+          padding: 0;
+          text-align: left;
+        }
+
+        .benefits-list li {
+          padding: 0.5rem 0;
+          border-bottom: 1px solid #f1f5f9;
+          color: #6b7280;
+          font-size: 0.9rem;
+        }
+
+        .benefits-list li:last-child {
+          border-bottom: none;
+        }
+
+        .benefits-list li::before {
+          content: '✓';
+          color: #1f2937;
+          font-weight: bold;
+          margin-right: 0.5rem;
+        }
+
+        .partnerships-section {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .partnerships-section h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .partnerships-section p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
+        }
+
+        .partnership-types {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .partnership-type {
+          background: #f8f9fa;
+          padding: 1.2rem;
+          border-radius: 8px;
+        }
+
+        .partnership-type h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .partnership-type p {
+          color: #6b7280;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin: 0;
+        }
+
+        .impact-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
+          margin: 2.5rem 0;
+        }
+
+        .impact-stat {
+          text-align: center;
+          padding: 1.5rem;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
+        }
+
+        .stat-number {
+          display: block;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+          font-size: 0.9rem;
+          color: #6b7280;
+          font-weight: 500;
+        }
+
+        .donation-section {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin: 2.5rem 0;
+          border: 1px solid #f3f4f6;
+        }
+
+        .donation-section h2 {
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .donation-options {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
+          flex-wrap: wrap;
+        }
+
+        .donation-option {
+          padding: 0.8rem 1.2rem;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          background: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 600;
+          font-size: 0.9rem;
+        }
+
+        .donation-option.selected {
+          border-color: #1f2937;
+          background: #1f2937;
+          color: white;
+        }
+
+        .donation-option:hover {
+          border-color: #1f2937;
+        }
+
+        .custom-amount input {
+          padding: 0.8rem;
+          border: 2px solid #e5e7eb;
+          border-radius: 8px;
+          width: 120px;
+          text-align: center;
+          font-size: 0.9rem;
+        }
+
+        .donation-form {
+          margin-top: 1.5rem;
+        }
+
+        .form-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .donation-form input,
+        .donation-form select,
+        .donation-form textarea {
+          padding: 0.8rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          font-size: 0.9rem;
+        }
+
+        .payment-details {
+          margin-top: 1.5rem;
+        }
+
+        .payment-details h3 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .card-details {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+          margin-top: 1rem;
+        }
+
+        .other-ways {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
+        }
+
+        .other-ways h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .support-options {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .support-option {
+          background: #f8f9fa;
+          padding: 1.2rem;
+          border-radius: 8px;
+        }
+
+        .support-option h3 {
+          color: #1f2937;
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .support-option p {
+          color: #6b7280;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin: 0;
+        }
+
+        .feedback-tabs {
+          display: flex;
+          gap: 1rem;
+          margin: 2rem 0;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .feedback-tab {
+          padding: 0.8rem 1.2rem;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+          background: white;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+
+        .feedback-tab.active {
+          background: #1f2937;
+          color: white;
+          border-color: #1f2937;
+        }
+
+        .feedback-tab:hover {
+          border-color: #1f2937;
+          color: #1f2937;
+        }
+
+        .feedback-form,
+        .ideas-form {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 1.5rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .feedback-form h2,
+        .ideas-form h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .feedback-form p,
+        .ideas-form p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
+        }
+
+        .community-stories {
+          margin-top: 2rem;
+        }
+
+        .community-stories h2 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .community-stories p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
+        }
+
+        .stories-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-top: 1.5rem;
+        }
+
+        .story-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          text-align: center;
+          border: 1px solid #f3f4f6;
+        }
+
+        .story-icon {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+
+        .story-card h3 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .story-card p {
+          color: #6b7280;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+        }
+
+        .story-author {
+          font-weight: 600;
+          color: #6b7280;
+          font-style: italic;
+          margin: 0;
+          font-size: 0.9rem;
+        }
+
+        .involved-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-link {
+          padding: 0.8rem 1.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          background: white;
+          color: #1f2937;
+          border: 1px solid #e5e7eb;
+          font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+          background: #1f2937;
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-involved {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
+        }
+
+        .why-involved h2 {
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          text-align: center;
+          font-size: 1.4rem;
+          font-weight: 600;
+        }
+
+        .reasons-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+
+        .reason {
+          text-align: center;
+          padding: 1.2rem;
+        }
+
+        .reason h3 {
+          color: #1f2937;
+          margin-bottom: 1rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+        }
+
+        .reason p {
+          color: #6b7280;
+          line-height: 1.5;
+          font-size: 0.9rem;
+          margin: 0;
+        }
+
+        @media (max-width: 768px) {
+          .involved-page-wrapper {
+            padding: 7rem 1rem 1rem;
+          }
+          
+          .involved-main-title {
+            font-size: 2rem;
+          }
+          
+          .involved-title {
+            font-size: 1.8rem;
+          }
+          
+          .membership-grid,
+          .stories-grid,
+          .reasons-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .impact-stats {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          
+          .involved-navigation {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .donation-options {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .feedback-tabs {
+            flex-direction: column;
+            align-items: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .impact-stats {
+            grid-template-columns: 1fr;
+          }
+          
+          .form-row {
+            grid-template-columns: 1fr;
+          }
+        }
+        `}
+      </style>
     </div>
   );
 }

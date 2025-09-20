@@ -1,6 +1,22 @@
 import { useState } from "react";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import AnimatedSection from '../components/AnimatedSection';
+
+function AboutHero() {
+  return (
+    <div className="about-hero">
+      <div className="hero-content">
+        <div className="hero-text">
+          <h1>Redefining Architecture for a Sustainable Future</h1>
+          <p>Aspire Architecture is more than a design firm — we are visionaries committed to shaping sustainable, inspiring, and inclusive environments that elevate the human experience while honoring our planet.</p>
+        </div>
+        <div className="hero-image">
+          <img src="/images/villa.jpg" alt="Modern Villa Design by Aspire Architecture" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Mission() {
   return (
@@ -12,21 +28,32 @@ function Mission() {
             At Aspire Architecture, our mission is to design <strong>sustainable, functional, and inspiring spaces</strong> that serve communities while respecting the environment. We balance <em>innovation with tradition</em>, creating structures that stand the test of time while meeting contemporary needs.
           </p>
           
+          <div className="image-showcase">
+            <img src="/images/design-process.jpg" alt="Design Process" />
+            <div className="image-caption">Our collaborative design process brings together diverse perspectives to create innovative solutions.</div>
+          </div>
+          
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">🌱</div>
+              <div className="feature-icon">
+                <i className="fas fa-leaf"></i>
+              </div>
               <h3>Environmental Stewardship</h3>
               <p>We champion eco-friendly materials and energy-efficient solutions, minimizing our carbon footprint while maximizing building performance.</p>
             </div>
             
             <div className="feature-card">
-              <div className="feature-icon">👥</div>
+              <div className="feature-icon">
+                <i className="fas fa-users"></i>
+              </div>
               <h3>Human-Centered Design</h3>
               <p>We prioritize user well-being and accessibility, creating spaces that promote health, happiness, and productivity for all occupants.</p>
             </div>
             
             <div className="feature-card">
-              <div className="feature-icon">✨</div>
+              <div className="feature-icon">
+                <i className="fas fa-lightbulb"></i>
+              </div>
               <h3>Collaborative Innovation</h3>
               <p>We foster creativity and collaboration at every stage, working closely with clients and communities to realize visionary solutions.</p>
             </div>
@@ -59,12 +86,17 @@ function Mission() {
 function Vision() {
   return (
     <AnimatedSection>
-      <div className="about-page-wrapper vision-bg">
+      <div className="about-page-wrapper">
         <div className="about-content">
           <h1 className="about-title">Our Vision for the Future</h1>
           <p className="about-description">
             Aspire Architecture envisions a world where built environments seamlessly connect people with nature, technology, and culture. We create <strong>resilient, adaptive spaces</strong> that inspire future generations while addressing urgent challenges of urban growth and climate change.
           </p>
+          
+          <div className="image-showcase">
+            <img src="/images/future-city.jpg" alt="Future City Vision" />
+            <div className="image-caption">Our vision for sustainable urban development integrates nature with modern living.</div>
+          </div>
           
           <div className="vision-grid">
             <div className="vision-item">
@@ -106,22 +138,22 @@ function Values() {
     {
       title: "Sustainability",
       description: "We prioritize environmental responsibility in every project, employing cutting-edge sustainable practices and materials to minimize ecological impact.",
-      icon: "🌍"
+      icon: "fas fa-globe"
     },
     {
       title: "Innovation",
       description: "We embrace emerging technologies and novel approaches to solve complex design challenges, constantly exploring new possibilities.",
-      icon: "💡"
+      icon: "fas fa-lightbulb"
     },
     {
       title: "Collaboration",
       description: "We believe the best designs emerge from diverse perspectives, fostering open dialogue between clients, communities, and builders.",
-      icon: "🤝"
+      icon: "fas fa-handshake"
     },
     {
       title: "Excellence",
       description: "We pursue perfection in every detail, combining meticulous craftsmanship with rigorous quality control to deliver exceptional results.",
-      icon: "⭐"
+      icon: "fas fa-star"
     }
   ];
   
@@ -134,6 +166,11 @@ function Values() {
             Our values are the foundation of everything we do at Aspire Architecture. They guide our decisions, shape our culture, and define our approach to creating meaningful architecture.
           </p>
           
+          <div className="image-showcase">
+            <img src="/images/team-values.jpg" alt="Team Collaboration" />
+            <div className="image-caption">Our team embodies these values in every project we undertake.</div>
+          </div>
+          
           <div className="values-tabs">
             {values.map((value, index) => (
               <button
@@ -141,14 +178,14 @@ function Values() {
                 className={`value-tab ${activeValue === index ? 'active' : ''}`}
                 onClick={() => setActiveValue(index)}
               >
-                <span className="value-icon">{value.icon}</span>
+                <span className="value-icon"><i className={value.icon}></i></span>
                 {value.title}
               </button>
             ))}
           </div>
           
           <div className="value-content">
-            <div className="value-icon-large">{values[activeValue].icon}</div>
+            <div className="value-icon-large"><i className={values[activeValue].icon}></i></div>
             <h2>{values[activeValue].title}</h2>
             <p>{values[activeValue].description}</p>
           </div>
@@ -160,28 +197,33 @@ function Values() {
 
 function Team() {
   const teamMembers = [
-    { name: "Sarah Johnson", role: "Principal Architect", initial: "S" },
-    { name: "Michael Chen", role: "Design Director", initial: "M" },
-    { name: "Elena Rodriguez", role: "Sustainability Specialist", initial: "E" },
-    { name: "David Kim", role: "Technical Lead", initial: "D" },
-    { name: "Olivia Williams", role: "Project Manager", initial: "O" },
-    { name: "James Wilson", role: "Urban Designer", initial: "J" }
+    { name: "Sarah Johnson", role: "Principal Architect", image: "/images/a.jpg" },
+    { name: "Michael Chen", role: "Design Director", image: "/images/a.jpg" },
+    { name: "Elena Rodriguez", role: "Sustainability Specialist", image: "/images/a.jpg" },
+    { name: "David Kim", role: "Technical Lead", image: "/images/a.jpg" },
+    { name: "Olivia Williams", role: "Project Manager", image: "/images/a.jpg" },
+    { name: "James Wilson", role: "Urban Designer", image: "/images/a.jpg" }
   ];
   
   return (
     <AnimatedSection>
-      <div className="about-page-wrapper team-bg">
+      <div className="about-page-wrapper">
         <div className="about-content">
           <h1 className="about-title">Our Leadership Team</h1>
           <p className="about-description">
             Our diverse team of architects, designers, and specialists brings together decades of experience and fresh perspectives to create innovative architectural solutions.
           </p>
           
+          <div className="image-showcase">
+            <img src="/images/team-collab.jpg" alt="Team Collaboration" />
+            <div className="image-caption">Collaboration is at the heart of our design process.</div>
+          </div>
+          
           <div className="team-grid">
             {teamMembers.map((member, index) => (
               <div key={index} className="team-card">
-                <div className="team-avatar">
-                  {member.initial}
+                <div className="team-image">
+                  <img src={member.image} alt={member.name} />
                 </div>
                 <h3>{member.name}</h3>
                 <p>{member.role}</p>
@@ -210,6 +252,11 @@ function History() {
         <div className="about-content">
           <h1 className="about-title">Our Journey Through Time</h1>
           
+          <div className="image-showcase">
+            <img src="/images/history-timeline.jpg" alt="Our History" />
+            <div className="image-caption">From our humble beginnings to international recognition.</div>
+          </div>
+          
           <div className="timeline">
             {timelineItems.map((item, index) => (
               <div key={index} className="timeline-item">
@@ -234,24 +281,56 @@ function History() {
   );
 }
 
+function AboutNavigation() {
+  const location = useLocation();
+  
+  return (
+    <div className="about-navigation">
+      <Link 
+        to="/about" 
+        className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+      >
+        Overview
+      </Link>
+      <Link 
+        to="/about/mission" 
+        className={`nav-link ${location.pathname === '/about/mission' ? 'active' : ''}`}
+      >
+        Mission
+      </Link>
+      <Link 
+        to="/about/vision" 
+        className={`nav-link ${location.pathname === '/about/vision' ? 'active' : ''}`}
+      >
+        Vision
+      </Link>
+      <Link 
+        to="/about/values" 
+        className={`nav-link ${location.pathname === '/about/values' ? 'active' : ''}`}
+      >
+        Values
+      </Link>
+      <Link 
+        to="/about/team" 
+        className={`nav-link ${location.pathname === '/about/team' ? 'active' : ''}`}
+      >
+        Team
+      </Link>
+      <Link 
+        to="/about/history" 
+        className={`nav-link ${location.pathname === '/about/history' ? 'active' : ''}`}
+      >
+        History
+      </Link>
+    </div>
+  );
+}
+
 function AboutIntro() {
   return (
     <AnimatedSection>
-      <div className="about-page-wrapper intro-bg">
+      <div className="about-page-wrapper">
         <div className="about-content intro-content">
-          <h1 className="about-main-title">Redefining Architecture for a Sustainable Future</h1>
-          <p className="about-main-description">
-            Aspire Architecture is more than a design firm — we are visionaries committed to shaping sustainable, inspiring, and inclusive environments that elevate the human experience while honoring our planet.
-          </p>
-
-          <div className="about-navigation">
-            <Link to="mission" className="nav-link primary">Our Mission</Link>
-            <Link to="vision" className="nav-link">Our Vision</Link>
-            <Link to="values" className="nav-link">Our Values</Link>
-            <Link to="team" className="nav-link">Our Team</Link>
-            <Link to="history" className="nav-link">Our History</Link>
-          </div>
-          
           <div className="intro-stats">
             <div className="stat-item">
               <span className="stat-number">18</span>
@@ -270,6 +349,16 @@ function AboutIntro() {
               <span className="stat-label">Industry Awards</span>
             </div>
           </div>
+          
+          <div className="intro-text">
+            <h2>Our Approach</h2>
+            <p>
+              At Aspire Architecture, we believe that great design emerges from a deep understanding of both human needs and environmental responsibility. Our interdisciplinary approach combines cutting-edge technology with time-honored design principles to create spaces that are not only beautiful but also functional, sustainable, and meaningful.
+            </p>
+            <p>
+              We work closely with our clients and communities to ensure that every project reflects their unique identity while pushing the boundaries of what's possible in sustainable architecture.
+            </p>
+          </div>
         </div>
       </div>
     </AnimatedSection>
@@ -279,13 +368,16 @@ function AboutIntro() {
 function About() {
   return (
     <div className="about-container">
+      <AboutHero />
+      <AboutNavigation />
+      
       <Routes>
         <Route path="mission" element={<Mission />} />
         <Route path="vision" element={<Vision />} />
         <Route path="values" element={<Values />} />
         <Route path="team" element={<Team />} />
         <Route path="history" element={<History />} />
-        <Route path="*" element={<AboutIntro />} />
+        <Route path="/" element={<AboutIntro />} />
       </Routes>
 
       <style>
@@ -294,21 +386,89 @@ function About() {
           min-height: 100vh;
         }
 
-        .about-page-wrapper {
-          padding: 6rem 2rem 4rem;
+        .about-hero {
+          padding: 10rem 2rem 4rem;
           background: #f8f9fa;
         }
 
-        .vision-bg {
-          background: linear-gradient(135deg, #fff8f0 0%, #fef3c7 100%);
+        .hero-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4rem;
+          align-items: center;
         }
 
-        .team-bg {
-          background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
+        .hero-text h1 {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+          line-height: 1.2;
         }
 
-        .intro-bg {
-          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        .hero-text p {
+          font-size: 1.1rem;
+          color: #6b7280;
+          line-height: 1.6;
+        }
+
+        .hero-image {
+          overflow: hidden;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+          transition: transform 0.3s ease;
+          width: 90%;
+          margin: 0 auto;
+        }
+
+        .hero-image:hover {
+          transform: translateY(-5px);
+        }
+
+        .hero-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        /* Restored original navigation style */
+        .about-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-link {
+          padding: 0.8rem 1.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          transition: all 0.3s ease;
+          background: white;
+          color: #1f2937;
+          border: 1px solid #e5e7eb;
+          font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+          background: #1f2937;
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link.active {
+          background: #1f2937;
+          color: white;
+        }
+
+        .about-page-wrapper {
+          padding: 4rem 2rem;
+          background: #f8f9fa;
         }
 
         .about-content {
@@ -317,7 +477,10 @@ function About() {
         }
 
         .intro-content {
-          text-align: center;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4rem;
+          align-items: start;
         }
 
         .about-title {
@@ -328,31 +491,32 @@ function About() {
           text-align: center;
         }
 
-        .about-main-title {
-          font-size: 3rem;
-          font-weight: 800;
-          color: #1f2937;
-          margin-bottom: 1.5rem;
-          background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
         .about-description {
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.6;
           max-width: 800px;
           margin: 0 auto 3rem;
           text-align: center;
         }
 
-        .about-main-description {
-          font-size: 1.3rem;
+        .image-showcase {
+          margin: 3rem 0;
+          text-align: center;
+        }
+
+        .image-showcase img {
+          width: 80%;
+          max-height: 400px;
+          object-fit: cover;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          margin: 2rem auto 1rem;
+        }
+
+        .image-caption {
           color: #6b7280;
-          line-height: 1.8;
-          max-width: 700px;
-          margin: 0 auto 3rem;
+          font-style: italic;
+          font-size: 0.9rem;
         }
 
         .features-grid {
@@ -365,10 +529,10 @@ function About() {
         .feature-card {
           background: white;
           padding: 2rem;
-          border-radius: 16px;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .feature-card:hover {
@@ -376,41 +540,44 @@ function About() {
         }
 
         .feature-icon {
-          font-size: 3rem;
-          margin-bottom: 1rem;
+          font-size: 2.5rem;
+          margin-bottom: 1.5rem;
+          color: #f97316;
         }
 
         .feature-card h3 {
           font-size: 1.3rem;
           color: #1f2937;
           margin-bottom: 1rem;
+          font-weight: 600;
         }
 
         .feature-card p {
           color: #6b7280;
           line-height: 1.6;
+          font-size: 1rem;
         }
 
         .stats-grid, .intro-stats {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 2rem;
-          margin: 3rem 0;
+          margin: 4rem 0;
         }
 
         .stat-item {
           text-align: center;
-          padding: 2rem;
+          padding: 2rem 1.5rem;
           background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .stat-number {
           display: block;
           font-size: 2.5rem;
-          font-weight: 800;
-          color: #f97316;
+          font-weight: 700;
+          color: #1f2937;
           margin-bottom: 0.5rem;
         }
 
@@ -418,6 +585,19 @@ function About() {
           font-size: 1rem;
           color: #6b7280;
           font-weight: 500;
+        }
+
+        .intro-text h2 {
+          font-size: 2rem;
+          color: #1f2937;
+          margin-bottom: 1.5rem;
+        }
+
+        .intro-text p {
+          color: #6b7280;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
         }
 
         .vision-grid {
@@ -430,62 +610,80 @@ function About() {
         .vision-item {
           background: white;
           padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .vision-item h3 {
           color: #1f2937;
           margin-bottom: 1rem;
-          font-size: 1.2rem;
+          font-size: 1.3rem;
+          font-weight: 600;
         }
 
         .vision-item p {
           color: #6b7280;
           line-height: 1.6;
+          font-size: 1rem;
         }
 
         .goals-section {
           background: white;
           padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .goals-section h3 {
           color: #1f2937;
           margin-bottom: 1.5rem;
-          font-size: 1.3rem;
+          font-size: 1.5rem;
+          font-weight: 600;
+          text-align: center;
         }
 
         .goals-list {
           color: #6b7280;
           line-height: 1.8;
-          padding-left: 1.5rem;
+          font-size: 1rem;
+          max-width: 600px;
+          margin: 0 auto;
         }
 
         .goals-list li {
-          margin-bottom: 0.5rem;
+          margin-bottom: 1rem;
+          position: relative;
+          padding-left: 1.5rem;
+        }
+
+        .goals-list li:before {
+          content: "•";
+          color: #f97316;
+          font-weight: bold;
+          position: absolute;
+          left: 0;
         }
 
         .values-tabs {
           display: flex;
           gap: 1rem;
-          margin-bottom: 3rem;
+          margin: 3rem 0;
           flex-wrap: wrap;
           justify-content: center;
         }
 
         .value-tab {
           padding: 1rem 1.5rem;
-          border-radius: 8px;
           background: white;
           border: 1px solid #e5e7eb;
+          border-radius: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          font-size: 1rem;
+          font-weight: 500;
         }
 
         .value-tab.active {
@@ -502,69 +700,77 @@ function About() {
         .value-content {
           background: white;
           padding: 3rem;
-          border-radius: 16px;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
+          margin-top: 2rem;
         }
 
         .value-icon-large {
-          font-size: 4rem;
-          margin-bottom: 1rem;
+          font-size: 3.5rem;
+          margin-bottom: 1.5rem;
+          color: #f97316;
         }
 
         .value-content h2 {
           font-size: 1.8rem;
           color: #1f2937;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
+          font-weight: 600;
         }
 
         .value-content p {
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.6;
           font-size: 1.1rem;
+          max-width: 600px;
+          margin: 0 auto;
         }
 
         .team-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 2rem;
-          margin: 3rem 0;
+          margin: 4rem 0;
         }
 
         .team-card {
           background: white;
-          padding: 2rem;
-          border-radius: 16px;
+          padding: 1.5rem;
           text-align: center;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .team-card:hover {
           transform: translateY(-5px);
         }
 
-        .team-avatar {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: #f97316;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 2rem;
-          font-weight: bold;
-          margin: 0 auto 1rem;
+        .team-image {
+          width: 150px;
+          height: 180px;
+          overflow: hidden;
+          margin: 0 auto 1.5rem;
+          border: 2px solid #f3f4f6;
+        }
+
+        .team-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .team-card h3 {
           color: #1f2937;
           margin-bottom: 0.5rem;
+          font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .team-card p {
           color: #6b7280;
+          font-size: 1rem;
         }
 
         .timeline {
@@ -580,8 +786,7 @@ function About() {
           transform: translateX(-50%);
           height: 100%;
           width: 2px;
-          background: #f97316;
-          opacity: 0.3;
+          background: #e5e7eb;
         }
 
         .timeline-item {
@@ -592,90 +797,91 @@ function About() {
         }
 
         .timeline-year {
-          background: #f97316;
+          background: #1f2937;
           color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 20px;
+          padding: 0.8rem 1.5rem;
           font-weight: 600;
-          margin-right: 1rem;
+          margin-right: 2rem;
           z-index: 2;
+          font-size: 1rem;
         }
 
         .timeline-content {
           background: white;
           padding: 1.5rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           flex: 1;
+          border: 1px solid #f3f4f6;
         }
 
         .timeline-content h3 {
           color: #1f2937;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.8rem;
+          font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .timeline-content p {
           color: #6b7280;
           line-height: 1.6;
+          font-size: 1rem;
         }
 
         .future-section {
           background: white;
           padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-          margin-top: 3rem;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          margin-top: 4rem;
+          border: 1px solid #f3f4f6;
+          text-align: center;
         }
 
         .future-section h2 {
           color: #1f2937;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
+          font-size: 1.8rem;
+          font-weight: 600;
         }
 
         .future-section p {
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.6;
+          font-size: 1.1rem;
+          max-width: 700px;
+          margin: 0 auto;
         }
 
-        .about-navigation {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 4rem;
-          flex-wrap: wrap;
-        }
-
-        .nav-link {
-          padding: 1rem 2rem;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-        }
-
-        .nav-link.primary {
-          background: #f97316;
-          color: white;
-        }
-
-        .nav-link:not(.primary) {
-          background: white;
-          color: #6b7280;
-          border: 1px solid #e5e7eb;
-        }
-
-        .nav-link:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+        @media (max-width: 968px) {
+          .hero-content {
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            text-align: center;
+          }
+          
+          .hero-text h1 {
+            font-size: 2.2rem;
+          }
+          
+          .hero-image {
+            width: 80%;
+          }
+          
+          .intro-content {
+            grid-template-columns: 1fr;
+          }
+          
+          .image-showcase img {
+            width: 90%;
+          }
         }
 
         @media (max-width: 768px) {
-          .about-page-wrapper {
-            padding: 5rem 1rem 2rem;
+          .about-hero {
+            padding: 8rem 1.5rem 3rem;
           }
           
-          .about-main-title {
-            font-size: 2.2rem;
+          .about-page-wrapper {
+            padding: 3rem 1.5rem;
           }
           
           .about-title {
@@ -690,17 +896,18 @@ function About() {
             grid-template-columns: repeat(2, 1fr);
           }
           
-          .values-tabs {
-            flex-direction: column;
-          }
-          
           .about-navigation {
             flex-direction: column;
             align-items: center;
           }
           
+          .values-tabs {
+            flex-direction: column;
+          }
+          
           .timeline::before {
             left: 20px;
+            transform: none;
           }
           
           .timeline-item {
@@ -711,6 +918,29 @@ function About() {
           .timeline-year {
             margin-bottom: 1rem;
             margin-right: 0;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .stats-grid, .intro-stats {
+            grid-template-columns: 1fr;
+          }
+          
+          .hero-text h1 {
+            font-size: 1.8rem;
+          }
+          
+          .team-image {
+            width: 120px;
+            height: 150px;
+          }
+          
+          .hero-image {
+            width: 100%;
+          }
+          
+          .image-showcase img {
+            width: 100%;
           }
         }
         `}

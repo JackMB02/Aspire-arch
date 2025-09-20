@@ -80,7 +80,7 @@ function UniMission() {
 
   return (
     <AnimatedSection>
-      <div className="uni-page-wrapper mission-bg">
+      <div className="uni-page-wrapper">
         <div className="uni-content">
           <h1 className="uni-title">Our Mission & Vision</h1>
           
@@ -157,7 +157,7 @@ function UniTeam() {
   
   return (
     <AnimatedSection>
-      <div className="uni-page-wrapper team-bg">
+      <div className="uni-page-wrapper">
         <div className="uni-content">
           <h1 className="uni-title">Our Team</h1>
           <p className="uni-description">
@@ -287,7 +287,7 @@ function UniContact() {
 function UniOverview() {
   return (
     <AnimatedSection>
-      <div className="uni-page-wrapper overview-bg">
+      <div className="uni-page-wrapper">
         <div className="uni-content overview-content">
           <h1 className="uni-main-title">TheColleagueUni</h1>
           <p className="uni-main-description">
@@ -296,7 +296,7 @@ function UniOverview() {
           </p>
 
           <div className="uni-navigation">
-            <Link to="about" className="nav-link primary">About Us</Link>
+            <Link to="about" className="nav-link">About Us</Link>
             <Link to="mission" className="nav-link">Our Mission</Link>
             <Link to="team" className="nav-link">Our Team</Link>
             <Link to="contact" className="nav-link">Contact Us</Link>
@@ -370,25 +370,15 @@ function TheColleagueUni() {
         }
 
         .uni-page-wrapper {
-          padding: 6rem 2rem 4rem;
+          padding: 8rem 2rem 2rem;
+          min-height: 100vh;
           background: #f8f9fa;
-        }
-
-        .mission-bg {
-          background: linear-gradient(135deg, #fff8f0 0%, #fef3c7 100%);
-        }
-
-        .team-bg {
-          background: linear-gradient(135deg, #f0f9ff 0%, #e0f7fa 100%);
-        }
-
-        .overview-bg {
-          background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .uni-content {
           max-width: 1200px;
           margin: 0 auto;
+          padding: 0 1rem;
         }
 
         .overview-content {
@@ -396,7 +386,7 @@ function TheColleagueUni() {
         }
 
         .uni-title {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
           font-weight: 700;
           color: #1f2937;
           margin-bottom: 1.5rem;
@@ -404,46 +394,44 @@ function TheColleagueUni() {
         }
 
         .uni-main-title {
-          font-size: 3rem;
-          font-weight: 800;
+          font-size: 2.5rem;
+          font-weight: 700;
           color: #1f2937;
           margin-bottom: 1.5rem;
-          background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
         }
 
         .uni-description {
-          font-size: 1.2rem;
+          font-size: 1rem;
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.6;
           max-width: 800px;
-          margin: 0 auto 3rem;
+          margin: 0 auto 2.5rem;
           text-align: center;
         }
 
         .uni-main-description {
-          font-size: 1.3rem;
+          font-size: 1.1rem;
           color: #6b7280;
-          line-height: 1.8;
+          line-height: 1.6;
           max-width: 700px;
           margin: 0 auto 3rem;
         }
 
         .features-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
-          margin-bottom: 4rem;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         .feature-card {
           background: white;
-          padding: 2rem;
-          border-radius: 16px;
+          padding: 1.5rem;
+          border-radius: 12px;
           text-align: center;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .feature-card:hover {
@@ -451,118 +439,131 @@ function TheColleagueUni() {
         }
 
         .feature-icon {
-          font-size: 3rem;
+          font-size: 2.5rem;
           margin-bottom: 1rem;
         }
 
         .feature-card h3 {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
           color: #1f2937;
           margin-bottom: 1rem;
+          font-weight: 600;
         }
 
         .feature-card p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .stats-grid, .overview-stats {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 2rem;
-          margin: 3rem 0;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 1.5rem;
+          margin: 2.5rem 0;
         }
 
         .stat-item {
           text-align: center;
-          padding: 2rem;
+          padding: 1.5rem;
           background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .stat-number {
           display: block;
-          font-size: 2.5rem;
-          font-weight: 800;
-          color: #f97316;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #1f2937;
           margin-bottom: 0.5rem;
         }
 
         .stat-label {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #6b7280;
           font-weight: 500;
         }
 
         .mission-section {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          margin-bottom: 2rem;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 10px;
+          margin-bottom: 1.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .mission-section h2 {
           color: #1f2937;
           margin-bottom: 1rem;
-          font-size: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 600;
         }
 
         .mission-section p {
           color: #6b7280;
-          line-height: 1.7;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .values-title {
           color: #1f2937;
-          font-size: 1.8rem;
-          margin: 3rem 0 1.5rem;
+          font-size: 1.4rem;
+          margin: 2.5rem 0 1.5rem;
           text-align: center;
+          font-weight: 600;
         }
 
         .values-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-          margin-bottom: 3rem;
+          gap: 1.5rem;
+          margin-bottom: 2.5rem;
         }
 
         .value-card {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .value-card h3 {
           color: #1f2937;
           margin-bottom: 1rem;
           font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .value-card p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .initiatives-section {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .initiatives-section h2 {
           color: #1f2937;
-          margin-bottom: 1.5rem;
-          font-size: 1.5rem;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          font-weight: 600;
         }
 
         .initiatives-list {
           color: #6b7280;
-          line-height: 1.8;
-          padding-left: 1.5rem;
+          line-height: 1.6;
+          padding-left: 1.2rem;
+          font-size: 0.9rem;
         }
 
         .initiatives-list li {
@@ -572,17 +573,18 @@ function TheColleagueUni() {
         .team-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 2rem;
-          margin: 3rem 0;
+          gap: 1.5rem;
+          margin: 2.5rem 0;
         }
 
         .team-card {
           background: white;
-          padding: 2rem;
-          border-radius: 16px;
+          padding: 1.5rem;
+          border-radius: 12px;
           text-align: center;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease;
+          border: 1px solid #f3f4f6;
         }
 
         .team-card:hover {
@@ -590,10 +592,10 @@ function TheColleagueUni() {
         }
 
         .team-avatar {
-          width: 80px;
-          height: 80px;
+          width: 70px;
+          height: 70px;
           border-radius: 50%;
-          background: #f97316;
+          background: #1f2937;
           color: white;
           display: flex;
           align-items: center;
@@ -606,32 +608,37 @@ function TheColleagueUni() {
         .team-card h3 {
           color: #1f2937;
           margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
         }
 
         .team-role {
-          color: #f97316;
+          color: #6b7280;
           font-weight: 600;
           margin-bottom: 1rem;
+          font-size: 0.9rem;
         }
 
         .team-bio {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .contact-info-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-          margin: 3rem 0;
+          gap: 1.5rem;
+          margin: 2.5rem 0;
         }
 
         .contact-info {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
+          padding: 1.5rem;
+          border-radius: 10px;
           text-align: center;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f3f4f6;
         }
 
         .contact-icon {
@@ -643,169 +650,172 @@ function TheColleagueUni() {
           color: #1f2937;
           margin-bottom: 1rem;
           font-size: 1.2rem;
+          font-weight: 600;
         }
 
         .contact-info p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         .contact-form-section {
           background: white;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-          margin-top: 3rem;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
         }
 
         .contact-form-section h2 {
           color: #1f2937;
           margin-bottom: 1.5rem;
-          font-size: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 600;
         }
 
         .contact-form {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
         .form-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
         .contact-form input,
         .contact-form textarea {
-          padding: 1rem;
+          padding: 0.8rem;
           border: 1px solid #e5e7eb;
           border-radius: 8px;
-          font-size: 1rem;
+          font-size: 0.9rem;
           transition: border-color 0.3s ease;
         }
 
         .contact-form input:focus,
         .contact-form textarea:focus {
           outline: none;
-          border-color: #f97316;
+          border-color: #1f2937;
         }
 
         .contact-form textarea {
-          min-height: 150px;
+          min-height: 120px;
           resize: vertical;
         }
 
         .submit-btn {
-          background: #f97316;
+          background: #1f2937;
           color: white;
           border: none;
-          padding: 1rem 2rem;
+          padding: 0.8rem 1.5rem;
           border-radius: 8px;
-          font-size: 1.1rem;
+          font-size: 0.9rem;
           font-weight: 600;
           cursor: pointer;
           transition: background 0.3s ease;
         }
 
         .submit-btn:hover {
-          background: #ea580c;
+          background: #374151;
         }
 
         .uni-navigation {
           display: flex;
           justify-content: center;
           gap: 1rem;
-          margin-bottom: 4rem;
+          margin-bottom: 3rem;
           flex-wrap: wrap;
         }
 
         .nav-link {
-          padding: 1rem 2rem;
+          padding: 0.8rem 1.5rem;
           border-radius: 8px;
           text-decoration: none;
           font-weight: 600;
           transition: all 0.3s ease;
-        }
-
-        .nav-link.primary {
-          background: #f97316;
-          color: white;
-        }
-
-        .nav-link:not(.primary) {
           background: white;
-          color: #6b7280;
+          color: #1f2937;
           border: 1px solid #e5e7eb;
+          font-size: 0.9rem;
         }
 
         .nav-link:hover {
+          background: #1f2937;
+          color: white;
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .how-it-works {
           background: white;
-          padding: 3rem;
-          border-radius: 16px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-          margin-top: 4rem;
+          padding: 1.5rem;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          margin-top: 2.5rem;
+          border: 1px solid #f3f4f6;
         }
 
         .how-it-works h2 {
           color: #1f2937;
           text-align: center;
-          margin-bottom: 3rem;
-          font-size: 2rem;
+          margin-bottom: 1.5rem;
+          font-size: 1.4rem;
+          font-weight: 600;
         }
 
         .process-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 1.5rem;
         }
 
         .process-step {
           text-align: center;
-          padding: 2rem;
+          padding: 1.2rem;
         }
 
         .step-number {
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
-          background: #f97316;
+          background: #1f2937;
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.5rem;
+          font-size: 1.1rem;
           font-weight: bold;
-          margin: 0 auto 1.5rem;
+          margin: 0 auto 1rem;
         }
 
         .process-step h3 {
           color: #1f2937;
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
         }
 
         .process-step p {
           color: #6b7280;
-          line-height: 1.6;
+          line-height: 1.5;
+          font-size: 0.9rem;
         }
 
         @media (max-width: 768px) {
           .uni-page-wrapper {
-            padding: 5rem 1rem 2rem;
+            padding: 7rem 1rem 1rem;
           }
           
           .uni-main-title {
-            font-size: 2.2rem;
+            font-size: 2rem;
           }
           
           .uni-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
           
           .features-grid, .values-grid, .team-grid, .process-grid {
@@ -833,10 +843,6 @@ function TheColleagueUni() {
         @media (max-width: 480px) {
           .stats-grid, .overview-stats {
             grid-template-columns: 1fr;
-          }
-          
-          .how-it-works {
-            padding: 2rem 1rem;
           }
         }
         `}

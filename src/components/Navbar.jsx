@@ -27,13 +27,13 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Modern glassmorphism effect
+// Modern glassmorphism effect with 0 opacity on desktop, full opacity on mobile
 const NavContainer = styled.nav`
   position: fixed;
   top: 0; 
   left: 0; 
   width: 100%;
-  background: var(--primary-dark);
+  background: rgba(23, 23, 42, 0); /* 0 opacity for desktop */
   backdrop-filter: blur(10px);
   color: white;
   display: flex; 
@@ -45,7 +45,7 @@ const NavContainer = styled.nav`
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
   ${props => props.$isScrolled && `
-    background: var(--primary-dark);
+    background: rgba(23, 23, 42, 0); /* Maintain 0 opacity when scrolled */
     backdrop-filter: blur(15px);
     padding: 0.8rem 2rem;
   `}
@@ -55,7 +55,14 @@ const NavContainer = styled.nav`
   }
   
   @media (max-width: 768px) { 
+    background: var(--primary-dark); /* Full opacity on mobile */
     padding: 0.9rem 1rem; 
+    
+    ${props => props.$isScrolled && `
+      background: var(--primary-dark); /* Full opacity when scrolled on mobile */
+      backdrop-filter: blur(15px);
+      padding: 0.8rem 1rem;
+    `}
   }
 `;
 
@@ -359,68 +366,113 @@ const IconButton = styled.button`
   }
 `;
 
+// Advanced Search Container with modern design
 const SearchContainer = styled(motion.div)`
   position: absolute;
   top: 100%;
   right: 2rem;
-  background: var(--primary-dark);
-  backdrop-filter: blur(20px);
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(23, 23, 42, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
+  backdrop-filter: blur(25px);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
   z-index: 1003;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  width: 350px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 400px;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(122, 158, 217, 0.5), transparent);
+  }
 
   input {
     width: 100%;
     border: none;
     outline: none;
-    padding: 1rem;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
+    padding: 1.2rem 1.2rem 1.2rem 3rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 1rem;
     color: white;
     font-family: 'Inter', sans-serif;
     transition: all 0.3s ease;
-
-    &:focus {
-      background: rgba(255, 255, 255, 0.15);
-      box-shadow: 0 0 0 2px rgba(122, 158, 217, 0.4);
-    }
+    position: relative;
 
     &::placeholder {
       color: rgba(255, 255, 255, 0.6);
+      font-weight: 400;
     }
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 0 0 2px rgba(122, 158, 217, 0.4), 0 5px 20px rgba(122, 158, 217, 0.2);
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    z-index: 2;
   }
 
   @media (max-width: 1024px) {
     right: 1.5rem;
-    width: 300px;
+    width: 350px;
+    
+    input {
+      padding: 1.1rem 1.1rem 1.1rem 2.8rem;
+    }
+    
+    .search-icon {
+      left: 1.8rem;
+    }
   }
 
   @media (max-width: 768px) {
     right: 1rem;
     left: 1rem;
     width: auto;
+    
+    input {
+      padding: 1rem 1rem 1rem 2.5rem;
+    }
+    
+    .search-icon {
+      left: 1.5rem;
+    }
   }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 0.8rem;
-  right: 0.8rem;
-  background: none;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
   border: none;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  padding: 0.3rem;
+  padding: 0.4rem;
   border-radius: 50%;
   transition: all 0.3s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     color: white;
     transform: rotate(90deg);
   }
@@ -703,6 +755,9 @@ function Navbar() {
               transition={{ duration: 0.2 }}
               ref={searchRef}
             >
+              <div className="search-icon">
+                <FaSearch />
+              </div>
               <input
                 type="text"
                 placeholder="Search articles, projects, resources..."

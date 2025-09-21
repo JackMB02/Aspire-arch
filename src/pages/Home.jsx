@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AnimatedSection from '../components/AnimatedSection';
 import Hero from '../components/Hero';
+import HomeNavbar from '../components/HomeNavbar';
 
 function Home() {
   const [activeTab, setActiveTab] = useState("featured");
@@ -83,6 +84,11 @@ function Home() {
   return (
     <div className="home-page">
       <Hero />
+      
+      {/* Sticky Navbar positioned after Hero */}
+      <div style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
+        <HomeNavbar />
+      </div>
       
       <AnimatedSection>
         <div className="home-content">

@@ -27,9 +27,9 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Fixed navigation container - always visible
+// Sticky navigation container - modified for home page positioning
 const NavContainer = styled.nav`
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0; 
   width: 100%;
@@ -42,27 +42,15 @@ const NavContainer = styled.nav`
   padding: 1rem 2rem;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background 0.3s ease, padding 0.3s ease;
-  box-shadow: ${props => props.$isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.15)' : 'none'};
-
-  ${props => props.$isScrolled && `
-    padding: 0.8rem 2rem;
-  `}
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
   @media (max-width: 1024px) { 
     padding: 1rem 1.5rem;
-    
-    ${props => props.$isScrolled && `
-      padding: 0.8rem 1.5rem;
-    `}
   }
   
   @media (max-width: 768px) { 
     padding: 0.9rem 1rem; 
-    
-    ${props => props.$isScrolled && `
-      padding: 0.8rem 1rem;
-    `}
   }
 `;
 
@@ -386,11 +374,10 @@ const SearchContainer = styled(motion.div)`
   border-radius: 16px;
   padding: 1.2rem;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  z-index: 9999;
+  z-index: 1003;
   border: 1px solid rgba(255, 255, 255, 0.15);
   width: 400px;
   overflow: hidden;
-  transform: translateZ(0);
 
   &::before {
     content: '';
@@ -554,27 +541,15 @@ const subMenus = {
   ],
 };
 
-function Navbar() {
+function HomeNavbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [showSearch, setShowSearch] = useState(false);
   const [activeSubLink, setActiveSubLink] = useState(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const searchRef = useRef(null);
   const searchInputRef = useRef(null);
-
-  // Handle scroll effect for styling changes only
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 10);
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Close search when clicking outside
   useEffect(() => {
@@ -659,9 +634,9 @@ function Navbar() {
 
   return (
     <>
-      <NavContainer $isScrolled={isScrolled}>
+      <NavContainer>
         <Logo to="/" onClick={closeAllMenus}>
-          <img src="/office.jpg" alt="ASPIRE Logo" />
+          <img src="/office.jpg" alt="Architecture Design Lab Logo" />
         </Logo>
 
         <NavContent>
@@ -791,4 +766,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default HomeNavbar;

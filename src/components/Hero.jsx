@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { FaLinkedin, FaInstagram, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
 
 // Full-height Hero
 const HeroSection = styled.section`
@@ -16,6 +18,150 @@ const HeroSection = styled.section`
 
   @media (max-width: 768px) {
     height: 100vh;
+  }
+`;
+
+// Top Header with Logo and Social Media
+const TopHeader = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
+
+  @media (max-width: 768px) {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  }
+`;
+
+// Logo Section
+const LogoSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+`;
+
+const LogoImage = styled.img`
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    height: 40px;
+    width: 40px;
+  }
+`;
+
+const LogoText = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
+
+const CompanyName = styled.h1`
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const CompanyTagline = styled.p`
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  margin: 0;
+  opacity: 0.9;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  letter-spacing: 0.5px;
+  font-weight: 300;
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
+`;
+
+// Social Media Icons
+const SocialMediaContainer = styled.div`
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+    justify-content: center;
+  }
+`;
+
+const SocialIcon = styled(motion.a)`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  padding: 0.6rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  &.twitter:hover { background: rgba(29, 161, 242, 0.3); }
+  &.linkedin:hover { background: rgba(0, 119, 181, 0.3); }
+  &.instagram:hover { background: rgba(225, 48, 108, 0.3); }
+  &.email:hover { background: rgba(234, 67, 53, 0.3); }
+  &.whatsapp:hover { background: rgba(37, 211, 102, 0.3); }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+    padding: 0.5rem;
   }
 `;
 
@@ -198,6 +344,69 @@ function Hero() {
 
   return (
     <HeroSection>
+      {/* Top Header with Logo and Social Media */}
+      <TopHeader
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <LogoSection>
+          <LogoImage src="/office.jpg" alt="Architecture Design Lab" />
+          <LogoText>
+            <CompanyName>Architecture Design Lab</CompanyName>
+            <CompanyTagline>Innovative • Sustainable • Inspiring</CompanyTagline>
+          </LogoText>
+        </LogoSection>
+
+        <SocialMediaContainer>
+          <SocialIcon 
+            href="https://twitter.com" 
+            target="_blank" 
+            className="twitter"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaXTwitter />
+          </SocialIcon>
+          <SocialIcon 
+            href="https://linkedin.com" 
+            target="_blank" 
+            className="linkedin"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaLinkedin />
+          </SocialIcon>
+          <SocialIcon 
+            href="https://instagram.com" 
+            target="_blank" 
+            className="instagram"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaInstagram />
+          </SocialIcon>
+          <SocialIcon 
+            href="mailto:info@architecturedesignlab.com" 
+            target="_blank" 
+            className="email"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaEnvelope />
+          </SocialIcon>
+          <SocialIcon 
+            href="https://wa.me/1234567890" 
+            target="_blank" 
+            className="whatsapp"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FaWhatsapp />
+          </SocialIcon>
+        </SocialMediaContainer>
+      </TopHeader>
+
       <SlideshowContainer>
         {slides.map((slide, index) => (
           <Slide

@@ -111,7 +111,7 @@ function Footer() {
         transition={{ duration: 0.5 }}
       >
         <FooterSection>
-          <FooterTitle>ASPIRE Architecture Firm</FooterTitle>
+          <FooterTitle>Architecture Design Lab</FooterTitle>
           <p>Architecture for Society and Planet, Inspiring Resilient Environments</p>
           <p>&copy; {new Date().getFullYear()}</p>
         </FooterSection>
@@ -126,7 +126,7 @@ function Footer() {
           <FooterLink to="/about">About</FooterLink>
           <FooterLink to="/design">Design</FooterLink>
           <FooterLink to="/research-insights">Research & Insights</FooterLink>
-          <FooterLink to="/the-colleague-uni">TheColleagueUni</FooterLink>
+          <FooterLink to="/the-colleague-uni">ArchiColleaguesLab</FooterLink>
           <FooterLink to="/education">Education</FooterLink>
           <FooterLink to="/media-gallery">Media Gallery</FooterLink>
           <FooterLink to="/get-involved">Get Involved</FooterLink>

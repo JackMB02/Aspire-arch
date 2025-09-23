@@ -354,7 +354,7 @@ function UniOverview() {
 
 function TheColleagueUni() {
   return (
-    <div className="uni-container">
+    <div className="uni-container" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="about" element={<UniAbout />} />
         <Route path="mission" element={<UniMission />} />
@@ -372,7 +372,7 @@ function TheColleagueUni() {
         .uni-page-wrapper {
           padding: 8rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .uni-content {
@@ -388,7 +388,7 @@ function TheColleagueUni() {
         .uni-title {
           font-size: 2.2rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
           text-align: center;
         }
@@ -396,7 +396,7 @@ function TheColleagueUni() {
         .uni-main-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
         }
 
@@ -844,6 +844,47 @@ function TheColleagueUni() {
           .stats-grid, .overview-stats {
             grid-template-columns: 1fr;
           }
+        }
+
+        /* Dark theme overrides */
+        .uni-container {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .uni-container *:not(img):not(svg) {
+          color: inherit !important;
+        }
+        
+        .uni-container h1,
+        .uni-container h2,
+        .uni-container h3,
+        .uni-container h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .uni-container .nav-link,
+        .uni-container .feature-card,
+        .uni-container .team-card,
+        .uni-container .stat-item,
+        .uni-container .contact-item,
+        .uni-container input,
+        .uni-container textarea {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .uni-container .nav-link:hover,
+        .uni-container .feature-card:hover,
+        .uni-container .team-card:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .uni-container .nav-link.active,
+        .uni-container .submit-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
         }
         `}
       </style>

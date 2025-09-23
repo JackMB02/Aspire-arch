@@ -351,9 +351,9 @@ function Hero() {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <LogoSection>
-          <LogoImage src="/office.jpg" alt="Architecture Design Lab" />
+          <LogoImage src="/office.jpg" alt="ASPIRE Design Lab" />
           <LogoText>
-            <CompanyName>Architecture Design Lab</CompanyName>
+            <CompanyName>ASPIRE Design Lab</CompanyName>
             <CompanyTagline>Innovative • Sustainable • Inspiring</CompanyTagline>
           </LogoText>
         </LogoSection>

@@ -382,7 +382,7 @@ function ResearchOverview() {
 
 function ResearchInsights() {
   return (
-    <div className="research-container">
+    <div className="research-container" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="articles-case-studies" element={<ArticlesCaseStudies />} />
         <Route path="sustainable-design" element={<SustainableDesign />} />
@@ -400,7 +400,7 @@ function ResearchInsights() {
         .research-page-wrapper {
           padding: 8rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .research-content {
@@ -416,7 +416,7 @@ function ResearchInsights() {
         .research-title {
           font-size: 2.2rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
           text-align: center;
         }
@@ -424,7 +424,7 @@ function ResearchInsights() {
         .research-main-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
         }
 
@@ -690,6 +690,49 @@ function ResearchInsights() {
           .stats-grid {
             grid-template-columns: 1fr;
           }
+        }
+
+        /* Dark theme overrides */
+        .research-container {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .research-container *:not(img):not(svg) {
+          color: inherit !important;
+        }
+        
+        .research-container h1,
+        .research-container h2,
+        .research-container h3,
+        .research-container h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .research-container .nav-link,
+        .research-container .category-card,
+        .research-container .article-card,
+        .research-container .insight-card,
+        .research-container .case-study-card,
+        .research-container .research-card,
+        .research-container .stat-item {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .research-container .nav-link:hover,
+        .research-container .category-card:hover,
+        .research-container .article-card:hover,
+        .research-container .insight-card:hover,
+        .research-container .case-study-card:hover,
+        .research-container .research-card:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .research-container .nav-link.active {
+          background: var(--accent-light) !important;
+          color: white !important;
         }
         `}
       </style>

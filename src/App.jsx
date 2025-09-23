@@ -18,7 +18,7 @@ function AppContent() {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors">
+    <div className="flex min-h-screen flex-col text-gray-100 transition-colors" style={{background: 'var(--primary-dark)'}}>
       {/* Navbar only shows on non-home pages */}
       {!isHomePage && <Navbar />}
 

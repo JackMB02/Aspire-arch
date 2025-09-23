@@ -269,7 +269,7 @@ function Design() {
   ];
 
   return (
-    <div className="design-page">
+    <div className="design-page" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="academic" element={<Academic />} />
         <Route path="profession" element={<Profession />} />
@@ -297,7 +297,7 @@ function Design() {
         .design-page {
           padding: 6rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .design-intro {
@@ -315,13 +315,13 @@ function Design() {
         .page-title {
           font-size: 2rem;
           font-weight: 700;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
         }
 
         .page-description {
           font-size: 1rem;
-          color: #666;
+          color: rgba(255, 255, 255, 0.8);
           margin-bottom: 2.5rem;
           line-height: 1.6;
         }
@@ -336,15 +336,17 @@ function Design() {
           position: relative;
           border-radius: 12px;
           overflow: hidden;
-          background: white;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+          background: rgba(255, 255, 255, 0.05);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           cursor: pointer;
         }
 
         .project-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+          background: rgba(255, 255, 255, 0.08);
         }
 
         .project-card img {
@@ -383,7 +385,7 @@ function Design() {
         }
 
         .overlay button {
-          background: #f97316;
+          background: var(--accent-light);
           color: white;
           border: none;
           padding: 8px 16px;
@@ -395,7 +397,7 @@ function Design() {
         }
 
         .overlay button:hover {
-          background: #e55c00;
+          background: rgba(122, 158, 217, 0.8);
         }
 
         /* Responsive Design */

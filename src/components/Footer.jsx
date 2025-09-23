@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const FooterContainer = styled.footer`
-  background: var(--secondary-dark); /* Changed to lighter, modern color */
+  background: var(--primary-dark); /* Changed to match main dark theme */
   color: white;
   padding: 3rem 2rem;
   display: grid;
@@ -111,7 +111,7 @@ function Footer() {
         transition={{ duration: 0.5 }}
       >
         <FooterSection>
-          <FooterTitle>Architecture Design Lab</FooterTitle>
+          <FooterTitle>ASPIRE Design Lab</FooterTitle>
           <p>Architecture for Society and Planet, Inspiring Resilient Environments</p>
           <p>&copy; {new Date().getFullYear()}</p>
         </FooterSection>
@@ -126,7 +126,7 @@ function Footer() {
           <FooterLink to="/about">About</FooterLink>
           <FooterLink to="/design">Design</FooterLink>
           <FooterLink to="/research-insights">Research & Insights</FooterLink>
-          <FooterLink to="/the-colleague-uni">ArchiColleaguesLab</FooterLink>
+          <FooterLink to="/the-colleague-uni">TheArchi.Co. Lab</FooterLink>
           <FooterLink to="/education">Education</FooterLink>
           <FooterLink to="/media-gallery">Media Gallery</FooterLink>
           <FooterLink to="/get-involved">Get Involved</FooterLink>

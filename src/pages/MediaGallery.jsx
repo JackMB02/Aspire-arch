@@ -254,7 +254,7 @@ function MediaOverview() {
 // Main MediaGallery Component
 function MediaGallery() {
   return (
-    <div className="media-gallery-page">
+    <div className="media-gallery-page" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="photo-albums" element={<PhotoAlbums />} />
         <Route path="video-stories" element={<VideoStories />} />
@@ -697,6 +697,60 @@ function MediaGallery() {
             align-items: flex-start;
             gap: 0.5rem;
           }
+        }
+
+        /* Dark theme overrides */
+        .media-gallery-page {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .media-gallery-page *:not(img):not(svg):not(video) {
+          color: inherit !important;
+        }
+        
+        .media-gallery-page h1,
+        .media-gallery-page h2,
+        .media-gallery-page h3,
+        .media-gallery-page h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .media-gallery-page .media-page-wrapper {
+          background: var(--primary-dark) !important;
+        }
+        
+        .media-gallery-page .category-card,
+        .media-gallery-page .album-card,
+        .media-gallery-page .video-card,
+        .media-gallery-page .visualization-card,
+        .media-gallery-page .testimonial-card,
+        .media-gallery-page .filter-btn {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .media-gallery-page .category-card:hover,
+        .media-gallery-page .album-card:hover,
+        .media-gallery-page .video-card:hover,
+        .media-gallery-page .visualization-card:hover,
+        .media-gallery-page .testimonial-card:hover,
+        .media-gallery-page .filter-btn:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .media-gallery-page .filter-btn.active,
+        .media-gallery-page .view-btn,
+        .media-gallery-page .play-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
+        }
+        
+        .media-gallery-page .filter-btn.active:hover,
+        .media-gallery-page .view-btn:hover,
+        .media-gallery-page .play-btn:hover {
+          background: rgba(122, 158, 217, 0.8) !important;
         }
         `}
       </style>

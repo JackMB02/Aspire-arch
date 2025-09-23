@@ -24,7 +24,7 @@ function Contact() {
   };
 
   return (
-    <div className="contact-page">
+    <div className="contact-page" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <AnimatedSection>
         <div className="contact-container">
           <div className="contact-content">
@@ -123,7 +123,7 @@ function Contact() {
         .contact-page {
           padding: 8rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .contact-container {
@@ -338,6 +338,46 @@ function Contact() {
         .contact-form > *:nth-child(3) { animation-delay: 0.3s; }
         .contact-form > *:nth-child(4) { animation-delay: 0.4s; }
         .contact-form > *:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Dark theme overrides */
+        .contact-page {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .contact-page *:not(img):not(svg) {
+          color: inherit !important;
+        }
+        
+        .contact-page h1,
+        .contact-page h2,
+        .contact-page h3,
+        .contact-page h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .contact-page .contact-item,
+        .contact-page input,
+        .contact-page textarea {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .contact-page input:focus,
+        .contact-page textarea:focus {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border-color: var(--accent-light) !important;
+        }
+        
+        .contact-page .submit-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
+        }
+        
+        .contact-page .submit-btn:hover {
+          background: rgba(122, 158, 217, 0.8) !important;
+        }
         `}
       </style>
     </div>

@@ -367,7 +367,7 @@ function GetInvolvedOverview() {
 
 function GetInvolved() {
   return (
-    <div className="involved-container">
+    <div className="involved-container" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="membership-partnerships" element={<MembershipPartnerships />} />
         <Route path="donate-support" element={<DonateSupport />} />
@@ -384,7 +384,7 @@ function GetInvolved() {
         .involved-page-wrapper {
           padding: 8rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .involved-content {
@@ -400,7 +400,7 @@ function GetInvolved() {
         .involved-title {
           font-size: 2.2rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
           text-align: center;
         }
@@ -408,13 +408,13 @@ function GetInvolved() {
         .involved-main-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
         }
 
         .involved-description {
           font-size: 1rem;
-          color: #6b7280;
+          color: rgba(255, 255, 255, 0.8);
           line-height: 1.6;
           max-width: 800px;
           margin: 0 auto 2.5rem;
@@ -944,6 +944,52 @@ function GetInvolved() {
           .form-row {
             grid-template-columns: 1fr;
           }
+        }
+
+        /* Dark theme overrides */
+        .involved-container {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .involved-container *:not(img):not(svg) {
+          color: inherit !important;
+        }
+        
+        .involved-container h1,
+        .involved-container h2,
+        .involved-container h3,
+        .involved-container h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .involved-container .nav-link,
+        .involved-container .membership-card,
+        .involved-container .impact-stat,
+        .involved-container .donation-option,
+        .involved-container .feedback-tab,
+        .involved-container input,
+        .involved-container textarea,
+        .involved-container select {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .involved-container .nav-link:hover,
+        .involved-container .membership-card:hover,
+        .involved-container .donation-option:hover,
+        .involved-container .feedback-tab:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .involved-container .nav-link.active,
+        .involved-container .donation-option.selected,
+        .involved-container .feedback-tab.active,
+        .involved-container .donate-btn,
+        .involved-container .submit-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
         }
         `}
       </style>

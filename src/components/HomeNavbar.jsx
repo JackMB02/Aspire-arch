@@ -27,7 +27,7 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Sticky navigation container - modified for home page positioning
+// Sticky navigation container - same design as main navbar but positioned under hero
 const NavContainer = styled.nav`
   position: sticky;
   top: 0;
@@ -42,7 +42,7 @@ const NavContainer = styled.nav`
   padding: 1rem 2rem;
   z-index: 1000;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, padding 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 
   @media (max-width: 1024px) { 
@@ -57,7 +57,7 @@ const NavContainer = styled.nav`
 const Logo = styled(Link)`
   display: flex; 
   align-items: center;
-  min-width: 120px;
+  min-width: 80px;
   transition: transform 0.3s ease;
 
   &:hover {
@@ -65,58 +65,53 @@ const Logo = styled(Link)`
   }
 
   img {
-    height: 40px;
+    height: 32px;
     object-fit: contain;
     transition: all 0.3s ease;
   }
 
   @media (max-width: 1024px) {
-    min-width: 100px;
-    img { height: 35px; }
+    min-width: 70px;
+    img { height: 28px; }
   }
 
   @media (max-width: 768px) {
-    img { height: 32px; }
+    img { height: 26px; }
   }
 `;
 
 const NavContent = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.5rem;
   flex: 1;
   justify-content: center;
+  margin-right: 0.2rem;
 
   @media (max-width: 1024px) {
-    gap: 0.6rem;
+    gap: 0.4rem;
+    margin-right: 0.1rem;
+  }
+
+  @media (max-width: 768px) {
+    margin-right: 0;
   }
 `;
 
 const NavList = styled.ul`
-  list-style: none; 
-  display: flex; 
-  gap: 0.8rem; 
-  margin: 0; 
-  align-items: center; 
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 
   @media (max-width: 1024px) {
-    gap: 0.6rem;
+    gap: 0.15rem;
   }
 
   @media (max-width: 768px) {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--primary-dark);
-    backdrop-filter: blur(20px);
-    flex-direction: column;
-    padding: 1.5rem;
-    gap: 1rem;
-    display: ${props => (props.$isOpen ? 'flex' : 'none')};
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    animation: ${fadeIn} 0.3s ease;
+    display: none;
   }
 `;
 
@@ -146,8 +141,9 @@ const NavItem = styled.li`
   }
 
   &:hover {
-    color: var(--accent-light);
+    color: #ffffff;
     background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 1024px) {
@@ -170,22 +166,29 @@ const NavItem = styled.li`
   }
 `;
 
-const NavItemButton = styled.div`
-  display: flex; 
-  align-items: center; 
-  gap: 0.15rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+const NavItemButton = styled.button`
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.2rem 0.25rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
+    transform: translateY(-1px);
   }
 
-  @media (max-width: 768px) {
-    justify-content: center;
-    padding: 1rem;
-    gap: 0.3rem;
+  @media (max-width: 1024px) {
+    font-size: 0.9rem;
+    padding: 0.15rem 0.2rem;
   }
 `;
 
@@ -235,7 +238,7 @@ const SubMenu = styled(motion.div)`
 const SubList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 0 0 0 3rem;
+  margin: 0 0 0 2rem;
   display: flex;
   gap: 1.5rem;
   max-width: 1200px;
@@ -243,7 +246,7 @@ const SubList = styled.ul`
 
   @media (max-width: 1024px) {
     gap: 1rem;
-    margin-left: 2rem;
+    margin-left: 1.5rem;
   }
 
   @media (max-width: 768px) {
@@ -254,17 +257,20 @@ const SubList = styled.ul`
 `;
 
 const SubItem = styled.li`
-  padding: 0.3rem 0;
-  font-size: 0.9rem;
-  color: white;
-  transition: all 0.3s ease;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
   font-family: 'Inter', sans-serif;
   white-space: nowrap;
   position: relative;
+  border-radius: 6px;
+  cursor: pointer;
 
   &:hover {
-    color: var(--accent-light);
-    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
   }
 
   &.active {
@@ -310,56 +316,67 @@ const SubItem = styled.li`
 const IconWrapper = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.2rem;
+  position: relative;
+  z-index: 100;
 
   @media (max-width: 768px) {
-    gap: 0.8rem;
+    gap: 0.15rem;
   }
 `;
 
 const IconButton = styled.button`
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
-  padding: 0.7rem;
+  padding: 0.5rem;
   border-radius: 50%;
   transition: all 0.3s ease;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0.9;
+  opacity: 1;
+  min-width: 36px;
+  min-height: 36px;
 
   &:hover {
     color: var(--accent-light);
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.2);
     transform: translateY(-2px);
     opacity: 1;
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 
   &.search-active {
     color: var(--accent-light);
-    background: rgba(122, 158, 217, 0.3);
+    background: rgba(122, 158, 217, 0.4);
     animation: ${glow} 2s infinite;
     opacity: 1;
     box-shadow: 0 0 15px rgba(122, 158, 217, 0.4);
+    border-color: rgba(122, 158, 217, 0.6);
   }
 
   @media (max-width: 1024px) {
-    font-size: 1.1rem;
-    padding: 0.6rem;
+    font-size: 0.9rem;
+    padding: 0.45rem;
+    min-width: 34px;
+    min-height: 34px;
   }
 
   @media (max-width: 768px) {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     border-radius: 8px;
-    padding: 0.6rem;
+    padding: 0.4rem;
+    min-width: 32px;
+    min-height: 32px;
+    font-size: 0.85rem;
     
     &:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
     }
   }
 `;
@@ -368,16 +385,17 @@ const IconButton = styled.button`
 const SearchContainer = styled(motion.div)`
   position: absolute;
   top: 100%;
-  right: 2rem;
+  right: 0.5rem;
   background: linear-gradient(135deg, rgba(23, 23, 42, 0.95) 0%, rgba(30, 30, 60, 0.95) 100%);
   backdrop-filter: blur(25px);
   border-radius: 16px;
   padding: 1.2rem;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
-  z-index: 1003;
+  z-index: 9999;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  width: 400px;
+  width: 350px;
   overflow: hidden;
+  transform: translateZ(0);
 
   &::before {
     content: '';
@@ -424,8 +442,8 @@ const SearchContainer = styled(motion.div)`
   }
 
   @media (max-width: 1024px) {
-    right: 1.5rem;
-    width: 350px;
+    right: 0.5rem;
+    width: 320px;
     
     input {
       padding: 1.1rem 1.1rem 1.1rem 2.8rem;
@@ -437,8 +455,8 @@ const SearchContainer = styled(motion.div)`
   }
 
   @media (max-width: 768px) {
-    right: 1rem;
-    left: 1rem;
+    right: 0.5rem;
+    left: 0.5rem;
     width: auto;
     
     input {
@@ -481,12 +499,12 @@ const MobileMenuButton = styled.button`
   background: none;
   border: none;
   color: white;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border-radius: 8px;
   transition: all 0.3s ease;
-  margin-right: 0.5rem;
+  margin-right: 0;
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
@@ -627,7 +645,7 @@ function HomeNavbar() {
 
   const formatMenuText = (text) => {
     if (text === 'the-colleague-uni') {
-      return 'ArchiColleaguesLab';
+      return 'TheArchi.Co. Lab';
     }
     return text.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
   };
@@ -636,7 +654,7 @@ function HomeNavbar() {
     <>
       <NavContainer>
         <Logo to="/" onClick={closeAllMenus}>
-          <img src="/office.jpg" alt="Architecture Design Lab Logo" />
+          <img src="/office.jpg" alt="ASPIRE Logo" />
         </Logo>
 
         <NavContent>

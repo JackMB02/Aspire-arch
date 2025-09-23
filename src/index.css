@@ -16,6 +16,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Custom CSS Variables for Navbar */
+  --primary-dark: rgba(23, 23, 42, 0.95);
+  --accent-light: #7a9ed9;
 }
 
 a {
@@ -34,6 +38,8 @@ body {
   place-items: center; */
   min-width: 320px;
   min-height: 100vh;
+  background: var(--primary-dark);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 h1 {

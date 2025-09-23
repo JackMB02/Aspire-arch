@@ -5,10 +5,10 @@
 /* @import '@fontsource/futura-pt';*/
 
 :root {
-  --primary-dark: #122324;
+  --primary-dark: rgba(23, 23, 42, 0.95);
   --secondary-dark: #2E3A33;
   --neutral: #535748;
-  --accent-light: #DB9E75;
+  --accent-light: #B08C4D;
   --accent-medium: #804011;
   --accent-dark: #3F2411;
 }
@@ -16,8 +16,8 @@
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
-  background-color: white;
-  color: var(--primary-dark);
+  background-color: var(--primary-dark);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 h1, h2 {

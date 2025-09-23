@@ -423,7 +423,7 @@ function EducationOverview() {
 
 function Education() {
   return (
-    <div className="education-container">
+    <div className="education-container" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <Routes>
         <Route path="workshops-training" element={<WorkshopsTraining />} />
         <Route path="tutorials-guides" element={<TutorialsGuides />} />
@@ -440,7 +440,7 @@ function Education() {
         .education-page-wrapper {
           padding: 8rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .education-content {
@@ -456,7 +456,7 @@ function Education() {
         .education-title {
           font-size: 2.2rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
           text-align: center;
         }
@@ -464,7 +464,7 @@ function Education() {
         .education-main-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: #1f2937;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
         }
 
@@ -857,6 +857,49 @@ function Education() {
           .events-grid {
             grid-template-columns: 1fr;
           }
+        }
+
+        /* Dark theme overrides */
+        .education-container {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .education-container *:not(img):not(svg) {
+          color: inherit !important;
+        }
+        
+        .education-container h1,
+        .education-container h2,
+        .education-container h3,
+        .education-container h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .education-container .nav-link,
+        .education-container .category-card,
+        .education-container .workshop-card,
+        .education-container .tutorial-item,
+        .education-container .exhibition-card,
+        .education-container .stat-item {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .education-container .nav-link:hover,
+        .education-container .category-card:hover,
+        .education-container .workshop-card:hover,
+        .education-container .tutorial-item:hover,
+        .education-container .exhibition-card:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .education-container .nav-link.active,
+        .education-container .register-btn,
+        .education-container .start-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
         }
         `}
       </style>

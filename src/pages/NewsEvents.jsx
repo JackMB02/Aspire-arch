@@ -56,7 +56,7 @@ function NewsEvents() {
     : newsArticles.filter(article => article.category === activeFilter);
 
   return (
-    <div className="news-events-page">
+    <div className="news-events-page" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
       <AnimatedSection>
         <div className="news-page-wrapper">
           <h1 className="news-page-title">News & Events</h1>
@@ -181,7 +181,7 @@ function NewsEvents() {
         .news-events-page {
           padding: 6rem 2rem 2rem;
           min-height: 100vh;
-          background: #f8f9fa;
+          background: var(--primary-dark);
         }
 
         .news-page-wrapper {
@@ -193,14 +193,14 @@ function NewsEvents() {
         .news-page-title {
           font-size: 2.5rem;
           font-weight: 700;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
           text-align: center;
         }
 
         .news-page-description {
           font-size: 1.1rem;
-          color: #666;
+          color: rgba(255, 255, 255, 0.8);
           margin-bottom: 2.5rem;
           line-height: 1.6;
           max-width: 800px;
@@ -218,23 +218,24 @@ function NewsEvents() {
 
         .filter-btn {
           padding: 8px 20px;
-          background: white;
-          border: 1px solid #ddd;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 20px;
           cursor: pointer;
           transition: all 0.2s ease;
           font-size: 0.95rem;
+          color: rgba(255, 255, 255, 0.8);
         }
 
         .filter-btn:hover {
-          border-color: #f97316;
-          color: #f97316;
+          border-color: var(--accent-light);
+          color: var(--accent-light);
         }
 
         .filter-btn.active {
-          background: #f97316;
+          background: var(--accent-light);
           color: white;
-          border-color: #f97316;
+          border-color: var(--accent-light);
         }
 
         .news-grid {
@@ -245,19 +246,20 @@ function NewsEvents() {
         }
 
         .news-card {
-          background: white;
+          background: rgba(255, 255, 255, 0.05);
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           display: flex;
           flex-direction: column;
           height: 100%;
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .news-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
         }
 
         .news-image {
@@ -288,12 +290,12 @@ function NewsEvents() {
         }
 
         .news-badge.news {
-          background: #f97316;
+          background: var(--accent-light);
           color: white;
         }
 
         .news-badge.event {
-          background: #3b82f6;
+          background: #4f46e5;
           color: white;
         }
 
@@ -307,7 +309,7 @@ function NewsEvents() {
         .news-card-title {
           font-size: 1.1rem;
           margin-bottom: 0.75rem;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           line-height: 1.4;
           font-weight: 600;
         }
@@ -320,15 +322,15 @@ function NewsEvents() {
         }
 
         .news-date {
-          color: #666;
+          color: rgba(255, 255, 255, 0.7);
         }
 
         .news-read-time {
-          color: #888;
+          color: rgba(255, 255, 255, 0.6);
         }
 
         .news-excerpt {
-          color: #555;
+          color: rgba(255, 255, 255, 0.8);
           line-height: 1.6;
           margin-bottom: 1rem;
           flex-grow: 1;
@@ -336,12 +338,12 @@ function NewsEvents() {
         }
 
         .news-full-content {
-          color: #777;
+          color: rgba(255, 255, 255, 0.75);
           line-height: 1.5;
           font-size: 0.9rem;
           margin-top: 1rem;
           padding-top: 1rem;
-          border-top: 1px solid #eee;
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Featured Projects Section */
@@ -354,7 +356,7 @@ function NewsEvents() {
         .featured-projects h2 {
           font-size: 2rem;
           font-weight: 700;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 2rem;
           text-align: center;
         }
@@ -366,11 +368,12 @@ function NewsEvents() {
         }
 
         .project-card {
-          background: white;
+          background: rgba(255, 255, 255, 0.05);
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .project-card:hover {
@@ -386,12 +389,12 @@ function NewsEvents() {
         .project-card h3 {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin: 1rem 1.5rem 0.5rem;
         }
 
         .project-card p {
-          color: #666;
+          color: rgba(255, 255, 255, 0.8);
           line-height: 1.5;
           margin: 0 1.5rem 1.5rem;
           font-size: 0.95rem;
@@ -407,7 +410,7 @@ function NewsEvents() {
         .upcoming-events h2 {
           font-size: 2rem;
           font-weight: 700;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 2rem;
           text-align: center;
         }
@@ -419,11 +422,12 @@ function NewsEvents() {
 
         .event-item {
           display: flex;
-          background: white;
+          background: rgba(255, 255, 255, 0.05);
           border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .event-item:hover {
@@ -436,7 +440,7 @@ function NewsEvents() {
           align-items: center;
           justify-content: center;
           min-width: 80px;
-          background: #f97316;
+          background: var(--accent-light);
           color: white;
           padding: 1rem;
         }
@@ -461,19 +465,19 @@ function NewsEvents() {
         .event-details h3 {
           font-size: 1.2rem;
           font-weight: 600;
-          color: #222;
+          color: rgba(255, 255, 255, 0.95);
           margin-bottom: 0.5rem;
         }
 
         .event-details p {
-          color: #666;
+          color: rgba(255, 255, 255, 0.8);
           line-height: 1.5;
           margin-bottom: 0.5rem;
           font-size: 0.95rem;
         }
 
         .event-time {
-          color: #f97316;
+          color: var(--accent-light);
           font-size: 0.9rem;
           font-weight: 600;
         }

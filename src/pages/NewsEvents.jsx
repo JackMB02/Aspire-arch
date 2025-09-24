@@ -1,183 +1,242 @@
 import { useState } from "react";
-import AnimatedSection from '../components/AnimatedSection';
+import AnimatedSection from "../components/AnimatedSection";
 
 function NewsEvents() {
-  const [activeFilter, setActiveFilter] = useState("all");
-  
-  const newsArticles = [
-    {
-      id: 1,
-      title: "New Sustainable Architecture Award",
-      date: "May 15, 2023",
-      author: "Sarah Johnson",
-      excerpt: "Our firm has been recognized for innovative sustainable design in the Urban Green Park project...",
-      image: "/images/park.jpg",
-      category: "news",
-      readTime: "3 min read",
-      content: "We are thrilled to announce that Aspire Architecture has been awarded the prestigious Sustainable Design Award for our innovative work on the Urban Green Park project. This recognition highlights our commitment to creating environmentally conscious spaces that harmonize with their natural surroundings."
-    },
-    {
-      id: 2,
-      title: "Future of Urban Living Conference",
-      date: "June 2, 2023",
-      author: "Michael Chen",
-      excerpt: "Join our lead architects as they discuss the future of sustainable urban development...",
-      image: "/images/conference.jpg",
-      category: "event",
-      readTime: "5 min read",
-      content: "Join us for an exclusive conference on the Future of Urban Living, where leading architects, urban planners, and sustainability experts will explore innovative approaches to creating more livable, sustainable cities."
-    },
-    {
-      id: 3,
-      title: "Construction Begins on Modern Campus Library",
-      date: "April 28, 2023",
-      author: "James Wilson",
-      excerpt: "After months of planning, construction has officially begun on our innovative campus library design...",
-      image: "/images/library.jpg",
-      category: "news",
-      readTime: "4 min read",
-      content: "We're excited to announce that construction has officially commenced on the Modern Campus Library project at Northwood University. This state-of-the-art facility represents a new era in academic architecture."
-    },
-    {
-      id: 4,
-      title: "Design Workshop: Community Spaces",
-      date: "June 15, 2023",
-      author: "Lisa Martinez",
-      excerpt: "Participate in our hands-on workshop focused on designing community-centered spaces...",
-      image: "/images/workshop.jpg",
-      category: "event",
-      readTime: "2 min read",
-      content: "We invite you to join our interactive workshop on designing community-centered spaces, where participants will learn practical approaches to creating public areas that foster connection, engagement, and wellbeing."
-    }
-  ];
+    const [activeFilter, setActiveFilter] = useState("all");
 
-  const filteredArticles = activeFilter === "all" 
-    ? newsArticles 
-    : newsArticles.filter(article => article.category === activeFilter);
+    const newsArticles = [
+        {
+            id: 1,
+            title: "New Sustainable Architecture Award",
+            date: "May 15, 2023",
+            author: "Sarah Johnson",
+            excerpt:
+                "Sustainable design recognition for Urban Green Park project",
+            image: "/images/park.jpg",
+            category: "news",
+            readTime: "3 min read",
+            content:
+                "Aspire Architecture awarded for innovative sustainable design work.",
+        },
+        {
+            id: 2,
+            title: "Future of Urban Living Conference",
+            date: "June 2, 2023",
+            author: "Michael Chen",
+            excerpt:
+                "Architects discuss sustainable urban development",
+            image: "/images/conference.jpg",
+            category: "event",
+            readTime: "5 min read",
+            content:
+                "Conference on sustainable urban living approaches.",
+        },
+        {
+            id: 3,
+            title: "Construction Begins on Modern Campus Library",
+            date: "April 28, 2023",
+            author: "James Wilson",
+            excerpt:
+                "Construction starts on innovative campus library design",
+            image: "/images/library.jpg",
+            category: "news",
+            readTime: "4 min read",
+            content:
+                "Modern Campus Library construction commenced at Northwood University.",
+        },
+        {
+            id: 4,
+            title: "Design Workshop: Community Spaces",
+            date: "June 15, 2023",
+            author: "Lisa Martinez",
+            excerpt:
+                "Workshop on designing community-centered spaces",
+            image: "/images/workshop.jpg",
+            category: "event",
+            readTime: "2 min read",
+            content:
+                "Interactive workshop on community space design approaches.",
+        },
+    ];
 
-  return (
-    <div className="news-events-page" style={{background: 'var(--primary-dark)', minHeight: '100vh', color: 'rgba(255, 255, 255, 0.9)'}}>
-      <AnimatedSection>
-        <div className="news-page-wrapper">
-          <h1 className="news-page-title">News & Events</h1>
-          <p className="news-page-description">
-            Stay updated with our latest projects, achievements, and upcoming events. 
-            Explore our architectural journey and connect with us.
-          </p>
-          
-          <div className="news-filters">
-            <button 
-              className={`filter-btn ${activeFilter === "all" ? "active" : ""}`}
-              onClick={() => setActiveFilter("all")}
-            >
-              All
-            </button>
-            <button 
-              className={`filter-btn ${activeFilter === "news" ? "active" : ""}`}
-              onClick={() => setActiveFilter("news")}
-            >
-              News
-            </button>
-            <button 
-              className={`filter-btn ${activeFilter === "event" ? "active" : ""}`}
-              onClick={() => setActiveFilter("event")}
-            >
-              Events
-            </button>
-          </div>
-          
-          <div className="news-grid">
-            {filteredArticles.map(article => (
-              <div key={article.id} className="news-card">
-                <div className="news-image">
-                  <img src={article.image} alt={article.title} />
-                  <span className={`news-badge ${article.category}`}>
-                    {article.category === "news" ? "News" : "Event"}
-                  </span>
+    const filteredArticles =
+        activeFilter === "all"
+            ? newsArticles
+            : newsArticles.filter(
+                  (article) => article.category === activeFilter
+              );
+
+    return (
+        <div
+            className="news-events-page"
+            style={{
+                background: "var(--primary-dark)",
+                minHeight: "100vh",
+                color: "rgba(255, 255, 255, 0.9)",
+            }}
+        >
+            <AnimatedSection>
+                <div className="news-page-wrapper">
+                    <h1 className="news-page-title">News & Events</h1>
+                    <p className="news-page-description">
+                        Stay updated with our latest projects, achievements, and
+                        upcoming events. Explore our architectural journey and
+                        connect with us.
+                    </p>
+
+                    <div className="news-filters">
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "all" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("all")}
+                        >
+                            All
+                        </button>
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "news" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("news")}
+                        >
+                            News
+                        </button>
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "event" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("event")}
+                        >
+                            Events
+                        </button>
+                    </div>
+
+                    <div className="news-grid">
+                        {filteredArticles.map((article) => (
+                            <div key={article.id} className="news-card">
+                                <div className="news-image">
+                                    <img
+                                        src={article.image}
+                                        alt={article.title}
+                                    />
+                                    <span
+                                        className={`news-badge ${article.category}`}
+                                    >
+                                        {article.category === "news"
+                                            ? "News"
+                                            : "Event"}
+                                    </span>
+                                </div>
+                                <div className="news-content">
+                                    <h3 className="news-card-title">
+                                        {article.title}
+                                    </h3>
+                                    <div className="news-meta">
+                                        <span className="news-date">
+                                            {article.date}
+                                        </span>
+                                    </div>
+                                    <p className="news-excerpt">
+                                        {article.excerpt}
+                                    </p>
+                                    <p className="news-full-content">
+                                        {article.content}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <div className="news-content">
-                  <h3 className="news-card-title">{article.title}</h3>
-                  <div className="news-meta">
-                    <span className="news-date">{article.date}</span>
-                    <span className="news-read-time">{article.readTime}</span>
-                  </div>
-                  <p className="news-excerpt">{article.excerpt}</p>
-                  <p className="news-full-content">{article.content}</p>
+            </AnimatedSection>
+
+            {/* Featured Projects Section */}
+            <AnimatedSection>
+                <div className="featured-projects">
+                    <h2>Featured Projects</h2>
+                    <div className="projects-grid">
+                        <div className="project-card">
+                            <img
+                                src="/images/park.jpg"
+                                alt="Urban Green Park"
+                            />
+                            <h3>Urban Green Park</h3>
+                            <p>
+                                Award-winning sustainable park design that
+                                incorporates native vegetation and eco-friendly
+                                systems.
+                            </p>
+                        </div>
+                        <div className="project-card">
+                            <img
+                                src="/images/library.jpg"
+                                alt="Modern Campus Library"
+                            />
+                            <h3>Modern Campus Library</h3>
+                            <p>
+                                State-of-the-art academic facility with
+                                innovative glass façade and energy-efficient
+                                design.
+                            </p>
+                        </div>
+                        <div className="project-card">
+                            <img
+                                src="/images/housing.jpg"
+                                alt="Eco Housing Complex"
+                            />
+                            <h3>Eco Housing Complex</h3>
+                            <p>
+                                Sustainable residential development with green
+                                roofs and renewable energy integration.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
+            </AnimatedSection>
 
-      {/* Featured Projects Section */}
-      <AnimatedSection>
-        <div className="featured-projects">
-          <h2>Featured Projects</h2>
-          <div className="projects-grid">
-            <div className="project-card">
-              <img src="/images/park.jpg" alt="Urban Green Park" />
-              <h3>Urban Green Park</h3>
-              <p>Award-winning sustainable park design that incorporates native vegetation and eco-friendly systems.</p>
-            </div>
-            <div className="project-card">
-              <img src="/images/library.jpg" alt="Modern Campus Library" />
-              <h3>Modern Campus Library</h3>
-              <p>State-of-the-art academic facility with innovative glass façade and energy-efficient design.</p>
-            </div>
-            <div className="project-card">
-              <img src="/images/housing.jpg" alt="Eco Housing Complex" />
-              <h3>Eco Housing Complex</h3>
-              <p>Sustainable residential development with green roofs and renewable energy integration.</p>
-            </div>
-          </div>
-        </div>
-      </AnimatedSection>
+            {/* Upcoming Events Section */}
+            <AnimatedSection>
+                <div className="upcoming-events">
+                    <h2>Upcoming Events</h2>
+                    <div className="events-list">
+                        <div className="event-item">
+                            <div className="event-date">
+                                <span className="event-day">15</span>
+                                <span className="event-month">Jun</span>
+                            </div>
+                            <div className="event-details">
+                                <h3>Design Workshop: Community Spaces</h3>
+                                <p>Interactive session on creating public areas</p>
+                                <span className="event-time">10:00 AM - 4:00 PM</span>
+                            </div>
+                        </div>
+                        <div className="event-item">
+                            <div className="event-date">
+                                <span className="event-day">22</span>
+                                <span className="event-month">Jun</span>
+                            </div>
+                            <div className="event-details">
+                                <h3>Sustainable Architecture Tour</h3>
+                                <p>Guided tour of eco-friendly projects</p>
+                                <span className="event-time">2:00 PM - 5:00 PM</span>
+                            </div>
+                        </div>
+                        <div className="event-item">
+                            <div className="event-date">
+                                <span className="event-day">05</span>
+                                <span className="event-month">Jul</span>
+                            </div>
+                            <div className="event-details">
+                                <h3>Future of Urban Living Conference</h3>
+                                <p>Keynote presentations on urban development</p>
+                                <span className="event-time">9:00 AM - 6:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
 
-      {/* Upcoming Events Section */}
-      <AnimatedSection>
-        <div className="upcoming-events">
-          <h2>Upcoming Events</h2>
-          <div className="events-list">
-            <div className="event-item">
-              <div className="event-date">
-                <span className="event-day">15</span>
-                <span className="event-month">Jun</span>
-              </div>
-              <div className="event-details">
-                <h3>Design Workshop: Community Spaces</h3>
-                <p>Interactive session on creating public areas that foster connection and engagement.</p>
-                <span className="event-time">10:00 AM - 4:00 PM</span>
-              </div>
-            </div>
-            <div className="event-item">
-              <div className="event-date">
-                <span className="event-day">22</span>
-                <span className="event-month">Jun</span>
-              </div>
-              <div className="event-details">
-                <h3>Sustainable Architecture Tour</h3>
-                <p>Guided tour of our award-winning eco-friendly projects in the city.</p>
-                <span className="event-time">2:00 PM - 5:00 PM</span>
-              </div>
-            </div>
-            <div className="event-item">
-              <div className="event-date">
-                <span className="event-day">05</span>
-                <span className="event-month">Jul</span>
-              </div>
-              <div className="event-details">
-                <h3>Future of Urban Living Conference</h3>
-                <p>Keynote presentations and discussions on sustainable urban development.</p>
-                <span className="event-time">9:00 AM - 6:00 PM</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </AnimatedSection>
-      
-      <style>
-        {`
+            <style>
+                {`
         .news-events-page {
           padding: 6rem 2rem 2rem;
           min-height: 100vh;
@@ -247,7 +306,6 @@ function NewsEvents() {
 
         .news-card {
           background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -281,21 +339,20 @@ function NewsEvents() {
 
         .news-badge {
           position: absolute;
-          top: 15px;
-          right: 15px;
-          padding: 5px 12px;
-          border-radius: 20px;
-          font-size: 0.8rem;
+          top: 1rem;
+          left: 1rem;
+          padding: 0.3rem 0.8rem;
+          font-size: 0.75rem;
           font-weight: 600;
-        }
-
-        .news-badge.news {
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }        .news-badge.news {
           background: var(--accent-light);
           color: white;
         }
 
         .news-badge.event {
-          background: #4f46e5;
+          background: var(--secondary-dark);
           color: white;
         }
 
@@ -369,7 +426,6 @@ function NewsEvents() {
 
         .project-card {
           background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease;
@@ -423,7 +479,6 @@ function NewsEvents() {
         .event-item {
           display: flex;
           background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
           overflow: hidden;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease;
@@ -519,9 +574,9 @@ function NewsEvents() {
           }
         }
         `}
-      </style>
-    </div>
-  );
+            </style>
+        </div>
+    );
 }
 
 export default NewsEvents;

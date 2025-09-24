@@ -419,9 +419,9 @@ const IconButton = styled.button`
 
 // Advanced Search Container with modern design
 const SearchContainer = styled(motion.div)`
-    position: absolute;
-    top: 100%;
-    right: 0.5rem;
+    position: fixed;
+    right: 5rem;
+    top: 2rem;
     background: linear-gradient(
         135deg,
         rgba(23, 23, 42, 0.95) 0%,
@@ -434,16 +434,19 @@ const SearchContainer = styled(motion.div)`
         0 0 0 1px rgba(255, 255, 255, 0.1);
     z-index: 9999;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    width: 350px;
-    overflow: hidden;
+    width: 320px;
+    min-width: 280px;
+    max-width: calc(100vw - 4rem);
+    // overflow: hidden;
     transform: translateZ(0);
+    box-sizing: border-box;
 
     &::before {
         content: "";
         position: absolute;
-        top: 0;
+        top: 10rem;
         left: 0;
-        right: 0;
+        right: 10rem;
         height: 1px;
         background: linear-gradient(
             90deg,
@@ -465,6 +468,7 @@ const SearchContainer = styled(motion.div)`
         font-family: "Inter", sans-serif;
         transition: all 0.3s ease;
         position: relative;
+        box-sizing: border-box;
 
         &::placeholder {
             color: rgba(255, 255, 255, 0.6);
@@ -489,8 +493,9 @@ const SearchContainer = styled(motion.div)`
     }
 
     @media (max-width: 1024px) {
-        right: 0.5rem;
-        width: 320px;
+        right: 0;
+        width: 300px;
+        max-width: calc(100vw - 3rem);
 
         input {
             padding: 1.1rem 1.1rem 1.1rem 2.8rem;
@@ -502,16 +507,35 @@ const SearchContainer = styled(motion.div)`
     }
 
     @media (max-width: 768px) {
-        right: 0.5rem;
-        left: 0.5rem;
-        width: auto;
+        right: 0;
+        width: 280px;
+        max-width: calc(100vw - 2rem);
+        padding: 1rem;
 
         input {
             padding: 1rem 1rem 1rem 2.5rem;
+            min-width: 0;
         }
 
         .search-icon {
             left: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        right: 0;
+        width: 260px;
+        max-width: calc(100vw - 1rem);
+        padding: 0.8rem;
+
+        input {
+            padding: 0.9rem 0.9rem 0.9rem 2.2rem;
+            font-size: 0.9rem;
+        }
+
+        .search-icon {
+            left: 1.3rem;
+            font-size: 1rem;
         }
     }
 `;
@@ -743,7 +767,7 @@ function Navbar() {
     };
 
     return (
-        <>
+        <div>
             <NavContainer $isScrolled={isScrolled}>
                 <Logo to="/" onClick={closeAllMenus}>
                     <img src="/office.jpg" alt="ASPIRE Logo" />
@@ -896,7 +920,6 @@ function Navbar() {
                         </SubMenu>
                     )}
                 </AnimatePresence>
-
                 <AnimatePresence>
                     {showSearch && (
                         <SearchContainer
@@ -923,7 +946,7 @@ function Navbar() {
                     )}
                 </AnimatePresence>
             </NavContainer>
-        </>
+        </div>
     );
 }
 

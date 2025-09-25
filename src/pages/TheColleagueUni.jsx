@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { FaBook, FaTarget, FaStar, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import { FaBook, FaStar, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
 import AnimatedSection from "../components/AnimatedSection";
 
 function UniAbout() {
@@ -49,7 +49,7 @@ function UniAbout() {
 
                         <div className="feature-card">
                             <div className="feature-icon">
-                                <FaTarget />
+                                <FaBook />
                             </div>
                             <h3>Impact to Be Made</h3>
                             <p>

@@ -264,7 +264,7 @@ const DescriptionCard = styled(motion.div)`
     position: absolute;
     bottom: 3rem;
     right: 3rem;
-    background-color: rgba(0, 0, 0, 0.4); /* Reduced from 0.85 to 0.4 */
+    background-color: rgba(0, 0, 0, 0.6); /* Black with increased opacity */
     padding: 1.5rem;
     border-radius: 10px;
     font-family: "Montserrat", sans-serif;
@@ -272,7 +272,6 @@ const DescriptionCard = styled(motion.div)`
     line-height: 1.6;
     max-width: 380px;
     text-align: left;
-    backdrop-filter: blur(8px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 
     @media (max-width: 768px) {

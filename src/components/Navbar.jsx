@@ -770,7 +770,7 @@ function Navbar() {
         <div>
             <NavContainer $isScrolled={isScrolled}>
                 <Logo to="/" onClick={closeAllMenus}>
-                    <img src="/office.jpg" alt="ASPIRE Logo" />
+                    <img src="/LOGO.png" alt="ASPIRE Logo" />
                 </Logo>
 
                 <NavContent>

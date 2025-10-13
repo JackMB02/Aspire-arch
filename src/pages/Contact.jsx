@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
 
 function Contact() {
@@ -7,21 +7,104 @@ function Contact() {
         email: "",
         message: "",
     });
+    const [contactInfo, setContactInfo] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [infoLoading, setInfoLoading] = useState(true);
+
+    // API base URL - IMPORTANT: Add this line
+    const API_BASE = 'http://localhost:4000/api';
+
+    // Fetch contact information from backend
+    useEffect(() => {
+        const fetchContactInfo = async () => {
+            try {
+                setInfoLoading(true);
+                // Use absolute URL with port 4000
+                const response = await fetch(`${API_BASE}/contact/info`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new TypeError("Received non-JSON response");
+                }
+                
+                const data = await response.json();
+                setContactInfo(data);
+                
+            } catch (error) {
+                console.error('Error fetching contact info:', error);
+                // Continue with fallback UI - don't show error to user for this
+            } finally {
+                setInfoLoading(false);
+            }
+        };
+
+        fetchContactInfo();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
+        // Clear error when user starts typing
+        if (error) setError("");
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log("Form submitted:", formData);
-        alert("Thank you for your message! We will get back to you soon.");
-        setFormData({ name: "", email: "", message: "" });
+        setLoading(true);
+        setError("");
+
+        try {
+            // Use absolute URL with port 4000
+            const response = await fetch(`${API_BASE}/contact/submit`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            // Check if response is OK and is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new TypeError("Server returned non-JSON response");
+            }
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert(result.message || "Thank you for your message! We will get back to you soon.");
+                setFormData({ name: "", email: "", message: "" });
+            } else {
+                throw new Error(result.error || 'Failed to submit form');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            
+            if (error.name === 'TypeError') {
+                setError(`Cannot connect to server on port 4000. Please make sure the backend is running. Error: ${error.message}`);
+            } else {
+                setError(error.message || "Sorry, there was an error submitting your message. Please try again.");
+            }
+        } finally {
+            setLoading(false);
+        }
     };
+
+    // Helper function to get contact info by type
+    const getContactInfoByType = (type) => {
+        return contactInfo.find(info => info.type === type);
+    };
+
+    const addressInfo = getContactInfoByType('address');
+    const phoneInfo = getContactInfoByType('phone');
+    const emailInfo = getContactInfoByType('email');
 
     return (
         <div
@@ -45,41 +128,97 @@ function Contact() {
                             </p>
 
                             <div className="contact-details">
-                                <div className="contact-item">
-                                    <div className="contact-icon">📍</div>
-                                    <div>
-                                        <h3>Visit Us</h3>
-                                        <p>
-                                            123 Architecture Avenue
-                                            <br />
-                                            Design District, DC 10001
-                                        </p>
-                                    </div>
-                                </div>
+                                {infoLoading ? (
+                                    <div className="loading-info">Loading contact information...</div>
+                                ) : (
+                                    <>
+                                        {addressInfo && (
+                                            <div className="contact-item">
+                                                <div className="contact-icon">📍</div>
+                                                <div>
+                                                    <h3>{addressInfo.title}</h3>
+                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                        {addressInfo.value}
+                                                        {addressInfo.description && (
+                                                            <><br /><small style={{ opacity: 0.8 }}>{addressInfo.description}</small></>
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
 
-                                <div className="contact-item">
-                                    <div className="contact-icon">📞</div>
-                                    <div>
-                                        <h3>Call Us</h3>
-                                        <p>
-                                            +1 (555) 123-4567
-                                            <br />
-                                            Mon-Fri, 9:00 AM - 6:00 PM
-                                        </p>
-                                    </div>
-                                </div>
+                                        {phoneInfo && (
+                                            <div className="contact-item">
+                                                <div className="contact-icon">📞</div>
+                                                <div>
+                                                    <h3>{phoneInfo.title}</h3>
+                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                        {phoneInfo.value}
+                                                        {phoneInfo.description && (
+                                                            <><br /><small style={{ opacity: 0.8 }}>{phoneInfo.description}</small></>
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
 
-                                <div className="contact-item">
-                                    <div className="contact-icon">✉️</div>
-                                    <div>
-                                        <h3>Email Us</h3>
-                                        <p>
-                                            hello@aspirearchitecture.com
-                                            <br />
-                                            info@aspirearchitecture.com
-                                        </p>
-                                    </div>
-                                </div>
+                                        {emailInfo && (
+                                            <div className="contact-item">
+                                                <div className="contact-icon">✉️</div>
+                                                <div>
+                                                    <h3>{emailInfo.title}</h3>
+                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                        {emailInfo.value}
+                                                        {emailInfo.description && (
+                                                            <><br /><small style={{ opacity: 0.8 }}>{emailInfo.description}</small></>
+                                                        )}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Fallback if no data from API */}
+                                        {contactInfo.length === 0 && (
+                                            <>
+                                                <div className="contact-item">
+                                                    <div className="contact-icon">📍</div>
+                                                    <div>
+                                                        <h3>Visit Us</h3>
+                                                        <p>
+                                                            123 Architecture Avenue
+                                                            <br />
+                                                            Design District, DC 10001
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="contact-item">
+                                                    <div className="contact-icon">📞</div>
+                                                    <div>
+                                                        <h3>Call Us</h3>
+                                                        <p>
+                                                            +1 (555) 123-4567
+                                                            <br />
+                                                            Mon-Fri, 9:00 AM - 6:00 PM
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="contact-item">
+                                                    <div className="contact-icon">✉️</div>
+                                                    <div>
+                                                        <h3>Email Us</h3>
+                                                        <p>
+                                                            hello@aspirearchitecture.com
+                                                            <br />
+                                                            info@aspirearchitecture.com
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </>
+                                )}
                             </div>
                         </div>
 
@@ -88,6 +227,9 @@ function Contact() {
                                 <img
                                     src="/images/office.jpg"
                                     alt="Our office"
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                    }}
                                 />
                             </div>
 
@@ -97,8 +239,14 @@ function Contact() {
                             >
                                 <h2>Send us a Message</h2>
 
+                                {error && (
+                                    <div className="error-message">
+                                        {error}
+                                    </div>
+                                )}
+
                                 <div className="form-group">
-                                    <label htmlFor="name">Full Name</label>
+                                    <label htmlFor="name">Full Name *</label>
                                     <input
                                         type="text"
                                         id="name"
@@ -107,11 +255,13 @@ function Contact() {
                                         onChange={handleChange}
                                         placeholder="Enter your full name"
                                         required
+                                        minLength="2"
+                                        disabled={loading}
                                     />
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="email">Email Address</label>
+                                    <label htmlFor="email">Email Address *</label>
                                     <input
                                         type="email"
                                         id="email"
@@ -120,12 +270,13 @@ function Contact() {
                                         onChange={handleChange}
                                         placeholder="Enter your email address"
                                         required
+                                        disabled={loading}
                                     />
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="message">
-                                        Your Message
+                                        Your Message *
                                     </label>
                                     <textarea
                                         id="message"
@@ -135,11 +286,17 @@ function Contact() {
                                         placeholder="Tell us about your project or inquiry"
                                         rows="5"
                                         required
+                                        minLength="10"
+                                        disabled={loading}
                                     ></textarea>
                                 </div>
 
-                                <button type="submit" className="submit-btn">
-                                    Send Message →
+                                <button 
+                                    type="submit" 
+                                    className="submit-btn"
+                                    disabled={loading}
+                                >
+                                    {loading ? "Sending..." : "Send Message →"}
                                 </button>
                             </form>
                         </div>
@@ -225,6 +382,13 @@ function Contact() {
           font-size: 0.9rem;
         }
 
+        .loading-info {
+          text-align: center;
+          padding: 2rem;
+          color: rgba(255, 255, 255, 0.7);
+          font-style: italic;
+        }
+
         .contact-form-section {
           padding: 3rem;
           display: flex;
@@ -256,6 +420,16 @@ function Contact() {
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 2rem;
           text-align: center;
+        }
+
+        .error-message {
+          background: rgba(220, 53, 69, 0.1);
+          border: 1px solid rgba(220, 53, 69, 0.3);
+          color: #f8d7da;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          margin-bottom: 1.5rem;
+          font-size: 0.9rem;
         }
 
         .form-group {
@@ -291,6 +465,12 @@ function Contact() {
           background: rgba(255, 255, 255, 0.08);
         }
 
+        .form-group input:disabled,
+        .form-group textarea:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
         .form-group textarea {
           resize: vertical;
           min-height: 120px;
@@ -310,10 +490,16 @@ function Contact() {
           margin-top: 1rem;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
           background: rgba(176, 140, 77, 0.9);
           transform: translateY(-2px);
           box-shadow: 0 10px 25px rgba(176, 140, 77, 0.3);
+        }
+
+        .submit-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
         }
 
         /* Responsive Design */
@@ -409,8 +595,8 @@ function Contact() {
           color: white !important;
         }
         
-        .contact-page .submit-btn:hover {
-          background: rgba(122, 158, 217, 0.8) !important;
+        .contact-page .submit-btn:hover:not(:disabled) {
+          background: rgba(176, 140, 77, 0.9) !important;
         }
         `}
             </style>

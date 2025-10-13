@@ -1,6 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+
+const API_BASE_URL = "http://localhost:4000/api";
+
+// Helper function to construct proper image URLs
+const getImageUrl = (imagePath) => {
+    if (!imagePath || imagePath === 'null' || imagePath === 'undefined') {
+        return "/images/placeholder.jpg";
+    }
+    
+    // If it's already a full URL, return as is
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        return imagePath;
+    }
+    
+    // If it's a data URL (base64 image), return as is
+    if (imagePath.startsWith('data:')) {
+        return imagePath;
+    }
+    
+    // If it starts with /uploads, construct full URL
+    if (imagePath.startsWith('/uploads/')) {
+        return `${API_BASE_URL}${imagePath}`;
+    }
+    
+    // If it's just a filename without path, assume it's in uploads
+    if (!imagePath.includes('/')) {
+        return `${API_BASE_URL}/uploads/${imagePath}`;
+    }
+    
+    // For any other relative paths
+    return `${API_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+};
 
 // PageWrapper Component
 const PageWrapper = ({ title, description, children }) => {
@@ -17,49 +49,13 @@ const PageWrapper = ({ title, description, children }) => {
 
 // Individual Media Sections
 function PhotoAlbums() {
-    const photos = [
-        {
-            id: 1,
-            title: "Urban Architecture",
-            image: "/images/pome.jpg",
-            category: "Architecture",
-        },
-        {
-            id: 2,
-            title: "Nature Integration",
-            image: "/images/library.jpg",
-            category: "Nature",
-        },
-        {
-            id: 3,
-            title: "Modern Design",
-            image: "/images/villa.jpg",
-            category: "Residential",
-        },
-        {
-            id: 4,
-            title: "Community Spaces",
-            image: "/images/park.jpg",
-            category: "Public",
-        },
-        {
-            id: 5,
-            title: "Interior Design",
-            image: "/images/office.jpg",
-            category: "Commercial",
-        },
-        {
-            id: 6,
-            title: "Cultural Heritage",
-            image: "/images/pavilion.jpg",
-            category: "Cultural",
-        },
-    ];
-
+    const [photos, setPhotos] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState("All");
+
     const categories = [
         "All",
-        "City",
+        "Architecture",
         "Nature",
         "Residential",
         "Public",
@@ -67,10 +63,43 @@ function PhotoAlbums() {
         "Cultural",
     ];
 
+    useEffect(() => {
+        fetchPhotos();
+    }, []);
+
+    const fetchPhotos = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/photos`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Photos data from API:', data); // Debug log
+                setPhotos(data);
+            } else {
+                console.error("Failed to fetch photos");
+            }
+        } catch (error) {
+            console.error("Error fetching photos:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const filteredPhotos =
         selectedCategory === "All"
             ? photos
             : photos.filter((photo) => photo.category === selectedCategory);
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Photo Albums"
+                description="Loading photos..."
+            >
+                <div className="loading-spinner">Loading photos...</div>
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -92,52 +121,68 @@ function PhotoAlbums() {
             </div>
 
             <div className="media-grid">
-                {filteredPhotos.map((photo) => (
-                    <div key={photo.id} className="media-card">
-                        <img src={photo.image} alt={photo.title} />
-                        <div className="media-overlay">
-                            <h3>{photo.title}</h3>
-                            <p>{photo.category}</p>
-                            <button>View Album →</button>
+                {filteredPhotos.length === 0 ? (
+                    <div className="no-data">No photos found. Upload some photos through the admin dashboard!</div>
+                ) : (
+                    filteredPhotos.map((photo) => (
+                        <div key={photo.id} className="media-card">
+                            <img 
+                                src={getImageUrl(photo.image)} 
+                                alt={photo.title} 
+                                onError={(e) => {
+                                    console.log('Image failed to load:', photo.image);
+                                    e.target.src = "/images/placeholder.jpg";
+                                }}
+                            />
+                            <div className="media-overlay">
+                                <h3>{photo.title}</h3>
+                                <p>{photo.category}</p>
+                                <button>View Album →</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </PageWrapper>
     );
 }
 
 function VideoStories() {
-    const videos = [
-        {
-            id: 1,
-            title: "Project Walkthrough",
-            thumbnail: "/images/pome.jpg",
-            duration: "2:45",
-            videoSrc: "/videos/wa.mp4",
-        },
-        {
-            id: 2,
-            title: "Design Process",
-            thumbnail: "/images/villa.jpg",
-            duration: "4:20",
-            videoSrc: "/videos/wa.mp4",
-        },
-        {
-            id: 3,
-            title: "Client Testimonials",
-            thumbnail: "/images/office.jpg",
-            duration: "3:15",
-            videoSrc: "/videos/wa.mp4",
-        },
-        {
-            id: 4,
-            title: "Construction Progress",
-            thumbnail: "/images/housing.jpg",
-            duration: "5:30",
-            videoSrc: "/videos/wa.mp4",
-        },
-    ];
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchVideos();
+    }, []);
+
+    const fetchVideos = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/videos`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Videos data from API:', data); // Debug log
+                setVideos(data);
+            } else {
+                console.error("Failed to fetch videos");
+            }
+        } catch (error) {
+            console.error("Error fetching videos:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Video Stories"
+                description="Loading videos..."
+            >
+                <div className="loading-spinner">Loading videos...</div>
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -145,78 +190,97 @@ function VideoStories() {
             description="Watch inspiring video stories highlighting our projects, community initiatives, and design process."
         >
             <div className="media-grid">
-                {videos.map((video) => (
-                    <div
-                        key={video.id}
-                        className="media-card video-card"
-                    >
-                        <Link
-                            to={`/video/${video.id}`}
-                            className="video-thumbnail"
+                {videos.length === 0 ? (
+                    <div className="no-data">No videos found. Upload some videos through the admin dashboard!</div>
+                ) : (
+                    videos.map((video) => (
+                        <div
+                            key={video.id}
+                            className="media-card video-card"
                         >
-                            <img
-                                src={video.thumbnail}
-                                alt={video.title}
-                            />
-                            <div className="play-indicator">
-                                <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M8 5V19L19 12L8 5Z"
-                                        fill="white"
-                                    />
-                                </svg>
-                            </div>
-                            <span className="video-duration">
-                                {video.duration}
-                            </span>
-                        </Link>
-                        <div className="media-info">
-                            <h3>{video.title}</h3>
                             <Link
                                 to={`/video/${video.id}`}
-                                className="play-video-btn"
+                                className="video-thumbnail"
                             >
-                                Play Video →
+                                <img
+                                    src={getImageUrl(video.thumbnail)}
+                                    alt={video.title}
+                                    onError={(e) => {
+                                        console.log('Thumbnail failed to load:', video.thumbnail);
+                                        e.target.src = "/images/placeholder.jpg";
+                                    }}
+                                />
+                                <div className="play-indicator">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            d="M8 5V19L19 12L8 5Z"
+                                            fill="white"
+                                        />
+                                    </svg>
+                                </div>
+                                {video.duration && (
+                                    <span className="video-duration">
+                                        {video.duration}
+                                    </span>
+                                )}
                             </Link>
+                            <div className="media-info">
+                                <h3>{video.title}</h3>
+                                <Link
+                                    to={`/video/${video.id}`}
+                                    className="play-video-btn"
+                                >
+                                    Play Video →
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </PageWrapper>
     );
 }
 
 function DesignVisualizations() {
-    const designs = [
-        {
-            id: 1,
-            title: "3D Concept Render",
-            image: "/images/pome.jpg",
-            type: "Exterior",
-        },
-        {
-            id: 2,
-            title: "Interior Visualization",
-            image: "/images/library.jpg",
-            type: "Interior",
-        },
-        {
-            id: 3,
-            title: "Landscape Design",
-            image: "/images/park.jpg",
-            type: "Landscape",
-        },
-        {
-            id: 4,
-            title: "Urban Planning",
-            image: "/images/office.jpg",
-            type: "Masterplan",
-        },
-    ];
+    const [designs, setDesigns] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchDesigns();
+    }, []);
+
+    const fetchDesigns = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/designs`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Designs data from API:', data); // Debug log
+                setDesigns(data);
+            } else {
+                console.error("Failed to fetch designs");
+            }
+        } catch (error) {
+            console.error("Error fetching designs:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Design Visualizations"
+                description="Loading designs..."
+            >
+                <div className="loading-spinner">Loading designs...</div>
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -224,40 +288,68 @@ function DesignVisualizations() {
             description="Explore 3D renders and design visualizations showcasing architectural concepts and project ideas."
         >
             <div className="media-grid">
-                {designs.map((design) => (
-                    <div key={design.id} className="media-card">
-                        <img src={design.image} alt={design.title} />
-                        <div className="media-overlay">
-                            <h3>{design.title}</h3>
-                            <p>{design.type}</p>
-                            <button>View Details →</button>
+                {designs.length === 0 ? (
+                    <div className="no-data">No designs found. Upload some designs through the admin dashboard!</div>
+                ) : (
+                    designs.map((design) => (
+                        <div key={design.id} className="media-card">
+                            <img 
+                                src={getImageUrl(design.image)} 
+                                alt={design.title}
+                                onError={(e) => {
+                                    console.log('Design image failed to load:', design.image);
+                                    e.target.src = "/images/placeholder.jpg";
+                                }}
+                            />
+                            <div className="media-overlay">
+                                <h3>{design.title}</h3>
+                                <p>{design.type}</p>
+                                <button>View Details →</button>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </PageWrapper>
     );
 }
 
 function CommunityVoices() {
-    const testimonials = [
-        {
-            id: 1,
-            name: "Sarah Johnson",
-            role: "Community Resident",
-            image: "/images/pome.jpg",
-            quote: "The design completely transformed our neighborhood. It's both beautiful and functional.",
-            project: "Urban Green Park",
-        },
-        {
-            id: 2,
-            name: "Michael Chen",
-            role: "Local Business Owner",
-            image: "/images/villa.jpg",
-            quote: "The attention to detail and understanding of our needs made this project exceptional.",
-            project: "Modern Campus Library",
-        },
-    ];
+    const [testimonials, setTestimonials] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchTestimonials();
+    }, []);
+
+    const fetchTestimonials = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/testimonials`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Testimonials data from API:', data); // Debug log
+                setTestimonials(data);
+            } else {
+                console.error("Failed to fetch testimonials");
+            }
+        } catch (error) {
+            console.error("Error fetching testimonials:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Community Voices"
+                description="Loading testimonials..."
+            >
+                <div className="loading-spinner">Loading testimonials...</div>
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -265,28 +357,38 @@ function CommunityVoices() {
             description="Read testimonials and stories from our community, sharing experiences and insights about our projects."
         >
             <div className="testimonials-grid">
-                {testimonials.map((testimonial) => (
-                    <div key={testimonial.id} className="testimonial-card">
-                        <div className="testimonial-image">
-                            <img
-                                src={testimonial.image}
-                                alt={testimonial.name}
-                            />
+                {testimonials.length === 0 ? (
+                    <div className="no-data">No testimonials found. Add some testimonials through the admin dashboard!</div>
+                ) : (
+                    testimonials.map((testimonial) => (
+                        <div key={testimonial.id} className="testimonial-card">
+                            <div className="testimonial-image">
+                                <img
+                                    src={getImageUrl(testimonial.image)}
+                                    alt={testimonial.name}
+                                    onError={(e) => {
+                                        console.log('Testimonial image failed to load:', testimonial.image);
+                                        e.target.src = "/images/placeholder.jpg";
+                                    }}
+                                />
+                            </div>
+                            <div className="testimonial-content">
+                                <h3>{testimonial.name}</h3>
+                                <p className="testimonial-role">
+                                    {testimonial.role}
+                                </p>
+                                <p className="testimonial-quote">
+                                    "{testimonial.quote}"
+                                </p>
+                                {testimonial.project && (
+                                    <p className="testimonial-project">
+                                        {testimonial.project}
+                                    </p>
+                                )}
+                            </div>
                         </div>
-                        <div className="testimonial-content">
-                            <h3>{testimonial.name}</h3>
-                            <p className="testimonial-role">
-                                {testimonial.role}
-                            </p>
-                            <p className="testimonial-quote">
-                                "{testimonial.quote}"
-                            </p>
-                            <p className="testimonial-project">
-                                {testimonial.project}
-                            </p>
-                        </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </PageWrapper>
     );
@@ -294,36 +396,76 @@ function CommunityVoices() {
 
 // Media Overview Grid
 function MediaOverview() {
+    const [stats, setStats] = useState({
+        photos: 0,
+        videos: 0,
+        designs: 0,
+        testimonials: 0
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchStats();
+    }, []);
+
+    const fetchStats = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/stats`);
+            if (response.ok) {
+                const data = await response.json();
+                setStats(data);
+            } else {
+                console.error("Failed to fetch media stats");
+            }
+        } catch (error) {
+            console.error("Error fetching media stats:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const categories = [
         {
             title: "Photo Albums",
             description: "Browse curated photo collections from our projects.",
             link: "photo-albums",
             image: "/images/pome.jpg",
-            count: "48 photos",
+            count: `${stats.photos} photos`,
         },
         {
             title: "Video Stories",
             description: "Watch inspiring video stories of our work.",
             link: "video-stories",
             image: "/images/villa.jpg",
-            count: "12 videos",
+            count: `${stats.videos} videos`,
         },
         {
             title: "Design Visualizations",
             description: "See 3D renders and visual concepts of our designs.",
             link: "design-visualizations",
             image: "/images/office.jpg",
-            count: "24 renders",
+            count: `${stats.designs} renders`,
         },
         {
             title: "Community Voices",
             description: "Read testimonials and stories from the community.",
             link: "community-voices",
             image: "/images/park.jpg",
-            count: "16 stories",
+            count: `${stats.testimonials} stories`,
         },
     ];
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Media Gallery"
+                description="Loading media gallery..."
+            >
+                <div className="loading-spinner">Loading media gallery...</div>
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -371,10 +513,29 @@ function MediaGallery() {
                 <Route path="*" element={<MediaOverview />} />
             </Routes>
 
-            {/* Embedded CSS */}
+            {/* Embedded CSS - Add loading styles */}
             <style>
                 {`
-        /* Media Gallery Styles */
+        /* Loading and Error States */
+        .loading-spinner {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Rest of your existing CSS styles... */
         .media-gallery-page {
           padding: 6rem 2rem 2rem;
           min-height: 100vh;
@@ -669,8 +830,6 @@ function MediaGallery() {
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(176, 140, 77, 0.4);
         }
-
-        /* Video Cards Enhanced */
 
         /* Filters */
         .media-filters {

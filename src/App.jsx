@@ -4,6 +4,8 @@ import {
     Route,
     useLocation,
 } from "react-router-dom";
+import { useEffect } from "react";
+import { testApiConnection } from "./config/api";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
@@ -22,6 +24,15 @@ import Contact from "./pages/Contact";
 function AppContent() {
     const location = useLocation();
     const isHomePage = location.pathname === "/";
+
+    useEffect(() => {
+        // Test backend connectivity (non-blocking)
+        testApiConnection().then(result => {
+            if (!result.success) {
+                console.warn('API test failed', result);
+            }
+        });
+    }, []);
 
     return (
         <div
@@ -88,6 +99,7 @@ function App() {
             </style>
         </Router>
     );
+    
 }
 
 export default App;

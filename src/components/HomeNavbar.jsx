@@ -129,11 +129,11 @@ const NavItem = styled.li`
     position: relative;
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 200; /* Ultra Light */
     padding: 0.5rem 0;
     transition: all 0.3s ease;
-    font-family: "Inter", sans-serif;
-    letter-spacing: -0.1px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.5px; /* Added for better readability with ultra light */
 
     &::after {
         content: "";
@@ -158,6 +158,7 @@ const NavItem = styled.li`
 
     @media (max-width: 1024px) {
         font-size: 0.8rem;
+        letter-spacing: 0.4px;
     }
 
     @media (max-width: 768px) {
@@ -165,6 +166,7 @@ const NavItem = styled.li`
         text-align: center;
         padding: 0.8rem 0;
         font-size: 0.9rem;
+        letter-spacing: 0.6px;
 
         &::after {
             display: none;
@@ -184,12 +186,14 @@ const NavItemButton = styled.button`
     padding: 0.2rem 0.25rem;
     cursor: pointer;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 200; /* Ultra Light */
     border-radius: 0.25rem;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     gap: 0.25rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: 0.5px;
 
     &:hover {
         background-color: rgba(255, 255, 255, 0.06);
@@ -199,6 +203,7 @@ const NavItemButton = styled.button`
     @media (max-width: 1024px) {
         font-size: 0.9rem;
         padding: 0.15rem 0.2rem;
+        letter-spacing: 0.4px;
     }
 `;
 
@@ -273,11 +278,13 @@ const SubItem = styled.li`
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.8);
     transition: all 0.2s ease;
-    font-family: "Inter", sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 200; /* Ultra Light */
     white-space: nowrap;
     position: relative;
     border-radius: 6px;
     cursor: pointer;
+    letter-spacing: 0.3px;
 
     &:hover {
         color: #ffffff;
@@ -287,7 +294,7 @@ const SubItem = styled.li`
 
     &.active {
         color: var(--accent-light);
-        font-weight: 600;
+        font-weight: 300; /* Slightly bolder for active state */
     }
 
     /* Underline for active sub nav item (desktop only) */
@@ -312,6 +319,7 @@ const SubItem = styled.li`
         color: white;
         padding: 0.6rem 1rem;
         text-align: center;
+        letter-spacing: 0.4px;
 
         &:hover {
             color: white;
@@ -438,13 +446,15 @@ const SearchContainer = styled(motion.div)`
         background: rgba(255, 255, 255, 0.08);
         font-size: 1rem;
         color: white;
-        font-family: "Inter", sans-serif;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 200; /* Ultra Light */
         transition: all 0.3s ease;
         position: relative;
+        letter-spacing: 0.3px;
 
         &::placeholder {
             color: rgba(255, 255, 255, 0.6);
-            font-weight: 400;
+            font-weight: 200; /* Ultra Light for placeholder */
         }
 
         &:focus {

@@ -5,73 +5,25 @@ import "./ProjectGallery.css";
 
 // ---------------- PageWrapper ----------------
 const PageWrapper = ({ title, description, projects }) => {
-    const [expandedIndex, setExpandedIndex] = useState(null);
-
-    const toggleExpand = (idx) => {
-        setExpandedIndex(expandedIndex === idx ? null : idx);
-    };
-
     return (
         <AnimatedSection>
             <div className="page-wrapper">
                 <h1 className="page-title">{title}</h1>
                 <p className="page-description">{description}</p>
 
-                <div className="masonry">
-                    {projects.map((project, idx) => {
-                        const isExpanded = expandedIndex === idx;
-
-                        return (
-                            <div
-                                key={idx}
-                                className={`project-card ${
-                                    isExpanded ? "expanded" : ""
-                                }`}
-                                onClick={() => toggleExpand(idx)}
-                            >
-                                {!isExpanded && (
-                                    <>
-                                        <img
-                                            src={project.image}
-                                            alt={project.title}
-                                        />
-                                        <div className="overlay">
-                                            <h3>{project.title}</h3>
-                                            <p>{project.summary}</p>
-                                            <Link
-                                                to={`/design/project/${project.id}`}
-                                            >
-                                                <button>View More</button>
-                                            </Link>
-                                        </div>
-                                    </>
-                                )}
-
-                                {isExpanded && (
-                                    <div className="expanded-details">
-                                        <div className="left-details">
-                                            <p>{project.summary}</p>
-                                        </div>
-
-                                        <img
-                                            src={project.image}
-                                            alt={project.title}
-                                        />
-
-                                        <div className="right-info">
-                                            <h3>{project.title}</h3>
-                                            <p>{project.summary}</p>
-                                            <Link
-                                                to={`/design/project/${project.id}`}
-                                            >
-                                                Visit Project →
-                                            </Link>
-                                        </div>
-                                    </div>
-                                )}
+                <div className="media-grid">
+                    {projects.map((project, idx) => (
+                        <div key={idx} className="media-card">
+                            <img src={project.image} alt={project.title} />
+                            <div className="media-overlay">
+                                <h3>{project.title}</h3>
+                                <p>{project.summary}</p>
+                                <Link to={`/design/project/${project.id}`}>
+                                    <button>View Project →</button>
+                                </Link>
                             </div>
-                        );
-                    })}
+                        </div>
+                    ))}
                 </div>
             </div>
         </AnimatedSection>
@@ -83,22 +35,18 @@ const academicProjects = [
     {
         id: "library",
         title: "Modern Campus Library",
-        summary:
-            "A sustainable library concept integrating natural light and community spaces.",
+        summary: "A sustainable library concept integrating natural light and community spaces.",
         image: "/images/library.jpg",
         images: ["/images/library.jpg", "/images/library2.jpg"],
-        description:
-            "This library design focuses on sustainability, using glass facades for natural light and open spaces for collaborative learning. It integrates green courtyards and modern interiors.",
+        description: "This library design focuses on sustainability, using glass facades for natural light and open spaces for collaborative learning. It integrates green courtyards and modern interiors.",
     },
     {
         id: "housing",
         title: "Student Housing Concept",
-        summary:
-            "Affordable housing designed with modular units and green courtyards.",
+        summary: "Affordable housing designed with modular units and green courtyards.",
         image: "/images/housing.jpg",
         images: ["/images/housing.jpg", "/images/housing2.jpg"],
-        description:
-            "The student housing project prioritizes affordability while maximizing comfort. Modular units are prefabricated and arranged around shared courtyards to foster community living.",
+        description: "The student housing project prioritizes affordability while maximizing comfort. Modular units are prefabricated and arranged around shared courtyards to foster community living.",
     },
 ];
 
@@ -106,22 +54,18 @@ const professionalProjects = [
     {
         id: "villa",
         title: "Luxury Residential Villa",
-        summary:
-            "High-end villa design blending modern architecture with natural landscapes.",
+        summary: "High-end villa design blending modern architecture with natural landscapes.",
         image: "/images/villa.jpg",
         images: ["/images/villa.jpg", "/images/villa2.jpg"],
-        description:
-            "The villa design merges minimalism with luxury, featuring an infinity pool, open floor plans, and natural stone facades that harmonize with the surrounding landscape.",
+        description: "The villa design merges minimalism with luxury, featuring an infinity pool, open floor plans, and natural stone facades that harmonize with the surrounding landscape.",
     },
     {
         id: "office",
         title: "Office Tower Concept",
-        summary:
-            "An energy-efficient high-rise designed for flexible work environments.",
+        summary: "An energy-efficient high-rise designed for flexible work environments.",
         image: "/images/office.jpg",
         images: ["/images/office.jpg", "/images/office2.jpg"],
-        description:
-            "This office tower reimagines workplace design with flexible interiors, solar glass technology, and smart energy systems to minimize environmental impact.",
+        description: "This office tower reimagines workplace design with flexible interiors, solar glass technology, and smart energy systems to minimize environmental impact.",
     },
 ];
 
@@ -129,22 +73,18 @@ const competitionProjects = [
     {
         id: "park",
         title: "Urban Green Park",
-        summary:
-            "A competition entry transforming abandoned urban land into a green hub.",
+        summary: "A competition entry transforming abandoned urban land into a green hub.",
         image: "/images/park.jpg",
         images: ["/images/park.jpg", "/images/park2.jpg"],
-        description:
-            "The park project transforms a neglected urban area into a thriving green hub with walking paths, cultural pavilions, and recreational spaces.",
+        description: "The park project transforms a neglected urban area into a thriving green hub with walking paths, cultural pavilions, and recreational spaces.",
     },
     {
         id: "pavilion",
         title: "Cultural Pavilion",
-        summary:
-            "A winning concept celebrating local heritage through modern design.",
+        summary: "A winning concept celebrating local heritage through modern design.",
         image: "/images/pavilion.jpg",
         images: ["/images/pavilion.jpg", "/images/pavilion2.jpg"],
-        description:
-            "The cultural pavilion combines traditional motifs with modern construction. It serves as an exhibition space and a landmark for cultural events.",
+        description: "The cultural pavilion combines traditional motifs with modern construction. It serves as an exhibition space and a landmark for cultural events.",
     },
 ];
 
@@ -283,14 +223,7 @@ function Design() {
     ];
 
     return (
-        <div
-            className="design-page"
-            style={{
-                background: "var(--primary-dark)",
-                minHeight: "100vh",
-                color: "rgba(255, 255, 255, 0.9)",
-            }}
-        >
+        <div className="design-page">
             <Routes>
                 <Route path="academic" element={<Academic />} />
                 <Route path="profession" element={<Profession />} />
@@ -301,7 +234,6 @@ function Design() {
                     element={
                         <AnimatedSection>
                             <div className="design-intro">
-                                {/* Mixed Preview - Directly showing the projects without title/links */}
                                 <PageWrapper
                                     title="Featured Projects"
                                     description="A curated mix of projects across all categories."
@@ -313,126 +245,243 @@ function Design() {
                 />
             </Routes>
 
-            <style>
-                {`
-        .design-page {
-          padding: 6rem 2rem 2rem;
-          min-height: 100vh;
-          background: var(--primary-dark);
-        }
+            <style jsx>{`
+                @import url('https://fonts.googleapis.com/css2?family=Futura&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+                
+                .design-page {
+                    background: var(--primary-dark);
+                    min-height: 100vh;
+                    color: rgba(255, 255, 255, 0.9);
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-weight: 300;
+                }
 
-        .design-intro {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem 1rem;
-        }
+                .design-intro {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 2rem 1rem;
+                }
 
-        .page-wrapper {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 2rem 1rem;
-        }
+                .page-wrapper {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 8rem 2rem 2rem;
+                    text-align: center;
+                }
 
-        .page-title {
-          font-size: 2rem;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1rem;
-        }
+                /* Typography */
+                .page-title {
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1.5rem;
+                    letter-spacing: -0.5px;
+                }
 
-        .page-description {
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.8);
-          margin-bottom: 2.5rem;
-          line-height: 1.6;
-        }
+                .page-description {
+                    font-family: 'Lora', 'Georgia', serif;
+                    font-size: 1.1rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    max-width: 800px;
+                    margin: 0 auto 3rem;
+                }
 
-        .masonry {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 1.5rem;
-        }
+                /* Media Grid - Exact same as Media Gallery */
+                .media-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 1.5rem;
+                    margin-top: 2rem;
+                }
 
-        .project-card {
-          position: relative;
-          border-radius: 12px;
-          overflow: hidden;
-          background: rgba(255, 255, 255, 0.05);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          cursor: pointer;
-        }
+                .media-card {
+                    position: relative;
+                    overflow: hidden;
+                    background: rgba(255, 255, 255, 0.05);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
 
-        .project-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-          background: rgba(255, 255, 255, 0.08);
-        }
+                .media-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+                }
 
-        .project-card img {
-          width: 100%;
-          height: 220px;
-          object-fit: cover;
-          display: block;
-        }
+                .media-card img {
+                    width: 100%;
+                    height: 220px;
+                    object-fit: cover;
+                    display: block;
+                }
 
-        .overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
-          color: white;
-          opacity: 0;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          padding: 1.5rem;
-          transition: opacity 0.3s ease;
-        }
+                .media-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.1) 100%);
+                    color: white;
+                    opacity: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    padding: 1.5rem;
+                    transition: opacity 0.3s ease;
+                }
 
-        .project-card:hover .overlay {
-          opacity: 1;
-        }
+                .media-card:hover .media-overlay {
+                    opacity: 1;
+                }
 
-        .overlay h3 {
-          font-size: 1.2rem;
-          margin-bottom: 0.5rem;
-        }
+                .media-overlay h3 {
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    font-size: 1.2rem;
+                    margin-bottom: 0.5rem;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        .overlay p {
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-          opacity: 0.9;
-        }
+                .media-overlay p {
+                    font-family: 'Lora', 'Georgia', serif;
+                    font-size: 0.9rem;
+                    margin-bottom: 1rem;
+                    opacity: 0.9;
+                    line-height: 1.5;
+                }
 
-        .overlay button {
-          background: var(--accent-light);
-          color: white;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 4px;
-          font-size: 0.9rem;
-          cursor: pointer;
-          transition: background 0.2s ease;
-          align-self: flex-start;
-        }
+                .media-overlay button {
+                    background: var(--accent-light);
+                    color: white;
+                    border: none;
+                    padding: 8px 20px;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    align-self: flex-start;
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-weight: 600;
+                }
 
-        .overlay button:hover {
-          background: rgba(122, 158, 217, 0.8);
-        }
+                .media-overlay button:hover {
+                    background: rgba(176, 140, 77, 0.9);
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(176, 140, 77, 0.4);
+                }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-          .design-page {
-            padding: 5rem 1rem 1rem;
-          }
-          
-          .masonry {
-            grid-template-columns: 1fr;
-          }
-        }
-        `}
-            </style>
+                /* Visit Project Page Styles */
+                .visit-project {
+                    padding: 8rem 2rem 2rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+
+                .slideshow {
+                    position: relative;
+                    margin-bottom: 2rem;
+                }
+
+                .slideshow img {
+                    width: 100%;
+                    height: 500px;
+                    object-fit: cover;
+                }
+
+                .prev-arrow, .next-arrow {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    color: white;
+                    padding: 1rem;
+                    cursor: pointer;
+                    font-size: 1.2rem;
+                    transition: all 0.2s ease;
+                }
+
+                .prev-arrow:hover, .next-arrow:hover {
+                    background: rgba(255, 255, 255, 0.2);
+                }
+
+                .prev-arrow {
+                    left: 1rem;
+                }
+
+                .next-arrow {
+                    right: 1rem;
+                }
+
+                .visit-project .project-content {
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    text-align: left;
+                }
+
+                .visit-project .project-content h1 {
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    font-size: 2.2rem;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1.5rem;
+                    font-weight: 700;
+                    letter-spacing: -0.5px;
+                }
+
+                .visit-project .project-content p {
+                    font-family: 'Lora', 'Georgia', serif;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    font-size: 1rem;
+                    margin-bottom: 1.5rem;
+                }
+
+                .visit-project .project-content img {
+                    width: 100%;
+                    height: auto;
+                    margin: 1.5rem 0;
+                }
+
+                @media (max-width: 768px) {
+                    .page-wrapper {
+                        padding: 7rem 1rem 1rem;
+                    }
+                    
+                    .page-title {
+                        font-size: 2rem;
+                    }
+                    
+                    .media-grid {
+                        grid-template-columns: 1fr;
+                    }
+                    
+                    .slideshow img {
+                        height: 300px;
+                    }
+                    
+                    .visit-project {
+                        padding: 7rem 1rem 1rem;
+                    }
+                    
+                    .media-overlay {
+                        padding: 1rem;
+                    }
+                    
+                    .media-overlay h3 {
+                        font-size: 1.1rem;
+                    }
+                    
+                    .media-overlay p {
+                        font-size: 0.85rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .page-title {
+                        font-size: 1.8rem;
+                    }
+                }
+            `}</style>
         </div>
     );
 }

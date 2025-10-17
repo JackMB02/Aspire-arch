@@ -57,82 +57,40 @@ const TopHeader = styled(motion.div)`
     }
 `;
 
-// Logo Section
+// Logo Section - Updated to center the logo
 const LogoSection = styled.div`
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
 
     @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: center;
+        width: 100%;
     }
 `;
 
+// Updated LogoImage - Bigger and without circular border
 const LogoImage = styled.img`
-    height: 50px;
-    width: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    height: 120px;
+    width: auto;
+    object-fit: contain;
     transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 
     &:hover {
-        transform: scale(1.1);
-        border-color: rgba(255, 255, 255, 0.6);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        transform: scale(1.05);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+    }
+
+    @media (max-width: 1024px) {
+        height: 100px;
     }
 
     @media (max-width: 768px) {
-        height: 40px;
-        width: 40px;
-    }
-`;
-
-const LogoText = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    @media (max-width: 768px) {
-        align-items: center;
-    }
-`;
-
-const CompanyName = styled.h1`
-    font-family: "Oswald", "Arial Narrow", sans-serif;
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin: 0;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-
-    @media (max-width: 768px) {
-        font-size: 1.4rem;
+        height: 80px;
     }
 
     @media (max-width: 480px) {
-        font-size: 1.2rem;
-    }
-`;
-
-const CompanyTagline = styled.p`
-    font-family: "Montserrat", sans-serif;
-    font-size: 0.75rem;
-    margin: 0;
-    opacity: 0.9;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-    letter-spacing: 0.5px;
-    font-weight: 300;
-
-    @media (max-width: 768px) {
-        font-size: 0.7rem;
+        height: 60px;
     }
 `;
 
@@ -379,13 +337,8 @@ function Hero() {
                 transition={{ duration: 0.8, delay: 0.2 }}
             >
                 <LogoSection>
-                    <LogoImage src="/office.jpg" alt="ASPIRE Design Lab" />
-                    <LogoText>
-                        <CompanyName>ASPIRE Design Lab</CompanyName>
-                        <CompanyTagline>
-                            Innovative • Sustainable • Inspiring
-                        </CompanyTagline>
-                    </LogoText>
+                    {/* Bigger logo without circular border and no text */}
+                    <LogoImage src="images/hero logo.png" alt="ASPIRE Design Lab" />
                 </LogoSection>
 
                 <SocialMediaContainer>

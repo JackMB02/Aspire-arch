@@ -27,6 +27,35 @@ export const API_ENDPOINTS = {
     ABOUT: `${API_BASE_URL}/thecolleagueuni/about`,
     CONTACTS_ADMIN: `${API_BASE_URL}/thecolleagueuni/contacts`,
   },
+
+  // ===== DESIGN PROJECTS ENDPOINTS =====
+  DESIGN_PROJECTS: {
+    // Public endpoints
+    ALL_PROJECTS: `${API_BASE_URL}/design/projects`,
+    ACADEMIC: `${API_BASE_URL}/design/projects/academic`,
+    PROFESSIONAL: `${API_BASE_URL}/design/projects/professional`,
+    COMPETITION: `${API_BASE_URL}/design/projects/competition`,
+    FEATURED: `${API_BASE_URL}/design/featured`,
+    SINGLE_PROJECT: (id) => `${API_BASE_URL}/design/project/${id}`,
+    BY_SECTOR: (sector) => `${API_BASE_URL}/design/sector/${sector}`,
+    SEARCH: `${API_BASE_URL}/design/search`,
+    SECTORS: `${API_BASE_URL}/design/sectors`,
+    
+    // Admin endpoints
+    ADMIN: {
+      ALL_PROJECTS: `${API_BASE_URL}/design/admin/projects`,
+      ACADEMIC: `${API_BASE_URL}/design/admin/projects/academic`,
+      PROFESSIONAL: `${API_BASE_URL}/design/admin/projects/professional`,
+      COMPETITION: `${API_BASE_URL}/design/admin/projects/competition`,
+      BY_SECTOR: (sector) => `${API_BASE_URL}/design/admin/sector/${sector}`,
+      STATS: `${API_BASE_URL}/design/admin/stats`,
+      CREATE: `${API_BASE_URL}/design/projects`,
+      UPDATE: (id) => `${API_BASE_URL}/design/projects/${id}`,
+      DELETE: (id) => `${API_BASE_URL}/design/projects/${id}`,
+      TOGGLE_PUBLISH: (id) => `${API_BASE_URL}/design/projects/${id}/toggle`,
+      TOGGLE_FEATURED: (id) => `${API_BASE_URL}/design/projects/${id}/toggle-featured`,
+    }
+  },
 };
 
 // Test API connection

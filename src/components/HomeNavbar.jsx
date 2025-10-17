@@ -63,7 +63,7 @@ const NavContainer = styled.nav`
 const Logo = styled(Link)`
     display: flex;
     align-items: center;
-    min-width: 80px;
+    min-width: 200px; /* Increased minimum width */
     transition: transform 0.3s ease;
 
     &:hover {
@@ -71,21 +71,31 @@ const Logo = styled(Link)`
     }
 
     img {
-        height: 32px;
+        height: 50px; /* Increased from 32px to 50px */
+        width: auto;
         object-fit: contain;
         transition: all 0.3s ease;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     @media (max-width: 1024px) {
-        min-width: 70px;
+        min-width: 100px;
         img {
-            height: 28px;
+            height: 45px; /* Increased for tablet */
         }
     }
 
     @media (max-width: 768px) {
+        min-width: 90px;
         img {
-            height: 26px;
+            height: 40px; /* Increased for mobile */
+        }
+    }
+
+    @media (max-width: 480px) {
+        min-width: 80px;
+        img {
+            height: 35px; /* Increased for small mobile */
         }
     }
 `;
@@ -720,7 +730,8 @@ function HomeNavbar() {
         <>
             <NavContainer>
                 <Logo to="/" onClick={closeAllMenus}>
-                    <img src="/office.jpg" alt="ASPIRE Logo" />
+                    {/* Updated to use the hero logo image */}
+                    <img src="/images/hero logo.png" alt="ASPIRE Logo" />
                 </Logo>
 
                 <NavContent>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
 import Hero from "../components/Hero";
 import HomeNavbar from "../components/HomeNavbar";
-import { API_ENDPOINTS } from '../config/app';
+import { API_ENDPOINTS } from '../config/api';
 
 function Home() {
     const [activeTab, setActiveTab] = useState("featured");

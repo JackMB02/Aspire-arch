@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
-import { API_ENDPOINTS } from '../config/app';
+import { API_ENDPOINTS } from '../config/api';
 
 function Contact() {
     const [formData, setFormData] = useState({

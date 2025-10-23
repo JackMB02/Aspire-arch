@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
+import { API_ENDPOINTS } from '../config/app';
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -12,16 +13,13 @@ function Contact() {
     const [error, setError] = useState("");
     const [infoLoading, setInfoLoading] = useState(true);
 
-    // API base URL - IMPORTANT: Add this line
-    const API_BASE = 'http://localhost:4000/api';
-
     // Fetch contact information from backend
     useEffect(() => {
         const fetchContactInfo = async () => {
             try {
                 setInfoLoading(true);
                 // Use absolute URL with port 4000
-                const response = await fetch(`${API_BASE}/contact/info`);
+                const response = await fetch(API_ENDPOINTS.CONTACT_INFO);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,7 +60,7 @@ function Contact() {
 
         try {
             // Use absolute URL with port 4000
-            const response = await fetch(`${API_BASE}/contact/submit`, {
+            const response = await fetch(API_ENDPOINTS.CONTACT_SUBMIT, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -88,7 +86,7 @@ function Contact() {
             console.error('Error submitting form:', error);
             
             if (error.name === 'TypeError') {
-                setError(`Cannot connect to server on port 4000. Please make sure the backend is running. Error: ${error.message}`);
+                setError(`Cannot connect to server. Please try again later. Error: ${error.message}`);
             } else {
                 setError(error.message || "Sorry, there was an error submitting your message. Please try again.");
             }

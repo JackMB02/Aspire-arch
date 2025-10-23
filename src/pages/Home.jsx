@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
 import Hero from "../components/Hero";
 import HomeNavbar from "../components/HomeNavbar";
+import { API_ENDPOINTS } from '../config/app';
 
 function Home() {
     const [activeTab, setActiveTab] = useState("featured");
@@ -12,9 +13,6 @@ function Home() {
     const [error, setError] = useState(null);
     const [dataSource, setDataSource] = useState('');
 
-    // Use absolute URL for now to avoid proxy issues
-    const API_BASE = 'http://localhost:4000/api';
-
     // Fetch all home page data
     useEffect(() => {
         const fetchHomeData = async () => {
@@ -22,9 +20,9 @@ function Home() {
                 setLoading(true);
                 setError(null);
                 setDataSource('');
-                console.log('🔍 Fetching home page data from:', `${API_BASE}/home`);
+                console.log('🔍 Fetching home page data from:', API_ENDPOINTS.HOME);
 
-                const response = await fetch(`${API_BASE}/home`);
+                const response = await fetch(API_ENDPOINTS.HOME);
                 console.log('📡 Response status:', response.status, response.statusText);
                 
                 // Check if response is HTML (error page) instead of JSON
@@ -75,7 +73,7 @@ function Home() {
         };
 
         fetchHomeData();
-    }, [API_BASE]);
+    }, []);
 
     // Mock data fallback
     const getMockFeaturedDesigns = () => [
@@ -183,7 +181,7 @@ function Home() {
                             <div className="loading-spinner"></div>
                             <p>Loading content from backend...</p>
                             <p style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem' }}>
-                                Connecting to: {API_BASE}/home
+                                Connecting to: {API_ENDPOINTS.HOME}
                             </p>
                         </div>
                     </div>
@@ -245,7 +243,7 @@ function Home() {
                             <div className="error-banner-content">
                                 <strong>Backend Connection Issue:</strong> {error}
                                 <br />
-                                <small>Showing demo data. Make sure your backend server is running on port 4000.</small>
+                                <small>Showing demo data. Make sure your backend server is running.</small>
                                 <button 
                                     className="retry-btn-small"
                                     onClick={() => window.location.reload()}

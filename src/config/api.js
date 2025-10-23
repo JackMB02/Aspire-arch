@@ -1,11 +1,21 @@
-// src/config/api.js
-const API_BASE_URL = 'http://localhost:4000/api';
+// src/config/app.js
+
+// Dynamic API base URL that works everywhere
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:4000/api' 
+  : 'https://aspire-arch-server.onrender.com/api';
+
+console.log('🌐 API Base URL:', API_BASE_URL);
+console.log('🏠 Current Host:', window.location.hostname);
 
 export const API_ENDPOINTS = {
   // Test endpoints
   ROOT: `${API_BASE_URL}`,
   TEST: `${API_BASE_URL}/test`,
   HEALTH: `${API_BASE_URL}/health`,
+  
+  // Home page endpoint
+  HOME: `${API_BASE_URL}/home`,
   
   // Auth endpoints
   LOGIN: `${API_BASE_URL}/auth/login`,
@@ -87,6 +97,22 @@ export const apiRequest = async (endpoint, options = {}) => {
     return await response.json();
   } catch (error) {
     console.error('API request failed:', error);
+    throw error;
+  }
+};
+
+// Simple fetch helper for pages
+export const fetchAPI = async (endpoint) => {
+  try {
+    const response = await fetch(endpoint);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('API Error:', error);
     throw error;
   }
 };

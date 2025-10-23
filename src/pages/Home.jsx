@@ -59,7 +59,7 @@ function Home() {
                 }
 
             } catch (err) {
-                console.error('💥 Error fetching home data:', err);
+                console.error(' Error  fetching Home data:', err);
                 setError(err.message);
                 setDataSource('Using demo data due to connection issues');
                 

@@ -3,8 +3,14 @@ import { Routes, Route, Link, useParams } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
 
-// Backend base URL for images
-const BACKEND_BASE_URL = 'http://localhost:4000';
+// Dynamic backend base URL for images
+const getBackendBaseUrl = () => {
+    return window.location.hostname === 'localhost' 
+        ? 'http://localhost:4000'
+        : 'https://aspire-arch-server.onrender.com';
+};
+
+const BACKEND_BASE_URL = getBackendBaseUrl();
 
 // ---------------- PageWrapper ----------------
 const PageWrapper = ({ title, description, projects, loading, error }) => {

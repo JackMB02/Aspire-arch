@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import { API_ENDPOINTS, apiRequest } from "../config/api";
 import { 
     FaLeaf, 
     FaLaptop, 
@@ -25,63 +26,131 @@ import {
     FaComments
 } from "react-icons/fa";
 
+// Dynamic backend base URL for images
+const getBackendBaseUrl = () => {
+    return window.location.hostname === 'localhost' 
+        ? 'http://localhost:4000'
+        : 'https://aspire-arch-server.onrender.com';
+};
+
+const BACKEND_BASE_URL = getBackendBaseUrl();
+
 function WorkshopsTraining() {
-    const workshops = [
-        {
-            title: "Sustainable Design Principles",
-            description: "Learn how to integrate eco-friendly practices into your architectural projects from concept to completion.",
-            tag: "Beginner",
-            duration: "2 Days",
-            date: "June 15-16, 2023",
-            instructor: "Dr. Elena Martinez",
-            icon: FaLeaf,
-        },
-        {
-            title: "BIM Implementation Masterclass",
-            description: "Advanced training on Building Information Modeling workflows for complex architectural projects.",
-            tag: "Advanced",
-            duration: "3 Days",
-            date: "July 5-7, 2023",
-            instructor: "Marcus Johnson",
-            icon: FaLaptop,
-        },
-        {
-            title: "Parametric Design with Rhino & Grasshopper",
-            description: "Hands-on workshop exploring computational design techniques for innovative architectural forms.",
-            tag: "Intermediate",
-            duration: "2 Days",
-            date: "June 22-23, 2023",
-            instructor: "Sophie Chen",
-            icon: FaRulerCombined,
-        },
-        {
-            title: "Architectural Photography",
-            description: "Master the art of capturing buildings and spaces with professional architectural photographer.",
-            tag: "All Levels",
-            duration: "1 Day",
-            date: "July 12, 2023",
-            instructor: "David Wilson",
-            icon: FaCamera,
-        },
-        {
-            title: "Passive House Design Certification",
-            description: "Comprehensive training on passive house standards and certification process.",
-            tag: "Intermediate",
-            duration: "4 Days",
-            date: "August 8-11, 2023",
-            instructor: "Olivia Zhang",
-            icon: FaHome,
-        },
-        {
-            title: "Urban Planning for Sustainable Communities",
-            description: "Learn strategies for creating resilient, sustainable urban environments.",
-            tag: "Advanced",
-            duration: "3 Days",
-            date: "July 19-21, 2023",
-            instructor: "Robert Kim",
-            icon: FaCity,
-        },
-    ];
+    const [workshops, setWorkshops] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchWorkshops();
+    }, []);
+
+    const fetchWorkshops = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            console.log('Fetching workshops...');
+            
+            // For now, use fallback data since API might not be configured for education
+            // const data = await apiRequest(API_ENDPOINTS.EDUCATION.WORKSHOPS);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const sampleWorkshops = [
+                    {
+                        title: "Sustainable Design Principles",
+                        description: "Learn how to integrate eco-friendly practices into your architectural projects from concept to completion.",
+                        tag: "Beginner",
+                        duration: "2 Days",
+                        date: "June 15-16, 2023",
+                        instructor: "Dr. Elena Martinez",
+                        icon: FaLeaf,
+                    },
+                    {
+                        title: "BIM Implementation Masterclass",
+                        description: "Advanced training on Building Information Modeling workflows for complex architectural projects.",
+                        tag: "Advanced",
+                        duration: "3 Days",
+                        date: "July 5-7, 2023",
+                        instructor: "Marcus Johnson",
+                        icon: FaLaptop,
+                    },
+                    {
+                        title: "Parametric Design with Rhino & Grasshopper",
+                        description: "Hands-on workshop exploring computational design techniques for innovative architectural forms.",
+                        tag: "Intermediate",
+                        duration: "2 Days",
+                        date: "June 22-23, 2023",
+                        instructor: "Sophie Chen",
+                        icon: FaRulerCombined,
+                    },
+                    {
+                        title: "Architectural Photography",
+                        description: "Master the art of capturing buildings and spaces with professional architectural photographer.",
+                        tag: "All Levels",
+                        duration: "1 Day",
+                        date: "July 12, 2023",
+                        instructor: "David Wilson",
+                        icon: FaCamera,
+                    },
+                    {
+                        title: "Passive House Design Certification",
+                        description: "Comprehensive training on passive house standards and certification process.",
+                        tag: "Intermediate",
+                        duration: "4 Days",
+                        date: "August 8-11, 2023",
+                        instructor: "Olivia Zhang",
+                        icon: FaHome,
+                    },
+                    {
+                        title: "Urban Planning for Sustainable Communities",
+                        description: "Learn strategies for creating resilient, sustainable urban environments.",
+                        tag: "Advanced",
+                        duration: "3 Days",
+                        date: "July 19-21, 2023",
+                        instructor: "Robert Kim",
+                        icon: FaCity,
+                    },
+                ];
+                setWorkshops(sampleWorkshops);
+                setLoading(false);
+            }, 1000);
+            
+        } catch (err) {
+            console.error('Error fetching workshops:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            Loading workshops...
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
+
+    if (error && workshops.length === 0) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            Error loading workshops: {error}
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
 
     return (
         <AnimatedSection>
@@ -148,59 +217,113 @@ function WorkshopsTraining() {
 }
 
 function TutorialsGuides() {
-    const tutorials = [
-        {
-            title: "Revit for Architectural Documentation",
-            description: "Complete guide to creating professional architectural documentation using Autodesk Revit.",
-            category: "Software",
-            level: "Beginner",
-            format: "Video Series",
-            icon: FaChartBar,
-        },
-        {
-            title: "Sustainable Material Selection",
-            description: "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
-            category: "Materials",
-            level: "Intermediate",
-            format: "PDF Guide",
-            icon: FaSeedling,
-        },
-        {
-            title: "Architectural Rendering with V-Ray",
-            description: "Step-by-step tutorial for creating photorealistic architectural visualizations.",
-            category: "Visualization",
-            level: "Advanced",
-            format: "Video Tutorial",
-            icon: FaPalette,
-        },
-        {
-            title: "Building Code Compliance",
-            description: "Comprehensive reference for navigating building codes and regulations.",
-            category: "Regulations",
-            level: "All Levels",
-            format: "Interactive Guide",
-            icon: FaFileAlt,
-        },
-        {
-            title: "Parametric Facade Design",
-            description: "Advanced techniques for designing complex building envelopes using computational tools.",
-            category: "Design",
-            level: "Advanced",
-            format: "Video Series",
-            icon: FaCubes,
-        },
-        {
-            title: "Client Presentation Techniques",
-            description: "Strategies for effectively communicating design concepts to clients and stakeholders.",
-            category: "Communication",
-            level: "Intermediate",
-            format: "Guidebook",
-            icon: FaComments,
-        },
-    ];
-
+    const [tutorials, setTutorials] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [activeCategory, setActiveCategory] = useState("All");
     const categories = ["All", "Software", "Design", "Materials", "Visualization", "Regulations", "Communication"];
+
+    useEffect(() => {
+        fetchTutorials();
+    }, []);
+
+    const fetchTutorials = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const sampleTutorials = [
+                    {
+                        title: "Revit for Architectural Documentation",
+                        description: "Complete guide to creating professional architectural documentation using Autodesk Revit.",
+                        category: "Software",
+                        level: "Beginner",
+                        format: "Video Series",
+                        icon: FaChartBar,
+                    },
+                    {
+                        title: "Sustainable Material Selection",
+                        description: "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
+                        category: "Materials",
+                        level: "Intermediate",
+                        format: "PDF Guide",
+                        icon: FaSeedling,
+                    },
+                    {
+                        title: "Architectural Rendering with V-Ray",
+                        description: "Step-by-step tutorial for creating photorealistic architectural visualizations.",
+                        category: "Visualization",
+                        level: "Advanced",
+                        format: "Video Tutorial",
+                        icon: FaPalette,
+                    },
+                    {
+                        title: "Building Code Compliance",
+                        description: "Comprehensive reference for navigating building codes and regulations.",
+                        category: "Regulations",
+                        level: "All Levels",
+                        format: "Interactive Guide",
+                        icon: FaFileAlt,
+                    },
+                    {
+                        title: "Parametric Facade Design",
+                        description: "Advanced techniques for designing complex building envelopes using computational tools.",
+                        category: "Design",
+                        level: "Advanced",
+                        format: "Video Series",
+                        icon: FaCubes,
+                    },
+                    {
+                        title: "Client Presentation Techniques",
+                        description: "Strategies for effectively communicating design concepts to clients and stakeholders.",
+                        category: "Communication",
+                        level: "Intermediate",
+                        format: "Guidebook",
+                        icon: FaComments,
+                    },
+                ];
+                setTutorials(sampleTutorials);
+                setLoading(false);
+            }, 1000);
+            
+        } catch (err) {
+            console.error('Error fetching tutorials:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            Loading tutorials...
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
+
+    if (error && tutorials.length === 0) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            Error loading tutorials: {error}
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
 
     return (
         <AnimatedSection>
@@ -268,56 +391,111 @@ function TutorialsGuides() {
 }
 
 function Exhibitions() {
-    const exhibitions = [
-        {
-            title: "Future Cities: Sustainable Urban Futures",
-            description: "Exploring innovative approaches to urban design that address climate change and population growth.",
-            date: "June 1 - August 31, 2023",
-            location: "Main Gallery",
-            curator: "Dr. Amanda Chen",
-            icon: FaCity,
-        },
-        {
-            title: "Material Innovations in Architecture",
-            description: "Showcasing cutting-edge materials and their applications in contemporary architecture.",
-            date: "July 15 - September 15, 2023",
-            location: "Materials Gallery",
-            curator: "Prof. Michael Rodriguez",
-            icon: FaCubes,
-        },
-        {
-            title: "Digital Fabrication: From Concept to Construction",
-            description: "Exhibition of projects demonstrating advanced digital fabrication techniques.",
-            date: "September 1 - November 30, 2023",
-            location: "Technology Pavilion",
-            curator: "Alexandra Wong",
-            icon: FaLaptop,
-        },
-        {
-            title: "Women in Architecture: Pioneers and Innovators",
-            description: "Celebrating the contributions of women architects throughout history and today.",
-            date: "October 10 - December 20, 2023",
-            location: "Heritage Hall",
-            curator: "Sarah Johnson",
-            icon: FaUsers,
-        },
-        {
-            title: "Adaptive Reuse: Transforming Existing Structures",
-            description: "Exhibition featuring innovative adaptive reuse projects from around the world.",
-            date: "November 5, 2023 - January 15, 2024",
-            location: "Main Gallery",
-            curator: "David Kim",
-            icon: FaHome,
-        },
-        {
-            title: "Biomimicry in Architecture",
-            description: "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
-            date: "January 20 - March 30, 2024",
-            location: "Nature & Design Pavilion",
-            curator: "Elena Martinez",
-            icon: FaLeaf,
-        },
-    ];
+    const [exhibitions, setExhibitions] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchExhibitions();
+    }, []);
+
+    const fetchExhibitions = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const sampleExhibitions = [
+                    {
+                        title: "Future Cities: Sustainable Urban Futures",
+                        description: "Exploring innovative approaches to urban design that address climate change and population growth.",
+                        date: "June 1 - August 31, 2023",
+                        location: "Main Gallery",
+                        curator: "Dr. Amanda Chen",
+                        icon: FaCity,
+                    },
+                    {
+                        title: "Material Innovations in Architecture",
+                        description: "Showcasing cutting-edge materials and their applications in contemporary architecture.",
+                        date: "July 15 - September 15, 2023",
+                        location: "Materials Gallery",
+                        curator: "Prof. Michael Rodriguez",
+                        icon: FaCubes,
+                    },
+                    {
+                        title: "Digital Fabrication: From Concept to Construction",
+                        description: "Exhibition of projects demonstrating advanced digital fabrication techniques.",
+                        date: "September 1 - November 30, 2023",
+                        location: "Technology Pavilion",
+                        curator: "Alexandra Wong",
+                        icon: FaLaptop,
+                    },
+                    {
+                        title: "Women in Architecture: Pioneers and Innovators",
+                        description: "Celebrating the contributions of women architects throughout history and today.",
+                        date: "October 10 - December 20, 2023",
+                        location: "Heritage Hall",
+                        curator: "Sarah Johnson",
+                        icon: FaUsers,
+                    },
+                    {
+                        title: "Adaptive Reuse: Transforming Existing Structures",
+                        description: "Exhibition featuring innovative adaptive reuse projects from around the world.",
+                        date: "November 5, 2023 - January 15, 2024",
+                        location: "Main Gallery",
+                        curator: "David Kim",
+                        icon: FaHome,
+                    },
+                    {
+                        title: "Biomimicry in Architecture",
+                        description: "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
+                        date: "January 20 - March 30, 2024",
+                        location: "Nature & Design Pavilion",
+                        curator: "Elena Martinez",
+                        icon: FaLeaf,
+                    },
+                ];
+                setExhibitions(sampleExhibitions);
+                setLoading(false);
+            }, 1000);
+            
+        } catch (err) {
+            console.error('Error fetching exhibitions:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            Loading exhibitions...
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
+
+    if (error && exhibitions.length === 0) {
+        return (
+            <AnimatedSection>
+                <div className="education-page-wrapper">
+                    <div className="education-content">
+                        <div className="error-message">
+                            <i className="fas fa-exclamation-triangle"></i>
+                            Error loading exhibitions: {error}
+                        </div>
+                    </div>
+                </div>
+            </AnimatedSection>
+        );
+    }
 
     return (
         <AnimatedSection>
@@ -381,12 +559,37 @@ function Exhibitions() {
 }
 
 function EducationOverview() {
-    const upcomingEvents = [
-        { date: "Jun 15", title: "Sustainable Design Workshop", time: "10:00 AM", icon: FaLeaf },
-        { date: "Jun 22", title: "Parametric Design Masterclass", time: "2:00 PM", icon: FaRulerCombined },
-        { date: "Jul 5", title: "BIM Implementation Training", time: "9:00 AM", icon: FaLaptop },
-        { date: "Jul 12", title: "Architectural Photography Workshop", time: "1:00 PM", icon: FaCamera },
-    ];
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetchUpcomingEvents();
+    }, []);
+
+    const fetchUpcomingEvents = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const sampleEvents = [
+                    { date: "Jun 15", title: "Sustainable Design Workshop", time: "10:00 AM", icon: FaLeaf },
+                    { date: "Jun 22", title: "Parametric Design Masterclass", time: "2:00 PM", icon: FaRulerCombined },
+                    { date: "Jul 5", title: "BIM Implementation Training", time: "9:00 AM", icon: FaLaptop },
+                    { date: "Jul 12", title: "Architectural Photography Workshop", time: "1:00 PM", icon: FaCamera },
+                ];
+                setUpcomingEvents(sampleEvents);
+                setLoading(false);
+            }, 1000);
+            
+        } catch (err) {
+            console.error('Error fetching upcoming events:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
 
     return (
         <AnimatedSection>
@@ -431,16 +634,28 @@ function EducationOverview() {
 
                     <div className="events-section">
                         <h2>Upcoming Events</h2>
-                        <div className="events-grid">
-                            {upcomingEvents.map((event, index) => (
-                                <div key={index} className="event-item">
-                                    <div className="event-icon"><event.icon /></div>
-                                    <div className="event-date">{event.date}</div>
-                                    <h3>{event.title}</h3>
-                                    <p>{event.time}</p>
-                                </div>
-                            ))}
-                        </div>
+                        {loading ? (
+                            <div className="loading-spinner">
+                                <div className="spinner"></div>
+                                Loading events...
+                            </div>
+                        ) : error ? (
+                            <div className="error-message">
+                                <i className="fas fa-exclamation-triangle"></i>
+                                Error loading events
+                            </div>
+                        ) : (
+                            <div className="events-grid">
+                                {upcomingEvents.map((event, index) => (
+                                    <div key={index} className="event-item">
+                                        <div className="event-icon"><event.icon /></div>
+                                        <div className="event-date">{event.date}</div>
+                                        <h3>{event.title}</h3>
+                                        <p>{event.time}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     <div className="membership-section">
@@ -504,6 +719,43 @@ function Education() {
                     max-width: 800px;
                     margin: 0 auto 3rem;
                     text-align: center;
+                }
+
+                /* Loading and Error States */
+                .loading-spinner, .error-message {
+                    padding: 3rem;
+                    text-align: center;
+                    font-family: 'Lora', 'Georgia', serif;
+                    font-size: 1.1rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .loading-spinner i,
+                .error-message i {
+                    font-size: 2rem;
+                    opacity: 0.7;
+                }
+
+                .spinner {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid rgba(255, 255, 255, 0.3);
+                    border-left: 4px solid rgba(255, 255, 255, 0.8);
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                }
+
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+
+                .error-message {
+                    color: #ff6b6b;
                 }
 
                 .stats-grid {

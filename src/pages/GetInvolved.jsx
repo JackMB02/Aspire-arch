@@ -1,47 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import { API_ENDPOINTS, apiRequest } from "../config/api";
 import { FaUser, FaBuilding, FaGraduationCap, FaStar } from "react-icons/fa";
 
-const API_BASE_URL = 'http://localhost:4000/api';
+// Dynamic backend base URL for images
+const getBackendBaseUrl = () => {
+    return window.location.hostname === 'localhost' 
+        ? 'http://localhost:4000'
+        : 'https://aspire-arch-server.onrender.com';
+};
 
-// API Helper Functions
-async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`;
-  
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-    ...options,
-  };
-
-  try {
-    console.log(`🔄 API Request: ${options.method || 'GET'} ${url}`);
-    
-    const response = await fetch(url, config);
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ API Error Response:', errorText);
-      let errorData;
-      try {
-        errorData = JSON.parse(errorText);
-      } catch {
-        errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
-      }
-      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    console.log(`✅ API Success for ${endpoint}`);
-    return data;
-  } catch (error) {
-    console.error('❌ API Request failed:', error);
-    throw error;
-  }
-}
+const BACKEND_BASE_URL = getBackendBaseUrl();
 
 function MembershipPartnerships() {
     const [formData, setFormData] = useState({
@@ -121,7 +91,7 @@ function MembershipPartnerships() {
         setMessage('');
 
         try {
-            await apiRequest('/get-involved/membership', {
+            await apiRequest('/api/get-involved/membership', {
                 method: 'POST',
                 body: JSON.stringify(formData)
             });
@@ -363,7 +333,7 @@ function DonateSupport() {
                 }
             });
 
-            const response = await fetch(`${API_BASE_URL}/get-involved/donations`, {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/get-involved/donations`, {
                 method: 'POST',
                 body: submitData
             });
@@ -661,7 +631,7 @@ function CommunityFeedback() {
         setMessage('');
 
         try {
-            await apiRequest('/get-involved/feedback', {
+            await apiRequest('/api/get-involved/feedback', {
                 method: 'POST',
                 body: JSON.stringify(feedbackForm)
             });
@@ -689,7 +659,7 @@ function CommunityFeedback() {
         setMessage('');
 
         try {
-            await apiRequest('/get-involved/ideas', {
+            await apiRequest('/api/get-involved/ideas', {
                 method: 'POST',
                 body: JSON.stringify(ideasForm)
             });
@@ -1034,8 +1004,6 @@ function CommunityFeedback() {
         </AnimatedSection>
     );
 }
-
-// ... (Keep the GetInvolvedOverview and GetInvolved components exactly as they were)
 
 function GetInvolvedOverview() {
     return (

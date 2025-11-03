@@ -1,474 +1,554 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { FaBook, FaStar, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
 import AnimatedSection from "../components/AnimatedSection";
 
+const API_BASE = 'http://localhost:4000/api/thecolleagueuni';
+
+// Loading component
+function LoadingSpinner() {
+  return (
+    <div className="loading-spinner">
+      <div className="spinner"></div>
+      <p>Loading...</p>
+    </div>
+  );
+}
+
+// Error component
+function ErrorMessage({ message, onRetry }) {
+  return (
+    <div className="error-message">
+      <p>Error: {message}</p>
+      <button onClick={onRetry} className="retry-btn">
+        Try Again
+      </button>
+    </div>
+  );
+}
+
 function UniAbout() {
-    return (
-        <AnimatedSection>
-            <div className="uni-page-wrapper">
-                <div className="uni-content">
-                    <h1 className="uni-title">About TheAchi.ColleaguesLab</h1>
-                    <p className="uni-description">
-                        Curious About What Rwandan (In) Architecture Really Is?
-                    </p>
-                    <p className="uni-description">
-                        Program of Rwandan architecture students passionate about learning, working, and
-                        studying together. Through the lens of culture, society, and practice, we explore how
-                        architecture can respond to today's challenges and give communities a stronger voice in
-                        shaping their spaces.
-                    </p>
-                    <p className="uni-description">
-                        We welcome architecture students, architects, professionals (engineers, sociologists,
-                        anthropologist) and anyone even without an architecture background who believes in
-                        design that speaks for the people.
-                    </p>
-                    <p className="uni-description">
-                        Let's connect and shape a future where architecture speaks for everyone.
-                    </p>
+  const [aboutData, setAboutData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-                    <div className="features-grid">
-                        <div className="feature-card">
-                            <div className="feature-icon">
-                                <FaBook />
-                            </div>
-                            <h3>Our Story</h3>
-                            <p>
-                                Founded in 2025 by Arsène MANZI MUGENI — the founder of ASPIRE Design Lab — during his
-                                second year of architecture school, TheArchi.ColleaguesLab began as a project within ASPIRE
-                                Design Lab. It was born out of a strong intention to bridge the gap between academia and
-                                professional practice, creating a space where students could learn collaboratively, share
-                                knowledge, and experiment with ideas that go beyond the classroom.
-                            </p>
-                            <p>
-                                The initiative quickly evolved into a peer-driven platform for research, dialogue, and design
-                                exploration, encouraging young architects to engage with culture, society, and the environment
-                                in meaningful ways.
-                            </p>
-                        </div>
+  const fetchAboutData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${API_BASE}/about`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch about data');
+      }
+      
+      setAboutData(data.data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching about data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                        <div className="feature-card">
-                            <div className="feature-icon">
-                                <FaBook />
-                            </div>
-                            <h3>Impact to Be Made</h3>
-                            <p>
-                                As students, we are not just preparing for the future — we are shaping it. We experiment,
-                                question, and collaborate to influence how spaces are designed to reflect culture, support
-                                communities, and solve real-world challenges.
-                            </p>
-                            <p>
-                                As Aldo Rossi reminds us, "Architecture is the fixed stage for human events." By rethinking how
-                                these "stages" are designed, we aim to create environments that nurture human dignity,
-                                belonging, and possibility.
-                            </p>
-                        </div>
+  useEffect(() => {
+    fetchAboutData();
+  }, []);
 
-                        <div className="feature-card">
-                            <div className="feature-icon">
-                                <FaStar />
-                            </div>
-                            <h3>Why This Matters</h3>
-                            <p>
-                                Architecture is more than buildings — it is a tool for change. As Le Corbusier said, "Architecture
-                                is the learned game, correct and magnificent, of forms assembled in the light." If this is true, then
-                                as students, we have the freedom to play, test bold ideas, and reimagine what that game could
-                                be in our cultural and social context.
-                            </p>
-                            <p>
-                                Our student years are the perfect laboratory for innovation — a space where failure becomes a
-                                teacher and ideas can be fearlessly explored. This is why we choose to act now: to lay the
-                                foundation for a more thoughtful, inclusive, and responsive built environment.
-                            </p>
-                        </div>
-                    </div>
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} onRetry={fetchAboutData} />;
 
+  return (
+    <AnimatedSection>
+      <div className="uni-page-wrapper">
+        <div className="uni-content">
+          <h1 className="uni-title">{aboutData?.title || "About The Architecture Colleagues Lab"}</h1>
+          <p className="uni-description">
+            {aboutData?.description || "Curious About What Rwandan (In) Architecture Really Is?"}
+          </p>
+          
+          {aboutData?.content?.map((paragraph, index) => (
+            <p key={index} className="uni-description">
+              {paragraph}
+            </p>
+          ))}
 
+          <div className="features-grid">
+            {aboutData?.features?.map((feature, index) => (
+              <div key={index} className="feature-card">
+                <div className="feature-icon">
+                  {index === 2 ? <FaStar /> : <FaBook />}
                 </div>
-            </div>
-        </AnimatedSection>
-    );
+                <h3>{feature.title}</h3>
+                <p>{feature.content}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function UniMission() {
-    const values = [
-        {
-            title: "Collaborative Learning",
-            description:
-                "We believe that the most powerful learning happens through collaboration, not competition.",
-        },
-        {
-            title: "Accessibility",
-            description:
-                "Making high-quality learning resources available to professionals at all stages of their careers.",
-        },
-        {
-            title: "Innovation",
-            description:
-                "Continuously evolving to incorporate the latest research in learning science and technology.",
-        },
-        {
-            title: "Community",
-            description:
-                "Building supportive, inclusive communities where members feel valued and empowered.",
-        },
-    ];
+  const [missionData, setMissionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-        <AnimatedSection>
-            <div className="uni-page-wrapper">
-                <div className="uni-content">
-                    <h1 className="uni-title">Our Mission & Vision</h1>
+  const fetchMissionData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${API_BASE}/mission`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch mission data');
+      }
+      
+      setMissionData(data.data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching mission data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    <div className="mission-section">
-                        <h2>Our Mission</h2>
-                        <p>
-                            To democratize professional education by creating a
-                            global platform where colleagues can learn from each
-                            other, regardless of geographic, economic, or
-                            hierarchical barriers.
-                        </p>
-                    </div>
+  useEffect(() => {
+    fetchMissionData();
+  }, []);
 
-                    <div className="mission-section">
-                        <h2>Our Vision</h2>
-                        <p>
-                            We envision a world where professional development
-                            is continuous, collaborative, and integrated into
-                            daily work life through peer connections and organic
-                            learning.
-                        </p>
-                    </div>
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} onRetry={fetchMissionData} />;
 
-                    <h2 className="values-title">Our Values</h2>
+  return (
+    <AnimatedSection>
+      <div className="uni-page-wrapper">
+        <div className="uni-content">
+          <h1 className="uni-title">Our Mission & Vision</h1>
 
-                    <div className="values-grid">
-                        {values.map((value, index) => (
-                            <div key={index} className="value-card">
-                                <h3>{value.title}</h3>
-                                <p>{value.description}</p>
-                            </div>
-                        ))}
-                    </div>
+          <div className="mission-section">
+            <h2>Our Mission</h2>
+            <p>{missionData?.mission}</p>
+          </div>
 
-                    <div className="initiatives-section">
-                        <h2>2025 Initiatives</h2>
-                        <ul className="initiatives-list">
-                            <li>
-                                Launch mentorship program connecting emerging
-                                professionals with industry leaders
-                            </li>
-                            <li>
-                                Develop 50 new micro-certifications in
-                                high-demand skills
-                            </li>
-                            <li>
-                                Expand language support to include 10 additional
-                                languages
-                            </li>
-                            <li>
-                                Establish partnerships with 100 organizations
-                            </li>
-                            <li>
-                                Create accessibility features for universal
-                                usability
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </AnimatedSection>
-    );
+          <div className="mission-section">
+            <h2>Our Vision</h2>
+            <p>{missionData?.vision}</p>
+          </div>
+
+          <h2 className="values-title">Our Values</h2>
+
+          <div className="values-grid">
+            {missionData?.values?.map((value, index) => (
+              <div key={index} className="value-card">
+                <h3>{value.title}</h3>
+                <p>{value.description}</p>
+              </div>
+            ))}
+          </div>
+
+          <InitiativesSection />
+        </div>
+      </div>
+    </AnimatedSection>
+  );
+}
+
+// Separate component for initiatives to keep it reusable
+function InitiativesSection() {
+  const [initiatives, setInitiatives] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchInitiatives = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${API_BASE}/initiatives`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch initiatives');
+      }
+      
+      setInitiatives(data.data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching initiatives:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInitiatives();
+  }, []);
+
+  if (loading) return <div className="loading-spinner">Loading initiatives...</div>;
+  if (error) return <ErrorMessage message={error} onRetry={fetchInitiatives} />;
+
+  return (
+    <div className="initiatives-section">
+      <h2>2025 Initiatives</h2>
+      <ul className="initiatives-list">
+        {initiatives.map((initiative, index) => (
+          <li key={initiative.id || index}>
+            <strong>{initiative.title}:</strong> {initiative.description}
+            {initiative.target_date && (
+              <span> (Target: {new Date(initiative.target_date).toLocaleDateString()})</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 function UniTeam() {
-    const teamMembers = [
-        {
-            name: "Dr. Elena Rodriguez",
-            role: "Founder & CEO",
-            initial: "ER",
-            bio: "Former professor of educational technology with 15+ years experience in digital learning platforms.",
-        },
-        {
-            name: "Marcus Chen",
-            role: "CTO",
-            initial: "MC",
-            bio: "Software engineer specializing in scalable learning management systems and AI-driven recommendations.",
-        },
-        {
-            name: "Olivia Johnson",
-            role: "Head of Learning",
-            initial: "OJ",
-            bio: "Curriculum designer focused on adult learning principles and professional development pathways.",
-        },
-        {
-            name: "David Kim",
-            role: "Community Director",
-            initial: "DK",
-            bio: "Expert in building engaged online communities and fostering meaningful professional connections.",
-        },
-    ];
+  const [teamMembers, setTeamMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    return (
-        <AnimatedSection>
-            <div className="uni-page-wrapper">
-                <div className="uni-content">
-                    <h1 className="uni-title">Our Team</h1>
-                    <p className="uni-description">
-                        Meet the passionate individuals behind TheAchi.ColleaguesLab.
-                        Our diverse team brings together expertise in education,
-                        technology, community building, and design to create
-                        transformative learning experiences.
-                    </p>
+  const fetchTeamData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`${API_BASE}/team`);
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to fetch team data');
+      }
+      
+      setTeamMembers(data.data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Error fetching team data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    <div className="team-grid">
-                        {teamMembers.map((member, index) => (
-                            <div key={index} className="team-card">
-                                <div className="team-avatar">
-                                    {member.initial}
-                                </div>
-                                <h3>{member.name}</h3>
-                                <p className="team-role">{member.role}</p>
-                                <p className="team-bio">{member.bio}</p>
-                            </div>
-                        ))}
-                    </div>
+  useEffect(() => {
+    fetchTeamData();
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} onRetry={fetchTeamData} />;
+
+  return (
+    <AnimatedSection>
+      <div className="uni-page-wrapper">
+        <div className="uni-content">
+          <h1 className="uni-title">Our Team</h1>
+          <p className="uni-description">
+            Meet the passionate individuals behind The Architecture Colleagues Lab.
+            Our diverse team brings together expertise in education,
+            technology, community building, and design to create
+            transformative learning experiences.
+          </p>
+
+          <div className="team-grid">
+            {teamMembers.map((member, index) => (
+              <div key={member.id || index} className="team-card">
+                <div className="team-avatar">
+                  {member.name.split(' ').map(n => n[0]).join('')}
                 </div>
-            </div>
-        </AnimatedSection>
-    );
+                <h3>{member.name}</h3>
+                <p className="team-role">{member.role}</p>
+                <p className="team-bio">{member.bio}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function UniContact() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
     });
+  };
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send message');
+      }
+
+      if (data.success) {
+        setSubmitStatus({
+          type: 'success',
+          message: data.message
         });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert("Thank you for your message! We will get back to you soon.");
         setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: "",
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
         });
-    };
+      }
+    } catch (error) {
+      setSubmitStatus({
+        type: 'error',
+        message: error.message || 'Failed to send message. Please try again.'
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
-    return (
-        <AnimatedSection>
-            <div className="uni-page-wrapper">
-                <div className="uni-content">
-                    <h1 className="uni-title">Contact Us</h1>
-                    <p className="uni-description">
-                        Have questions about TheAchi.ColleaguesLab? Want to explore
-                        partnership opportunities? We'd love to hear from you.
-                    </p>
+  return (
+    <AnimatedSection>
+      <div className="uni-page-wrapper">
+        <div className="uni-content">
+          <h1 className="uni-title">Contact Us</h1>
+          <p className="uni-description">
+            Have questions about The Architecture Colleagues Lab? Want to explore
+            partnership opportunities? We'd love to hear from you.
+          </p>
 
-                    <div className="contact-info-grid">
-                        <div className="contact-info">
-                            <div className="contact-icon">
-                                <FaMapMarkerAlt />
-                            </div>
-                            <h3>Location</h3>
-                            <p>
-                                Kigali, Rwanda
-                                <br />
-                                East Africa
-                            </p>
-                        </div>
-
-                        <div className="contact-info">
-                            <div className="contact-icon">
-                                <FaPhone />
-                            </div>
-                            <h3>Phone</h3>
-                            <p>
-                                General: +250 (788) 123-456
-                                <br />
-                                Support: +250 (788) 654-321
-                            </p>
-                        </div>
-
-                        <div className="contact-info">
-                            <div className="contact-icon">
-                                <FaEnvelope />
-                            </div>
-                            <h3>Email</h3>
-                            <p>
-                                hello@theachi.colleagueslab.com
-                                <br />
-                                support@theachi.colleagueslab.com
-                                <br />
-                                partners@theachi.colleagueslab.com
-                            </p>
-                        </div>
-                    </div>
-
-                    <div className="contact-form-section">
-                        <h2>Send Us a Message</h2>
-                        <form onSubmit={handleSubmit} className="contact-form">
-                            <div className="form-row">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Your Name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Your Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <input
-                                type="text"
-                                name="subject"
-                                placeholder="Subject"
-                                value={formData.subject}
-                                onChange={handleChange}
-                                required
-                            />
-                            <textarea
-                                name="message"
-                                placeholder="Your Message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                            ></textarea>
-                            <button type="submit" className="submit-btn">
-                                Send Message
-                            </button>
-                        </form>
-                    </div>
-                </div>
+          <div className="contact-info-grid">
+            <div className="contact-info">
+              <div className="contact-icon">
+                <FaMapMarkerAlt />
+              </div>
+              <h3>Location</h3>
+              <p>
+                Kigali, Rwanda
+                <br />
+                East Africa
+              </p>
             </div>
-        </AnimatedSection>
-    );
+
+            <div className="contact-info">
+              <div className="contact-icon">
+                <FaPhone />
+              </div>
+              <h3>Phone</h3>
+              <p>
+                General: +250 (788) 123-456
+                <br />
+                Support: +250 (788) 654-321
+              </p>
+            </div>
+
+            <div className="contact-info">
+              <div className="contact-icon">
+                <FaEnvelope />
+              </div>
+              <h3>Email</h3>
+              <p>
+                hello@thearchitecturecolleagueslab.com
+                <br />
+                support@thearchitecturecolleagueslab.com
+                <br />
+                partners@thearchitecturecolleagueslab.com
+              </p>
+            </div>
+          </div>
+
+          <div className="contact-form-section">
+            <h2>Send Us a Message</h2>
+            
+            {submitStatus && (
+              <div className={`submit-status ${submitStatus.type}`}>
+                {submitStatus.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="contact-form">
+              <div className="form-row">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  disabled={submitting}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  disabled={submitting}
+                />
+              </div>
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                value={formData.subject}
+                onChange={handleChange}
+                required
+                disabled={submitting}
+              />
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                disabled={submitting}
+              ></textarea>
+              <button 
+                type="submit" 
+                className="submit-btn"
+                disabled={submitting}
+              >
+                {submitting ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function UniOverview() {
-    return (
-        <AnimatedSection>
-            <div className="uni-page-wrapper">
-                <div className="uni-content overview-content">
-                    <h1 className="uni-main-title">TheAchi.ColleaguesLab</h1>
-                    <p className="uni-main-description">
-                        Curious About What Rwandan (In) Architecture Really Is?
-                    </p>
-                    <p className="uni-main-description">
-                        Program of Rwandan architecture students passionate about learning, working, and
-                        studying together. Through the lens of culture, society, and practice, we explore how
-                        architecture can respond to today's challenges and give communities a stronger voice in
-                        shaping their spaces.
-                    </p>
-                    <p className="uni-main-description">
-                        We welcome architecture students, architects, professionals (engineers, sociologists,
-                        anthropologist) and anyone even without an architecture background who believes in
-                        design that speaks for the people.
-                    </p>
-                    <p className="uni-main-description">
-                        Let's connect and shape a future where architecture speaks for everyone.
-                    </p>
+  return (
+    <AnimatedSection>
+      <div className="uni-page-wrapper">
+        <div className="uni-content overview-content">
+          <h1 className="uni-main-title">The Architecture Colleagues Lab</h1>
+          <p className="uni-main-description">
+            Curious About What Rwandan (In) Architecture Really Is?
+          </p>
+          <p className="uni-main-description">
+            Program of Rwandan architecture students passionate about learning, working, and
+            studying together. Through the lens of culture, society, and practice, we explore how
+            architecture can respond to today's challenges and give communities a stronger voice in
+            shaping their spaces.
+          </p>
+          <p className="uni-main-description">
+            We welcome architecture students, architects, professionals (engineers, sociologists,
+            anthropologist) and anyone even without an architecture background who believes in
+            design that speaks for the people.
+          </p>
+          <p className="uni-main-description">
+            Let's connect and shape a future where architecture speaks for everyone.
+          </p>
 
-                    <div className="uni-navigation">
-                        <Link to="about" className="nav-link">
-                            About Us
-                        </Link>
-                        <Link to="mission" className="nav-link">
-                            Our Mission
-                        </Link>
-                        <Link to="team" className="nav-link">
-                            Our Team
-                        </Link>
-                        <Link to="contact" className="nav-link">
-                            Contact Us
-                        </Link>
-                    </div>
+          <div className="uni-navigation">
+            <Link to="about" className="nav-link">
+              About Us
+            </Link>
+            <Link to="mission" className="nav-link">
+              Our Mission
+            </Link>
+            <Link to="team" className="nav-link">
+              Our Team
+            </Link>
+            <Link to="contact" className="nav-link">
+              Contact Us
+            </Link>
+          </div>
 
-
-
-                    <div className="how-it-works">
-                        <h2>How It Works</h2>
-                        <div className="process-grid">
-                            <div className="process-step">
-                                <div className="step-number">1</div>
-                                <h3>Create Profile</h3>
-                                <p>
-                                    Build your professional profile and identify
-                                    your skills and interests.
-                                </p>
-                            </div>
-                            <div className="process-step">
-                                <div className="step-number">2</div>
-                                <h3>Find Colleagues</h3>
-                                <p>
-                                    Connect with professionals who have
-                                    complementary skills and knowledge.
-                                </p>
-                            </div>
-                            <div className="process-step">
-                                <div className="step-number">3</div>
-                                <h3>Learn Together</h3>
-                                <p>
-                                    Participate in learning circles, workshops,
-                                    and knowledge exchanges.
-                                </p>
-                            </div>
-                            <div className="process-step">
-                                <div className="step-number">4</div>
-                                <h3>Grow Career</h3>
-                                <p>
-                                    Apply new skills, earn micro-credentials,
-                                    and advance your career.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div className="how-it-works">
+            <h2>How It Works</h2>
+            <div className="process-grid">
+              <div className="process-step">
+                <div className="step-number">1</div>
+                <h3>Create Profile</h3>
+                <p>
+                  Build your professional profile and identify
+                  your skills and interests.
+                </p>
+              </div>
+              <div className="process-step">
+                <div className="step-number">2</div>
+                <h3>Find Colleagues</h3>
+                <p>
+                  Connect with professionals who have
+                  complementary skills and knowledge.
+                </p>
+              </div>
+              <div className="process-step">
+                <div className="step-number">3</div>
+                <h3>Learn Together</h3>
+                <p>
+                  Participate in learning circles, workshops,
+                  and knowledge exchanges.
+                </p>
+              </div>
+              <div className="process-step">
+                <div className="step-number">4</div>
+                <h3>Grow Career</h3>
+                <p>
+                  Apply new skills, earn micro-credentials,
+                  and advance your career.
+                </p>
+              </div>
             </div>
-        </AnimatedSection>
-    );
+          </div>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
 }
 
 function TheColleagueUni() {
-    return (
-        <div
-            className="uni-container"
-            style={{
-                background: "var(--primary-dark)",
-                minHeight: "100vh",
-                color: "rgba(255, 255, 255, 0.9)",
-            }}
-        >
-            <Routes>
-                <Route path="about" element={<UniAbout />} />
-                <Route path="mission" element={<UniMission />} />
-                <Route path="team" element={<UniTeam />} />
-                <Route path="contact" element={<UniContact />} />
-                <Route path="*" element={<UniOverview />} />
-            </Routes>
+  return (
+    <div
+      className="uni-container"
+      style={{
+        background: "var(--primary-dark)",
+        minHeight: "100vh",
+        color: "rgba(255, 255, 255, 0.9)",
+      }}
+    >
+      <Routes>
+        <Route path="about" element={<UniAbout />} />
+        <Route path="mission" element={<UniMission />} />
+        <Route path="team" element={<UniTeam />} />
+        <Route path="contact" element={<UniContact />} />
+        <Route path="*" element={<UniOverview />} />
+      </Routes>
 
-            <style>
-                {`
+      <style>
+        {`
+        @import url('https://fonts.googleapis.com/css2?family=Futura&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+        
         .uni-container {
           min-height: 100vh;
           background: var(--primary-dark);
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
         }
 
         .uni-page-wrapper {
@@ -480,32 +560,34 @@ function TheColleagueUni() {
         .uni-content {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 0 1rem;
+          padding: 0 2rem;
+          text-align: center;
         }
 
         .overview-content {
           text-align: center;
         }
 
-        .uni-title {
+        /* Font Styles */
+        .uni-title, .uni-main-title {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-size: 2.2rem;
           font-weight: 700;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
           text-align: center;
+          letter-spacing: -0.5px;
         }
 
         .uni-main-title {
           font-size: 2.5rem;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1.5rem;
         }
 
-        .uni-description {
+        .uni-description, .uni-main-description {
+          font-family: 'Lora', 'Georgia', serif;
           font-size: 1rem;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
+          line-height: 1.7;
           max-width: 800px;
           margin: 0 auto 2.5rem;
           text-align: center;
@@ -513,12 +595,39 @@ function TheColleagueUni() {
 
         .uni-main-description {
           font-size: 1.1rem;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
           max-width: 700px;
-          margin: 0 auto 3rem;
         }
 
+        /* Navigation */
+        .uni-navigation {
+          display: flex;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-bottom: 3rem;
+          flex-wrap: wrap;
+        }
+
+        .nav-link {
+          padding: 8px 20px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 0.95rem;
+          color: rgba(255, 255, 255, 0.8);
+          text-decoration: none;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 100;
+          letter-spacing: 0.5px;
+        }
+
+        .nav-link:hover {
+          border-color: var(--accent-light);
+          color: var(--accent-light);
+        }
+
+        /* Feature Cards */
         .features-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -528,7 +637,7 @@ function TheColleagueUni() {
 
         .feature-card {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -555,48 +664,58 @@ function TheColleagueUni() {
         }
 
         .feature-card h3 {
-          font-size: 1.2rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          font-size: 1.3rem;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .feature-card p {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.7;
+          font-size: 0.95rem;
+          text-align: left;
         }
 
-
-
+        /* Mission Sections */
         .mission-section {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           margin-bottom: 1.5rem;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
         }
 
         .mission-section h2 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .mission-section p {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.7;
+          font-size: 1rem;
         }
 
+        /* Values */
         .values-title {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           margin: 2.5rem 0 1.5rem;
           text-align: center;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .values-grid {
@@ -608,11 +727,12 @@ function TheColleagueUni() {
 
         .value-card {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(255, 255, 255, 0.1);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
+          text-align: center;
         }
 
         .value-card:hover {
@@ -621,44 +741,55 @@ function TheColleagueUni() {
         }
 
         .value-card h3 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
           font-size: 1.2rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .value-card p {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.7;
+          font-size: 0.95rem;
         }
 
+        /* Initiatives */
         .initiatives-section {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
         }
 
         .initiatives-section h2 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .initiatives-list {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
+          line-height: 1.7;
           padding-left: 1.2rem;
-          font-size: 0.9rem;
+          font-size: 0.95rem;
+          text-align: left;
+          display: inline-block;
         }
 
         .initiatives-list li {
           margin-bottom: 0.5rem;
         }
 
+        /* Team */
         .team-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -668,7 +799,7 @@ function TheColleagueUni() {
 
         .team-card {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -693,28 +824,36 @@ function TheColleagueUni() {
           font-size: 1.5rem;
           font-weight: bold;
           margin: 0 auto 1rem;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
         }
 
         .team-card h3 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 0.5rem;
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .team-role {
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
           color: var(--accent-light);
-          font-weight: 600;
+          font-weight: 300;
           margin-bottom: 1rem;
           font-size: 0.9rem;
+          letter-spacing: 0.5px;
         }
 
         .team-bio {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
+          line-height: 1.7;
           font-size: 0.9rem;
         }
 
+        /* Contact */
         .contact-info-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -724,7 +863,7 @@ function TheColleagueUni() {
 
         .contact-info {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           text-align: center;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -751,38 +890,47 @@ function TheColleagueUni() {
         }
 
         .contact-info h3 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1rem;
           font-size: 1.2rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .contact-info p {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.7;
+          font-size: 0.95rem;
         }
 
+        /* Contact Form */
         .contact-form-section {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           margin-top: 2.5rem;
           border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
         }
 
         .contact-form-section h2 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 1.5rem;
-          font-size: 1.3rem;
+          font-size: 1.4rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .contact-form {
           display: flex;
           flex-direction: column;
           gap: 1rem;
+          max-width: 600px;
+          margin: 0 auto;
         }
 
         .form-row {
@@ -800,11 +948,15 @@ function TheColleagueUni() {
           transition: border-color 0.3s ease;
           background: rgba(255, 255, 255, 0.05);
           color: rgba(255, 255, 255, 0.9);
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
         }
 
         .contact-form input::placeholder,
         .contact-form textarea::placeholder {
           color: rgba(255, 255, 255, 0.6);
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 100;
         }
 
         .contact-form input:focus,
@@ -820,66 +972,45 @@ function TheColleagueUni() {
         }
 
         .submit-btn {
+          padding: 8px 20px;
           background: var(--accent-light);
-          color: white;
-          border: none;
-          padding: 0.8rem 1.5rem;
+          border: 1px solid var(--accent-light);
           border-radius: 20px;
-          font-size: 0.9rem;
-          font-weight: 600;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
+          font-size: 0.95rem;
+          color: white;
+          font-weight: 600;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
+          letter-spacing: 0.5px;
         }
 
         .submit-btn:hover {
           background: rgba(176, 140, 77, 0.9);
+          border-color: rgba(176, 140, 77, 0.9);
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(176, 140, 77, 0.3);
         }
 
-        .uni-navigation {
-          display: flex;
-          justify-content: center;
-          gap: 1rem;
-          margin-bottom: 3rem;
-          flex-wrap: wrap;
-        }
-
-        .nav-link {
-          padding: 0.8rem 1.5rem;
-          border-radius: 20px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          background: rgba(255, 255, 255, 0.05);
-          color: rgba(255, 255, 255, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          font-size: 0.9rem;
-        }
-
-        .nav-link:hover {
-          background: var(--accent-light);
-          color: white;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(176, 140, 77, 0.3);
-          border-color: var(--accent-light);
-        }
-
+        /* How It Works */
         .how-it-works {
           background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
+          padding: 2rem;
           border-radius: 0;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
           margin-top: 2.5rem;
           border: 1px solid rgba(255, 255, 255, 0.1);
+          text-align: center;
         }
 
         .how-it-works h2 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           text-align: center;
           margin-bottom: 1.5rem;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .process-grid {
@@ -905,19 +1036,97 @@ function TheColleagueUni() {
           font-size: 1.1rem;
           font-weight: bold;
           margin: 0 auto 1rem;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
         }
 
         .process-step h3 {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.95);
           margin-bottom: 0.5rem;
           font-size: 1.1rem;
           font-weight: 600;
+          letter-spacing: -0.3px;
         }
 
         .process-step p {
+          font-family: 'Lora', 'Georgia', serif;
           color: rgba(255, 255, 255, 0.8);
-          line-height: 1.5;
+          line-height: 1.7;
           font-size: 0.9rem;
+        }
+
+        /* Loading and Error States */
+        .loading-spinner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem 2rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .loading-spinner .spinner {
+          width: 40px;
+          height: 40px;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          border-left: 4px solid var(--accent-light);
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+          text-align: center;
+          padding: 4rem 2rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .retry-btn {
+          padding: 8px 20px;
+          background: var(--accent-light);
+          border: 1px solid var(--accent-light);
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 0.95rem;
+          color: white;
+          font-weight: 600;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-weight: 300;
+          letter-spacing: 0.5px;
+          margin-top: 1rem;
+        }
+
+        .retry-btn:hover {
+          background: rgba(176, 140, 77, 0.9);
+          border-color: rgba(176, 140, 77, 0.9);
+          transform: translateY(-1px);
+        }
+
+        .submit-status {
+          padding: 1rem;
+          margin-bottom: 1.5rem;
+          border-radius: 4px;
+          text-align: center;
+          font-weight: 500;
+        }
+
+        .submit-status.success {
+          background: rgba(76, 175, 80, 0.2);
+          border: 1px solid rgba(76, 175, 80, 0.5);
+          color: #4caf50;
+        }
+
+        .submit-status.error {
+          background: rgba(244, 67, 54, 0.2);
+          border: 1px solid rgba(244, 67, 54, 0.5);
+          color: #f44336;
         }
 
         @media (max-width: 768px) {
@@ -937,10 +1146,6 @@ function TheColleagueUni() {
             grid-template-columns: 1fr;
           }
           
-          .stats-grid, .overview-stats {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          
           .uni-navigation {
             flex-direction: column;
             align-items: center;
@@ -953,6 +1158,10 @@ function TheColleagueUni() {
           .contact-info-grid {
             grid-template-columns: 1fr;
           }
+          
+          .uni-content {
+            padding: 0 1rem;
+          }
         }
 
         @media (max-width: 480px) {
@@ -960,12 +1169,10 @@ function TheColleagueUni() {
             grid-template-columns: 1fr;
           }
         }
-
-
         `}
-            </style>
-        </div>
-    );
+      </style>
+    </div>
+  );
 }
 
 export default TheColleagueUni;

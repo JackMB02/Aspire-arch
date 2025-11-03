@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link, useParams } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
-import SkeletonLoader from "../components/SkeletonLoader";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
 
 // Dynamic backend base URL for images
@@ -21,7 +20,10 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
                 <div className="page-wrapper">
                     <h1 className="page-title">{title}</h1>
                     <p className="page-description">{description}</p>
-                    <SkeletonLoader type="card" count={6} />
+                    <div className="loading-spinner">
+                        <div className="spinner"></div>
+                        Loading projects...
+                    </div>
                 </div>
             </AnimatedSection>
         );

@@ -168,15 +168,6 @@ const Slide = styled(motion.div)`
     background-image: ${(props) => `url(${props.bgImage})`};
     background-size: cover;
     background-position: center;
-
-    @media (max-width: 768px) {
-        background-position: center center;
-        background-size: cover;
-    }
-
-    @media (max-width: 480px) {
-        background-position: 60% center;
-    }
 `;
 
 // Overlay - removed opacity
@@ -212,21 +203,17 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 768px) {
-        top: 12rem;
+        top: 6rem;
         left: 1.5rem;
-        font-size: 1.8rem;
+        font-size: 2rem;
         letter-spacing: 2px;
-        right: 1.5rem;
-        max-width: calc(100% - 3rem);
     }
 
     @media (max-width: 480px) {
-        top: 11rem;
+        top: 5rem;
         left: 1rem;
-        right: 1rem;
-        font-size: 1.4rem;
+        font-size: 1.6rem;
         letter-spacing: 1.5px;
-        max-width: calc(100% - 2rem);
     }
 `;
 
@@ -246,24 +233,17 @@ const DescriptionCard = styled(motion.div)`
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 
     @media (max-width: 768px) {
-        bottom: 5rem;
-        left: 1.5rem;
-        right: 1.5rem;
-        max-width: calc(100% - 3rem);
-        font-size: 0.85rem;
-        padding: 1rem 1.2rem;
-        background-color: rgba(0, 0, 0, 0.75);
-        line-height: 1.5;
+        bottom: 2rem;
+        right: 2rem;
+        max-width: 280px;
+        font-size: 0.9rem;
+        padding: 1.2rem;
     }
 
     @media (max-width: 480px) {
-        bottom: 4.5rem;
-        left: 1rem;
-        right: 1rem;
-        max-width: calc(100% - 2rem);
+        max-width: 220px;
         font-size: 0.8rem;
-        padding: 0.9rem 1rem;
-        line-height: 1.4;
+        padding: 1rem;
     }
 `;
 
@@ -281,17 +261,6 @@ const SlideIndicators = styled.div`
     border-radius: 50px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-
-    @media (max-width: 768px) {
-        bottom: 1.5rem;
-        padding: 0.6rem 1rem;
-    }
-
-    @media (max-width: 480px) {
-        bottom: 1rem;
-        padding: 0.5rem 0.8rem;
-        gap: 0.4rem;
-    }
 `;
 
 const Indicator = styled(motion.button)`

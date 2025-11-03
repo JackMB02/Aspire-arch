@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import { API_ENDPOINTS, apiRequest } from "../config/api";
 import { FaUser, FaBuilding, FaGraduationCap, FaStar } from "react-icons/fa";
 
+// Dynamic backend base URL for images
+const getBackendBaseUrl = () => {
+    return window.location.hostname === 'localhost' 
+        ? 'http://localhost:4000'
+        : 'https://aspire-arch-server.onrender.com';
+};
+
+const BACKEND_BASE_URL = getBackendBaseUrl();
+
 function MembershipPartnerships() {
+    const [formData, setFormData] = useState({
+        full_name: '',
+        email: '',
+        membership_type: '',
+        organization: '',
+        position: '',
+        message: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
     const membershipOptions = [
         {
             title: "Individual Membership",
@@ -17,6 +38,7 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaUser,
+            value: "individual"
         },
         {
             title: "Firm Membership",
@@ -30,6 +52,7 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaBuilding,
+            value: "firm"
         },
         {
             title: "Student Membership",
@@ -43,8 +66,52 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaGraduationCap,
+            value: "student"
         },
     ];
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleMembershipSelect = (membershipType) => {
+        setFormData(prev => ({
+            ...prev,
+            membership_type: membershipType
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+
+        try {
+            await apiRequest('/api/get-involved/membership', {
+                method: 'POST',
+                body: JSON.stringify(formData)
+            });
+            
+            setMessage('✅ Membership application submitted successfully!');
+            setFormData({
+                full_name: '',
+                email: '',
+                membership_type: '',
+                organization: '',
+                position: '',
+                message: ''
+            });
+        } catch (error) {
+            console.error('Failed to submit membership application:', error);
+            setMessage('❌ Failed to submit application: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <AnimatedSection>
@@ -62,7 +129,11 @@ function MembershipPartnerships() {
 
                     <div className="membership-grid">
                         {membershipOptions.map((option, index) => (
-                            <div key={index} className="membership-card">
+                            <div 
+                                key={index} 
+                                className={`membership-card ${formData.membership_type === option.value ? 'selected' : ''}`}
+                                onClick={() => handleMembershipSelect(option.value)}
+                            >
                                 <div className="membership-icon">
                                     <option.icon />
                                 </div>
@@ -78,6 +149,91 @@ function MembershipPartnerships() {
                                 </ul>
                             </div>
                         ))}
+                    </div>
+
+                    {/* Membership Application Form */}
+                    <div className="membership-form-section">
+                        <h2>Apply for Membership</h2>
+                        {message && (
+                            <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                                {message}
+                            </div>
+                        )}
+                        <form onSubmit={handleSubmit} className="membership-form">
+                            <div className="form-row">
+                                <div className="input-group">
+                                    <label htmlFor="full_name">Full Name *</label>
+                                    <input
+                                        id="full_name"
+                                        name="full_name"
+                                        type="text"
+                                        placeholder="Enter your full name"
+                                        value={formData.full_name}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <label htmlFor="email">Email Address *</label>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        placeholder="Enter your email address"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="input-group">
+                                    <label htmlFor="organization">Organization</label>
+                                    <input
+                                        id="organization"
+                                        name="organization"
+                                        type="text"
+                                        placeholder="Your company or institution"
+                                        value={formData.organization}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="input-group">
+                                    <label htmlFor="position">Position</label>
+                                    <input
+                                        id="position"
+                                        name="position"
+                                        type="text"
+                                        placeholder="Your role or position"
+                                        value={formData.position}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input-group">
+                                <label htmlFor="message">Additional Information</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    placeholder="Tell us about your interests or why you want to join..."
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    rows="4"
+                                />
+                            </div>
+
+                            <div className="form-actions">
+                                <button 
+                                    type="submit" 
+                                    className="submit-membership-btn"
+                                    disabled={loading || !formData.membership_type}
+                                >
+                                    {loading ? 'Submitting...' : 'Submit Application'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
 
                     <div className="partnerships-section">
@@ -126,6 +282,85 @@ function MembershipPartnerships() {
 function DonateSupport() {
     const donationOptions = [50, 100, 250, 500, 1000];
     const [selectedAmount, setSelectedAmount] = useState(100);
+    const [formData, setFormData] = useState({
+        full_name: '',
+        email: '',
+        amount: 100,
+        currency: 'USD',
+        payment_method: '',
+        bank_name: '',
+        mtn_mobile_number: '',
+        payment_proof: null
+    });
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        setFormData(prev => ({
+            ...prev,
+            payment_proof: e.target.files[0]
+        }));
+    };
+
+    const handleAmountSelect = (amount) => {
+        setSelectedAmount(amount);
+        setFormData(prev => ({
+            ...prev,
+            amount: amount
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+
+        try {
+            const submitData = new FormData();
+            Object.keys(formData).forEach(key => {
+                if (key === 'payment_proof' && formData[key]) {
+                    submitData.append(key, formData[key]);
+                } else {
+                    submitData.append(key, formData[key]);
+                }
+            });
+
+            const response = await fetch(`${BACKEND_BASE_URL}/api/get-involved/donations`, {
+                method: 'POST',
+                body: submitData
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit donation');
+            }
+
+            setMessage('✅ Donation submitted successfully! Thank you for your support.');
+            setFormData({
+                full_name: '',
+                email: '',
+                amount: 100,
+                currency: 'USD',
+                payment_method: '',
+                bank_name: '',
+                mtn_mobile_number: '',
+                payment_proof: null
+            });
+            setSelectedAmount(100);
+        } catch (error) {
+            console.error('Failed to submit donation:', error);
+            setMessage('❌ Failed to submit donation: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <AnimatedSection>
@@ -161,91 +396,160 @@ function DonateSupport() {
                     <div className="donation-section">
                         <h2>Make a Donation</h2>
 
-                        <div className="donation-options">
-                            {donationOptions.map((amount) => (
-                                <button
-                                    key={amount}
-                                    className={`donation-option ${
-                                        selectedAmount === amount
-                                            ? "selected"
-                                            : ""
-                                    }`}
-                                    onClick={() => setSelectedAmount(amount)}
+                        {message && (
+                            <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                                {message}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="donation-options">
+                                {donationOptions.map((amount) => (
+                                    <button
+                                        key={amount}
+                                        type="button"
+                                        className={`donation-option ${
+                                            selectedAmount === amount
+                                                ? "selected"
+                                                : ""
+                                        }`}
+                                        onClick={() => handleAmountSelect(amount)}
+                                    >
+                                        ${amount}
+                                    </button>
+                                ))}
+
+                                <div className="custom-amount">
+                                    <input
+                                        type="number"
+                                        placeholder="Custom amount"
+                                        value={selectedAmount}
+                                        onChange={(e) => handleAmountSelect(Number(e.target.value))}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="donation-form">
+                                <div className="form-row">
+                                    <div className="input-group">
+                                        <label htmlFor="donation-name">Full Name *</label>
+                                        <input 
+                                            id="donation-name"
+                                            name="full_name"
+                                            type="text" 
+                                            placeholder="Full Name" 
+                                            value={formData.full_name}
+                                            onChange={handleInputChange}
+                                            required 
+                                        />
+                                    </div>
+                                    <div className="input-group">
+                                        <label htmlFor="donation-email">Email Address *</label>
+                                        <input
+                                            id="donation-email"
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email Address"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="payment-details">
+                                    <h3>Payment Information</h3>
+                                    
+                                    <div className="payment-method">
+                                        <h4>MTN Mobile Money</h4>
+                                        <p>Send your donation to: <strong>*182*8*1*150000#</strong></p>
+                                        <p>Use this code for donations</p>
+                                        <div className="input-group">
+                                            <label htmlFor="mtn-number">MTN Mobile Number (Optional)</label>
+                                            <input
+                                                id="mtn-number"
+                                                name="mtn_mobile_number"
+                                                type="text"
+                                                placeholder="Your MTN number"
+                                                value={formData.mtn_mobile_number}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <button 
+                                            type="button"
+                                            className="payment-select-btn"
+                                            onClick={() => setFormData(prev => ({ ...prev, payment_method: 'mtn_mobile' }))}
+                                        >
+                                            Select MTN Mobile Money
+                                        </button>
+                                    </div>
+
+                                    <div className="payment-method">
+                                        <h4>Bank Transfer</h4>
+                                        <div className="bank-options">
+                                            <div className="bank-option">
+                                                <strong>Bank of Kigali</strong>
+                                                <p>Account: 00123-456789-00</p>
+                                                <p>Account Name: Aspire Architecture</p>
+                                            </div>
+                                            <div className="bank-option">
+                                                <strong>Equity Bank Rwanda</strong>
+                                                <p>Account: 4002-123456789</p>
+                                                <p>Account Name: Aspire Architecture</p>
+                                            </div>
+                                            <div className="bank-option">
+                                                <strong>BPR Bank</strong>
+                                                <p>Account: 50001-123456789</p>
+                                                <p>Account Name: Aspire Architecture</p>
+                                            </div>
+                                        </div>
+                                        <div className="input-group">
+                                            <label htmlFor="bank-name">Bank Name (Optional)</label>
+                                            <input
+                                                id="bank-name"
+                                                name="bank_name"
+                                                type="text"
+                                                placeholder="Which bank did you use?"
+                                                value={formData.bank_name}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <button 
+                                            type="button"
+                                            className="payment-select-btn"
+                                            onClick={() => setFormData(prev => ({ ...prev, payment_method: 'bank_transfer' }))}
+                                        >
+                                            Select Bank Transfer
+                                        </button>
+                                    </div>
+
+                                    <div className="payment-proof">
+                                        <h4>Payment Proof (Optional)</h4>
+                                        <p>Upload a screenshot or proof of your payment to help us process it faster</p>
+                                        <div className="file-upload">
+                                            <input 
+                                                type="file" 
+                                                id="payment-proof" 
+                                                accept="image/*,.pdf" 
+                                                onChange={handleFileChange}
+                                            />
+                                            <label htmlFor="payment-proof" className="upload-btn">
+                                                Choose File
+                                            </label>
+                                            <span className="upload-note">PNG, JPG, or PDF files accepted</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button 
+                                    className="submit-donation-btn" 
+                                    type="submit"
+                                    disabled={loading || !formData.payment_method}
                                 >
-                                    ${amount}
+                                    {loading ? 'Submitting...' : 'Submit Donation'}
                                 </button>
-                            ))}
-
-                            <div className="custom-amount">
-                                <input
-                                    type="number"
-                                    placeholder="Custom amount"
-                                    value={selectedAmount}
-                                    onChange={(e) =>
-                                        setSelectedAmount(
-                                            Number(e.target.value)
-                                        )
-                                    }
-                                />
                             </div>
-                        </div>
-
-                        <div className="donation-form">
-                            <div className="form-row">
-                                <input type="text" placeholder="Full Name" />
-                                <input
-                                    type="email"
-                                    placeholder="Email Address"
-                                />
-                            </div>
-
-                            <div className="payment-details">
-                                <h3>Payment Information</h3>
-                                
-                                <div className="payment-method">
-                                    <h4>MTN Mobile Money</h4>
-                                    <p>Send your donation to: <strong>*182*8*1*150000#</strong></p>
-                                    <p>Use this code for donations</p>
-                                </div>
-
-                                <div className="payment-method">
-                                    <h4>Bank Transfer</h4>
-                                    <div className="bank-options">
-                                        <div className="bank-option">
-                                            <strong>Bank of Kigali</strong>
-                                            <p>Account: 00123-456789-00</p>
-                                            <p>Account Name: Aspire Architecture</p>
-                                        </div>
-                                        <div className="bank-option">
-                                            <strong>Equity Bank Rwanda</strong>
-                                            <p>Account: 4002-123456789</p>
-                                            <p>Account Name: Aspire Architecture</p>
-                                        </div>
-                                        <div className="bank-option">
-                                            <strong>BPR Bank</strong>
-                                            <p>Account: 50001-123456789</p>
-                                            <p>Account Name: Aspire Architecture</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="payment-proof">
-                                    <h4>Payment Proof (Optional)</h4>
-                                    <p>Upload a screenshot or proof of your payment to help us process it faster</p>
-                                    <div className="file-upload">
-                                        <input type="file" id="payment-proof" accept="image/*,.pdf" />
-                                        <label htmlFor="payment-proof" className="upload-btn">
-                                            Choose File
-                                        </label>
-                                        <span className="upload-note">PNG, JPG, or PDF files accepted</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button className="submit-donation-btn" type="submit">
-                                Submit Donation
-                            </button>
-                        </div>
+                        </form>
                     </div>
 
                     <div className="other-ways">
@@ -286,6 +590,96 @@ function DonateSupport() {
 
 function CommunityFeedback() {
     const [activeTab, setActiveTab] = useState("feedback");
+    const [feedbackForm, setFeedbackForm] = useState({
+        full_name: '',
+        email: '',
+        category: '',
+        subject: '',
+        message: '',
+        rating: 0
+    });
+    const [ideasForm, setIdeasForm] = useState({
+        full_name: '',
+        email: '',
+        idea_title: '',
+        category: '',
+        description: '',
+        target_audience: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
+    const handleFeedbackChange = (e) => {
+        const { name, value } = e.target;
+        setFeedbackForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleIdeasChange = (e) => {
+        const { name, value } = e.target;
+        setIdeasForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleFeedbackSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+
+        try {
+            await apiRequest('/api/get-involved/feedback', {
+                method: 'POST',
+                body: JSON.stringify(feedbackForm)
+            });
+            
+            setMessage('✅ Feedback submitted successfully! Thank you for your input.');
+            setFeedbackForm({
+                full_name: '',
+                email: '',
+                category: '',
+                subject: '',
+                message: '',
+                rating: 0
+            });
+        } catch (error) {
+            console.error('Failed to submit feedback:', error);
+            setMessage('❌ Failed to submit feedback: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleIdeasSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setMessage('');
+
+        try {
+            await apiRequest('/api/get-involved/ideas', {
+                method: 'POST',
+                body: JSON.stringify(ideasForm)
+            });
+            
+            setMessage('✅ Idea submitted successfully! We appreciate your creativity.');
+            setIdeasForm({
+                full_name: '',
+                email: '',
+                idea_title: '',
+                category: '',
+                description: '',
+                target_audience: ''
+            });
+        } catch (error) {
+            console.error('Failed to submit idea:', error);
+            setMessage('❌ Failed to submit idea: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <AnimatedSection>
@@ -302,261 +696,308 @@ function CommunityFeedback() {
                         </p>
                     </div>
 
+                    {message && (
+                        <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                            {message}
+                        </div>
+                    )}
+
                     <div className="feedback-container">
                         <div className="feedback-tabs">
-                        <button
-                            className={`feedback-tab ${
-                                activeTab === "feedback" ? "active" : ""
-                            }`}
-                            onClick={() => setActiveTab("feedback")}
-                        >
-                            Share Feedback
-                        </button>
-                        <button
-                            className={`feedback-tab ${
-                                activeTab === "ideas" ? "active" : ""
-                            }`}
-                            onClick={() => setActiveTab("ideas")}
-                        >
-                            Submit Ideas
-                        </button>
-                        <button
-                            className={`feedback-tab ${
-                                activeTab === "stories" ? "active" : ""
-                            }`}
-                            onClick={() => setActiveTab("stories")}
-                        >
-                            Community Stories
-                        </button>
-                    </div>
-
-                    {activeTab === "feedback" && (
-                        <div className="feedback-form">
-                            <h2>Share Your Feedback</h2>
-                            <p>
-                                We're constantly working to improve our programs
-                                and services. Your honest feedback helps us
-                                understand what's working well and where we can
-                                do better.
-                            </p>
-
-                            <form className="feedback-form-inner">
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Contact Information</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="feedback-name">Full Name</label>
-                                        <input
-                                            id="feedback-name"
-                                            type="text"
-                                            placeholder="Enter your full name"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="input-group">
-                                        <label htmlFor="feedback-email">Email Address</label>
-                                        <input
-                                            id="feedback-email"
-                                            type="email"
-                                            placeholder="Enter your email address"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Feedback Category</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="feedback-category">Select Program Category</label>
-                                        <select id="feedback-category" required>
-                                            <option value="">
-                                                Choose a category...
-                                            </option>
-                                            <option value="workshops">
-                                                Workshops & Training
-                                            </option>
-                                            <option value="resources">
-                                                Learning Resources
-                                            </option>
-                                            <option value="events">
-                                                Events & Exhibitions
-                                            </option>
-                                            <option value="membership">
-                                                Membership
-                                            </option>
-                                            <option value="website">
-                                                Website Experience
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Your Feedback</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="feedback-message">Share your thoughts, suggestions, or concerns</label>
-                                        <textarea 
-                                            id="feedback-message"
-                                            placeholder="Please provide detailed feedback about your experience..."
-                                            required
-                                        ></textarea>
-                                    </div>
-                                </div>
-                                
-                                <div className="form-actions">
-                                    <button className="submit-feedback-btn" type="submit">
-                                        Submit Feedback
-                                    </button>
-                                </div>
-                            </form>
+                            <button
+                                className={`feedback-tab ${
+                                    activeTab === "feedback" ? "active" : ""
+                                }`}
+                                onClick={() => setActiveTab("feedback")}
+                            >
+                                Share Feedback
+                            </button>
+                            <button
+                                className={`feedback-tab ${
+                                    activeTab === "ideas" ? "active" : ""
+                                }`}
+                                onClick={() => setActiveTab("ideas")}
+                            >
+                                Submit Ideas
+                            </button>
+                            <button
+                                className={`feedback-tab ${
+                                    activeTab === "stories" ? "active" : ""
+                                }`}
+                                onClick={() => setActiveTab("stories")}
+                            >
+                                Community Stories
+                            </button>
                         </div>
-                    )}
 
-                    {activeTab === "ideas" && (
-                        <div className="ideas-form">
-                            <h2>Submit Your Ideas</h2>
-                            <p>
-                                Have an idea for a workshop, event, or
-                                initiative? We're always looking for fresh
-                                perspectives and innovative concepts from our
-                                community.
-                            </p>
+                        {activeTab === "feedback" && (
+                            <div className="feedback-form">
+                                <h2>Share Your Feedback</h2>
+                                <p>
+                                    We're constantly working to improve our programs
+                                    and services. Your honest feedback helps us
+                                    understand what's working well and where we can
+                                    do better.
+                                </p>
 
-                            <form className="ideas-form-inner">
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Contact Information</h3>
-                                    <div className="form-row">
+                                <form className="feedback-form-inner" onSubmit={handleFeedbackSubmit}>
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Contact Information</h3>
                                         <div className="input-group">
-                                            <label htmlFor="ideas-name">Full Name</label>
+                                            <label htmlFor="feedback-name">Full Name *</label>
                                             <input
-                                                id="ideas-name"
+                                                id="feedback-name"
+                                                name="full_name"
                                                 type="text"
                                                 placeholder="Enter your full name"
+                                                value={feedbackForm.full_name}
+                                                onChange={handleFeedbackChange}
                                                 required
                                             />
                                         </div>
                                         <div className="input-group">
-                                            <label htmlFor="ideas-email">Email Address</label>
+                                            <label htmlFor="feedback-email">Email Address *</label>
                                             <input
-                                                id="ideas-email"
+                                                id="feedback-email"
+                                                name="email"
                                                 type="email"
                                                 placeholder="Enter your email address"
+                                                value={feedbackForm.email}
+                                                onChange={handleFeedbackChange}
                                                 required
                                             />
                                         </div>
                                     </div>
-                                </div>
 
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Your Idea</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="idea-title">Idea Title</label>
-                                        <input
-                                            id="idea-title"
-                                            type="text"
-                                            placeholder="Give your idea a compelling title"
-                                            required
-                                        />
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Feedback Category</h3>
+                                        <div className="input-group">
+                                            <label htmlFor="feedback-category">Select Program Category *</label>
+                                            <select 
+                                                id="feedback-category" 
+                                                name="category"
+                                                value={feedbackForm.category}
+                                                onChange={handleFeedbackChange}
+                                                required
+                                            >
+                                                <option value="">
+                                                    Choose a category...
+                                                </option>
+                                                <option value="workshops">
+                                                    Workshops & Training
+                                                </option>
+                                                <option value="resources">
+                                                    Learning Resources
+                                                </option>
+                                                <option value="events">
+                                                    Events & Exhibitions
+                                                </option>
+                                                <option value="membership">
+                                                    Membership
+                                                </option>
+                                                <option value="website">
+                                                    Website Experience
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Category</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="idea-category">Select Idea Category</label>
-                                        <select id="idea-category" required>
-                                            <option value="">
-                                                Choose a category...
-                                            </option>
-                                            <option value="workshop">
-                                                Workshop Idea
-                                            </option>
-                                            <option value="event">Event Idea</option>
-                                            <option value="resource">
-                                                Learning Resource
-                                            </option>
-                                            <option value="partnership">
-                                                Partnership Opportunity
-                                            </option>
-                                        </select>
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Your Feedback</h3>
+                                        <div className="input-group">
+                                            <label htmlFor="feedback-message">Share your thoughts, suggestions, or concerns *</label>
+                                            <textarea 
+                                                id="feedback-message"
+                                                name="message"
+                                                placeholder="Please provide detailed feedback about your experience..."
+                                                value={feedbackForm.message}
+                                                onChange={handleFeedbackChange}
+                                                required
+                                            ></textarea>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div className="form-section">
-                                    <h3 className="form-section-title">Detailed Description</h3>
-                                    <div className="input-group">
-                                        <label htmlFor="idea-description">Describe your idea in detail</label>
-                                        <textarea 
-                                            id="idea-description"
-                                            placeholder="Provide a comprehensive description of your idea, including objectives, target audience, and expected outcomes..."
-                                            required
-                                        ></textarea>
+                                    
+                                    <div className="form-actions">
+                                        <button 
+                                            className="submit-feedback-btn" 
+                                            type="submit"
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Submitting...' : 'Submit Feedback'}
+                                        </button>
                                     </div>
-                                </div>
-                                
-                                <div className="form-actions">
-                                    <button className="submit-ideas-btn" type="submit">
-                                        Submit Idea
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    )}
+                                </form>
+                            </div>
+                        )}
 
-                    {activeTab === "stories" && (
-                        <div className="community-stories">
-                            <h2>Community Stories</h2>
-                            <p>
-                                Read how our community members have benefited
-                                from our programs and initiatives.
-                            </p>
+                        {activeTab === "ideas" && (
+                            <div className="ideas-form">
+                                <h2>Submit Your Ideas</h2>
+                                <p>
+                                    Have an idea for a workshop, event, or
+                                    initiative? We're always looking for fresh
+                                    perspectives and innovative concepts from our
+                                    community.
+                                </p>
 
-                            <div className="stories-grid">
-                                <div className="story-card">
-                                    <div className="story-icon"><FaStar /></div>
-                                    <h3>Transformed My Practice</h3>
-                                    <p>
-                                        "The sustainable design workshop
-                                        completely changed how I approach
-                                        projects. I've implemented eco-friendly
-                                        practices that reduced energy costs by
-                                        40% for my clients."
-                                    </p>
-                                    <p className="story-author">
-                                        — Maria L., Architect
-                                    </p>
-                                </div>
+                                <form className="ideas-form-inner" onSubmit={handleIdeasSubmit}>
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Contact Information</h3>
+                                        <div className="form-row">
+                                            <div className="input-group">
+                                                <label htmlFor="ideas-name">Full Name *</label>
+                                                <input
+                                                    id="ideas-name"
+                                                    name="full_name"
+                                                    type="text"
+                                                    placeholder="Enter your full name"
+                                                    value={ideasForm.full_name}
+                                                    onChange={handleIdeasChange}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="input-group">
+                                                <label htmlFor="ideas-email">Email Address *</label>
+                                                <input
+                                                    id="ideas-email"
+                                                    name="email"
+                                                    type="email"
+                                                    placeholder="Enter your email address"
+                                                    value={ideasForm.email}
+                                                    onChange={handleIdeasChange}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div className="story-card">
-                                    <div className="story-icon"><FaStar /></div>
-                                    <h3>Career Advancement</h3>
-                                    <p>
-                                        "Through the mentorship program, I
-                                        connected with an experienced architect
-                                        who guided me through my licensure
-                                        process. I'm now a project lead at my
-                                        firm."
-                                    </p>
-                                    <p className="story-author">
-                                        — James T., Designer
-                                    </p>
-                                </div>
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Your Idea</h3>
+                                        <div className="input-group">
+                                            <label htmlFor="idea-title">Idea Title *</label>
+                                            <input
+                                                id="idea-title"
+                                                name="idea_title"
+                                                type="text"
+                                                placeholder="Give your idea a compelling title"
+                                                value={ideasForm.idea_title}
+                                                onChange={handleIdeasChange}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
 
-                                <div className="story-card">
-                                    <div className="story-icon"><FaStar /></div>
-                                    <h3>Invaluable Network</h3>
-                                    <p>
-                                        "The connections I've made through
-                                        membership have led to collaborative
-                                        projects and friendships with architects
-                                        from around the world."
-                                    </p>
-                                    <p className="story-author">
-                                        — Sofia K., Urban Planner
-                                    </p>
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Category</h3>
+                                        <div className="input-group">
+                                            <label htmlFor="idea-category">Select Idea Category *</label>
+                                            <select 
+                                                id="idea-category" 
+                                                name="category"
+                                                value={ideasForm.category}
+                                                onChange={handleIdeasChange}
+                                                required
+                                            >
+                                                <option value="">
+                                                    Choose a category...
+                                                </option>
+                                                <option value="workshop">
+                                                    Workshop Idea
+                                                </option>
+                                                <option value="event">Event Idea</option>
+                                                <option value="resource">
+                                                    Learning Resource
+                                                </option>
+                                                <option value="partnership">
+                                                    Partnership Opportunity
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="form-section">
+                                        <h3 className="form-section-title">Detailed Description</h3>
+                                        <div className="input-group">
+                                            <label htmlFor="idea-description">Describe your idea in detail *</label>
+                                            <textarea 
+                                                id="idea-description"
+                                                name="description"
+                                                placeholder="Provide a comprehensive description of your idea, including objectives, target audience, and expected outcomes..."
+                                                value={ideasForm.description}
+                                                onChange={handleIdeasChange}
+                                                required
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="form-actions">
+                                        <button 
+                                            className="submit-ideas-btn" 
+                                            type="submit"
+                                            disabled={loading}
+                                        >
+                                            {loading ? 'Submitting...' : 'Submit Idea'}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
+
+                        {activeTab === "stories" && (
+                            <div className="community-stories">
+                                <h2>Community Stories</h2>
+                                <p>
+                                    Read how our community members have benefited
+                                    from our programs and initiatives.
+                                </p>
+
+                                <div className="stories-grid">
+                                    <div className="story-card">
+                                        <div className="story-icon"><FaStar /></div>
+                                        <h3>Transformed My Practice</h3>
+                                        <p>
+                                            "The sustainable design workshop
+                                            completely changed how I approach
+                                            projects. I've implemented eco-friendly
+                                            practices that reduced energy costs by
+                                            40% for my clients."
+                                        </p>
+                                        <p className="story-author">
+                                            — Maria L., Architect
+                                        </p>
+                                    </div>
+
+                                    <div className="story-card">
+                                        <div className="story-icon"><FaStar /></div>
+                                        <h3>Career Advancement</h3>
+                                        <p>
+                                            "Through the mentorship program, I
+                                            connected with an experienced architect
+                                            who guided me through my licensure
+                                            process. I'm now a project lead at my
+                                            firm."
+                                        </p>
+                                        <p className="story-author">
+                                            — James T., Designer
+                                        </p>
+                                    </div>
+
+                                    <div className="story-card">
+                                        <div className="story-icon"><FaStar /></div>
+                                        <h3>Invaluable Network</h3>
+                                        <p>
+                                            "The connections I've made through
+                                            membership have led to collaborative
+                                            projects and friendships with architects
+                                            from around the world."
+                                        </p>
+                                        <p className="story-author">
+                                            — Sofia K., Urban Planner
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
                     </div>
                 </div>
             </div>
@@ -588,8 +1029,6 @@ function GetInvolvedOverview() {
                             Share Feedback
                         </Link>
                     </div>
-
-
 
                     <div className="why-involved">
                         <h2>Why Get Involved?</h2>
@@ -659,6 +1098,96 @@ function GetInvolved() {
 
             <style>
                 {`
+        /* Add these new styles for form messages and selected states */
+        .form-message {
+          padding: 1rem;
+          border-radius: 4px;
+          margin-bottom: 1.5rem;
+          font-weight: 500;
+        }
+
+        .form-message.success {
+          background: rgba(40, 167, 69, 0.2);
+          border: 1px solid rgba(40, 167, 69, 0.3);
+          color: #28a745;
+        }
+
+        .form-message.error {
+          background: rgba(220, 53, 69, 0.2);
+          border: 1px solid rgba(220, 53, 69, 0.3);
+          color: #dc3545;
+        }
+
+        .membership-card.selected {
+          border-color: var(--accent-light);
+          background: rgba(122, 158, 217, 0.1);
+        }
+
+        .payment-select-btn {
+          padding: 8px 16px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.8);
+          margin-top: 0.5rem;
+        }
+
+        .payment-select-btn:hover {
+          border-color: var(--accent-light);
+          color: var(--accent-light);
+        }
+
+        .submit-membership-btn {
+          padding: 12px 32px;
+          background: var(--accent-light);
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          font-size: 1rem;
+          color: white;
+          font-weight: 600;
+          min-width: 180px;
+          box-shadow: 0 2px 8px rgba(122, 158, 217, 0.3);
+        }
+
+        .submit-membership-btn:hover:not(:disabled) {
+          background: rgba(122, 158, 217, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(122, 158, 217, 0.4);
+        }
+
+        .submit-membership-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+
+        .membership-form-section {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 2rem;
+          border-radius: 0;
+          margin: 2rem 0;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .membership-form-section h2 {
+          color: rgba(255, 255, 255, 0.95);
+          margin-bottom: 1.5rem;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .membership-form .form-row {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        /* Keep all your existing CSS styles from before */
         .involved-container {
           min-height: 100vh;
         }
@@ -726,6 +1255,7 @@ function GetInvolved() {
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease;
           border: 1px solid rgba(255, 255, 255, 0.1);
+          cursor: pointer;
         }
 
         .membership-card:hover {
@@ -831,8 +1361,6 @@ function GetInvolved() {
           font-size: 0.9rem;
           margin: 0;
         }
-
-
 
         .donation-section {
           background: rgba(255, 255, 255, 0.05);
@@ -1045,16 +1573,15 @@ function GetInvolved() {
           width: 100%;
         }
 
-        .submit-donation-btn:hover {
+        .submit-donation-btn:hover:not(:disabled) {
           border-color: var(--accent-light);
           color: var(--accent-light);
           transform: translateY(-2px);
         }
 
-        .submit-donation-btn:active {
-          background: var(--accent-light);
-          color: white;
-          border-color: var(--accent-light);
+        .submit-donation-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
 
         .submit-feedback-btn,
@@ -1069,20 +1596,20 @@ function GetInvolved() {
           color: white;
           font-weight: 600;
           min-width: 180px;
-          box-shadow: 0 2px 8px rgba(176, 140, 77, 0.3);
+          box-shadow: 0 2px 8px rgba(122, 158, 217, 0.3);
         }
 
-        .submit-feedback-btn:hover,
-        .submit-ideas-btn:hover {
-          background: rgba(176, 140, 77, 0.9);
+        .submit-feedback-btn:hover:not(:disabled),
+        .submit-ideas-btn:hover:not(:disabled) {
+          background: rgba(122, 158, 217, 0.9);
           transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(176, 140, 77, 0.4);
+          box-shadow: 0 4px 12px rgba(122, 158, 217, 0.4);
         }
 
-        .submit-feedback-btn:active,
-        .submit-ideas-btn:active {
-          transform: translateY(0);
-          box-shadow: 0 2px 6px rgba(176, 140, 77, 0.3);
+        .submit-feedback-btn:disabled,
+        .submit-ideas-btn:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
         }
 
         .other-ways {
@@ -1271,7 +1798,7 @@ function GetInvolved() {
           outline: none;
           border-color: var(--accent-light);
           background: rgba(255, 255, 255, 0.08);
-          box-shadow: 0 0 0 3px rgba(176, 140, 77, 0.1);
+          box-shadow: 0 0 0 3px rgba(122, 158, 217, 0.1);
         }
 
         .input-group select {
@@ -1297,7 +1824,7 @@ function GetInvolved() {
           outline: none;
           border-color: var(--accent-light);
           background: rgba(255, 255, 255, 0.08);
-          box-shadow: 0 0 0 3px rgba(176, 140, 77, 0.1);
+          box-shadow: 0 0 0 3px rgba(122, 158, 217, 0.1);
         }
 
         .input-group input::placeholder,
@@ -1313,8 +1840,6 @@ function GetInvolved() {
           display: flex;
           justify-content: flex-end;
         }
-
-
 
         .community-stories {
           margin-top: 2rem;
@@ -1374,7 +1899,9 @@ function GetInvolved() {
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.6;
           margin: 0;
-        }        .story-author {
+        }
+
+        .story-author {
           font-weight: 600;
           color: #6b7280;
           font-style: italic;
@@ -1469,7 +1996,6 @@ function GetInvolved() {
             grid-template-columns: 1fr;
           }
           
-
           .involved-navigation {
             flex-direction: column;
             align-items: center;
@@ -1495,7 +2021,6 @@ function GetInvolved() {
         }
 
         @media (max-width: 480px) {
-
           .form-row {
             grid-template-columns: 1fr;
           }

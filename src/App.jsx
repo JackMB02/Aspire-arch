@@ -88,6 +88,7 @@ function App() {
             </style>
         </Router>
     );
+    
 }
 
 export default App;

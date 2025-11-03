@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
-import SkeletonLoader from "../components/SkeletonLoader";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
 import { 
     FaLeaf, 
@@ -128,7 +127,10 @@ function WorkshopsTraining() {
             <AnimatedSection>
                 <div className="education-page-wrapper">
                     <div className="education-content">
-                        <SkeletonLoader type="workshop" count={4} />
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            Loading workshops...
+                        </div>
                     </div>
                 </div>
             </AnimatedSection>
@@ -298,7 +300,10 @@ function TutorialsGuides() {
             <AnimatedSection>
                 <div className="education-page-wrapper">
                     <div className="education-content">
-                        <SkeletonLoader type="card" count={6} />
+                        <div className="loading-spinner">
+                            <div className="spinner"></div>
+                            Loading tutorials...
+                        </div>
                     </div>
                 </div>
             </AnimatedSection>

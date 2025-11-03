@@ -1,547 +1,581 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { FaBook, FaStar, FaMapMarkerAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import {
+    FaBook,
+    FaStar,
+    FaMapMarkerAlt,
+    FaPhone,
+    FaEnvelope,
+} from "react-icons/fa";
 import AnimatedSection from "../components/AnimatedSection";
+import SkeletonLoader from "../components/SkeletonLoader";
 
-const API_BASE = 'http://localhost:4000/api/thecolleagueuni';
+// Dynamic API base URL that works in both development and production
+const API_BASE = window.location.hostname === 'localhost' 
+  ? 'http://localhost:4000/api/thecolleagueuni' 
+  : 'https://aspire-arch-server.onrender.com/api/thecolleagueuni';
 
 // Loading component
 function LoadingSpinner() {
-  return (
-    <div className="loading-spinner">
-      <div className="spinner"></div>
-      <p>Loading...</p>
-    </div>
-  );
+    return <SkeletonLoader type="card" count={4} />;
 }
 
 // Error component
 function ErrorMessage({ message, onRetry }) {
-  return (
-    <div className="error-message">
-      <p>Error: {message}</p>
-      <button onClick={onRetry} className="retry-btn">
-        Try Again
-      </button>
-    </div>
-  );
+    return (
+        <div className="error-message">
+            <p>Error: {message}</p>
+            <button onClick={onRetry} className="retry-btn">
+                Try Again
+            </button>
+        </div>
+    );
 }
 
 function UniAbout() {
-  const [aboutData, setAboutData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [aboutData, setAboutData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchAboutData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/about`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch about data');
-      }
-      
-      setAboutData(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching about data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchAboutData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/about`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchAboutData();
-  }, []);
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to fetch about data");
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchAboutData} />;
+            setAboutData(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching about data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="uni-page-wrapper">
-        <div className="uni-content">
-          <h1 className="uni-title">{aboutData?.title || "About The Architecture Colleagues Lab"}</h1>
-          <p className="uni-description">
-            {aboutData?.description || "Curious About What Rwandan (In) Architecture Really Is?"}
-          </p>
-          
-          {aboutData?.content?.map((paragraph, index) => (
-            <p key={index} className="uni-description">
-              {paragraph}
-            </p>
-          ))}
+    useEffect(() => {
+        fetchAboutData();
+    }, []);
 
-          <div className="features-grid">
-            {aboutData?.features?.map((feature, index) => (
-              <div key={index} className="feature-card">
-                <div className="feature-icon">
-                  {index === 2 ? <FaStar /> : <FaBook />}
+    if (loading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} onRetry={fetchAboutData} />;
+
+    return (
+        <AnimatedSection>
+            <div className="uni-page-wrapper">
+                <div className="uni-content">
+                    <h1 className="uni-title">
+                        {aboutData?.title ||
+                            "About The Architecture Colleagues Lab"}
+                    </h1>
+                    <p className="uni-description">
+                        {aboutData?.description ||
+                            "Curious About What Rwandan (In) Architecture Really Is?"}
+                    </p>
+
+                    {aboutData?.content?.map((paragraph, index) => (
+                        <p key={index} className="uni-description">
+                            {paragraph}
+                        </p>
+                    ))}
+
+                    <div className="features-grid">
+                        {aboutData?.features?.map((feature, index) => (
+                            <div key={index} className="feature-card">
+                                <div className="feature-icon">
+                                    {index === 2 ? <FaStar /> : <FaBook />}
+                                </div>
+                                <h3>{feature.title}</h3>
+                                <p>{feature.content}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <h3>{feature.title}</h3>
-                <p>{feature.content}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function UniMission() {
-  const [missionData, setMissionData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [missionData, setMissionData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchMissionData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/mission`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch mission data');
-      }
-      
-      setMissionData(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching mission data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchMissionData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/mission`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchMissionData();
-  }, []);
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to fetch mission data");
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchMissionData} />;
+            setMissionData(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching mission data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="uni-page-wrapper">
-        <div className="uni-content">
-          <h1 className="uni-title">Our Mission & Vision</h1>
+    useEffect(() => {
+        fetchMissionData();
+    }, []);
 
-          <div className="mission-section">
-            <h2>Our Mission</h2>
-            <p>{missionData?.mission}</p>
-          </div>
+    if (loading) return <LoadingSpinner />;
+    if (error)
+        return <ErrorMessage message={error} onRetry={fetchMissionData} />;
 
-          <div className="mission-section">
-            <h2>Our Vision</h2>
-            <p>{missionData?.vision}</p>
-          </div>
+    return (
+        <AnimatedSection>
+            <div className="uni-page-wrapper">
+                <div className="uni-content">
+                    <h1 className="uni-title">Our Mission & Vision</h1>
 
-          <h2 className="values-title">Our Values</h2>
+                    <div className="mission-section">
+                        <h2>Our Mission</h2>
+                        <p>{missionData?.mission}</p>
+                    </div>
 
-          <div className="values-grid">
-            {missionData?.values?.map((value, index) => (
-              <div key={index} className="value-card">
-                <h3>{value.title}</h3>
-                <p>{value.description}</p>
-              </div>
-            ))}
-          </div>
+                    <div className="mission-section">
+                        <h2>Our Vision</h2>
+                        <p>{missionData?.vision}</p>
+                    </div>
 
-          <InitiativesSection />
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+                    <h2 className="values-title">Our Values</h2>
+
+                    <div className="values-grid">
+                        {missionData?.values?.map((value, index) => (
+                            <div key={index} className="value-card">
+                                <h3>{value.title}</h3>
+                                <p>{value.description}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    <InitiativesSection />
+                </div>
+            </div>
+        </AnimatedSection>
+    );
 }
 
 // Separate component for initiatives to keep it reusable
 function InitiativesSection() {
-  const [initiatives, setInitiatives] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [initiatives, setInitiatives] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchInitiatives = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/initiatives`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch initiatives');
-      }
-      
-      setInitiatives(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching initiatives:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchInitiatives = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/initiatives`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchInitiatives();
-  }, []);
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to fetch initiatives");
+            }
 
-  if (loading) return <div className="loading-spinner">Loading initiatives...</div>;
-  if (error) return <ErrorMessage message={error} onRetry={fetchInitiatives} />;
+            setInitiatives(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching initiatives:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="initiatives-section">
-      <h2>2025 Initiatives</h2>
-      <ul className="initiatives-list">
-        {initiatives.map((initiative, index) => (
-          <li key={initiative.id || index}>
-            <strong>{initiative.title}:</strong> {initiative.description}
-            {initiative.target_date && (
-              <span> (Target: {new Date(initiative.target_date).toLocaleDateString()})</span>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+    useEffect(() => {
+        fetchInitiatives();
+    }, []);
+
+    if (loading) return <SkeletonLoader type="list" count={5} />;
+    if (error)
+        return <ErrorMessage message={error} onRetry={fetchInitiatives} />;
+
+    return (
+        <div className="initiatives-section">
+            <h2>2025 Initiatives</h2>
+            <ul className="initiatives-list">
+                {initiatives.map((initiative, index) => (
+                    <li key={initiative.id || index}>
+                        <strong>{initiative.title}:</strong>{" "}
+                        {initiative.description}
+                        {initiative.target_date && (
+                            <span>
+                                {" "}
+                                (Target:{" "}
+                                {new Date(
+                                    initiative.target_date
+                                ).toLocaleDateString()}
+                                )
+                            </span>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
 
 function UniTeam() {
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [teamMembers, setTeamMembers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchTeamData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/team`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch team data');
-      }
-      
-      setTeamMembers(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching team data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchTeamData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/team`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchTeamData();
-  }, []);
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to fetch team data");
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchTeamData} />;
+            setTeamMembers(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching team data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="uni-page-wrapper">
-        <div className="uni-content">
-          <h1 className="uni-title">Our Team</h1>
-          <p className="uni-description">
-            Meet the passionate individuals behind The Architecture Colleagues Lab.
-            Our diverse team brings together expertise in education,
-            technology, community building, and design to create
-            transformative learning experiences.
-          </p>
+    useEffect(() => {
+        fetchTeamData();
+    }, []);
 
-          <div className="team-grid">
-            {teamMembers.map((member, index) => (
-              <div key={member.id || index} className="team-card">
-                <div className="team-avatar">
-                  {member.name.split(' ').map(n => n[0]).join('')}
+    if (loading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} onRetry={fetchTeamData} />;
+
+    return (
+        <AnimatedSection>
+            <div className="uni-page-wrapper">
+                <div className="uni-content">
+                    <h1 className="uni-title">Our Team</h1>
+                    <p className="uni-description">
+                        Meet the passionate individuals behind The Architecture
+                        Colleagues Lab. Our diverse team brings together
+                        expertise in education, technology, community building,
+                        and design to create transformative learning
+                        experiences.
+                    </p>
+
+                    <div className="team-grid">
+                        {teamMembers.map((member, index) => (
+                            <div key={member.id || index} className="team-card">
+                                <div className="team-avatar">
+                                    {member.name
+                                        .split(" ")
+                                        .map((n) => n[0])
+                                        .join("")}
+                                </div>
+                                <h3>{member.name}</h3>
+                                <p className="team-role">{member.role}</p>
+                                <p className="team-bio">{member.bio}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-                <h3>{member.name}</h3>
-                <p className="team-role">{member.role}</p>
-                <p className="team-bio">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function UniContact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
     });
-  };
+    const [submitting, setSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      const response = await fetch(`${API_BASE}/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message');
-      }
-
-      if (data.success) {
-        setSubmitStatus({
-          type: 'success',
-          message: data.message
-        });
+    const handleChange = (e) => {
         setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
+            ...formData,
+            [e.target.name]: e.target.value,
         });
-      }
-    } catch (error) {
-      setSubmitStatus({
-        type: 'error',
-        message: error.message || 'Failed to send message. Please try again.'
-      });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="uni-page-wrapper">
-        <div className="uni-content">
-          <h1 className="uni-title">Contact Us</h1>
-          <p className="uni-description">
-            Have questions about The Architecture Colleagues Lab? Want to explore
-            partnership opportunities? We'd love to hear from you.
-          </p>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitting(true);
+        setSubmitStatus(null);
 
-          <div className="contact-info-grid">
-            <div className="contact-info">
-              <div className="contact-icon">
-                <FaMapMarkerAlt />
-              </div>
-              <h3>Location</h3>
-              <p>
-                Kigali, Rwanda
-                <br />
-                East Africa
-              </p>
+        try {
+            const response = await fetch(`${API_BASE}/contact`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to send message");
+            }
+
+            if (data.success) {
+                setSubmitStatus({
+                    type: "success",
+                    message: data.message,
+                });
+                setFormData({
+                    name: "",
+                    email: "",
+                    subject: "",
+                    message: "",
+                });
+            }
+        } catch (error) {
+            setSubmitStatus({
+                type: "error",
+                message:
+                    error.message ||
+                    "Failed to send message. Please try again.",
+            });
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    return (
+        <AnimatedSection>
+            <div className="uni-page-wrapper">
+                <div className="uni-content">
+                    <h1 className="uni-title">Contact Us</h1>
+                    <p className="uni-description">
+                        Have questions about The Architecture Colleagues Lab?
+                        Want to explore partnership opportunities? We'd love to
+                        hear from you.
+                    </p>
+
+                    <div className="contact-info-grid">
+                        <div className="contact-info">
+                            <div className="contact-icon">
+                                <FaMapMarkerAlt />
+                            </div>
+                            <h3>Location</h3>
+                            <p>
+                                Kigali, Rwanda
+                                <br />
+                                East Africa
+                            </p>
+                        </div>
+
+                        <div className="contact-info">
+                            <div className="contact-icon">
+                                <FaPhone />
+                            </div>
+                            <h3>Phone</h3>
+                            <p>
+                                General: +250 (788) 123-456
+                                <br />
+                                Support: +250 (788) 654-321
+                            </p>
+                        </div>
+
+                        <div className="contact-info">
+                            <div className="contact-icon">
+                                <FaEnvelope />
+                            </div>
+                            <h3>Email</h3>
+                            <p>
+                                hello@thearchitecturecolleagueslab.com
+                                <br />
+                                support@thearchitecturecolleagueslab.com
+                                <br />
+                                partners@thearchitecturecolleagueslab.com
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="contact-form-section">
+                        <h2>Send Us a Message</h2>
+
+                        {submitStatus && (
+                            <div
+                                className={`submit-status ${submitStatus.type}`}
+                            >
+                                {submitStatus.message}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit} className="contact-form">
+                            <div className="form-row">
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Your Name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={submitting}
+                                />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Your Email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={submitting}
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                name="subject"
+                                placeholder="Subject"
+                                value={formData.subject}
+                                onChange={handleChange}
+                                required
+                                disabled={submitting}
+                            />
+                            <textarea
+                                name="message"
+                                placeholder="Your Message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                                disabled={submitting}
+                            ></textarea>
+                            <button
+                                type="submit"
+                                className="submit-btn"
+                                disabled={submitting}
+                            >
+                                {submitting ? "Sending..." : "Send Message"}
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div className="contact-info">
-              <div className="contact-icon">
-                <FaPhone />
-              </div>
-              <h3>Phone</h3>
-              <p>
-                General: +250 (788) 123-456
-                <br />
-                Support: +250 (788) 654-321
-              </p>
-            </div>
-
-            <div className="contact-info">
-              <div className="contact-icon">
-                <FaEnvelope />
-              </div>
-              <h3>Email</h3>
-              <p>
-                hello@thearchitecturecolleagueslab.com
-                <br />
-                support@thearchitecturecolleagueslab.com
-                <br />
-                partners@thearchitecturecolleagueslab.com
-              </p>
-            </div>
-          </div>
-
-          <div className="contact-form-section">
-            <h2>Send Us a Message</h2>
-            
-            {submitStatus && (
-              <div className={`submit-status ${submitStatus.type}`}>
-                {submitStatus.message}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="contact-form">
-              <div className="form-row">
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Your Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  disabled={submitting}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Your Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  disabled={submitting}
-                />
-              </div>
-              <input
-                type="text"
-                name="subject"
-                placeholder="Subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                disabled={submitting}
-              />
-              <textarea
-                name="message"
-                placeholder="Your Message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                disabled={submitting}
-              ></textarea>
-              <button 
-                type="submit" 
-                className="submit-btn"
-                disabled={submitting}
-              >
-                {submitting ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+        </AnimatedSection>
+    );
 }
 
 function UniOverview() {
-  return (
-    <AnimatedSection>
-      <div className="uni-page-wrapper">
-        <div className="uni-content overview-content">
-          <h1 className="uni-main-title">The Architecture Colleagues Lab</h1>
-          <p className="uni-main-description">
-            Curious About What Rwandan (In) Architecture Really Is?
-          </p>
-          <p className="uni-main-description">
-            Program of Rwandan architecture students passionate about learning, working, and
-            studying together. Through the lens of culture, society, and practice, we explore how
-            architecture can respond to today's challenges and give communities a stronger voice in
-            shaping their spaces.
-          </p>
-          <p className="uni-main-description">
-            We welcome architecture students, architects, professionals (engineers, sociologists,
-            anthropologist) and anyone even without an architecture background who believes in
-            design that speaks for the people.
-          </p>
-          <p className="uni-main-description">
-            Let's connect and shape a future where architecture speaks for everyone.
-          </p>
+    return (
+        <AnimatedSection>
+            <div className="uni-page-wrapper">
+                <div className="uni-content overview-content">
+                    <h1 className="uni-main-title">
+                        The Architecture Colleagues Lab
+                    </h1>
+                    <p className="uni-main-description">
+                        Curious About What Rwandan (In) Architecture Really Is?
+                    </p>
+                    <p className="uni-main-description">
+                        Program of Rwandan architecture students passionate
+                        about learning, working, and studying together. Through
+                        the lens of culture, society, and practice, we explore
+                        how architecture can respond to today's challenges and
+                        give communities a stronger voice in shaping their
+                        spaces.
+                    </p>
+                    <p className="uni-main-description">
+                        We welcome architecture students, architects,
+                        professionals (engineers, sociologists, anthropologist)
+                        and anyone even without an architecture background who
+                        believes in design that speaks for the people.
+                    </p>
+                    <p className="uni-main-description">
+                        Let's connect and shape a future where architecture
+                        speaks for everyone.
+                    </p>
 
-          <div className="uni-navigation">
-            <Link to="about" className="nav-link">
-              About Us
-            </Link>
-            <Link to="mission" className="nav-link">
-              Our Mission
-            </Link>
-            <Link to="team" className="nav-link">
-              Our Team
-            </Link>
-            <Link to="contact" className="nav-link">
-              Contact Us
-            </Link>
-          </div>
+                    <div className="uni-navigation">
+                        <Link to="about" className="nav-link">
+                            About Us
+                        </Link>
+                        <Link to="mission" className="nav-link">
+                            Our Mission
+                        </Link>
+                        <Link to="team" className="nav-link">
+                            Our Team
+                        </Link>
+                        <Link to="contact" className="nav-link">
+                            Contact Us
+                        </Link>
+                    </div>
 
-          <div className="how-it-works">
-            <h2>How It Works</h2>
-            <div className="process-grid">
-              <div className="process-step">
-                <div className="step-number">1</div>
-                <h3>Create Profile</h3>
-                <p>
-                  Build your professional profile and identify
-                  your skills and interests.
-                </p>
-              </div>
-              <div className="process-step">
-                <div className="step-number">2</div>
-                <h3>Find Colleagues</h3>
-                <p>
-                  Connect with professionals who have
-                  complementary skills and knowledge.
-                </p>
-              </div>
-              <div className="process-step">
-                <div className="step-number">3</div>
-                <h3>Learn Together</h3>
-                <p>
-                  Participate in learning circles, workshops,
-                  and knowledge exchanges.
-                </p>
-              </div>
-              <div className="process-step">
-                <div className="step-number">4</div>
-                <h3>Grow Career</h3>
-                <p>
-                  Apply new skills, earn micro-credentials,
-                  and advance your career.
-                </p>
-              </div>
+                    <div className="how-it-works">
+                        <h2>How It Works</h2>
+                        <div className="process-grid">
+                            <div className="process-step">
+                                <div className="step-number">1</div>
+                                <h3>Create Profile</h3>
+                                <p>
+                                    Build your professional profile and identify
+                                    your skills and interests.
+                                </p>
+                            </div>
+                            <div className="process-step">
+                                <div className="step-number">2</div>
+                                <h3>Find Colleagues</h3>
+                                <p>
+                                    Connect with professionals who have
+                                    complementary skills and knowledge.
+                                </p>
+                            </div>
+                            <div className="process-step">
+                                <div className="step-number">3</div>
+                                <h3>Learn Together</h3>
+                                <p>
+                                    Participate in learning circles, workshops,
+                                    and knowledge exchanges.
+                                </p>
+                            </div>
+                            <div className="process-step">
+                                <div className="step-number">4</div>
+                                <h3>Grow Career</h3>
+                                <p>
+                                    Apply new skills, earn micro-credentials,
+                                    and advance your career.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+        </AnimatedSection>
+    );
 }
 
 function TheColleagueUni() {
-  return (
-    <div
-      className="uni-container"
-      style={{
-        background: "var(--primary-dark)",
-        minHeight: "100vh",
-        color: "rgba(255, 255, 255, 0.9)",
-      }}
-    >
-      <Routes>
-        <Route path="about" element={<UniAbout />} />
-        <Route path="mission" element={<UniMission />} />
-        <Route path="team" element={<UniTeam />} />
-        <Route path="contact" element={<UniContact />} />
-        <Route path="*" element={<UniOverview />} />
-      </Routes>
+    return (
+        <div
+            className="uni-container"
+            style={{
+                background: "var(--primary-dark)",
+                minHeight: "100vh",
+                color: "rgba(255, 255, 255, 0.9)",
+            }}
+        >
+            <Routes>
+                <Route path="about" element={<UniAbout />} />
+                <Route path="mission" element={<UniMission />} />
+                <Route path="team" element={<UniTeam />} />
+                <Route path="contact" element={<UniContact />} />
+                <Route path="*" element={<UniOverview />} />
+            </Routes>
 
-      <style>
-        {`
+            <style>
+                {`
         @import url('https://fonts.googleapis.com/css2?family=Futura&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
         
         .uni-container {
@@ -1170,9 +1204,9 @@ function TheColleagueUni() {
           }
         }
         `}
-      </style>
-    </div>
-  );
+            </style>
+        </div>
+    );
 }
 
 export default TheColleagueUni;

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
-import { 
-    FaChartBar, 
-    FaHospital, 
-    FaIndustry, 
-    FaGraduationCap, 
+import SkeletonLoader from "../components/SkeletonLoader";
+import {
+    FaChartBar,
+    FaHospital,
+    FaIndustry,
+    FaGraduationCap,
     FaBuilding,
     FaLaptop,
     FaRecycle,
@@ -24,965 +25,1057 @@ import {
     FaHandsHelping,
     FaBalanceScale,
     FaPray,
-    FaChild
+    FaChild,
 } from "react-icons/fa";
 
-const API_BASE = 'http://localhost:4000/api/research';
+// Dynamic API base URL that works in both development and production
+const API_BASE = window.location.hostname === 'localhost' 
+  ? 'http://localhost:4000/api/research' 
+  : 'https://aspire-arch-server.onrender.com/api/research';
 
 // Icon component mapping
 const iconComponents = {
-  FaChartBar,
-  FaHospital,
-  FaIndustry,
-  FaGraduationCap,
-  FaBuilding,
-  FaLaptop,
-  FaRecycle,
-  FaSun,
-  FaBolt,
-  FaTint,
-  FaLeaf,
-  FaHardHat,
-  FaWater,
-  FaFire,
-  FaTemperatureHigh,
-  FaHome,
-  FaCloudRain,
-  FaUsers,
-  FaHeart,
-  FaHandsHelping,
-  FaBalanceScale,
-  FaPray,
-  FaChild
+    FaChartBar,
+    FaHospital,
+    FaIndustry,
+    FaGraduationCap,
+    FaBuilding,
+    FaLaptop,
+    FaRecycle,
+    FaSun,
+    FaBolt,
+    FaTint,
+    FaLeaf,
+    FaHardHat,
+    FaWater,
+    FaFire,
+    FaTemperatureHigh,
+    FaHome,
+    FaCloudRain,
+    FaUsers,
+    FaHeart,
+    FaHandsHelping,
+    FaBalanceScale,
+    FaPray,
+    FaChild,
 };
 
 // Loading component
 function LoadingSpinner() {
-  return (
-    <div className="loading-spinner">
-      <div className="spinner"></div>
-      <p>Loading...</p>
-    </div>
-  );
+    return <SkeletonLoader type="card" count={4} />;
 }
 
 // Error component
 function ErrorMessage({ message, onRetry }) {
-  return (
-    <div className="error-message">
-      <p>Error: {message}</p>
-      <button onClick={onRetry} className="retry-btn">
-        Try Again
-      </button>
-    </div>
-  );
+    return (
+        <div className="error-message">
+            <p>Error: {message}</p>
+            <button onClick={onRetry} className="retry-btn">
+                Try Again
+            </button>
+        </div>
+    );
 }
 
 function ArticlesCaseStudies() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchArticles = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/articles`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch articles');
-      }
-      
-      setArticles(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching articles:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchArticles = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/articles`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+            if (!response.ok) {
+                throw new Error(data.message || "Failed to fetch articles");
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchArticles} />;
+            setArticles(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching articles:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="research-page-wrapper">
-        <div className="research-content">
-          <h1 className="research-title">Articles & Case Studies</h1>
-          <p className="research-description">
-            In-depth analyses of our innovative projects and
-            research initiatives, documenting design processes,
-            performance outcomes, and lessons learned for the
-            architectural community.
-          </p>
+    useEffect(() => {
+        fetchArticles();
+    }, []);
 
-          <div className="research-grid">
-            {articles.map((article, index) => {
-              const IconComponent = iconComponents[article.icon] || FaChartBar;
-              return (
-                <div key={article.id || index} className="research-card">
-                  <div className="research-icon">
-                    <IconComponent />
-                  </div>
-                  <span className="research-tag">
-                    {article.tag} • {article.year}
-                  </span>
-                  <h3>{article.title}</h3>
-                  <p>{article.description}</p>
+    if (loading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} onRetry={fetchArticles} />;
+
+    return (
+        <AnimatedSection>
+            <div className="research-page-wrapper">
+                <div className="research-content">
+                    <h1 className="research-title">Articles & Case Studies</h1>
+                    <p className="research-description">
+                        In-depth analyses of our innovative projects and
+                        research initiatives, documenting design processes,
+                        performance outcomes, and lessons learned for the
+                        architectural community.
+                    </p>
+
+                    <div className="research-grid">
+                        {articles.map((article, index) => {
+                            const IconComponent =
+                                iconComponents[article.icon] || FaChartBar;
+                            return (
+                                <div
+                                    key={article.id || index}
+                                    className="research-card"
+                                >
+                                    <div className="research-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <span className="research-tag">
+                                        {article.tag} • {article.year}
+                                    </span>
+                                    <h3>{article.title}</h3>
+                                    <p>{article.description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="methodology-section">
+                        <h2>Research Methodology</h2>
+                        <p>
+                            Our case studies employ mixed-methods approaches,
+                            combining quantitative data collection with
+                            qualitative insights. We utilize post-occupancy
+                            evaluations, environmental monitoring, and
+                            stakeholder interviews to develop comprehensive
+                            understanding of architectural performance and human
+                            experience.
+                        </p>
+                    </div>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="methodology-section">
-            <h2>Research Methodology</h2>
-            <p>
-              Our case studies employ mixed-methods approaches,
-              combining quantitative data collection with
-              qualitative insights. We utilize post-occupancy
-              evaluations, environmental monitoring, and
-              stakeholder interviews to develop comprehensive
-              understanding of architectural performance and human
-              experience.
-            </p>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function SustainableDesign() {
-  const [practices, setPractices] = useState([]);
-  const [stats, setStats] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [practices, setPractices] = useState([]);
+    const [stats, setStats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchSustainableData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/sustainable-practices`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch sustainable data');
-      }
-      
-      setPractices(data.data.practices);
-      setStats(data.data.stats);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching sustainable data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchSustainableData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/sustainable-practices`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchSustainableData();
-  }, []);
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Failed to fetch sustainable data"
+                );
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchSustainableData} />;
+            setPractices(data.data.practices);
+            setStats(data.data.stats);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching sustainable data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="research-page-wrapper">
-        <div className="research-content">
-          <h1 className="research-title">Sustainable Design Practices</h1>
-          <p className="research-description">
-            Our eco-friendly approaches to architecture integrate
-            cutting-edge environmental strategies with timeless
-            design principles, creating buildings that minimize
-            ecological impact while maximizing human wellbeing.
-          </p>
+    useEffect(() => {
+        fetchSustainableData();
+    }, []);
 
-          <div className="stats-grid">
-            {stats.map((stat, index) => {
-              const IconComponent = iconComponents[stat.icon_name] || FaChartBar;
-              return (
-                <div key={stat.id || index} className="stat-item">
-                  <div className="stat-icon"><IconComponent /></div>
-                  <span className="stat-label">{stat.stat_label}</span>
-                  {stat.stat_value && (
-                    <div className="stat-value">{stat.stat_value}</div>
-                  )}
+    if (loading) return <LoadingSpinner />;
+    if (error)
+        return <ErrorMessage message={error} onRetry={fetchSustainableData} />;
+
+    return (
+        <AnimatedSection>
+            <div className="research-page-wrapper">
+                <div className="research-content">
+                    <h1 className="research-title">
+                        Sustainable Design Practices
+                    </h1>
+                    <p className="research-description">
+                        Our eco-friendly approaches to architecture integrate
+                        cutting-edge environmental strategies with timeless
+                        design principles, creating buildings that minimize
+                        ecological impact while maximizing human wellbeing.
+                    </p>
+
+                    <div className="stats-grid">
+                        {stats.map((stat, index) => {
+                            const IconComponent =
+                                iconComponents[stat.icon_name] || FaChartBar;
+                            return (
+                                <div
+                                    key={stat.id || index}
+                                    className="stat-item"
+                                >
+                                    <div className="stat-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <span className="stat-label">
+                                        {stat.stat_label}
+                                    </span>
+                                    {stat.stat_value && (
+                                        <div className="stat-value">
+                                            {stat.stat_value}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <h2 className="section-subtitle">
+                        Our Sustainable Practice Areas
+                    </h2>
+
+                    <div className="research-grid">
+                        {practices.map((practice, index) => {
+                            const IconComponent =
+                                iconComponents[practice.icon] || FaRecycle;
+                            return (
+                                <div
+                                    key={practice.id || index}
+                                    className="research-card"
+                                >
+                                    <div className="research-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <h3>{practice.title}</h3>
+                                    <p>{practice.description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="certifications-section">
+                        <h2>Certifications & Standards</h2>
+                        <p>
+                            Our projects consistently achieve the highest
+                            sustainability certifications, including LEED
+                            Platinum, Living Building Challenge, WELL Building
+                            Standard, and Net Zero Energy verification. We go
+                            beyond checklist approaches to create truly
+                            regenerative environments.
+                        </p>
+                    </div>
                 </div>
-              );
-            })}
-          </div>
-
-          <h2 className="section-subtitle">Our Sustainable Practice Areas</h2>
-
-          <div className="research-grid">
-            {practices.map((practice, index) => {
-              const IconComponent = iconComponents[practice.icon] || FaRecycle;
-              return (
-                <div key={practice.id || index} className="research-card">
-                  <div className="research-icon">
-                    <IconComponent />
-                  </div>
-                  <h3>{practice.title}</h3>
-                  <p>{practice.description}</p>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="certifications-section">
-            <h2>Certifications & Standards</h2>
-            <p>
-              Our projects consistently achieve the highest
-              sustainability certifications, including LEED
-              Platinum, Living Building Challenge, WELL Building
-              Standard, and Net Zero Energy verification. We go
-              beyond checklist approaches to create truly
-              regenerative environments.
-            </p>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function ResilienceClimate() {
-  const [strategies, setStrategies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [strategies, setStrategies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchClimateStrategies = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/climate-strategies`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch climate strategies');
-      }
-      
-      setStrategies(data.data);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching climate strategies:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchClimateStrategies = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/climate-strategies`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchClimateStrategies();
-  }, []);
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Failed to fetch climate strategies"
+                );
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchClimateStrategies} />;
+            setStrategies(data.data);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching climate strategies:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="research-page-wrapper">
-        <div className="research-content">
-          <h1 className="research-title">Resilience & Climate Adaptation</h1>
-          <p className="research-description">
-            Proactive design strategies for adapting to our changing
-            climate, creating buildings and communities that can
-            withstand and recover from environmental disruptions
-            while maintaining functionality and comfort.
-          </p>
+    useEffect(() => {
+        fetchClimateStrategies();
+    }, []);
 
-          <div className="approach-grid">
-            <div className="approach-item">
-              <h3>Climate Risk Assessment</h3>
-              <p>
-                We begin each project with detailed analysis of
-                site-specific climate vulnerabilities, using
-                predictive modeling to anticipate future
-                conditions.
-              </p>
-            </div>
+    if (loading) return <LoadingSpinner />;
+    if (error)
+        return (
+            <ErrorMessage message={error} onRetry={fetchClimateStrategies} />
+        );
 
-            <div className="approach-item">
-              <h3>Adaptive Capacity Building</h3>
-              <p>
-                Our designs incorporate flexibility and
-                redundancy, allowing buildings to function under
-                various climate scenarios.
-              </p>
-            </div>
+    return (
+        <AnimatedSection>
+            <div className="research-page-wrapper">
+                <div className="research-content">
+                    <h1 className="research-title">
+                        Resilience & Climate Adaptation
+                    </h1>
+                    <p className="research-description">
+                        Proactive design strategies for adapting to our changing
+                        climate, creating buildings and communities that can
+                        withstand and recover from environmental disruptions
+                        while maintaining functionality and comfort.
+                    </p>
 
-            <div className="approach-item">
-              <h3>Community-Centered Approaches</h3>
-              <p>
-                We engage local communities in resilience
-                planning, combining technical expertise with
-                traditional knowledge.
-              </p>
-            </div>
-          </div>
+                    <div className="approach-grid">
+                        <div className="approach-item">
+                            <h3>Climate Risk Assessment</h3>
+                            <p>
+                                We begin each project with detailed analysis of
+                                site-specific climate vulnerabilities, using
+                                predictive modeling to anticipate future
+                                conditions.
+                            </p>
+                        </div>
 
-          <h2 className="section-subtitle">Adaptation Strategies</h2>
+                        <div className="approach-item">
+                            <h3>Adaptive Capacity Building</h3>
+                            <p>
+                                Our designs incorporate flexibility and
+                                redundancy, allowing buildings to function under
+                                various climate scenarios.
+                            </p>
+                        </div>
 
-          <div className="research-grid">
-            {strategies.map((strategy, index) => {
-              const IconComponent = iconComponents[strategy.icon] || FaWater;
-              return (
-                <div key={strategy.id || index} className="research-card">
-                  <div className="research-icon">
-                    <IconComponent />
-                  </div>
-                  <h3>{strategy.title}</h3>
-                  <p>{strategy.description}</p>
+                        <div className="approach-item">
+                            <h3>Community-Centered Approaches</h3>
+                            <p>
+                                We engage local communities in resilience
+                                planning, combining technical expertise with
+                                traditional knowledge.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h2 className="section-subtitle">Adaptation Strategies</h2>
+
+                    <div className="research-grid">
+                        {strategies.map((strategy, index) => {
+                            const IconComponent =
+                                iconComponents[strategy.icon] || FaWater;
+                            return (
+                                <div
+                                    key={strategy.id || index}
+                                    className="research-card"
+                                >
+                                    <div className="research-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <h3>{strategy.title}</h3>
+                                    <p>{strategy.description}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function CulturalSocial() {
-  const [studies, setStudies] = useState([]);
-  const [stats, setStats] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [studies, setStudies] = useState([]);
+    const [stats, setStats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchSocialStudies = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/social-studies`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch social studies');
-      }
-      
-      setStudies(data.data.studies);
-      setStats(data.data.stats);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching social studies:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchSocialStudies = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/social-studies`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchSocialStudies();
-  }, []);
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Failed to fetch social studies"
+                );
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchSocialStudies} />;
+            setStudies(data.data.studies);
+            setStats(data.data.stats);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching social studies:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="research-page-wrapper">
-        <div className="research-content">
-          <h1 className="research-title">Cultural & Social Impact Studies</h1>
-          <p className="research-description">
-            Investigating how architecture shapes and is shaped by
-            social structures, cultural practices, and human
-            behavior, with a focus on creating inclusive, equitable
-            spaces that strengthen community bonds.
-          </p>
+    useEffect(() => {
+        fetchSocialStudies();
+    }, []);
 
-          <div className="stats-grid">
-            {stats.map((stat, index) => {
-              const IconComponent = iconComponents[stat.icon_name] || FaUsers;
-              return (
-                <div key={stat.id || index} className="stat-item">
-                  <div className="stat-icon"><IconComponent /></div>
-                  <span className="stat-label">{stat.stat_label}</span>
-                  {stat.stat_value && (
-                    <div className="stat-value">{stat.stat_value}</div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+    if (loading) return <LoadingSpinner />;
+    if (error)
+        return <ErrorMessage message={error} onRetry={fetchSocialStudies} />;
 
-          <h2 className="section-subtitle">Research Projects</h2>
+    return (
+        <AnimatedSection>
+            <div className="research-page-wrapper">
+                <div className="research-content">
+                    <h1 className="research-title">
+                        Cultural & Social Impact Studies
+                    </h1>
+                    <p className="research-description">
+                        Investigating how architecture shapes and is shaped by
+                        social structures, cultural practices, and human
+                        behavior, with a focus on creating inclusive, equitable
+                        spaces that strengthen community bonds.
+                    </p>
 
-          <div className="studies-list">
-            {studies.map((study, index) => {
-              const IconComponent = iconComponents[study.icon] || FaUsers;
-              return (
-                <div key={study.id || index} className="study-item">
-                  <div className="study-icon">
-                    <IconComponent />
-                  </div>
-                  <div className="study-content">
-                    <h3>{study.title}</h3>
-                    <p>{study.description}</p>
-                    <div className="study-meta">
-                      <span className="study-focus">{study.focus_area}</span>
-                      <span className="study-year">2022-2023</span>
+                    <div className="stats-grid">
+                        {stats.map((stat, index) => {
+                            const IconComponent =
+                                iconComponents[stat.icon_name] || FaUsers;
+                            return (
+                                <div
+                                    key={stat.id || index}
+                                    className="stat-item"
+                                >
+                                    <div className="stat-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <span className="stat-label">
+                                        {stat.stat_label}
+                                    </span>
+                                    {stat.stat_value && (
+                                        <div className="stat-value">
+                                            {stat.stat_value}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
 
-          <div className="methodology-section">
-            <h2>Methodological Approach</h2>
-            <p>
-              Our social impact research employs participatory
-              action research methods, working collaboratively
-              with communities throughout the research process. We
-              combine ethnographic observation, spatial analysis,
-              and co-design workshops to develop nuanced
-              understanding of how architecture affects social
-              dynamics and cultural practices.
-            </p>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+                    <h2 className="section-subtitle">Research Projects</h2>
+
+                    <div className="studies-list">
+                        {studies.map((study, index) => {
+                            const IconComponent =
+                                iconComponents[study.icon] || FaUsers;
+                            return (
+                                <div
+                                    key={study.id || index}
+                                    className="study-item"
+                                >
+                                    <div className="study-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <div className="study-content">
+                                        <h3>{study.title}</h3>
+                                        <p>{study.description}</p>
+                                        <div className="study-meta">
+                                            <span className="study-focus">
+                                                {study.focus_area}
+                                            </span>
+                                            <span className="study-year">
+                                                2022-2023
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="methodology-section">
+                        <h2>Methodological Approach</h2>
+                        <p>
+                            Our social impact research employs participatory
+                            action research methods, working collaboratively
+                            with communities throughout the research process. We
+                            combine ethnographic observation, spatial analysis,
+                            and co-design workshops to develop nuanced
+                            understanding of how architecture affects social
+                            dynamics and cultural practices.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function ResearchOverview() {
-  const [stats, setStats] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [stats, setStats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  const fetchOverviewData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await fetch(`${API_BASE}/overview`);
-      const data = await response.json();
-      
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to fetch overview data');
-      }
-      
-      setStats(data.data.stats);
-    } catch (err) {
-      setError(err.message);
-      console.error('Error fetching overview data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchOverviewData = async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`${API_BASE}/overview`);
+            const data = await response.json();
 
-  useEffect(() => {
-    fetchOverviewData();
-  }, []);
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Failed to fetch overview data"
+                );
+            }
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} onRetry={fetchOverviewData} />;
+            setStats(data.data.stats);
+        } catch (err) {
+            setError(err.message);
+            console.error("Error fetching overview data:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <AnimatedSection>
-      <div className="research-page-wrapper">
-        <div className="research-content overview-content">
-          <h1 className="research-main-title">Research & Insights</h1>
-          <p className="research-main-description">
-            Advancing architectural knowledge through rigorous
-            research, innovative methodologies, and collaborative
-            inquiry. Our work spans technical, environmental,
-            social, and cultural dimensions of the built
-            environment.
-          </p>
+    useEffect(() => {
+        fetchOverviewData();
+    }, []);
 
-          <div className="research-navigation">
-            <Link to="articles-case-studies" className="nav-link">
-              Case Studies
-            </Link>
-            <Link to="sustainable-design" className="nav-link">
-              Sustainable Design
-            </Link>
-            <Link to="resilience-climate" className="nav-link">
-              Climate Adaptation
-            </Link>
-            <Link to="cultural-social" className="nav-link">
-              Social Impact
-            </Link>
-          </div>
+    if (loading) return <LoadingSpinner />;
+    if (error)
+        return <ErrorMessage message={error} onRetry={fetchOverviewData} />;
 
-          <div className="stats-grid">
-            {stats.map((stat, index) => {
-              const IconComponent = iconComponents[stat.icon_name] || FaChartBar;
-              return (
-                <div key={stat.id || index} className="stat-item">
-                  <div className="stat-icon"><IconComponent /></div>
-                  <span className="stat-label">{stat.stat_label}</span>
-                  {stat.stat_value && (
-                    <div className="stat-value">{stat.stat_value}</div>
-                  )}
+    return (
+        <AnimatedSection>
+            <div className="research-page-wrapper">
+                <div className="research-content overview-content">
+                    <h1 className="research-main-title">Research & Insights</h1>
+                    <p className="research-main-description">
+                        Advancing architectural knowledge through rigorous
+                        research, innovative methodologies, and collaborative
+                        inquiry. Our work spans technical, environmental,
+                        social, and cultural dimensions of the built
+                        environment.
+                    </p>
+
+                    <div className="research-navigation">
+                        <Link to="articles-case-studies" className="nav-link">
+                            Case Studies
+                        </Link>
+                        <Link to="sustainable-design" className="nav-link">
+                            Sustainable Design
+                        </Link>
+                        <Link to="resilience-climate" className="nav-link">
+                            Climate Adaptation
+                        </Link>
+                        <Link to="cultural-social" className="nav-link">
+                            Social Impact
+                        </Link>
+                    </div>
+
+                    <div className="stats-grid">
+                        {stats.map((stat, index) => {
+                            const IconComponent =
+                                iconComponents[stat.icon_name] || FaChartBar;
+                            return (
+                                <div
+                                    key={stat.id || index}
+                                    className="stat-item"
+                                >
+                                    <div className="stat-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <span className="stat-label">
+                                        {stat.stat_label}
+                                    </span>
+                                    {stat.stat_value && (
+                                        <div className="stat-value">
+                                            {stat.stat_value}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+
+                    <div className="partnerships-section">
+                        <h2>Research Partnerships</h2>
+                        <p>
+                            We collaborate with leading universities, research
+                            institutions, and industry partners worldwide to
+                            advance architectural knowledge and practice. Our
+                            current partners include MIT Sustainable Design Lab,
+                            ETH Zurich Future Cities Laboratory, and the UN
+                            Habitat Research Office.
+                        </p>
+                    </div>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="partnerships-section">
-            <h2>Research Partnerships</h2>
-            <p>
-              We collaborate with leading universities, research
-              institutions, and industry partners worldwide to
-              advance architectural knowledge and practice. Our
-              current partners include MIT Sustainable Design Lab,
-              ETH Zurich Future Cities Laboratory, and the UN
-              Habitat Research Office.
-            </p>
-          </div>
-        </div>
-      </div>
-    </AnimatedSection>
-  );
+            </div>
+        </AnimatedSection>
+    );
 }
 
 function ResearchInsights() {
-  return (
-    <div className="research-container">
-      <Routes>
-        <Route path="articles-case-studies" element={<ArticlesCaseStudies />} />
-        <Route path="sustainable-design" element={<SustainableDesign />} />
-        <Route path="resilience-climate" element={<ResilienceClimate />} />
-        <Route path="cultural-social" element={<CulturalSocial />} />
-        <Route path="*" element={<ResearchOverview />} />
-      </Routes>
+    return (
+        <div className="research-container">
+            <Routes>
+                <Route
+                    path="articles-case-studies"
+                    element={<ArticlesCaseStudies />}
+                />
+                <Route
+                    path="sustainable-design"
+                    element={<SustainableDesign />}
+                />
+                <Route
+                    path="resilience-climate"
+                    element={<ResilienceClimate />}
+                />
+                <Route path="cultural-social" element={<CulturalSocial />} />
+                <Route path="*" element={<ResearchOverview />} />
+            </Routes>
 
-      <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Futura&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
-        
-        .research-container {
-          background: var(--primary-dark);
-          min-height: 100vh;
-          color: rgba(255, 255, 255, 0.9);
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          font-weight: 300;
-        }
+            <style jsx>{`
+                @import url("https://fonts.googleapis.com/css2?family=Futura&family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
 
-        .research-page-wrapper {
-          padding: 8rem 2rem 2rem;
-          min-height: 100vh;
-          background: var(--primary-dark);
-        }
+                .research-container {
+                    background: var(--primary-dark);
+                    min-height: 100vh;
+                    color: rgba(255, 255, 255, 0.9);
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-weight: 300;
+                }
 
-        .research-content {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 2rem;
-          text-align: center;
-        }
+                .research-page-wrapper {
+                    padding: 8rem 2rem 2rem;
+                    min-height: 100vh;
+                    background: var(--primary-dark);
+                }
 
-        .overview-content {
-          text-align: center;
-        }
+                .research-content {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0 2rem;
+                    text-align: center;
+                }
 
-        /* Typography */
-        .research-title, .research-main-title {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-size: 2.2rem;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1.5rem;
-          text-align: center;
-          letter-spacing: -0.5px;
-        }
+                .overview-content {
+                    text-align: center;
+                }
 
-        .research-main-title {
-          font-size: 2.5rem;
-        }
+                /* Typography */
+                .research-title,
+                .research-main-title {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    font-size: 2.2rem;
+                    font-weight: 700;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1.5rem;
+                    text-align: center;
+                    letter-spacing: -0.5px;
+                }
 
-        .research-description, .research-main-description {
-          font-family: 'Lora', 'Georgia', serif;
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
-          max-width: 800px;
-          margin: 0 auto 2.5rem;
-          text-align: center;
-        }
+                .research-main-title {
+                    font-size: 2.5rem;
+                }
 
-        .research-main-description {
-          font-size: 1.1rem;
-          max-width: 700px;
-        }
+                .research-description,
+                .research-main-description {
+                    font-family: "Lora", "Georgia", serif;
+                    font-size: 1rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    max-width: 800px;
+                    margin: 0 auto 2.5rem;
+                    text-align: center;
+                }
 
-        /* Navigation */
-        .research-navigation {
-          display: flex;
-          justify-content: center;
-          gap: 0.5rem;
-          margin-bottom: 3rem;
-          flex-wrap: wrap;
-        }
+                .research-main-description {
+                    font-size: 1.1rem;
+                    max-width: 700px;
+                }
 
-        .nav-link {
-          padding: 8px 20px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: 0.95rem;
-          color: rgba(255, 255, 255, 0.8);
-          text-decoration: none;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          font-weight: 100;
-          letter-spacing: 0.5px;
-        }
+                /* Navigation */
+                .research-navigation {
+                    display: flex;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    margin-bottom: 3rem;
+                    flex-wrap: wrap;
+                }
 
-        .nav-link:hover {
-          border-color: var(--accent-light);
-          color: var(--accent-light);
-        }
+                .nav-link {
+                    padding: 8px 20px;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    font-size: 0.95rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    text-decoration: none;
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-weight: 100;
+                    letter-spacing: 0.5px;
+                }
 
-        /* Stats Grid */
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1.5rem;
-          margin: 3rem 0;
-        }
+                .nav-link:hover {
+                    border-color: var(--accent-light);
+                    color: var(--accent-light);
+                }
 
-        .stat-item {
-          text-align: center;
-          padding: 2rem 1rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: all 0.3s ease;
-        }
+                /* Stats Grid */
+                .stats-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1.5rem;
+                    margin: 3rem 0;
+                }
 
-        .stat-item:hover {
-          transform: translateY(-5px);
-          border-color: var(--accent-light);
-        }
+                .stat-item {
+                    text-align: center;
+                    padding: 2rem 1rem;
+                    background: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;
+                }
 
-        .stat-icon {
-          font-size: 3rem;
-          color: var(--accent-light);
-          margin-bottom: 1rem;
-        }
+                .stat-item:hover {
+                    transform: translateY(-5px);
+                    border-color: var(--accent-light);
+                }
 
-        .stat-label {
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 300;
-          letter-spacing: 0.5px;
-        }
+                .stat-icon {
+                    font-size: 3rem;
+                    color: var(--accent-light);
+                    margin-bottom: 1rem;
+                }
 
-        .stat-value {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-size: 1.5rem;
-          color: var(--accent-light);
-          font-weight: 600;
-          margin-top: 0.5rem;
-        }
+                .stat-label {
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-size: 1rem;
+                    color: rgba(255, 255, 255, 0.8);
+                    font-weight: 300;
+                    letter-spacing: 0.5px;
+                }
 
-        /* Research Grid */
-        .research-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-          gap: 2rem;
-          margin-bottom: 3rem;
-        }
+                .stat-value {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    font-size: 1.5rem;
+                    color: var(--accent-light);
+                    font-weight: 600;
+                    margin-top: 0.5rem;
+                }
 
-        .research-card {
-          background: rgba(255, 255, 255, 0.05);
-          padding: 2rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          transition: all 0.3s ease;
-          text-align: center;
-        }
+                /* Research Grid */
+                .research-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                    gap: 2rem;
+                    margin-bottom: 3rem;
+                }
 
-        .research-card:hover {
-          transform: translateY(-5px);
-          border-color: var(--accent-light);
-        }
+                .research-card {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: all 0.3s ease;
+                    text-align: center;
+                }
 
-        .research-icon {
-          font-size: 2.5rem;
-          color: var(--accent-light);
-          margin-bottom: 1rem;
-        }
+                .research-card:hover {
+                    transform: translateY(-5px);
+                    border-color: var(--accent-light);
+                }
 
-        .research-tag {
-          display: inline-block;
-          padding: 8px 20px;
-          background: var(--accent-light);
-          color: white;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          margin-bottom: 1rem;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          font-weight: 300;
-        }
+                .research-icon {
+                    font-size: 2.5rem;
+                    color: var(--accent-light);
+                    margin-bottom: 1rem;
+                }
 
-        .research-card h3 {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-size: 1.3rem;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1rem;
-          font-weight: 600;
-          letter-spacing: -0.3px;
-        }
+                .research-tag {
+                    display: inline-block;
+                    padding: 8px 20px;
+                    background: var(--accent-light);
+                    color: white;
+                    border-radius: 20px;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-weight: 300;
+                }
 
-        .research-card p {
-          font-family: 'Lora', 'Georgia', serif;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
-          font-size: 0.95rem;
-        }
+                .research-card h3 {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    font-size: 1.3rem;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1rem;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        /* Sections */
-        .section-subtitle {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          color: rgba(255, 255, 255, 0.95);
-          font-size: 1.6rem;
-          margin: 3rem 0 2rem;
-          text-align: center;
-          font-weight: 600;
-          letter-spacing: -0.3px;
-        }
+                .research-card p {
+                    font-family: "Lora", "Georgia", serif;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    font-size: 0.95rem;
+                }
 
-        .methodology-section, .certifications-section, .partnerships-section {
-          background: rgba(255, 255, 255, 0.05);
-          padding: 2rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          margin-top: 3rem;
-          text-align: center;
-        }
+                /* Sections */
+                .section-subtitle {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    color: rgba(255, 255, 255, 0.95);
+                    font-size: 1.6rem;
+                    margin: 3rem 0 2rem;
+                    text-align: center;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        .methodology-section h2, .certifications-section h2, .partnerships-section h2 {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1rem;
-          font-size: 1.4rem;
-          font-weight: 600;
-          letter-spacing: -0.3px;
-        }
+                .methodology-section,
+                .certifications-section,
+                .partnerships-section {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    margin-top: 3rem;
+                    text-align: center;
+                }
 
-        .methodology-section p, .certifications-section p, .partnerships-section p {
-          font-family: 'Lora', 'Georgia', serif;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
-          font-size: 1rem;
-        }
+                .methodology-section h2,
+                .certifications-section h2,
+                .partnerships-section h2 {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1rem;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        /* Approach Grid */
-        .approach-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 1.5rem;
-          margin-bottom: 2.5rem;
-        }
+                .methodology-section p,
+                .certifications-section p,
+                .partnerships-section p {
+                    font-family: "Lora", "Georgia", serif;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    font-size: 1rem;
+                }
 
-        .approach-item {
-          background: rgba(255, 255, 255, 0.05);
-          padding: 2rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          text-align: center;
-        }
+                /* Approach Grid */
+                .approach-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                    gap: 1.5rem;
+                    margin-bottom: 2.5rem;
+                }
 
-        .approach-item h3 {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-          font-weight: 600;
-          letter-spacing: -0.3px;
-        }
+                .approach-item {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    text-align: center;
+                }
 
-        .approach-item p {
-          font-family: 'Lora', 'Georgia', serif;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
-          font-size: 0.95rem;
-        }
+                .approach-item h3 {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1rem;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        /* Studies List */
-        .studies-list {
-          margin: 2.5rem 0;
-        }
+                .approach-item p {
+                    font-family: "Lora", "Georgia", serif;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    font-size: 0.95rem;
+                }
 
-        .study-item {
-          background: rgba(255, 255, 255, 0.05);
-          padding: 1.5rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          margin-bottom: 1rem;
-          display: flex;
-          align-items: flex-start;
-          gap: 1rem;
-          transition: all 0.3s ease;
-          text-align: left;
-        }
+                /* Studies List */
+                .studies-list {
+                    margin: 2.5rem 0;
+                }
 
-        .study-item:hover {
-          border-color: var(--accent-light);
-          transform: translateX(5px);
-        }
+                .study-item {
+                    background: rgba(255, 255, 255, 0.05);
+                    padding: 1.5rem;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    margin-bottom: 1rem;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 1rem;
+                    transition: all 0.3s ease;
+                    text-align: left;
+                }
 
-        .study-icon {
-          font-size: 2rem;
-          color: var(--accent-light);
-          margin-top: 0.5rem;
-          flex-shrink: 0;
-        }
+                .study-item:hover {
+                    border-color: var(--accent-light);
+                    transform: translateX(5px);
+                }
 
-        .study-content {
-          flex: 1;
-        }
+                .study-icon {
+                    font-size: 2rem;
+                    color: var(--accent-light);
+                    margin-top: 0.5rem;
+                    flex-shrink: 0;
+                }
 
-        .study-item h3 {
-          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 0.5rem;
-          font-size: 1.2rem;
-          font-weight: 600;
-          letter-spacing: -0.3px;
-        }
+                .study-content {
+                    flex: 1;
+                }
 
-        .study-item p {
-          font-family: 'Lora', 'Georgia', serif;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
-          margin-bottom: 1rem;
-          font-size: 0.95rem;
-        }
+                .study-item h3 {
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 0.5rem;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    letter-spacing: -0.3px;
+                }
 
-        .study-meta {
-          display: flex;
-          gap: 1.5rem;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
+                .study-item p {
+                    font-family: "Lora", "Georgia", serif;
+                    color: rgba(255, 255, 255, 0.8);
+                    line-height: 1.7;
+                    margin-bottom: 1rem;
+                    font-size: 0.95rem;
+                }
 
-        .study-focus {
-          background: var(--accent-light);
-          color: white;
-          padding: 0.5rem 1rem;
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
+                .study-meta {
+                    display: flex;
+                    gap: 1.5rem;
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                }
 
-        .study-year {
-          color: rgba(255, 255, 255, 0.7);
-          font-size: 0.9rem;
-          font-weight: 300;
-        }
+                .study-focus {
+                    background: var(--accent-light);
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                }
 
-        /* Loading and Error States */
-        .loading-spinner {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 4rem 2rem;
-          color: rgba(255, 255, 255, 0.8);
-        }
+                .study-year {
+                    color: rgba(255, 255, 255, 0.7);
+                    font-size: 0.9rem;
+                    font-weight: 300;
+                }
 
-        .loading-spinner .spinner {
-          width: 40px;
-          height: 40px;
-          border: 4px solid rgba(255, 255, 255, 0.3);
-          border-left: 4px solid var(--accent-light);
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-          margin-bottom: 1rem;
-        }
+                /* Loading and Error States */
+                .loading-spinner {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 4rem 2rem;
+                    color: rgba(255, 255, 255, 0.8);
+                }
 
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
+                .loading-spinner .spinner {
+                    width: 40px;
+                    height: 40px;
+                    border: 4px solid rgba(255, 255, 255, 0.3);
+                    border-left: 4px solid var(--accent-light);
+                    border-radius: 50%;
+                    animation: spin 1s linear infinite;
+                    margin-bottom: 1rem;
+                }
 
-        .error-message {
-          text-align: center;
-          padding: 4rem 2rem;
-          color: rgba(255, 255, 255, 0.8);
-        }
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
 
-        .retry-btn {
-          padding: 8px 20px;
-          background: var(--accent-light);
-          border: 1px solid var(--accent-light);
-          border-radius: 20px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          font-size: 0.95rem;
-          color: white;
-          font-weight: 600;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          font-weight: 300;
-          letter-spacing: 0.5px;
-          margin-top: 1rem;
-        }
+                .error-message {
+                    text-align: center;
+                    padding: 4rem 2rem;
+                    color: rgba(255, 255, 255, 0.8);
+                }
 
-        .retry-btn:hover {
-          background: rgba(176, 140, 77, 0.9);
-          border-color: rgba(176, 140, 77, 0.9);
-          transform: translateY(-1px);
-        }
+                .retry-btn {
+                    padding: 8px 20px;
+                    background: var(--accent-light);
+                    border: 1px solid var(--accent-light);
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+                    font-size: 0.95rem;
+                    color: white;
+                    font-weight: 600;
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-weight: 300;
+                    letter-spacing: 0.5px;
+                    margin-top: 1rem;
+                }
 
-        @media (max-width: 768px) {
-          .research-page-wrapper {
-            padding: 6rem 1rem 1rem;
-          }
-          
-          .research-main-title {
-            font-size: 2rem;
-          }
-          
-          .research-title {
-            font-size: 1.8rem;
-          }
-          
-          .research-grid, .approach-grid {
-            grid-template-columns: 1fr;
-          }
-          
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-          
-          .research-navigation {
-            flex-direction: column;
-            align-items: center;
-          }
-          
-          .nav-link {
-            width: 100%;
-            justify-content: center;
-          }
-          
-          .study-item {
-            flex-direction: column;
-            text-align: center;
-          }
-          
-          .study-meta {
-            flex-direction: column;
-            gap: 0.5rem;
-          }
-          
-          .research-content {
-            padding: 0 1rem;
-          }
-        }
+                .retry-btn:hover {
+                    background: rgba(176, 140, 77, 0.9);
+                    border-color: rgba(176, 140, 77, 0.9);
+                    transform: translateY(-1px);
+                }
 
-        @media (max-width: 480px) {
-          .stats-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
-    </div>
-  );
+                @media (max-width: 768px) {
+                    .research-page-wrapper {
+                        padding: 6rem 1rem 1rem;
+                    }
+
+                    .research-main-title {
+                        font-size: 2rem;
+                    }
+
+                    .research-title {
+                        font-size: 1.8rem;
+                    }
+
+                    .research-grid,
+                    .approach-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .stats-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .research-navigation {
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .nav-link {
+                        width: 100%;
+                        justify-content: center;
+                    }
+
+                    .study-item {
+                        flex-direction: column;
+                        text-align: center;
+                    }
+
+                    .study-meta {
+                        flex-direction: column;
+                        gap: 0.5rem;
+                    }
+
+                    .research-content {
+                        padding: 0 1rem;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .stats-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+            `}</style>
+        </div>
+    );
 }
 
 export default ResearchInsights;

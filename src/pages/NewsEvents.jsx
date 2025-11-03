@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
+import SkeletonLoader from "../components/SkeletonLoader";
+
+// Dynamic API base URL that works in both development and production
+const API_BASE_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:4000/api' 
+  : 'https://aspire-arch-server.onrender.com/api';
 
 function NewsEvents() {
     const [activeFilter, setActiveFilter] = useState("all");
@@ -14,44 +20,49 @@ function NewsEvents() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const baseUrl = "http://localhost:4000/api";
-                
+
                 // Fetch news articles
-                const newsResponse = await fetch(`${baseUrl}/newsevents/news`);
-                if (!newsResponse.ok) throw new Error('Failed to fetch news');
+                const newsResponse = await fetch(`${API_BASE_URL}/newsevents/news`);
+                if (!newsResponse.ok) throw new Error("Failed to fetch news");
                 const newsData = await newsResponse.json();
-                
+
                 // Fetch events
-                const eventsResponse = await fetch(`${baseUrl}/newsevents/events`);
-                if (!eventsResponse.ok) throw new Error('Failed to fetch events');
+                const eventsResponse = await fetch(
+                    `${API_BASE_URL}/newsevents/events`
+                );
+                if (!eventsResponse.ok)
+                    throw new Error("Failed to fetch events");
                 const eventsData = await eventsResponse.json();
 
                 // Transform news data to match your component structure
-                const transformedNews = newsData.map(article => ({
+                const transformedNews = newsData.map((article) => ({
                     id: article.id,
                     title: article.title,
-                    date: new Date(article.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                    date: new Date(article.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                     }),
                     author: article.author,
                     excerpt: article.excerpt,
                     image: article.image || "/images/default-news.jpg",
                     category: "news",
                     readTime: article.readTime || "3 min read",
-                    content: article.content
+                    content: article.content,
                 }));
 
                 // Transform events data to match your component structure
-                const transformedEvents = eventsData.map(event => ({
+                const transformedEvents = eventsData.map((event) => ({
                     id: event.id,
                     title: event.title,
-                    date: new Date(event.eventDate).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    }),
+                    date: new Date(event.eventDate).toLocaleDateString(
+                        "en-US",
+                        {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                        }
+                    ),
                     author: event.author,
                     excerpt: event.excerpt || event.description,
                     image: event.image || "/images/default-event.jpg",
@@ -59,7 +70,7 @@ function NewsEvents() {
                     readTime: event.readTime || "2 min read",
                     content: event.description,
                     eventTime: event.eventTime,
-                    location: event.location
+                    location: event.location,
                 }));
 
                 setNewsArticles(transformedNews);
@@ -67,21 +78,24 @@ function NewsEvents() {
 
                 // For featured projects, you might want to create a separate API endpoint
                 // For now, using some default data or featured news/events
-                const featuredResponse = await fetch(`${baseUrl}/newsevents/featured`);
+                const featuredResponse = await fetch(
+                    `${API_BASE_URL}/newsevents/featured`
+                );
                 if (featuredResponse.ok) {
                     const featuredData = await featuredResponse.json();
                     // Use featured items as projects for now, or create separate projects API
-                    setFeaturedProjects(featuredData.slice(0, 3).map(item => ({
-                        id: item.id,
-                        title: item.title,
-                        description: item.excerpt,
-                        image: item.image || "/images/default-project.jpg"
-                    })));
+                    setFeaturedProjects(
+                        featuredData.slice(0, 3).map((item) => ({
+                            id: item.id,
+                            title: item.title,
+                            description: item.excerpt,
+                            image: item.image || "/images/default-project.jpg",
+                        }))
+                    );
                 }
-
             } catch (err) {
                 setError(err.message);
-                console.error('Error fetching data:', err);
+                console.error("Error fetching data:", err);
             } finally {
                 setLoading(false);
             }
@@ -91,61 +105,74 @@ function NewsEvents() {
     }, []);
 
     // Combine news and events for the main grid
-    const allArticles = [...newsArticles, ...events.map(event => ({
-        ...event,
-        category: "event"
-    }))];
+    const allArticles = [
+        ...newsArticles,
+        ...events.map((event) => ({
+            ...event,
+            category: "event",
+        })),
+    ];
 
-    const filteredArticles = activeFilter === "all" 
-        ? allArticles 
-        : allArticles.filter(article => article.category === activeFilter);
+    const filteredArticles =
+        activeFilter === "all"
+            ? allArticles
+            : allArticles.filter(
+                  (article) => article.category === activeFilter
+              );
 
     // Format events for the upcoming events section
     const upcomingEvents = events
-        .filter(event => new Date(event.eventDate || event.date) >= new Date())
+        .filter(
+            (event) => new Date(event.eventDate || event.date) >= new Date()
+        )
         .slice(0, 3)
-        .map(event => {
+        .map((event) => {
             const eventDate = new Date(event.eventDate || event.date);
             return {
                 id: event.id,
                 title: event.title,
                 description: event.excerpt,
                 day: eventDate.getDate().toString(),
-                month: eventDate.toLocaleDateString('en-US', { month: 'short' }),
-                time: event.eventTime || "2:00 PM - 5:00 PM"
+                month: eventDate.toLocaleDateString("en-US", {
+                    month: "short",
+                }),
+                time: event.eventTime || "2:00 PM - 5:00 PM",
             };
         });
 
     if (loading) {
         return (
-            <div className="news-events-page" style={{ 
-                background: "var(--primary-dark)", 
-                minHeight: "100vh", 
-                color: "rgba(255, 255, 255, 0.9)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }}>
-                <div className="loading-spinner">Loading News & Events...</div>
+            <div
+                className="news-events-page"
+                style={{
+                    background: "var(--primary-dark)",
+                    minHeight: "100vh",
+                    color: "rgba(255, 255, 255, 0.9)",
+                }}
+            >
+                <SkeletonLoader type="card" count={6} />
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="news-events-page" style={{ 
-                background: "var(--primary-dark)", 
-                minHeight: "100vh", 
-                color: "rgba(255, 255, 255, 0.9)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
-            }}>
+            <div
+                className="news-events-page"
+                style={{
+                    background: "var(--primary-dark)",
+                    minHeight: "100vh",
+                    color: "rgba(255, 255, 255, 0.9)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
                 <div className="error-message">
                     Error loading content: {error}
                     <br />
-                    <button 
-                        onClick={() => window.location.reload()} 
+                    <button
+                        onClick={() => window.location.reload()}
                         style={{
                             marginTop: "1rem",
                             padding: "0.5rem 1rem",
@@ -153,7 +180,7 @@ function NewsEvents() {
                             border: "none",
                             borderRadius: "4px",
                             color: "white",
-                            cursor: "pointer"
+                            cursor: "pointer",
                         }}
                     >
                         Retry
@@ -164,23 +191,46 @@ function NewsEvents() {
     }
 
     return (
-        <div className="news-events-page" style={{ background: "var(--primary-dark)", minHeight: "100vh", color: "rgba(255, 255, 255, 0.9)" }}>
+        <div
+            className="news-events-page"
+            style={{
+                background: "var(--primary-dark)",
+                minHeight: "100vh",
+                color: "rgba(255, 255, 255, 0.9)",
+            }}
+        >
             <AnimatedSection>
                 <div className="news-page-wrapper">
                     <h1 className="news-page-title">News & Events</h1>
                     <p className="news-page-description">
-                        Stay updated with our latest projects, achievements, and upcoming events. 
-                        Explore our architectural journey and connect with us.
+                        Stay updated with our latest projects, achievements, and
+                        upcoming events. Explore our architectural journey and
+                        connect with us.
                     </p>
 
                     <div className="news-filters">
-                        <button className={`filter-btn ${activeFilter === "all" ? "active" : ""}`} onClick={() => setActiveFilter("all")}>
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "all" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("all")}
+                        >
                             All
                         </button>
-                        <button className={`filter-btn ${activeFilter === "news" ? "active" : ""}`} onClick={() => setActiveFilter("news")}>
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "news" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("news")}
+                        >
                             News
                         </button>
-                        <button className={`filter-btn ${activeFilter === "event" ? "active" : ""}`} onClick={() => setActiveFilter("event")}>
+                        <button
+                            className={`filter-btn ${
+                                activeFilter === "event" ? "active" : ""
+                            }`}
+                            onClick={() => setActiveFilter("event")}
+                        >
                             Events
                         </button>
                     </div>
@@ -190,35 +240,60 @@ function NewsEvents() {
                             filteredArticles.map((article) => (
                                 <div key={article.id} className="news-card">
                                     <div className="news-image">
-                                        <img 
-                                            src={article.image} 
+                                        <img
+                                            src={article.image}
                                             alt={article.title}
                                             onError={(e) => {
-                                                e.target.src = article.category === "news" 
-                                                    ? "/images/default-news.jpg" 
-                                                    : "/images/default-event.jpg";
+                                                e.target.src =
+                                                    article.category === "news"
+                                                        ? "/images/default-news.jpg"
+                                                        : "/images/default-event.jpg";
                                             }}
                                         />
-                                        <span className={`news-badge ${article.category}`}>
-                                            {article.category === "news" ? "News" : "Event"}
+                                        <span
+                                            className={`news-badge ${article.category}`}
+                                        >
+                                            {article.category === "news"
+                                                ? "News"
+                                                : "Event"}
                                         </span>
                                     </div>
                                     <div className="news-content">
-                                        <h3 className="news-card-title">{article.title}</h3>
+                                        <h3 className="news-card-title">
+                                            {article.title}
+                                        </h3>
                                         <div className="news-meta">
-                                            <span className="news-date">{article.date}</span>
-                                            <span className="news-read-time">{article.readTime}</span>
+                                            <span className="news-date">
+                                                {article.date}
+                                            </span>
+                                            <span className="news-read-time">
+                                                {article.readTime}
+                                            </span>
                                         </div>
-                                        <p className="news-excerpt">{article.excerpt}</p>
+                                        <p className="news-excerpt">
+                                            {article.excerpt}
+                                        </p>
                                         <div className="news-full-content">
                                             <p>{article.content}</p>
                                             {article.location && (
-                                                <p style={{ marginTop: "0.5rem", fontSize: "0.9rem", color: "var(--accent-light)" }}>
+                                                <p
+                                                    style={{
+                                                        marginTop: "0.5rem",
+                                                        fontSize: "0.9rem",
+                                                        color: "var(--accent-light)",
+                                                    }}
+                                                >
                                                     📍 {article.location}
                                                 </p>
                                             )}
                                             {article.eventTime && (
-                                                <p style={{ marginTop: "0.25rem", fontSize: "0.9rem", color: "var(--accent-light)" }}>
+                                                <p
+                                                    style={{
+                                                        marginTop: "0.25rem",
+                                                        fontSize: "0.9rem",
+                                                        color: "var(--accent-light)",
+                                                    }}
+                                                >
                                                     ⏰ {article.eventTime}
                                                 </p>
                                             )}
@@ -228,7 +303,13 @@ function NewsEvents() {
                             ))
                         ) : (
                             <div className="no-results">
-                                <p>No {activeFilter === "all" ? "content" : activeFilter} found.</p>
+                                <p>
+                                    No{" "}
+                                    {activeFilter === "all"
+                                        ? "content"
+                                        : activeFilter}{" "}
+                                    found.
+                                </p>
                             </div>
                         )}
                     </div>
@@ -243,11 +324,12 @@ function NewsEvents() {
                         {featuredProjects.length > 0 ? (
                             featuredProjects.map((project) => (
                                 <div key={project.id} className="project-card">
-                                    <img 
-                                        src={project.image} 
+                                    <img
+                                        src={project.image}
                                         alt={project.title}
                                         onError={(e) => {
-                                            e.target.src = "/images/default-project.jpg";
+                                            e.target.src =
+                                                "/images/default-project.jpg";
                                         }}
                                     />
                                     <h3>{project.title}</h3>
@@ -258,19 +340,40 @@ function NewsEvents() {
                             // Fallback featured projects if no API data
                             <>
                                 <div className="project-card">
-                                    <img src="/images/park.jpg" alt="Urban Green Park" />
+                                    <img
+                                        src="/images/park.jpg"
+                                        alt="Urban Green Park"
+                                    />
                                     <h3>Urban Green Park</h3>
-                                    <p>Award-winning sustainable park design that incorporates native vegetation and eco-friendly systems.</p>
+                                    <p>
+                                        Award-winning sustainable park design
+                                        that incorporates native vegetation and
+                                        eco-friendly systems.
+                                    </p>
                                 </div>
                                 <div className="project-card">
-                                    <img src="/images/library.jpg" alt="Modern Campus Library" />
+                                    <img
+                                        src="/images/library.jpg"
+                                        alt="Modern Campus Library"
+                                    />
                                     <h3>Modern Campus Library</h3>
-                                    <p>State-of-the-art academic facility with innovative glass façade and energy-efficient design.</p>
+                                    <p>
+                                        State-of-the-art academic facility with
+                                        innovative glass façade and
+                                        energy-efficient design.
+                                    </p>
                                 </div>
                                 <div className="project-card">
-                                    <img src="/images/housing.jpg" alt="Eco Housing Complex" />
+                                    <img
+                                        src="/images/housing.jpg"
+                                        alt="Eco Housing Complex"
+                                    />
                                     <h3>Eco Housing Complex</h3>
-                                    <p>Sustainable residential development with green roofs and renewable energy integration.</p>
+                                    <p>
+                                        Sustainable residential development with
+                                        green roofs and renewable energy
+                                        integration.
+                                    </p>
                                 </div>
                             </>
                         )}
@@ -287,13 +390,19 @@ function NewsEvents() {
                             upcomingEvents.map((event) => (
                                 <div key={event.id} className="event-item">
                                     <div className="event-date">
-                                        <span className="event-day">{event.day}</span>
-                                        <span className="event-month">{event.month}</span>
+                                        <span className="event-day">
+                                            {event.day}
+                                        </span>
+                                        <span className="event-month">
+                                            {event.month}
+                                        </span>
                                     </div>
                                     <div className="event-details">
                                         <h3>{event.title}</h3>
                                         <p>{event.description}</p>
-                                        <span className="event-time">{event.time}</span>
+                                        <span className="event-time">
+                                            {event.time}
+                                        </span>
                                     </div>
                                 </div>
                             ))
@@ -306,9 +415,16 @@ function NewsEvents() {
                                         <span className="event-month">Jun</span>
                                     </div>
                                     <div className="event-details">
-                                        <h3>Design Workshop: Community Spaces</h3>
-                                        <p>Interactive session on creating public areas</p>
-                                        <span className="event-time">10:00 AM - 4:00 PM</span>
+                                        <h3>
+                                            Design Workshop: Community Spaces
+                                        </h3>
+                                        <p>
+                                            Interactive session on creating
+                                            public areas
+                                        </p>
+                                        <span className="event-time">
+                                            10:00 AM - 4:00 PM
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="event-item">
@@ -318,8 +434,12 @@ function NewsEvents() {
                                     </div>
                                     <div className="event-details">
                                         <h3>Sustainable Architecture Tour</h3>
-                                        <p>Guided tour of eco-friendly projects</p>
-                                        <span className="event-time">2:00 PM - 5:00 PM</span>
+                                        <p>
+                                            Guided tour of eco-friendly projects
+                                        </p>
+                                        <span className="event-time">
+                                            2:00 PM - 5:00 PM
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="event-item">
@@ -328,9 +448,16 @@ function NewsEvents() {
                                         <span className="event-month">Jul</span>
                                     </div>
                                     <div className="event-details">
-                                        <h3>Future of Urban Living Conference</h3>
-                                        <p>Keynote presentations on urban development</p>
-                                        <span className="event-time">9:00 AM - 6:00 PM</span>
+                                        <h3>
+                                            Future of Urban Living Conference
+                                        </h3>
+                                        <p>
+                                            Keynote presentations on urban
+                                            development
+                                        </p>
+                                        <span className="event-time">
+                                            9:00 AM - 6:00 PM
+                                        </span>
                                     </div>
                                 </div>
                             </>

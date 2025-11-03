@@ -247,29 +247,65 @@ const DescriptionCard = styled(motion.div)`
     }
 `;
 
-// Slide Indicators
+// Modern Slide Indicators
 const SlideIndicators = styled.div`
     position: absolute;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 0.8rem;
+    gap: 0.5rem;
     z-index: 3;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
-const Indicator = styled.button`
-    width: 12px;
-    height: 12px;
+const Indicator = styled(motion.button)`
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     border: none;
-    background-color: ${(props) =>
-        props.active ? "#ffffff" : "rgba(255, 255, 255, 0.5)"};
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: ${props => props.active ? '16px' : '8px'};
+        height: ${props => props.active ? '16px' : '8px'};
+        border-radius: 50%;
+        background: ${props => props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.4)'};
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: ${props => props.active ? '0 0 10px rgba(255, 255, 255, 0.5)' : 'none'};
+    }
 
-    &:hover {
-        background-color: rgba(255, 255, 255, 0.8);
+    &:hover::before {
+        background: #ffffff;
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        width: 6px;
+        height: 6px;
+        
+        &::before {
+            width: ${props => props.active ? '12px' : '6px'};
+            height: ${props => props.active ? '12px' : '6px'};
+        }
+
+        &:hover::before {
+            width: 10px;
+            height: 10px;
+        }
     }
 `;
 
@@ -430,6 +466,8 @@ function Hero() {
                             key={index}
                             active={index === currentSlide}
                             onClick={() => goToSlide(index)}
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
                             aria-label={`Go to slide ${index + 1}`}
                         />
                     ))}

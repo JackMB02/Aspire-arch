@@ -1,46 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
-
-// Dynamic backend base URL for images
-const getBackendBaseUrl = () => {
-    return window.location.hostname === 'localhost' 
-        ? 'http://localhost:4000'
-        : 'https://aspire-arch-server.onrender.com';
-};
-
-const BACKEND_BASE_URL = getBackendBaseUrl();
-const API_BASE_URL = `${BACKEND_BASE_URL}/api`;
-
-// Helper function to construct proper image URLs
-const getImageUrl = (imagePath) => {
-    if (!imagePath || imagePath === 'null' || imagePath === 'undefined') {
-        return "/images/placeholder.jpg";
-    }
-    
-    // If it's already a full URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-        return imagePath;
-    }
-    
-    // If it's a data URL (base64 image), return as is
-    if (imagePath.startsWith('data:')) {
-        return imagePath;
-    }
-    
-    // If it starts with /uploads, construct full URL
-    if (imagePath.startsWith('/uploads/')) {
-        return `${BACKEND_BASE_URL}${imagePath}`;
-    }
-    
-    // If it's just a filename without path, assume it's in uploads
-    if (!imagePath.includes('/')) {
-        return `${BACKEND_BASE_URL}/uploads/${imagePath}`;
-    }
-    
-    // For any other relative paths
-    return `${BACKEND_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
-};
 
 // PageWrapper Component
 const PageWrapper = ({ title, description, children }) => {
@@ -57,13 +17,49 @@ const PageWrapper = ({ title, description, children }) => {
 
 // Individual Media Sections
 function PhotoAlbums() {
-    const [photos, setPhotos] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selectedCategory, setSelectedCategory] = useState("All");
+    const photos = [
+        {
+            id: 1,
+            title: "Urban Architecture",
+            image: "/images/pome.jpg",
+            category: "Architecture",
+        },
+        {
+            id: 2,
+            title: "Nature Integration",
+            image: "/images/library.jpg",
+            category: "Nature",
+        },
+        {
+            id: 3,
+            title: "Modern Design",
+            image: "/images/villa.jpg",
+            category: "Residential",
+        },
+        {
+            id: 4,
+            title: "Community Spaces",
+            image: "/images/park.jpg",
+            category: "Public",
+        },
+        {
+            id: 5,
+            title: "Interior Design",
+            image: "/images/office.jpg",
+            category: "Commercial",
+        },
+        {
+            id: 6,
+            title: "Cultural Heritage",
+            image: "/images/pavilion.jpg",
+            category: "Cultural",
+        },
+    ];
 
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const categories = [
         "All",
-        "Architecture",
+        "City",
         "Nature",
         "Residential",
         "Public",
@@ -71,43 +67,10 @@ function PhotoAlbums() {
         "Cultural",
     ];
 
-    useEffect(() => {
-        fetchPhotos();
-    }, []);
-
-    const fetchPhotos = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/photos`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Photos data from API:', data); // Debug log
-                setPhotos(data);
-            } else {
-                console.error("Failed to fetch photos");
-            }
-        } catch (error) {
-            console.error("Error fetching photos:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const filteredPhotos =
         selectedCategory === "All"
             ? photos
             : photos.filter((photo) => photo.category === selectedCategory);
-
-    if (loading) {
-        return (
-            <PageWrapper
-                title="Photo Albums"
-                description="Loading photos..."
-            >
-                <div className="loading-spinner">Loading photos...</div>
-            </PageWrapper>
-        );
-    }
 
     return (
         <PageWrapper
@@ -129,68 +92,52 @@ function PhotoAlbums() {
             </div>
 
             <div className="media-grid">
-                {filteredPhotos.length === 0 ? (
-                    <div className="no-data">No photos found. Upload some photos through the admin dashboard!</div>
-                ) : (
-                    filteredPhotos.map((photo) => (
-                        <div key={photo.id} className="media-card">
-                            <img 
-                                src={getImageUrl(photo.image)} 
-                                alt={photo.title} 
-                                onError={(e) => {
-                                    console.log('Image failed to load:', photo.image);
-                                    e.target.src = "/images/placeholder.jpg";
-                                }}
-                            />
-                            <div className="media-overlay">
-                                <h3>{photo.title}</h3>
-                                <p>{photo.category}</p>
-                                <button>View Album →</button>
-                            </div>
+                {filteredPhotos.map((photo) => (
+                    <div key={photo.id} className="media-card">
+                        <img src={photo.image} alt={photo.title} />
+                        <div className="media-overlay">
+                            <h3>{photo.title}</h3>
+                            <p>{photo.category}</p>
+                            <button>View Album →</button>
                         </div>
-                    ))
-                )}
+                    </div>
+                ))}
             </div>
         </PageWrapper>
     );
 }
 
 function VideoStories() {
-    const [videos, setVideos] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchVideos();
-    }, []);
-
-    const fetchVideos = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/videos`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Videos data from API:', data); // Debug log
-                setVideos(data);
-            } else {
-                console.error("Failed to fetch videos");
-            }
-        } catch (error) {
-            console.error("Error fetching videos:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return (
-            <PageWrapper
-                title="Video Stories"
-                description="Loading videos..."
-            >
-                <div className="loading-spinner">Loading videos...</div>
-            </PageWrapper>
-        );
-    }
+    const videos = [
+        {
+            id: 1,
+            title: "Project Walkthrough",
+            thumbnail: "/images/pome.jpg",
+            duration: "2:45",
+            videoSrc: "/videos/wa.mp4",
+        },
+        {
+            id: 2,
+            title: "Design Process",
+            thumbnail: "/images/villa.jpg",
+            duration: "4:20",
+            videoSrc: "/videos/wa.mp4",
+        },
+        {
+            id: 3,
+            title: "Client Testimonials",
+            thumbnail: "/images/office.jpg",
+            duration: "3:15",
+            videoSrc: "/videos/wa.mp4",
+        },
+        {
+            id: 4,
+            title: "Construction Progress",
+            thumbnail: "/images/housing.jpg",
+            duration: "5:30",
+            videoSrc: "/videos/wa.mp4",
+        },
+    ];
 
     return (
         <PageWrapper
@@ -198,97 +145,78 @@ function VideoStories() {
             description="Watch inspiring video stories highlighting our projects, community initiatives, and design process."
         >
             <div className="media-grid">
-                {videos.length === 0 ? (
-                    <div className="no-data">No videos found. Upload some videos through the admin dashboard!</div>
-                ) : (
-                    videos.map((video) => (
-                        <div
-                            key={video.id}
-                            className="media-card video-card"
+                {videos.map((video) => (
+                    <div
+                        key={video.id}
+                        className="media-card video-card"
+                    >
+                        <Link
+                            to={`/video/${video.id}`}
+                            className="video-thumbnail"
                         >
+                            <img
+                                src={video.thumbnail}
+                                alt={video.title}
+                            />
+                            <div className="play-indicator">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M8 5V19L19 12L8 5Z"
+                                        fill="white"
+                                    />
+                                </svg>
+                            </div>
+                            <span className="video-duration">
+                                {video.duration}
+                            </span>
+                        </Link>
+                        <div className="media-info">
+                            <h3>{video.title}</h3>
                             <Link
                                 to={`/video/${video.id}`}
-                                className="video-thumbnail"
+                                className="play-video-btn"
                             >
-                                <img
-                                    src={getImageUrl(video.thumbnail)}
-                                    alt={video.title}
-                                    onError={(e) => {
-                                        console.log('Thumbnail failed to load:', video.thumbnail);
-                                        e.target.src = "/images/placeholder.jpg";
-                                    }}
-                                />
-                                <div className="play-indicator">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M8 5V19L19 12L8 5Z"
-                                            fill="white"
-                                        />
-                                    </svg>
-                                </div>
-                                {video.duration && (
-                                    <span className="video-duration">
-                                        {video.duration}
-                                    </span>
-                                )}
+                                Play Video →
                             </Link>
-                            <div className="media-info">
-                                <h3>{video.title}</h3>
-                                <Link
-                                    to={`/video/${video.id}`}
-                                    className="play-video-btn"
-                                >
-                                    Play Video →
-                                </Link>
-                            </div>
                         </div>
-                    ))
-                )}
+                    </div>
+                ))}
             </div>
         </PageWrapper>
     );
 }
 
 function DesignVisualizations() {
-    const [designs, setDesigns] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchDesigns();
-    }, []);
-
-    const fetchDesigns = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/designs`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Designs data from API:', data); // Debug log
-                setDesigns(data);
-            } else {
-                console.error("Failed to fetch designs");
-            }
-        } catch (error) {
-            console.error("Error fetching designs:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return (
-            <PageWrapper
-                title="Design Visualizations"
-                description="Loading designs..."
-            >
-                <div className="loading-spinner">Loading designs...</div>
-            </PageWrapper>
-        );
-    }
+    const designs = [
+        {
+            id: 1,
+            title: "3D Concept Render",
+            image: "/images/pome.jpg",
+            type: "Exterior",
+        },
+        {
+            id: 2,
+            title: "Interior Visualization",
+            image: "/images/library.jpg",
+            type: "Interior",
+        },
+        {
+            id: 3,
+            title: "Landscape Design",
+            image: "/images/park.jpg",
+            type: "Landscape",
+        },
+        {
+            id: 4,
+            title: "Urban Planning",
+            image: "/images/office.jpg",
+            type: "Masterplan",
+        },
+    ];
 
     return (
         <PageWrapper
@@ -296,68 +224,40 @@ function DesignVisualizations() {
             description="Explore 3D renders and design visualizations showcasing architectural concepts and project ideas."
         >
             <div className="media-grid">
-                {designs.length === 0 ? (
-                    <div className="no-data">No designs found. Upload some designs through the admin dashboard!</div>
-                ) : (
-                    designs.map((design) => (
-                        <div key={design.id} className="media-card">
-                            <img 
-                                src={getImageUrl(design.image)} 
-                                alt={design.title}
-                                onError={(e) => {
-                                    console.log('Design image failed to load:', design.image);
-                                    e.target.src = "/images/placeholder.jpg";
-                                }}
-                            />
-                            <div className="media-overlay">
-                                <h3>{design.title}</h3>
-                                <p>{design.type}</p>
-                                <button>View Details →</button>
-                            </div>
+                {designs.map((design) => (
+                    <div key={design.id} className="media-card">
+                        <img src={design.image} alt={design.title} />
+                        <div className="media-overlay">
+                            <h3>{design.title}</h3>
+                            <p>{design.type}</p>
+                            <button>View Details →</button>
                         </div>
-                    ))
-                )}
+                    </div>
+                ))}
             </div>
         </PageWrapper>
     );
 }
 
 function CommunityVoices() {
-    const [testimonials, setTestimonials] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchTestimonials();
-    }, []);
-
-    const fetchTestimonials = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/testimonials`);
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Testimonials data from API:', data); // Debug log
-                setTestimonials(data);
-            } else {
-                console.error("Failed to fetch testimonials");
-            }
-        } catch (error) {
-            console.error("Error fetching testimonials:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return (
-            <PageWrapper
-                title="Community Voices"
-                description="Loading testimonials..."
-            >
-                <div className="loading-spinner">Loading testimonials...</div>
-            </PageWrapper>
-        );
-    }
+    const testimonials = [
+        {
+            id: 1,
+            name: "Sarah Johnson",
+            role: "Community Resident",
+            image: "/images/pome.jpg",
+            quote: "The design completely transformed our neighborhood. It's both beautiful and functional.",
+            project: "Urban Green Park",
+        },
+        {
+            id: 2,
+            name: "Michael Chen",
+            role: "Local Business Owner",
+            image: "/images/villa.jpg",
+            quote: "The attention to detail and understanding of our needs made this project exceptional.",
+            project: "Modern Campus Library",
+        },
+    ];
 
     return (
         <PageWrapper
@@ -365,38 +265,28 @@ function CommunityVoices() {
             description="Read testimonials and stories from our community, sharing experiences and insights about our projects."
         >
             <div className="testimonials-grid">
-                {testimonials.length === 0 ? (
-                    <div className="no-data">No testimonials found. Add some testimonials through the admin dashboard!</div>
-                ) : (
-                    testimonials.map((testimonial) => (
-                        <div key={testimonial.id} className="testimonial-card">
-                            <div className="testimonial-image">
-                                <img
-                                    src={getImageUrl(testimonial.image)}
-                                    alt={testimonial.name}
-                                    onError={(e) => {
-                                        console.log('Testimonial image failed to load:', testimonial.image);
-                                        e.target.src = "/images/placeholder.jpg";
-                                    }}
-                                />
-                            </div>
-                            <div className="testimonial-content">
-                                <h3>{testimonial.name}</h3>
-                                <p className="testimonial-role">
-                                    {testimonial.role}
-                                </p>
-                                <p className="testimonial-quote">
-                                    "{testimonial.quote}"
-                                </p>
-                                {testimonial.project && (
-                                    <p className="testimonial-project">
-                                        {testimonial.project}
-                                    </p>
-                                )}
-                            </div>
+                {testimonials.map((testimonial) => (
+                    <div key={testimonial.id} className="testimonial-card">
+                        <div className="testimonial-image">
+                            <img
+                                src={testimonial.image}
+                                alt={testimonial.name}
+                            />
                         </div>
-                    ))
-                )}
+                        <div className="testimonial-content">
+                            <h3>{testimonial.name}</h3>
+                            <p className="testimonial-role">
+                                {testimonial.role}
+                            </p>
+                            <p className="testimonial-quote">
+                                "{testimonial.quote}"
+                            </p>
+                            <p className="testimonial-project">
+                                {testimonial.project}
+                            </p>
+                        </div>
+                    </div>
+                ))}
             </div>
         </PageWrapper>
     );
@@ -404,76 +294,36 @@ function CommunityVoices() {
 
 // Media Overview Grid
 function MediaOverview() {
-    const [stats, setStats] = useState({
-        photos: 0,
-        videos: 0,
-        designs: 0,
-        testimonials: 0
-    });
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchStats();
-    }, []);
-
-    const fetchStats = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/stats`);
-            if (response.ok) {
-                const data = await response.json();
-                setStats(data);
-            } else {
-                console.error("Failed to fetch media stats");
-            }
-        } catch (error) {
-            console.error("Error fetching media stats:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     const categories = [
         {
             title: "Photo Albums",
             description: "Browse curated photo collections from our projects.",
             link: "photo-albums",
             image: "/images/pome.jpg",
-            count: `${stats.photos} photos`,
+            count: "48 photos",
         },
         {
             title: "Video Stories",
             description: "Watch inspiring video stories of our work.",
             link: "video-stories",
             image: "/images/villa.jpg",
-            count: `${stats.videos} videos`,
+            count: "12 videos",
         },
         {
             title: "Design Visualizations",
             description: "See 3D renders and visual concepts of our designs.",
             link: "design-visualizations",
             image: "/images/office.jpg",
-            count: `${stats.designs} renders`,
+            count: "24 renders",
         },
         {
             title: "Community Voices",
             description: "Read testimonials and stories from the community.",
             link: "community-voices",
             image: "/images/park.jpg",
-            count: `${stats.testimonials} stories`,
+            count: "16 stories",
         },
     ];
-
-    if (loading) {
-        return (
-            <PageWrapper
-                title="Media Gallery"
-                description="Loading media gallery..."
-            >
-                <div className="loading-spinner">Loading media gallery...</div>
-            </PageWrapper>
-        );
-    }
 
     return (
         <PageWrapper
@@ -521,33 +371,14 @@ function MediaGallery() {
                 <Route path="*" element={<MediaOverview />} />
             </Routes>
 
-            {/* Embedded CSS - Add loading styles */}
+            {/* Embedded CSS */}
             <style>
                 {`
-        /* Loading and Error States */
-        .loading-spinner {
-            text-align: center;
-            padding: 3rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 3rem;
-            color: rgba(255, 255, 255, 0.5);
-            font-style: italic;
-            grid-column: 1 / -1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Rest of your existing CSS styles... */
+        /* Media Gallery Styles */
         .media-gallery-page {
-          padding: 8rem 2rem 2rem;
+          padding: 6rem 2rem 2rem;
           min-height: 100vh;
-          background: var(--primary-dark);
+          background: #f8f9fa;
         }
 
         .media-page-wrapper {
@@ -557,52 +388,45 @@ function MediaGallery() {
         }
 
         .media-page-title {
-          font-size: 2.5rem;
+          font-size: 2.2rem;
           font-weight: 700;
-          color: rgba(255, 255, 255, 0.95);
-          margin-bottom: 1.5rem;
-          text-align: center;
+          color: #222;
+          margin-bottom: 1rem;
         }
 
         .media-page-description {
-          font-size: 1.1rem;
-          color: rgba(255, 255, 255, 0.8);
-          margin-bottom: 3rem;
+          font-size: 1rem;
+          color: #666;
+          margin-bottom: 2.5rem;
           line-height: 1.6;
-          text-align: center;
-          max-width: 800px;
-          margin-left: auto;
-          margin-right: auto;
         }
 
         /* Categories Grid */
         .media-categories-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-          gap: 2rem;
-          margin-top: 3rem;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+          margin-top: 2rem;
         }
 
         .category-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
+          background: white;
+          border-radius: 0;
           overflow: hidden;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           text-decoration: none;
           color: inherit;
-          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .category-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-          border-color: var(--accent-light);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .category-image {
           position: relative;
-          height: 200px;
+          height: 180px;
           overflow: hidden;
         }
 
@@ -623,35 +447,33 @@ function MediaGallery() {
           right: 10px;
           background: rgba(0, 0, 0, 0.7);
           color: white;
-          padding: 4px 10px;
-          border-radius: 12px;
+          padding: 3px 8px;
+          border-radius: 0;
           font-size: 0.8rem;
-          font-weight: 600;
         }
 
         .category-content {
-          padding: 1.5rem;
+          padding: 1.2rem;
         }
 
         .category-content h3 {
-          font-size: 1.3rem;
-          margin-bottom: 0.8rem;
-          color: rgba(255, 255, 255, 0.95);
-          font-weight: 600;
+          font-size: 1.2rem;
+          margin-bottom: 0.5rem;
+          color: #222;
         }
 
         .category-content p {
-          color: rgba(255, 255, 255, 0.8);
-          margin-bottom: 1.5rem;
+          color: #666;
+          margin-bottom: 1rem;
           line-height: 1.5;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
         .explore-link {
           color: var(--accent-light);
           font-weight: 600;
           transition: color 0.2s ease;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
         .category-card:hover .explore-link {
@@ -661,14 +483,14 @@ function MediaGallery() {
         /* Media Grid */
         .media-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 1.5rem;
+          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          gap: 1.2rem;
           margin-top: 2rem;
         }
 
         .media-card {
           position: relative;
-          border-radius: 8px;
+          border-radius: 0;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.05);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -678,13 +500,12 @@ function MediaGallery() {
 
         .media-card:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-          border-color: var(--accent-light);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .media-card img {
           width: 100%;
-          height: 220px;
+          height: 180px;
           object-fit: cover;
           display: block;
         }
@@ -698,7 +519,7 @@ function MediaGallery() {
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          padding: 1.5rem;
+          padding: 1.2rem;
           transition: opacity 0.3s ease;
         }
 
@@ -707,14 +528,13 @@ function MediaGallery() {
         }
 
         .media-overlay h3 {
-          font-size: 1.2rem;
-          margin-bottom: 0.5rem;
-          font-weight: 600;
+          font-size: 1.1rem;
+          margin-bottom: 0.4rem;
         }
 
         .media-overlay p {
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
+          font-size: 0.85rem;
+          margin-bottom: 0.8rem;
           opacity: 0.9;
         }
 
@@ -739,7 +559,7 @@ function MediaGallery() {
 
         /* Video Cards */
         .video-card {
-          min-height: 280px;
+          min-height: 260px;
           display: flex;
           flex-direction: column;
         }
@@ -767,7 +587,7 @@ function MediaGallery() {
           width: 60px;
           height: 60px;
           background: transparent;
-          border-radius: 50%;
+          border-radius: 0;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -794,7 +614,7 @@ function MediaGallery() {
           background: rgba(0, 0, 0, 0.8);
           color: white;
           padding: 4px 8px;
-          border-radius: 4px;
+          border-radius: 0;
           font-size: 0.75rem;
           font-weight: 500;
           backdrop-filter: blur(10px);
@@ -804,54 +624,70 @@ function MediaGallery() {
           display: inline-block;
           background: var(--accent-light);
           color: white;
-          padding: 0.6rem 1.2rem;
+          padding: 0.5rem 1rem;
           border-radius: 20px;
           text-decoration: none;
-          font-size: 0.9rem;
-          font-weight: 600;
+          font-size: 0.85rem;
+          font-weight: 500;
           transition: all 0.2s ease;
           margin-top: 0.5rem;
         }
 
         .play-video-btn:hover {
           background: rgba(176, 140, 77, 0.9);
-          transform: translateY(-2px);
+          transform: translateY(-1px);
           box-shadow: 0 4px 12px rgba(176, 140, 77, 0.3);
         }
 
         .media-info {
-          padding: 1rem;
+          padding: 0.8rem;
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
 
         .media-info h3 {
-          font-size: 1.1rem;
+          font-size: 1rem;
           margin-bottom: 0;
-          color: rgba(255, 255, 255, 0.95);
+          color: #222;
+        }
+
+        .media-info button {
+          background: var(--accent-light);
+          color: white;
+          border: none;
+          padding: 8px 20px;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
           font-weight: 600;
         }
+
+        .media-info button:hover {
+          background: rgba(176, 140, 77, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(176, 140, 77, 0.4);
+        }
+
+        /* Video Cards Enhanced */
 
         /* Filters */
         .media-filters {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.8rem;
-          margin-bottom: 2rem;
-          justify-content: center;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
         }
 
         .filter-btn {
-          padding: 8px 20px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
+          padding: 6px 12px;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 18px;
           cursor: pointer;
           transition: all 0.2s ease;
-          font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.8);
-          font-weight: 500;
+          font-size: 0.85rem;
         }
 
         .filter-btn:hover {
@@ -868,23 +704,22 @@ function MediaGallery() {
         /* Testimonials */
         .testimonials-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 2rem;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1.5rem;
         }
 
         .testimonial-card {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
+          background: white;
+          border-radius: 0;
           overflow: hidden;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
           display: flex;
           flex-direction: column;
           border-left: 4px solid var(--accent-light);
-          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .testimonial-image {
-          height: 200px;
+          height: 180px;
         }
 
         .testimonial-image img {
@@ -894,37 +729,35 @@ function MediaGallery() {
         }
 
         .testimonial-content {
-          padding: 1.5rem;
+          padding: 1.2rem;
           flex-grow: 1;
           display: flex;
           flex-direction: column;
         }
 
         .testimonial-content h3 {
-          font-size: 1.2rem;
-          margin-bottom: 0.3rem;
-          color: rgba(255, 255, 255, 0.95);
-          font-weight: 600;
+          font-size: 1.1rem;
+          margin-bottom: 0.2rem;
+          color: #222;
         }
 
         .testimonial-role {
           color: var(--accent-light);
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-          font-weight: 500;
+          font-size: 0.85rem;
+          margin-bottom: 0.8rem;
         }
 
         .testimonial-quote {
           font-style: italic;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
-          margin-bottom: 1rem;
+          color: #555;
+          line-height: 1.5;
+          margin-bottom: 0.8rem;
           flex-grow: 1;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
 
         .testimonial-project {
-          color: rgba(255, 255, 255, 0.7);
+          color: #777;
           font-size: 0.85rem;
           font-weight: 500;
         }
@@ -940,11 +773,11 @@ function MediaGallery() {
 
         @media (max-width: 768px) {
           .media-gallery-page {
-            padding: 7rem 1rem 1rem;
+            padding: 5rem 1rem 1rem;
           }
           
           .media-page-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
           }
           
           .media-categories-grid,
@@ -964,23 +797,62 @@ function MediaGallery() {
           .media-info {
             flex-direction: column;
             align-items: flex-start;
-            gap: 0.8rem;
+            gap: 0.5rem;
           }
         }
 
-        @media (max-width: 480px) {
-          .media-page-wrapper {
-            padding: 1rem 0.5rem;
-          }
-          
-          .media-page-title {
-            font-size: 1.8rem;
-          }
-          
-          .category-content,
-          .testimonial-content {
-            padding: 1rem;
-          }
+        /* Dark theme overrides */
+        .media-gallery-page {
+          background: var(--primary-dark) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .media-gallery-page *:not(img):not(svg):not(video) {
+          color: inherit !important;
+        }
+        
+        .media-gallery-page h1,
+        .media-gallery-page h2,
+        .media-gallery-page h3,
+        .media-gallery-page h4 {
+          color: rgba(255, 255, 255, 0.95) !important;
+        }
+        
+        .media-gallery-page .media-page-wrapper {
+          background: var(--primary-dark) !important;
+        }
+        
+        .media-gallery-page .category-card,
+        .media-gallery-page .album-card,
+        .media-gallery-page .video-card,
+        .media-gallery-page .visualization-card,
+        .media-gallery-page .testimonial-card,
+        .media-gallery-page .filter-btn {
+          background: rgba(255, 255, 255, 0.05) !important;
+          border: 1px solid rgba(255, 255, 255, 0.1) !important;
+          color: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .media-gallery-page .category-card:hover,
+        .media-gallery-page .album-card:hover,
+        .media-gallery-page .video-card:hover,
+        .media-gallery-page .visualization-card:hover,
+        .media-gallery-page .testimonial-card:hover,
+        .media-gallery-page .filter-btn:hover {
+          background: rgba(255, 255, 255, 0.08) !important;
+        }
+        
+        .media-gallery-page .filter-btn.active,
+        .media-gallery-page .view-btn,
+        .media-gallery-page .play-btn {
+          background: var(--accent-light) !important;
+          color: white !important;
+        }
+        
+        .media-gallery-page .filter-btn.active:hover,
+        .media-gallery-page .view-btn:hover,
+        .media-gallery-page .play-btn:hover {
+          background: rgba(122, 158, 217, 0.8) !important;
         }
         `}
             </style>

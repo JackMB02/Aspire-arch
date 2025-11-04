@@ -45,7 +45,7 @@ const FooterLink = styled(Link)`
     font-weight: 200;
     transition: color 0.3s;
     letter-spacing: 0.3px;
-    
+
     &:hover {
         color: var(--accent-light);
     }
@@ -67,7 +67,7 @@ const SocialIcon = styled.a`
     color: white;
     font-size: 1.3rem;
     transition: color 0.3s, transform 0.3s;
-    
+
     &:hover {
         color: var(--accent-light);
         transform: scale(1.1);
@@ -78,7 +78,7 @@ const NewsletterForm = styled.form`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    
+
     input {
         padding: 0.5rem;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,7 +89,7 @@ const NewsletterForm = styled.form`
         letter-spacing: 0.3px;
         background: rgba(255, 255, 255, 0.9);
     }
-    
+
     button {
         background: var(--accent-light);
         color: white;
@@ -102,7 +102,7 @@ const NewsletterForm = styled.form`
         border-radius: 4px;
         transition: background 0.3s;
         letter-spacing: 0.5px;
-        
+
         &:hover {
             background: var(--accent-medium);
         }
@@ -159,38 +159,44 @@ function Footer() {
 
         try {
             // Get API base URL
-            const API_BASE_URL = window.location.hostname === 'localhost' 
-                ? 'http://localhost:4000/api' 
-                : 'https://aspire-arch-server.onrender.com/api';
+            const API_BASE_URL =
+                window.location.hostname === "localhost"
+                    ? "http://localhost:4000/api"
+                    : "https://aspire-arch-server.onrender.com/api";
 
-            const response = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email }),
-            });
+            const response = await fetch(
+                `${API_BASE_URL}/newsletter/subscribe`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ email }),
+                }
+            );
 
             const data = await response.json();
 
             if (response.ok && data.success) {
-                setMessage({ 
-                    type: "success", 
-                    text: "Thank you for subscribing!" 
+                setMessage({
+                    type: "success",
+                    text: "Thank you for subscribing!",
                 });
                 setEmail("");
                 e.target.reset();
             } else {
-                setMessage({ 
-                    type: "error", 
-                    text: data.message || "Subscription failed. Please try again." 
+                setMessage({
+                    type: "error",
+                    text:
+                        data.message ||
+                        "Subscription failed. Please try again.",
                 });
             }
         } catch (error) {
             console.error("Newsletter subscription error:", error);
-            setMessage({ 
-                type: "error", 
-                text: "An error occurred. Please try again later." 
+            setMessage({
+                type: "error",
+                text: "An error occurred. Please try again later.",
             });
         } finally {
             setIsSubmitting(false);
@@ -210,10 +216,12 @@ function Footer() {
                     <FooterSection>
                         <FooterTitle>ASPIRE Design Lab</FooterTitle>
                         <FooterText>
-                            Architecture for Society and Planet, Inspiring Resilient
-                            Environments
+                            Architecture for Society and Planet, Inspiring
+                            Resilient Environments
                         </FooterText>
-                        <FooterText>&copy; {new Date().getFullYear()}</FooterText>
+                        <FooterText>
+                            &copy; {new Date().getFullYear()}
+                        </FooterText>
                     </FooterSection>
                 </motion.div>
                 <motion.div
@@ -232,7 +240,9 @@ function Footer() {
                             TheArchi.Co. Lab
                         </FooterLink>
                         <FooterLink to="/education">Education</FooterLink>
-                        <FooterLink to="/media-gallery">Media Gallery</FooterLink>
+                        <FooterLink to="/media-gallery">
+                            Media Gallery
+                        </FooterLink>
                         <FooterLink to="/get-involved">Get Involved</FooterLink>
                         <FooterLink to="/news-events">News & Events</FooterLink>
                         <FooterLink to="/contact">Contact</FooterLink>
@@ -246,10 +256,16 @@ function Footer() {
                     <FooterSection>
                         <FooterTitle>Connect</FooterTitle>
                         <SocialIcons>
-                            <SocialIcon href="https://twitter.com" target="_blank">
+                            <SocialIcon
+                                href="https://twitter.com"
+                                target="_blank"
+                            >
                                 <FaXTwitter />
                             </SocialIcon>
-                            <SocialIcon href="https://linkedin.com" target="_blank">
+                            <SocialIcon
+                                href="https://linkedin.com"
+                                target="_blank"
+                            >
                                 <FaLinkedin />
                             </SocialIcon>
                             <SocialIcon
@@ -303,13 +319,14 @@ function Footer() {
                             <button type="submit" disabled={isSubmitting}>
                                 {isSubmitting ? "Subscribing..." : "Subscribe"}
                             </button>
-                            {message.text && (
-                                message.type === "success" ? (
-                                    <SuccessMessage>{message.text}</SuccessMessage>
+                            {message.text &&
+                                (message.type === "success" ? (
+                                    <SuccessMessage>
+                                        {message.text}
+                                    </SuccessMessage>
                                 ) : (
                                     <ErrorMessage>{message.text}</ErrorMessage>
-                                )
-                            )}
+                                ))}
                         </NewsletterForm>
                     </FooterSection>
                 </motion.div>

@@ -11,9 +11,10 @@ import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 
 // Dynamic API base URL that works in both development and production
-const API_BASE = window.location.hostname === 'localhost' 
-  ? 'http://localhost:4000/api/thecolleagueuni' 
-  : 'https://aspire-arch-server.onrender.com/api/thecolleagueuni';
+const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:4000/api/thecolleagueuni"
+        : "https://aspire-arch-server.onrender.com/api/thecolleagueuni";
 
 // Loading component
 function LoadingSpinner() {

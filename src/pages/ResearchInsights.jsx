@@ -29,9 +29,10 @@ import {
 } from "react-icons/fa";
 
 // Dynamic API base URL that works in both development and production
-const API_BASE = window.location.hostname === 'localhost' 
-  ? 'http://localhost:4000/api/research' 
-  : 'https://aspire-arch-server.onrender.com/api/research';
+const API_BASE =
+    window.location.hostname === "localhost"
+        ? "http://localhost:4000/api/research"
+        : "https://aspire-arch-server.onrender.com/api/research";
 
 // Icon component mapping
 const iconComponents = {

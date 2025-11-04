@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 // Dynamic backend base URL for images
 const getBackendBaseUrl = () => {
-    return window.location.hostname === 'localhost' 
-        ? 'http://localhost:4000'
-        : 'https://aspire-arch-server.onrender.com';
+    return window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : "https://aspire-arch-server.onrender.com";
 };
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
@@ -14,32 +15,34 @@ const API_BASE_URL = `${BACKEND_BASE_URL}/api`;
 
 // Helper function to construct proper image URLs
 const getImageUrl = (imagePath) => {
-    if (!imagePath || imagePath === 'null' || imagePath === 'undefined') {
+    if (!imagePath || imagePath === "null" || imagePath === "undefined") {
         return "/images/placeholder.jpg";
     }
-    
+
     // If it's already a full URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
         return imagePath;
     }
-    
+
     // If it's a data URL (base64 image), return as is
-    if (imagePath.startsWith('data:')) {
+    if (imagePath.startsWith("data:")) {
         return imagePath;
     }
-    
+
     // If it starts with /uploads, construct full URL
-    if (imagePath.startsWith('/uploads/')) {
+    if (imagePath.startsWith("/uploads/")) {
         return `${BACKEND_BASE_URL}${imagePath}`;
     }
-    
+
     // If it's just a filename without path, assume it's in uploads
-    if (!imagePath.includes('/')) {
+    if (!imagePath.includes("/")) {
         return `${BACKEND_BASE_URL}/uploads/${imagePath}`;
     }
-    
+
     // For any other relative paths
-    return `${BACKEND_BASE_URL}${imagePath.startsWith('/') ? '' : '/'}${imagePath}`;
+    return `${BACKEND_BASE_URL}${
+        imagePath.startsWith("/") ? "" : "/"
+    }${imagePath}`;
 };
 
 // PageWrapper Component
@@ -81,7 +84,7 @@ function PhotoAlbums() {
             const response = await fetch(`${API_BASE_URL}/media/photos`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Photos data from API:', data); // Debug log
+                console.log("Photos data from API:", data); // Debug log
                 setPhotos(data);
             } else {
                 console.error("Failed to fetch photos");
@@ -100,11 +103,8 @@ function PhotoAlbums() {
 
     if (loading) {
         return (
-            <PageWrapper
-                title="Photo Albums"
-                description="Loading photos..."
-            >
-                <div className="loading-spinner">Loading photos...</div>
+            <PageWrapper title="Photo Albums" description="Loading photos...">
+                <SkeletonLoader type="card" count={6} />
             </PageWrapper>
         );
     }
@@ -130,15 +130,21 @@ function PhotoAlbums() {
 
             <div className="media-grid">
                 {filteredPhotos.length === 0 ? (
-                    <div className="no-data">No photos found. Upload some photos through the admin dashboard!</div>
+                    <div className="no-data">
+                        No photos found. Upload some photos through the admin
+                        dashboard!
+                    </div>
                 ) : (
                     filteredPhotos.map((photo) => (
                         <div key={photo.id} className="media-card">
-                            <img 
-                                src={getImageUrl(photo.image)} 
-                                alt={photo.title} 
+                            <img
+                                src={getImageUrl(photo.image)}
+                                alt={photo.title}
                                 onError={(e) => {
-                                    console.log('Image failed to load:', photo.image);
+                                    console.log(
+                                        "Image failed to load:",
+                                        photo.image
+                                    );
                                     e.target.src = "/images/placeholder.jpg";
                                 }}
                             />
@@ -169,7 +175,7 @@ function VideoStories() {
             const response = await fetch(`${API_BASE_URL}/media/videos`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Videos data from API:', data); // Debug log
+                console.log("Videos data from API:", data); // Debug log
                 setVideos(data);
             } else {
                 console.error("Failed to fetch videos");
@@ -183,11 +189,8 @@ function VideoStories() {
 
     if (loading) {
         return (
-            <PageWrapper
-                title="Video Stories"
-                description="Loading videos..."
-            >
-                <div className="loading-spinner">Loading videos...</div>
+            <PageWrapper title="Video Stories" description="Loading videos...">
+                <SkeletonLoader type="card" count={4} />
             </PageWrapper>
         );
     }
@@ -199,13 +202,13 @@ function VideoStories() {
         >
             <div className="media-grid">
                 {videos.length === 0 ? (
-                    <div className="no-data">No videos found. Upload some videos through the admin dashboard!</div>
+                    <div className="no-data">
+                        No videos found. Upload some videos through the admin
+                        dashboard!
+                    </div>
                 ) : (
                     videos.map((video) => (
-                        <div
-                            key={video.id}
-                            className="media-card video-card"
-                        >
+                        <div key={video.id} className="media-card video-card">
                             <Link
                                 to={`/video/${video.id}`}
                                 className="video-thumbnail"
@@ -214,8 +217,12 @@ function VideoStories() {
                                     src={getImageUrl(video.thumbnail)}
                                     alt={video.title}
                                     onError={(e) => {
-                                        console.log('Thumbnail failed to load:', video.thumbnail);
-                                        e.target.src = "/images/placeholder.jpg";
+                                        console.log(
+                                            "Thumbnail failed to load:",
+                                            video.thumbnail
+                                        );
+                                        e.target.src =
+                                            "/images/placeholder.jpg";
                                     }}
                                 />
                                 <div className="play-indicator">
@@ -267,7 +274,7 @@ function DesignVisualizations() {
             const response = await fetch(`${API_BASE_URL}/media/designs`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Designs data from API:', data); // Debug log
+                console.log("Designs data from API:", data); // Debug log
                 setDesigns(data);
             } else {
                 console.error("Failed to fetch designs");
@@ -285,7 +292,7 @@ function DesignVisualizations() {
                 title="Design Visualizations"
                 description="Loading designs..."
             >
-                <div className="loading-spinner">Loading designs...</div>
+                <SkeletonLoader type="card" count={6} />
             </PageWrapper>
         );
     }
@@ -297,15 +304,21 @@ function DesignVisualizations() {
         >
             <div className="media-grid">
                 {designs.length === 0 ? (
-                    <div className="no-data">No designs found. Upload some designs through the admin dashboard!</div>
+                    <div className="no-data">
+                        No designs found. Upload some designs through the admin
+                        dashboard!
+                    </div>
                 ) : (
                     designs.map((design) => (
                         <div key={design.id} className="media-card">
-                            <img 
-                                src={getImageUrl(design.image)} 
+                            <img
+                                src={getImageUrl(design.image)}
                                 alt={design.title}
                                 onError={(e) => {
-                                    console.log('Design image failed to load:', design.image);
+                                    console.log(
+                                        "Design image failed to load:",
+                                        design.image
+                                    );
                                     e.target.src = "/images/placeholder.jpg";
                                 }}
                             />
@@ -336,7 +349,7 @@ function CommunityVoices() {
             const response = await fetch(`${API_BASE_URL}/media/testimonials`);
             if (response.ok) {
                 const data = await response.json();
-                console.log('Testimonials data from API:', data); // Debug log
+                console.log("Testimonials data from API:", data); // Debug log
                 setTestimonials(data);
             } else {
                 console.error("Failed to fetch testimonials");
@@ -354,7 +367,7 @@ function CommunityVoices() {
                 title="Community Voices"
                 description="Loading testimonials..."
             >
-                <div className="loading-spinner">Loading testimonials...</div>
+                <SkeletonLoader type="list" count={4} />
             </PageWrapper>
         );
     }
@@ -366,7 +379,10 @@ function CommunityVoices() {
         >
             <div className="testimonials-grid">
                 {testimonials.length === 0 ? (
-                    <div className="no-data">No testimonials found. Add some testimonials through the admin dashboard!</div>
+                    <div className="no-data">
+                        No testimonials found. Add some testimonials through the
+                        admin dashboard!
+                    </div>
                 ) : (
                     testimonials.map((testimonial) => (
                         <div key={testimonial.id} className="testimonial-card">
@@ -375,8 +391,12 @@ function CommunityVoices() {
                                     src={getImageUrl(testimonial.image)}
                                     alt={testimonial.name}
                                     onError={(e) => {
-                                        console.log('Testimonial image failed to load:', testimonial.image);
-                                        e.target.src = "/images/placeholder.jpg";
+                                        console.log(
+                                            "Testimonial image failed to load:",
+                                            testimonial.image
+                                        );
+                                        e.target.src =
+                                            "/images/placeholder.jpg";
                                     }}
                                 />
                             </div>
@@ -408,7 +428,7 @@ function MediaOverview() {
         photos: 0,
         videos: 0,
         designs: 0,
-        testimonials: 0
+        testimonials: 0,
     });
     const [loading, setLoading] = useState(true);
 
@@ -470,7 +490,7 @@ function MediaOverview() {
                 title="Media Gallery"
                 description="Loading media gallery..."
             >
-                <div className="loading-spinner">Loading media gallery...</div>
+                <SkeletonLoader type="card" count={4} />
             </PageWrapper>
         );
     }

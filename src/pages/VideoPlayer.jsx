@@ -1,6 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaExpand, FaArrowLeft } from 'react-icons/fa';
+import React, { useState, useRef, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import {
+    FaPlay,
+    FaPause,
+    FaVolumeUp,
+    FaVolumeMute,
+    FaExpand,
+    FaArrowLeft,
+} from "react-icons/fa";
 
 const VideoPlayer = () => {
     const { videoId } = useParams();
@@ -18,47 +25,51 @@ const VideoPlayer = () => {
         {
             id: 1,
             title: "Sustainable Architecture in Rwanda",
-            description: "Exploring innovative sustainable building practices in Kigali's urban development projects.",
+            description:
+                "Exploring innovative sustainable building practices in Kigali's urban development projects.",
             videoUrl: "/videos/wa.mp4",
             thumbnail: "/images/office.jpg",
             duration: "5:32",
             views: "2.1K",
-            uploadDate: "2024-03-15"
+            uploadDate: "2024-03-15",
         },
         {
             id: 2,
             title: "Community Housing Project",
-            description: "A look into affordable housing solutions for growing communities in Rwanda.",
+            description:
+                "A look into affordable housing solutions for growing communities in Rwanda.",
             videoUrl: "/videos/wa.mp4",
             thumbnail: "/images/villa.jpg",
             duration: "4:18",
             views: "1.8K",
-            uploadDate: "2024-03-12"
+            uploadDate: "2024-03-12",
         },
         {
             id: 3,
             title: "Green Building Technologies",
-            description: "Modern eco-friendly construction techniques being implemented in East Africa.",
+            description:
+                "Modern eco-friendly construction techniques being implemented in East Africa.",
             videoUrl: "/videos/wa.mp4",
             thumbnail: "/images/park.jpg",
             duration: "6:45",
             views: "3.2K",
-            uploadDate: "2024-03-10"
+            uploadDate: "2024-03-10",
         },
         {
             id: 4,
             title: "Urban Planning Excellence",
-            description: "Strategic urban development approaches for sustainable city growth.",
+            description:
+                "Strategic urban development approaches for sustainable city growth.",
             videoUrl: "/videos/wa.mp4",
             thumbnail: "/images/pavilion.jpg",
             duration: "7:22",
             views: "2.9K",
-            uploadDate: "2024-03-08"
-        }
+            uploadDate: "2024-03-08",
+        },
     ];
 
-    const currentVideo = videos.find(v => v.id === parseInt(videoId));
-    const suggestedVideos = videos.filter(v => v.id !== parseInt(videoId));
+    const currentVideo = videos.find((v) => v.id === parseInt(videoId));
+    const suggestedVideos = videos.filter((v) => v.id !== parseInt(videoId));
 
     useEffect(() => {
         const video = videoRef.current;
@@ -67,12 +78,12 @@ const VideoPlayer = () => {
         const updateTime = () => setCurrentTime(video.currentTime);
         const updateDuration = () => setDuration(video.duration);
 
-        video.addEventListener('timeupdate', updateTime);
-        video.addEventListener('loadedmetadata', updateDuration);
+        video.addEventListener("timeupdate", updateTime);
+        video.addEventListener("loadedmetadata", updateDuration);
 
         return () => {
-            video.removeEventListener('timeupdate', updateTime);
-            video.removeEventListener('loadedmetadata', updateDuration);
+            video.removeEventListener("timeupdate", updateTime);
+            video.removeEventListener("loadedmetadata", updateDuration);
         };
     }, []);
 
@@ -119,7 +130,7 @@ const VideoPlayer = () => {
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
     if (!currentVideo) {
@@ -142,14 +153,17 @@ const VideoPlayer = () => {
             <div className="container">
                 {/* Back Button */}
                 <div className="video-header">
-                    <button onClick={() => navigate('/media-gallery')} className="back-btn">
+                    <button
+                        onClick={() => navigate("/media-gallery")}
+                        className="back-btn"
+                    >
                         <FaArrowLeft /> Back to Gallery
                     </button>
                 </div>
 
                 {/* Main Video Player */}
                 <div className="main-video-container">
-                    <div 
+                    <div
                         className="video-wrapper"
                         onMouseEnter={() => setShowControls(true)}
                         onMouseLeave={() => isPlaying && setShowControls(false)}
@@ -161,7 +175,7 @@ const VideoPlayer = () => {
                             onClick={togglePlay}
                             className="main-video"
                         />
-                        
+
                         {/* Play/Pause Overlay */}
                         {!isPlaying && (
                             <div className="play-overlay" onClick={togglePlay}>
@@ -170,21 +184,42 @@ const VideoPlayer = () => {
                         )}
 
                         {/* Video Controls */}
-                        <div className={`video-controls ${showControls ? 'visible' : ''}`}>
-                            <div className="progress-bar" onClick={handleProgressClick}>
-                                <div 
+                        <div
+                            className={`video-controls ${
+                                showControls ? "visible" : ""
+                            }`}
+                        >
+                            <div
+                                className="progress-bar"
+                                onClick={handleProgressClick}
+                            >
+                                <div
                                     className="progress-filled"
-                                    style={{ width: `${(currentTime / duration) * 100}%` }}
+                                    style={{
+                                        width: `${
+                                            (currentTime / duration) * 100
+                                        }%`,
+                                    }}
                                 />
                             </div>
-                            
+
                             <div className="controls-row">
                                 <div className="left-controls">
-                                    <button onClick={togglePlay} className="control-btn">
+                                    <button
+                                        onClick={togglePlay}
+                                        className="control-btn"
+                                    >
                                         {isPlaying ? <FaPause /> : <FaPlay />}
                                     </button>
-                                    <button onClick={toggleMute} className="control-btn">
-                                        {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+                                    <button
+                                        onClick={toggleMute}
+                                        className="control-btn"
+                                    >
+                                        {isMuted ? (
+                                            <FaVolumeMute />
+                                        ) : (
+                                            <FaVolumeUp />
+                                        )}
                                     </button>
                                     <input
                                         type="range"
@@ -193,7 +228,9 @@ const VideoPlayer = () => {
                                         step="0.1"
                                         value={isMuted ? 0 : volume}
                                         onChange={(e) => {
-                                            const newVolume = parseFloat(e.target.value);
+                                            const newVolume = parseFloat(
+                                                e.target.value
+                                            );
                                             setVolume(newVolume);
                                             videoRef.current.volume = newVolume;
                                             setIsMuted(newVolume === 0);
@@ -201,12 +238,16 @@ const VideoPlayer = () => {
                                         className="volume-slider"
                                     />
                                     <span className="time-display">
-                                        {formatTime(currentTime)} / {formatTime(duration)}
+                                        {formatTime(currentTime)} /{" "}
+                                        {formatTime(duration)}
                                     </span>
                                 </div>
-                                
+
                                 <div className="right-controls">
-                                    <button onClick={toggleFullscreen} className="control-btn">
+                                    <button
+                                        onClick={toggleFullscreen}
+                                        className="control-btn"
+                                    >
                                         <FaExpand />
                                     </button>
                                 </div>
@@ -220,9 +261,15 @@ const VideoPlayer = () => {
                         <div className="video-meta">
                             <span>{currentVideo.views} views</span>
                             <span>•</span>
-                            <span>{new Date(currentVideo.uploadDate).toLocaleDateString()}</span>
+                            <span>
+                                {new Date(
+                                    currentVideo.uploadDate
+                                ).toLocaleDateString()}
+                            </span>
                         </div>
-                        <p className="video-description">{currentVideo.description}</p>
+                        <p className="video-description">
+                            {currentVideo.description}
+                        </p>
                     </div>
                 </div>
 
@@ -230,25 +277,34 @@ const VideoPlayer = () => {
                 <div className="suggested-videos">
                     <h3>Suggested Videos</h3>
                     <div className="suggested-grid">
-                        {suggestedVideos.map(video => (
-                            <Link 
-                                key={video.id} 
+                        {suggestedVideos.map((video) => (
+                            <Link
+                                key={video.id}
                                 to={`/video/${video.id}`}
                                 className="suggested-video-card"
                             >
                                 <div className="suggested-thumbnail">
-                                    <img src={video.thumbnail} alt={video.title} />
+                                    <img
+                                        src={video.thumbnail}
+                                        alt={video.title}
+                                    />
                                     <div className="suggested-play-icon">
                                         <FaPlay />
                                     </div>
-                                    <span className="duration-badge">{video.duration}</span>
+                                    <span className="duration-badge">
+                                        {video.duration}
+                                    </span>
                                 </div>
                                 <div className="suggested-content">
                                     <h4>{video.title}</h4>
                                     <div className="suggested-meta">
                                         <span>{video.views} views</span>
                                         <span>•</span>
-                                        <span>{new Date(video.uploadDate).toLocaleDateString()}</span>
+                                        <span>
+                                            {new Date(
+                                                video.uploadDate
+                                            ).toLocaleDateString()}
+                                        </span>
                                     </div>
                                 </div>
                             </Link>
@@ -346,7 +402,10 @@ const VideoPlayer = () => {
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+                    background: linear-gradient(
+                        transparent,
+                        rgba(0, 0, 0, 0.8)
+                    );
                     padding: 2rem 1rem 1rem;
                     opacity: 0;
                     transition: opacity 0.3s ease;

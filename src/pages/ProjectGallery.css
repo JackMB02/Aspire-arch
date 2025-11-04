@@ -1,160 +1,164 @@
 /* General Page */
 .page-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
 }
 
 .page-title {
-  font-size: 2rem;       /* decreased from 2.5rem */
-  font-weight: bold;
-  color: #222;
-  margin-top: 4rem;      /* increased top margin */
-  margin-left: 1rem;     /* left margin */
-  margin-bottom: 1rem;   /* spacing below title */
+    font-size: 2rem; /* decreased from 2.5rem */
+    font-weight: bold;
+    color: #222;
+    margin-top: 4rem; /* increased top margin */
+    margin-left: 1rem; /* left margin */
+    margin-bottom: 1rem; /* spacing below title */
 }
 
 .page-description {
-  font-size: 1.1rem;     
-  color: #666;
-  margin-top: 1rem;      /* space below title */
-  margin-left: 1rem;     
-  margin-bottom: 2.5rem; 
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 1rem; /* space below title */
+    margin-left: 1rem;
+    margin-bottom: 2.5rem;
 }
 
 /* Media Grid - Same as Media Gallery */
 .media-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .media-card {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
 }
 
 .media-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  border-color: #f97316;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #f97316;
 }
 
 .media-card img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
 }
 
 .media-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.1) 100%);
-  color: white;
-  opacity: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.5rem;
-  transition: opacity 0.3s ease;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    color: white;
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    transition: opacity 0.3s ease;
 }
 
 .media-card:hover .media-overlay {
-  opacity: 1;
+    opacity: 1;
 }
 
 .media-overlay h3 {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .media-overlay p {
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-  opacity: 0.95;
-  line-height: 1.4;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    opacity: 0.95;
+    line-height: 1.4;
 }
 
 .project-meta-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .meta-tag {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: 500;
-  text-transform: capitalize;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .featured-badge-overlay {
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-weight: 600;
-  background: linear-gradient(135deg, #f97316, #fb923c);
-  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
 }
 
 .media-overlay button {
-  background: #f97316;
-  color: white;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  align-self: flex-start;
-  font-weight: 600;
+    background: #f97316;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+    font-weight: 600;
 }
 
 .media-overlay button:hover {
-  background: #fb923c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+    background: #fb923c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
 }
 
 .media-overlay a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 /* Responsive Media Grid */
 @media (max-width: 768px) {
-  .media-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0.5rem;
-  }
-  
-  .media-card img {
-    height: 200px;
-  }
+    .media-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0.5rem;
+    }
+
+    .media-card img {
+        height: 200px;
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  .media-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .media-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
-
 
 /* Masonry grid */
 .masonry {

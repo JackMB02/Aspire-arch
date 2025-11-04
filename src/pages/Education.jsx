@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import SkeletonLoader from "../components/SkeletonLoader";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
-import { 
-    FaLeaf, 
-    FaLaptop, 
-    FaRulerCombined, 
-    FaCamera, 
-    FaHome, 
+import {
+    FaLeaf,
+    FaLaptop,
+    FaRulerCombined,
+    FaCamera,
+    FaHome,
     FaCity,
     FaChartBar,
     FaSeedling,
@@ -23,14 +24,14 @@ import {
     FaBook,
     FaGraduationCap,
     FaLightbulb,
-    FaComments
+    FaComments,
 } from "react-icons/fa";
 
 // Dynamic backend base URL for images
 const getBackendBaseUrl = () => {
-    return window.location.hostname === 'localhost' 
-        ? 'http://localhost:4000'
-        : 'https://aspire-arch-server.onrender.com';
+    return window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : "https://aspire-arch-server.onrender.com";
 };
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
@@ -48,17 +49,18 @@ function WorkshopsTraining() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching workshops...');
-            
+            console.log("Fetching workshops...");
+
             // For now, use fallback data since API might not be configured for education
             // const data = await apiRequest(API_ENDPOINTS.EDUCATION.WORKSHOPS);
-            
+
             // Simulate API call delay
             setTimeout(() => {
                 const sampleWorkshops = [
                     {
                         title: "Sustainable Design Principles",
-                        description: "Learn how to integrate eco-friendly practices into your architectural projects from concept to completion.",
+                        description:
+                            "Learn how to integrate eco-friendly practices into your architectural projects from concept to completion.",
                         tag: "Beginner",
                         duration: "2 Days",
                         date: "June 15-16, 2023",
@@ -67,7 +69,8 @@ function WorkshopsTraining() {
                     },
                     {
                         title: "BIM Implementation Masterclass",
-                        description: "Advanced training on Building Information Modeling workflows for complex architectural projects.",
+                        description:
+                            "Advanced training on Building Information Modeling workflows for complex architectural projects.",
                         tag: "Advanced",
                         duration: "3 Days",
                         date: "July 5-7, 2023",
@@ -76,7 +79,8 @@ function WorkshopsTraining() {
                     },
                     {
                         title: "Parametric Design with Rhino & Grasshopper",
-                        description: "Hands-on workshop exploring computational design techniques for innovative architectural forms.",
+                        description:
+                            "Hands-on workshop exploring computational design techniques for innovative architectural forms.",
                         tag: "Intermediate",
                         duration: "2 Days",
                         date: "June 22-23, 2023",
@@ -85,7 +89,8 @@ function WorkshopsTraining() {
                     },
                     {
                         title: "Architectural Photography",
-                        description: "Master the art of capturing buildings and spaces with professional architectural photographer.",
+                        description:
+                            "Master the art of capturing buildings and spaces with professional architectural photographer.",
                         tag: "All Levels",
                         duration: "1 Day",
                         date: "July 12, 2023",
@@ -94,7 +99,8 @@ function WorkshopsTraining() {
                     },
                     {
                         title: "Passive House Design Certification",
-                        description: "Comprehensive training on passive house standards and certification process.",
+                        description:
+                            "Comprehensive training on passive house standards and certification process.",
                         tag: "Intermediate",
                         duration: "4 Days",
                         date: "August 8-11, 2023",
@@ -103,7 +109,8 @@ function WorkshopsTraining() {
                     },
                     {
                         title: "Urban Planning for Sustainable Communities",
-                        description: "Learn strategies for creating resilient, sustainable urban environments.",
+                        description:
+                            "Learn strategies for creating resilient, sustainable urban environments.",
                         tag: "Advanced",
                         duration: "3 Days",
                         date: "July 19-21, 2023",
@@ -114,9 +121,8 @@ function WorkshopsTraining() {
                 setWorkshops(sampleWorkshops);
                 setLoading(false);
             }, 1000);
-            
         } catch (err) {
-            console.error('Error fetching workshops:', err);
+            console.error("Error fetching workshops:", err);
             setError(err.message);
             setLoading(false);
         }
@@ -127,10 +133,7 @@ function WorkshopsTraining() {
             <AnimatedSection>
                 <div className="education-page-wrapper">
                     <div className="education-content">
-                        <div className="loading-spinner">
-                            <div className="spinner"></div>
-                            Loading workshops...
-                        </div>
+                        <SkeletonLoader type="workshop" count={4} />
                     </div>
                 </div>
             </AnimatedSection>
@@ -156,28 +159,48 @@ function WorkshopsTraining() {
         <AnimatedSection>
             <div className="education-page-wrapper">
                 <div className="education-content">
-                    <h1 className="education-title">Workshops & Training Programs</h1>
+                    <h1 className="education-title">
+                        Workshops & Training Programs
+                    </h1>
                     <p className="education-description">
-                        Expand your skills and knowledge through our hands-on workshops and professional training programs. 
-                        Learn from industry experts and connect with fellow architects and designers.
+                        Expand your skills and knowledge through our hands-on
+                        workshops and professional training programs. Learn from
+                        industry experts and connect with fellow architects and
+                        designers.
                     </p>
 
                     <div className="stats-grid">
                         <div className="stat-item">
-                            <div className="stat-icon"><FaCalendarAlt /></div>
-                            <span className="stat-label">Workshops Offered</span>
+                            <div className="stat-icon">
+                                <FaCalendarAlt />
+                            </div>
+                            <span className="stat-label">
+                                Workshops Offered
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaUsers /></div>
-                            <span className="stat-label">Expert Instructors</span>
+                            <div className="stat-icon">
+                                <FaUsers />
+                            </div>
+                            <span className="stat-label">
+                                Expert Instructors
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaGraduationCap /></div>
-                            <span className="stat-label">Participants Trained</span>
+                            <div className="stat-icon">
+                                <FaGraduationCap />
+                            </div>
+                            <span className="stat-label">
+                                Participants Trained
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaChartBar /></div>
-                            <span className="stat-label">Satisfaction Rate</span>
+                            <div className="stat-icon">
+                                <FaChartBar />
+                            </div>
+                            <span className="stat-label">
+                                Satisfaction Rate
+                            </span>
                         </div>
                     </div>
 
@@ -189,15 +212,22 @@ function WorkshopsTraining() {
                                 <div className="education-icon">
                                     <workshop.icon />
                                 </div>
-                                <span className="education-tag">{workshop.tag}</span>
+                                <span className="education-tag">
+                                    {workshop.tag}
+                                </span>
                                 <h3>{workshop.title}</h3>
                                 <p>{workshop.description}</p>
                                 <div className="education-meta">
-                                    <span><FaClock /> {workshop.duration}</span>
-                                    <span><FaCalendarAlt /> {workshop.date}</span>
+                                    <span>
+                                        <FaClock /> {workshop.duration}
+                                    </span>
+                                    <span>
+                                        <FaCalendarAlt /> {workshop.date}
+                                    </span>
                                 </div>
                                 <p className="education-instructor">
-                                    <FaUserTie /> Instructor: {workshop.instructor}
+                                    <FaUserTie /> Instructor:{" "}
+                                    {workshop.instructor}
                                 </p>
                             </div>
                         ))}
@@ -206,8 +236,10 @@ function WorkshopsTraining() {
                     <div className="info-section">
                         <h2>Custom Corporate Training</h2>
                         <p>
-                            We offer customized training programs for architecture firms and design teams. 
-                            Our programs can be tailored to your specific needs and delivered at your location or virtually.
+                            We offer customized training programs for
+                            architecture firms and design teams. Our programs
+                            can be tailored to your specific needs and delivered
+                            at your location or virtually.
                         </p>
                     </div>
                 </div>
@@ -221,7 +253,15 @@ function TutorialsGuides() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [activeCategory, setActiveCategory] = useState("All");
-    const categories = ["All", "Software", "Design", "Materials", "Visualization", "Regulations", "Communication"];
+    const categories = [
+        "All",
+        "Software",
+        "Design",
+        "Materials",
+        "Visualization",
+        "Regulations",
+        "Communication",
+    ];
 
     useEffect(() => {
         fetchTutorials();
@@ -231,13 +271,14 @@ function TutorialsGuides() {
         try {
             setLoading(true);
             setError(null);
-            
+
             // Simulate API call delay
             setTimeout(() => {
                 const sampleTutorials = [
                     {
                         title: "Revit for Architectural Documentation",
-                        description: "Complete guide to creating professional architectural documentation using Autodesk Revit.",
+                        description:
+                            "Complete guide to creating professional architectural documentation using Autodesk Revit.",
                         category: "Software",
                         level: "Beginner",
                         format: "Video Series",
@@ -245,7 +286,8 @@ function TutorialsGuides() {
                     },
                     {
                         title: "Sustainable Material Selection",
-                        description: "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
+                        description:
+                            "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
                         category: "Materials",
                         level: "Intermediate",
                         format: "PDF Guide",
@@ -253,7 +295,8 @@ function TutorialsGuides() {
                     },
                     {
                         title: "Architectural Rendering with V-Ray",
-                        description: "Step-by-step tutorial for creating photorealistic architectural visualizations.",
+                        description:
+                            "Step-by-step tutorial for creating photorealistic architectural visualizations.",
                         category: "Visualization",
                         level: "Advanced",
                         format: "Video Tutorial",
@@ -261,7 +304,8 @@ function TutorialsGuides() {
                     },
                     {
                         title: "Building Code Compliance",
-                        description: "Comprehensive reference for navigating building codes and regulations.",
+                        description:
+                            "Comprehensive reference for navigating building codes and regulations.",
                         category: "Regulations",
                         level: "All Levels",
                         format: "Interactive Guide",
@@ -269,7 +313,8 @@ function TutorialsGuides() {
                     },
                     {
                         title: "Parametric Facade Design",
-                        description: "Advanced techniques for designing complex building envelopes using computational tools.",
+                        description:
+                            "Advanced techniques for designing complex building envelopes using computational tools.",
                         category: "Design",
                         level: "Advanced",
                         format: "Video Series",
@@ -277,7 +322,8 @@ function TutorialsGuides() {
                     },
                     {
                         title: "Client Presentation Techniques",
-                        description: "Strategies for effectively communicating design concepts to clients and stakeholders.",
+                        description:
+                            "Strategies for effectively communicating design concepts to clients and stakeholders.",
                         category: "Communication",
                         level: "Intermediate",
                         format: "Guidebook",
@@ -287,9 +333,8 @@ function TutorialsGuides() {
                 setTutorials(sampleTutorials);
                 setLoading(false);
             }, 1000);
-            
         } catch (err) {
-            console.error('Error fetching tutorials:', err);
+            console.error("Error fetching tutorials:", err);
             setError(err.message);
             setLoading(false);
         }
@@ -300,10 +345,7 @@ function TutorialsGuides() {
             <AnimatedSection>
                 <div className="education-page-wrapper">
                     <div className="education-content">
-                        <div className="loading-spinner">
-                            <div className="spinner"></div>
-                            Loading tutorials...
-                        </div>
+                        <SkeletonLoader type="card" count={6} />
                     </div>
                 </div>
             </AnimatedSection>
@@ -329,10 +371,14 @@ function TutorialsGuides() {
         <AnimatedSection>
             <div className="education-page-wrapper">
                 <div className="education-content">
-                    <h1 className="education-title">Tutorials & Learning Resources</h1>
+                    <h1 className="education-title">
+                        Tutorials & Learning Resources
+                    </h1>
                     <p className="education-description">
-                        Access our comprehensive library of tutorials, guides, and learning materials designed to help 
-                        architects at all stages of their career develop new skills and deepen their expertise.
+                        Access our comprehensive library of tutorials, guides,
+                        and learning materials designed to help architects at
+                        all stages of their career develop new skills and deepen
+                        their expertise.
                     </p>
 
                     <div className="category-tabs">
@@ -351,7 +397,11 @@ function TutorialsGuides() {
 
                     <div className="tutorials-list">
                         {tutorials
-                            .filter((tutorial) => activeCategory === "All" || tutorial.category === activeCategory)
+                            .filter(
+                                (tutorial) =>
+                                    activeCategory === "All" ||
+                                    tutorial.category === activeCategory
+                            )
                             .map((tutorial, index) => (
                                 <div key={index} className="tutorial-item">
                                     <div className="tutorial-icon">
@@ -361,9 +411,16 @@ function TutorialsGuides() {
                                         <h3>{tutorial.title}</h3>
                                         <p>{tutorial.description}</p>
                                         <div className="tutorial-meta">
-                                            <span><FaBook /> {tutorial.category}</span>
-                                            <span><FaGraduationCap /> {tutorial.level}</span>
-                                            <span><FaLaptop /> {tutorial.format}</span>
+                                            <span>
+                                                <FaBook /> {tutorial.category}
+                                            </span>
+                                            <span>
+                                                <FaGraduationCap />{" "}
+                                                {tutorial.level}
+                                            </span>
+                                            <span>
+                                                <FaLaptop /> {tutorial.format}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -373,15 +430,25 @@ function TutorialsGuides() {
                     <div className="info-section">
                         <h2>Learning Pathways</h2>
                         <p>
-                            Our structured learning pathways help you build skills systematically. Whether you're focusing 
-                            on sustainable design, computational methods, or project management, we have curated collections 
-                            of resources to guide your learning journey.
+                            Our structured learning pathways help you build
+                            skills systematically. Whether you're focusing on
+                            sustainable design, computational methods, or
+                            project management, we have curated collections of
+                            resources to guide your learning journey.
                         </p>
                         <div className="pathways-grid">
-                            <div className="pathway-item"><FaLeaf /> Sustainable Design Path</div>
-                            <div className="pathway-item"><FaLaptop /> BIM Specialist Path</div>
-                            <div className="pathway-item"><FaUsers /> Project Management Path</div>
-                            <div className="pathway-item"><FaCubes /> Digital Fabrication Path</div>
+                            <div className="pathway-item">
+                                <FaLeaf /> Sustainable Design Path
+                            </div>
+                            <div className="pathway-item">
+                                <FaLaptop /> BIM Specialist Path
+                            </div>
+                            <div className="pathway-item">
+                                <FaUsers /> Project Management Path
+                            </div>
+                            <div className="pathway-item">
+                                <FaCubes /> Digital Fabrication Path
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -403,13 +470,14 @@ function Exhibitions() {
         try {
             setLoading(true);
             setError(null);
-            
+
             // Simulate API call delay
             setTimeout(() => {
                 const sampleExhibitions = [
                     {
                         title: "Future Cities: Sustainable Urban Futures",
-                        description: "Exploring innovative approaches to urban design that address climate change and population growth.",
+                        description:
+                            "Exploring innovative approaches to urban design that address climate change and population growth.",
                         date: "June 1 - August 31, 2023",
                         location: "Main Gallery",
                         curator: "Dr. Amanda Chen",
@@ -417,7 +485,8 @@ function Exhibitions() {
                     },
                     {
                         title: "Material Innovations in Architecture",
-                        description: "Showcasing cutting-edge materials and their applications in contemporary architecture.",
+                        description:
+                            "Showcasing cutting-edge materials and their applications in contemporary architecture.",
                         date: "July 15 - September 15, 2023",
                         location: "Materials Gallery",
                         curator: "Prof. Michael Rodriguez",
@@ -425,7 +494,8 @@ function Exhibitions() {
                     },
                     {
                         title: "Digital Fabrication: From Concept to Construction",
-                        description: "Exhibition of projects demonstrating advanced digital fabrication techniques.",
+                        description:
+                            "Exhibition of projects demonstrating advanced digital fabrication techniques.",
                         date: "September 1 - November 30, 2023",
                         location: "Technology Pavilion",
                         curator: "Alexandra Wong",
@@ -433,7 +503,8 @@ function Exhibitions() {
                     },
                     {
                         title: "Women in Architecture: Pioneers and Innovators",
-                        description: "Celebrating the contributions of women architects throughout history and today.",
+                        description:
+                            "Celebrating the contributions of women architects throughout history and today.",
                         date: "October 10 - December 20, 2023",
                         location: "Heritage Hall",
                         curator: "Sarah Johnson",
@@ -441,7 +512,8 @@ function Exhibitions() {
                     },
                     {
                         title: "Adaptive Reuse: Transforming Existing Structures",
-                        description: "Exhibition featuring innovative adaptive reuse projects from around the world.",
+                        description:
+                            "Exhibition featuring innovative adaptive reuse projects from around the world.",
                         date: "November 5, 2023 - January 15, 2024",
                         location: "Main Gallery",
                         curator: "David Kim",
@@ -449,7 +521,8 @@ function Exhibitions() {
                     },
                     {
                         title: "Biomimicry in Architecture",
-                        description: "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
+                        description:
+                            "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
                         date: "January 20 - March 30, 2024",
                         location: "Nature & Design Pavilion",
                         curator: "Elena Martinez",
@@ -459,9 +532,8 @@ function Exhibitions() {
                 setExhibitions(sampleExhibitions);
                 setLoading(false);
             }, 1000);
-            
         } catch (err) {
-            console.error('Error fetching exhibitions:', err);
+            console.error("Error fetching exhibitions:", err);
             setError(err.message);
             setLoading(false);
         }
@@ -472,10 +544,7 @@ function Exhibitions() {
             <AnimatedSection>
                 <div className="education-page-wrapper">
                     <div className="education-content">
-                        <div className="loading-spinner">
-                            <div className="spinner"></div>
-                            Loading exhibitions...
-                        </div>
+                        <SkeletonLoader type="card" count={4} />
                     </div>
                 </div>
             </AnimatedSection>
@@ -501,28 +570,48 @@ function Exhibitions() {
         <AnimatedSection>
             <div className="education-page-wrapper">
                 <div className="education-content">
-                    <h1 className="education-title">Current & Upcoming Exhibitions</h1>
+                    <h1 className="education-title">
+                        Current & Upcoming Exhibitions
+                    </h1>
                     <p className="education-description">
-                        Explore our rotating exhibitions that showcase innovative architectural projects, emerging trends, 
-                        and groundbreaking research in the field of architecture and design.
+                        Explore our rotating exhibitions that showcase
+                        innovative architectural projects, emerging trends, and
+                        groundbreaking research in the field of architecture and
+                        design.
                     </p>
 
                     <div className="stats-grid">
                         <div className="stat-item">
-                            <div className="stat-icon"><FaCalendarAlt /></div>
-                            <span className="stat-label">Current Exhibitions</span>
+                            <div className="stat-icon">
+                                <FaCalendarAlt />
+                            </div>
+                            <span className="stat-label">
+                                Current Exhibitions
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaUserCircle /></div>
-                            <span className="stat-label">Featured Architects</span>
+                            <div className="stat-icon">
+                                <FaUserCircle />
+                            </div>
+                            <span className="stat-label">
+                                Featured Architects
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaPalette /></div>
-                            <span className="stat-label">Exhibition Pieces</span>
+                            <div className="stat-icon">
+                                <FaPalette />
+                            </div>
+                            <span className="stat-label">
+                                Exhibition Pieces
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaLightbulb /></div>
-                            <span className="stat-label">Interactive Installations</span>
+                            <div className="stat-icon">
+                                <FaLightbulb />
+                            </div>
+                            <span className="stat-label">
+                                Interactive Installations
+                            </span>
                         </div>
                     </div>
 
@@ -537,9 +626,21 @@ function Exhibitions() {
                                 <h3>{exhibition.title}</h3>
                                 <p>{exhibition.description}</p>
                                 <div className="exhibition-details">
-                                    <p><FaCalendarAlt /> <strong>Dates:</strong> {exhibition.date}</p>
-                                    <p><FaMapMarkerAlt /> <strong>Location:</strong> {exhibition.location}</p>
-                                    <p><FaUserTie /> <strong>Curated by:</strong> {exhibition.curator}</p>
+                                    <p>
+                                        <FaCalendarAlt />{" "}
+                                        <strong>Dates:</strong>{" "}
+                                        {exhibition.date}
+                                    </p>
+                                    <p>
+                                        <FaMapMarkerAlt />{" "}
+                                        <strong>Location:</strong>{" "}
+                                        {exhibition.location}
+                                    </p>
+                                    <p>
+                                        <FaUserTie />{" "}
+                                        <strong>Curated by:</strong>{" "}
+                                        {exhibition.curator}
+                                    </p>
                                 </div>
                             </div>
                         ))}
@@ -548,8 +649,9 @@ function Exhibitions() {
                     <div className="info-section">
                         <h2>Virtual Tours</h2>
                         <p>
-                            Can't visit in person? Explore our exhibitions through immersive virtual tours that allow you 
-                            to experience the displays from anywhere in the world.
+                            Can't visit in person? Explore our exhibitions
+                            through immersive virtual tours that allow you to
+                            experience the displays from anywhere in the world.
                         </p>
                     </div>
                 </div>
@@ -571,21 +673,40 @@ function EducationOverview() {
         try {
             setLoading(true);
             setError(null);
-            
+
             // Simulate API call delay
             setTimeout(() => {
                 const sampleEvents = [
-                    { date: "Jun 15", title: "Sustainable Design Workshop", time: "10:00 AM", icon: FaLeaf },
-                    { date: "Jun 22", title: "Parametric Design Masterclass", time: "2:00 PM", icon: FaRulerCombined },
-                    { date: "Jul 5", title: "BIM Implementation Training", time: "9:00 AM", icon: FaLaptop },
-                    { date: "Jul 12", title: "Architectural Photography Workshop", time: "1:00 PM", icon: FaCamera },
+                    {
+                        date: "Jun 15",
+                        title: "Sustainable Design Workshop",
+                        time: "10:00 AM",
+                        icon: FaLeaf,
+                    },
+                    {
+                        date: "Jun 22",
+                        title: "Parametric Design Masterclass",
+                        time: "2:00 PM",
+                        icon: FaRulerCombined,
+                    },
+                    {
+                        date: "Jul 5",
+                        title: "BIM Implementation Training",
+                        time: "9:00 AM",
+                        icon: FaLaptop,
+                    },
+                    {
+                        date: "Jul 12",
+                        title: "Architectural Photography Workshop",
+                        time: "1:00 PM",
+                        icon: FaCamera,
+                    },
                 ];
                 setUpcomingEvents(sampleEvents);
                 setLoading(false);
             }, 1000);
-            
         } catch (err) {
-            console.error('Error fetching upcoming events:', err);
+            console.error("Error fetching upcoming events:", err);
             setError(err.message);
             setLoading(false);
         }
@@ -595,10 +716,14 @@ function EducationOverview() {
         <AnimatedSection>
             <div className="education-page-wrapper">
                 <div className="education-content overview-content">
-                    <h1 className="education-main-title">Education & Learning</h1>
+                    <h1 className="education-main-title">
+                        Education & Learning
+                    </h1>
                     <p className="education-main-description">
-                        Expand your knowledge, develop new skills, and stay at the forefront of architectural innovation 
-                        through our comprehensive educational programs, resources, and exhibitions.
+                        Expand your knowledge, develop new skills, and stay at
+                        the forefront of architectural innovation through our
+                        comprehensive educational programs, resources, and
+                        exhibitions.
                     </p>
 
                     <div className="education-navigation">
@@ -615,30 +740,43 @@ function EducationOverview() {
 
                     <div className="stats-grid">
                         <div className="stat-item">
-                            <div className="stat-icon"><FaBook /></div>
-                            <span className="stat-label">Learning Resources</span>
+                            <div className="stat-icon">
+                                <FaBook />
+                            </div>
+                            <span className="stat-label">
+                                Learning Resources
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaCalendarAlt /></div>
-                            <span className="stat-label">Workshops per Year</span>
+                            <div className="stat-icon">
+                                <FaCalendarAlt />
+                            </div>
+                            <span className="stat-label">
+                                Workshops per Year
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaPalette /></div>
-                            <span className="stat-label">Annual Exhibitions</span>
+                            <div className="stat-icon">
+                                <FaPalette />
+                            </div>
+                            <span className="stat-label">
+                                Annual Exhibitions
+                            </span>
                         </div>
                         <div className="stat-item">
-                            <div className="stat-icon"><FaChartBar /></div>
-                            <span className="stat-label">Satisfaction Rate</span>
+                            <div className="stat-icon">
+                                <FaChartBar />
+                            </div>
+                            <span className="stat-label">
+                                Satisfaction Rate
+                            </span>
                         </div>
                     </div>
 
                     <div className="events-section">
                         <h2>Upcoming Events</h2>
                         {loading ? (
-                            <div className="loading-spinner">
-                                <div className="spinner"></div>
-                                Loading events...
-                            </div>
+                            <SkeletonLoader type="card" count={3} />
                         ) : error ? (
                             <div className="error-message">
                                 <i className="fas fa-exclamation-triangle"></i>
@@ -648,8 +786,12 @@ function EducationOverview() {
                             <div className="events-grid">
                                 {upcomingEvents.map((event, index) => (
                                     <div key={index} className="event-item">
-                                        <div className="event-icon"><event.icon /></div>
-                                        <div className="event-date">{event.date}</div>
+                                        <div className="event-icon">
+                                            <event.icon />
+                                        </div>
+                                        <div className="event-date">
+                                            {event.date}
+                                        </div>
                                         <h3>{event.title}</h3>
                                         <p>{event.time}</p>
                                     </div>
@@ -661,8 +803,9 @@ function EducationOverview() {
                     <div className="membership-section">
                         <h2>Learning Membership</h2>
                         <p>
-                            Join our learning membership program for unlimited access to all resources, exclusive workshops, 
-                            and priority registration for exhibitions and events.
+                            Join our learning membership program for unlimited
+                            access to all resources, exclusive workshops, and
+                            priority registration for exhibitions and events.
                         </p>
                     </div>
                 </div>
@@ -675,7 +818,10 @@ function Education() {
     return (
         <div className="education-container">
             <Routes>
-                <Route path="workshops-training" element={<WorkshopsTraining />} />
+                <Route
+                    path="workshops-training"
+                    element={<WorkshopsTraining />}
+                />
                 <Route path="tutorials-guides" element={<TutorialsGuides />} />
                 <Route path="exhibitions" element={<Exhibitions />} />
                 <Route path="*" element={<EducationOverview />} />
@@ -704,7 +850,8 @@ function Education() {
                     text-align: center;
                 }
 
-                .education-title, .education-main-title {
+                .education-title,
+                .education-main-title {
                     font-size: 2.5rem;
                     font-weight: 700;
                     color: rgba(255, 255, 255, 0.95);
@@ -712,7 +859,8 @@ function Education() {
                     text-align: center;
                 }
 
-                .education-description, .education-main-description {
+                .education-description,
+                .education-main-description {
                     font-size: 1.1rem;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.6;
@@ -722,10 +870,11 @@ function Education() {
                 }
 
                 /* Loading and Error States */
-                .loading-spinner, .error-message {
+                .loading-spinner,
+                .error-message {
                     padding: 3rem;
                     text-align: center;
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: "Lora", "Georgia", serif;
                     font-size: 1.1rem;
                     color: rgba(255, 255, 255, 0.8);
                     display: flex;
@@ -750,8 +899,12 @@ function Education() {
                 }
 
                 @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
                 }
 
                 .error-message {
@@ -1080,34 +1233,35 @@ function Education() {
                     .education-page-wrapper {
                         padding: 6rem 1rem 1rem;
                     }
-                    
-                    .education-title, .education-main-title {
+
+                    .education-title,
+                    .education-main-title {
                         font-size: 2rem;
                     }
-                    
+
                     .stats-grid {
                         grid-template-columns: repeat(2, 1fr);
                     }
-                    
+
                     .education-grid {
                         grid-template-columns: 1fr;
                     }
-                    
+
                     .education-navigation {
                         flex-direction: column;
                         align-items: center;
                     }
-                    
+
                     .nav-link {
                         width: 100%;
                         justify-content: center;
                     }
-                    
+
                     .tutorial-meta {
                         flex-direction: column;
                         gap: 0.5rem;
                     }
-                    
+
                     .education-meta {
                         flex-direction: column;
                         gap: 0.5rem;
@@ -1118,7 +1272,7 @@ function Education() {
                     .stats-grid {
                         grid-template-columns: 1fr;
                     }
-                    
+
                     .category-tabs {
                         flex-direction: column;
                     }

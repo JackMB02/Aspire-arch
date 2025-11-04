@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AnimatedSection from "../components/AnimatedSection";
-import { API_ENDPOINTS } from '../config/api';
+import SkeletonLoader from "../components/SkeletonLoader";
+import { API_ENDPOINTS } from "../config/api";
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -20,21 +21,20 @@ function Contact() {
                 setInfoLoading(true);
                 // Use absolute URL with port 4000
                 const response = await fetch(API_ENDPOINTS.CONTACT_INFO);
-                
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
+
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
                     throw new TypeError("Received non-JSON response");
                 }
-                
+
                 const data = await response.json();
                 setContactInfo(data);
-                
             } catch (error) {
-                console.error('Error fetching contact info:', error);
+                console.error("Error fetching contact info:", error);
                 // Continue with fallback UI - don't show error to user for this
             } finally {
                 setInfoLoading(false);
@@ -61,34 +61,42 @@ function Contact() {
         try {
             // Use absolute URL with port 4000
             const response = await fetch(API_ENDPOINTS.CONTACT_SUBMIT, {
-                method: 'POST',
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(formData),
             });
 
             // Check if response is OK and is JSON
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
                 throw new TypeError("Server returned non-JSON response");
             }
 
             const result = await response.json();
 
             if (response.ok) {
-                alert(result.message || "Thank you for your message! We will get back to you soon.");
+                alert(
+                    result.message ||
+                        "Thank you for your message! We will get back to you soon."
+                );
                 setFormData({ name: "", email: "", message: "" });
             } else {
-                throw new Error(result.error || 'Failed to submit form');
+                throw new Error(result.error || "Failed to submit form");
             }
         } catch (error) {
-            console.error('Error submitting form:', error);
-            
-            if (error.name === 'TypeError') {
-                setError(`Cannot connect to server. Please try again later. Error: ${error.message}`);
+            console.error("Error submitting form:", error);
+
+            if (error.name === "TypeError") {
+                setError(
+                    `Cannot connect to server. Please try again later. Error: ${error.message}`
+                );
             } else {
-                setError(error.message || "Sorry, there was an error submitting your message. Please try again.");
+                setError(
+                    error.message ||
+                        "Sorry, there was an error submitting your message. Please try again."
+                );
             }
         } finally {
             setLoading(false);
@@ -97,12 +105,12 @@ function Contact() {
 
     // Helper function to get contact info by type
     const getContactInfoByType = (type) => {
-        return contactInfo.find(info => info.type === type);
+        return contactInfo.find((info) => info.type === type);
     };
 
-    const addressInfo = getContactInfoByType('address');
-    const phoneInfo = getContactInfoByType('phone');
-    const emailInfo = getContactInfoByType('email');
+    const addressInfo = getContactInfoByType("address");
+    const phoneInfo = getContactInfoByType("phone");
+    const emailInfo = getContactInfoByType("email");
 
     return (
         <div
@@ -127,18 +135,36 @@ function Contact() {
 
                             <div className="contact-details">
                                 {infoLoading ? (
-                                    <div className="loading-info">Loading contact information...</div>
+                                    <SkeletonLoader type="list" count={3} />
                                 ) : (
                                     <>
                                         {addressInfo && (
                                             <div className="contact-item">
-                                                <div className="contact-icon">📍</div>
+                                                <div className="contact-icon">
+                                                    📍
+                                                </div>
                                                 <div>
                                                     <h3>{addressInfo.title}</h3>
-                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                    <p
+                                                        style={{
+                                                            whiteSpace:
+                                                                "pre-line",
+                                                        }}
+                                                    >
                                                         {addressInfo.value}
                                                         {addressInfo.description && (
-                                                            <><br /><small style={{ opacity: 0.8 }}>{addressInfo.description}</small></>
+                                                            <>
+                                                                <br />
+                                                                <small
+                                                                    style={{
+                                                                        opacity: 0.8,
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        addressInfo.description
+                                                                    }
+                                                                </small>
+                                                            </>
                                                         )}
                                                     </p>
                                                 </div>
@@ -147,13 +173,31 @@ function Contact() {
 
                                         {phoneInfo && (
                                             <div className="contact-item">
-                                                <div className="contact-icon">📞</div>
+                                                <div className="contact-icon">
+                                                    📞
+                                                </div>
                                                 <div>
                                                     <h3>{phoneInfo.title}</h3>
-                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                    <p
+                                                        style={{
+                                                            whiteSpace:
+                                                                "pre-line",
+                                                        }}
+                                                    >
                                                         {phoneInfo.value}
                                                         {phoneInfo.description && (
-                                                            <><br /><small style={{ opacity: 0.8 }}>{phoneInfo.description}</small></>
+                                                            <>
+                                                                <br />
+                                                                <small
+                                                                    style={{
+                                                                        opacity: 0.8,
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        phoneInfo.description
+                                                                    }
+                                                                </small>
+                                                            </>
                                                         )}
                                                     </p>
                                                 </div>
@@ -162,13 +206,31 @@ function Contact() {
 
                                         {emailInfo && (
                                             <div className="contact-item">
-                                                <div className="contact-icon">✉️</div>
+                                                <div className="contact-icon">
+                                                    ✉️
+                                                </div>
                                                 <div>
                                                     <h3>{emailInfo.title}</h3>
-                                                    <p style={{ whiteSpace: 'pre-line' }}>
+                                                    <p
+                                                        style={{
+                                                            whiteSpace:
+                                                                "pre-line",
+                                                        }}
+                                                    >
                                                         {emailInfo.value}
                                                         {emailInfo.description && (
-                                                            <><br /><small style={{ opacity: 0.8 }}>{emailInfo.description}</small></>
+                                                            <>
+                                                                <br />
+                                                                <small
+                                                                    style={{
+                                                                        opacity: 0.8,
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        emailInfo.description
+                                                                    }
+                                                                </small>
+                                                            </>
                                                         )}
                                                     </p>
                                                 </div>
@@ -179,31 +241,40 @@ function Contact() {
                                         {contactInfo.length === 0 && (
                                             <>
                                                 <div className="contact-item">
-                                                    <div className="contact-icon">📍</div>
+                                                    <div className="contact-icon">
+                                                        📍
+                                                    </div>
                                                     <div>
                                                         <h3>Visit Us</h3>
                                                         <p>
-                                                            123 Architecture Avenue
+                                                            123 Architecture
+                                                            Avenue
                                                             <br />
-                                                            Design District, DC 10001
+                                                            Design District, DC
+                                                            10001
                                                         </p>
                                                     </div>
                                                 </div>
 
                                                 <div className="contact-item">
-                                                    <div className="contact-icon">📞</div>
+                                                    <div className="contact-icon">
+                                                        📞
+                                                    </div>
                                                     <div>
                                                         <h3>Call Us</h3>
                                                         <p>
                                                             +1 (555) 123-4567
                                                             <br />
-                                                            Mon-Fri, 9:00 AM - 6:00 PM
+                                                            Mon-Fri, 9:00 AM -
+                                                            6:00 PM
                                                         </p>
                                                     </div>
                                                 </div>
 
                                                 <div className="contact-item">
-                                                    <div className="contact-icon">✉️</div>
+                                                    <div className="contact-icon">
+                                                        ✉️
+                                                    </div>
                                                     <div>
                                                         <h3>Email Us</h3>
                                                         <p>
@@ -226,7 +297,7 @@ function Contact() {
                                     src="/images/office.jpg"
                                     alt="Our office"
                                     onError={(e) => {
-                                        e.target.style.display = 'none';
+                                        e.target.style.display = "none";
                                     }}
                                 />
                             </div>
@@ -238,9 +309,7 @@ function Contact() {
                                 <h2>Send us a Message</h2>
 
                                 {error && (
-                                    <div className="error-message">
-                                        {error}
-                                    </div>
+                                    <div className="error-message">{error}</div>
                                 )}
 
                                 <div className="form-group">
@@ -259,7 +328,9 @@ function Contact() {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="email">Email Address *</label>
+                                    <label htmlFor="email">
+                                        Email Address *
+                                    </label>
                                     <input
                                         type="email"
                                         id="email"
@@ -289,8 +360,8 @@ function Contact() {
                                     ></textarea>
                                 </div>
 
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     className="submit-btn"
                                     disabled={loading}
                                 >

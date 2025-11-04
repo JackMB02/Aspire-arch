@@ -273,7 +273,11 @@ const ViewAlbumButton = styled(Link)`
     display: inline-block;
     margin-top: 1rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, var(--accent-light), var(--accent-medium));
+    background: linear-gradient(
+        135deg,
+        var(--accent-light),
+        var(--accent-medium)
+    );
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -282,11 +286,15 @@ const ViewAlbumButton = styled(Link)`
     font-size: 0.95rem;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-    
+
     &:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-        background: linear-gradient(135deg, var(--accent-medium), var(--accent-light));
+        background: linear-gradient(
+            135deg,
+            var(--accent-medium),
+            var(--accent-light)
+        );
     }
 
     &:active {

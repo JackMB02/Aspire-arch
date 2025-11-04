@@ -6,24 +6,24 @@ import { FaUser, FaBuilding, FaGraduationCap, FaStar } from "react-icons/fa";
 
 // Dynamic backend base URL for images
 const getBackendBaseUrl = () => {
-    return window.location.hostname === 'localhost' 
-        ? 'http://localhost:4000'
-        : 'https://aspire-arch-server.onrender.com';
+    return window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : "https://aspire-arch-server.onrender.com";
 };
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
 
 function MembershipPartnerships() {
     const [formData, setFormData] = useState({
-        full_name: '',
-        email: '',
-        membership_type: '',
-        organization: '',
-        position: '',
-        message: ''
+        full_name: "",
+        email: "",
+        membership_type: "",
+        organization: "",
+        position: "",
+        message: "",
     });
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
     const membershipOptions = [
         {
@@ -38,7 +38,7 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaUser,
-            value: "individual"
+            value: "individual",
         },
         {
             title: "Firm Membership",
@@ -52,7 +52,7 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaBuilding,
-            value: "firm"
+            value: "firm",
         },
         {
             title: "Student Membership",
@@ -66,48 +66,48 @@ function MembershipPartnerships() {
             ],
             price: "Free",
             icon: FaGraduationCap,
-            value: "student"
+            value: "student",
         },
     ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const handleMembershipSelect = (membershipType) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            membership_type: membershipType
+            membership_type: membershipType,
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
+        setMessage("");
 
         try {
-            await apiRequest('/api/get-involved/membership', {
-                method: 'POST',
-                body: JSON.stringify(formData)
+            await apiRequest("/api/get-involved/membership", {
+                method: "POST",
+                body: JSON.stringify(formData),
             });
-            
-            setMessage('✅ Membership application submitted successfully!');
+
+            setMessage("✅ Membership application submitted successfully!");
             setFormData({
-                full_name: '',
-                email: '',
-                membership_type: '',
-                organization: '',
-                position: '',
-                message: ''
+                full_name: "",
+                email: "",
+                membership_type: "",
+                organization: "",
+                position: "",
+                message: "",
             });
         } catch (error) {
-            console.error('Failed to submit membership application:', error);
-            setMessage('❌ Failed to submit application: ' + error.message);
+            console.error("Failed to submit membership application:", error);
+            setMessage("❌ Failed to submit application: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -129,10 +129,16 @@ function MembershipPartnerships() {
 
                     <div className="membership-grid">
                         {membershipOptions.map((option, index) => (
-                            <div 
-                                key={index} 
-                                className={`membership-card ${formData.membership_type === option.value ? 'selected' : ''}`}
-                                onClick={() => handleMembershipSelect(option.value)}
+                            <div
+                                key={index}
+                                className={`membership-card ${
+                                    formData.membership_type === option.value
+                                        ? "selected"
+                                        : ""
+                                }`}
+                                onClick={() =>
+                                    handleMembershipSelect(option.value)
+                                }
                             >
                                 <div className="membership-icon">
                                     <option.icon />
@@ -155,14 +161,23 @@ function MembershipPartnerships() {
                     <div className="membership-form-section">
                         <h2>Apply for Membership</h2>
                         {message && (
-                            <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                            <div
+                                className={`form-message ${
+                                    message.includes("✅") ? "success" : "error"
+                                }`}
+                            >
                                 {message}
                             </div>
                         )}
-                        <form onSubmit={handleSubmit} className="membership-form">
+                        <form
+                            onSubmit={handleSubmit}
+                            className="membership-form"
+                        >
                             <div className="form-row">
                                 <div className="input-group">
-                                    <label htmlFor="full_name">Full Name *</label>
+                                    <label htmlFor="full_name">
+                                        Full Name *
+                                    </label>
                                     <input
                                         id="full_name"
                                         name="full_name"
@@ -174,7 +189,9 @@ function MembershipPartnerships() {
                                     />
                                 </div>
                                 <div className="input-group">
-                                    <label htmlFor="email">Email Address *</label>
+                                    <label htmlFor="email">
+                                        Email Address *
+                                    </label>
                                     <input
                                         id="email"
                                         name="email"
@@ -189,7 +206,9 @@ function MembershipPartnerships() {
 
                             <div className="form-row">
                                 <div className="input-group">
-                                    <label htmlFor="organization">Organization</label>
+                                    <label htmlFor="organization">
+                                        Organization
+                                    </label>
                                     <input
                                         id="organization"
                                         name="organization"
@@ -213,7 +232,9 @@ function MembershipPartnerships() {
                             </div>
 
                             <div className="input-group">
-                                <label htmlFor="message">Additional Information</label>
+                                <label htmlFor="message">
+                                    Additional Information
+                                </label>
                                 <textarea
                                     id="message"
                                     name="message"
@@ -225,12 +246,16 @@ function MembershipPartnerships() {
                             </div>
 
                             <div className="form-actions">
-                                <button 
-                                    type="submit" 
+                                <button
+                                    type="submit"
                                     className="submit-membership-btn"
-                                    disabled={loading || !formData.membership_type}
+                                    disabled={
+                                        loading || !formData.membership_type
+                                    }
                                 >
-                                    {loading ? 'Submitting...' : 'Submit Application'}
+                                    {loading
+                                        ? "Submitting..."
+                                        : "Submit Application"}
                                 </button>
                             </div>
                         </form>
@@ -283,80 +308,85 @@ function DonateSupport() {
     const donationOptions = [50, 100, 250, 500, 1000];
     const [selectedAmount, setSelectedAmount] = useState(100);
     const [formData, setFormData] = useState({
-        full_name: '',
-        email: '',
+        full_name: "",
+        email: "",
         amount: 100,
-        currency: 'USD',
-        payment_method: '',
-        bank_name: '',
-        mtn_mobile_number: '',
-        payment_proof: null
+        currency: "USD",
+        payment_method: "",
+        bank_name: "",
+        mtn_mobile_number: "",
+        payment_proof: null,
     });
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const handleFileChange = (e) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            payment_proof: e.target.files[0]
+            payment_proof: e.target.files[0],
         }));
     };
 
     const handleAmountSelect = (amount) => {
         setSelectedAmount(amount);
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            amount: amount
+            amount: amount,
         }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
+        setMessage("");
 
         try {
             const submitData = new FormData();
-            Object.keys(formData).forEach(key => {
-                if (key === 'payment_proof' && formData[key]) {
+            Object.keys(formData).forEach((key) => {
+                if (key === "payment_proof" && formData[key]) {
                     submitData.append(key, formData[key]);
                 } else {
                     submitData.append(key, formData[key]);
                 }
             });
 
-            const response = await fetch(`${BACKEND_BASE_URL}/api/get-involved/donations`, {
-                method: 'POST',
-                body: submitData
-            });
+            const response = await fetch(
+                `${BACKEND_BASE_URL}/api/get-involved/donations`,
+                {
+                    method: "POST",
+                    body: submitData,
+                }
+            );
 
             if (!response.ok) {
-                throw new Error('Failed to submit donation');
+                throw new Error("Failed to submit donation");
             }
 
-            setMessage('✅ Donation submitted successfully! Thank you for your support.');
+            setMessage(
+                "✅ Donation submitted successfully! Thank you for your support."
+            );
             setFormData({
-                full_name: '',
-                email: '',
+                full_name: "",
+                email: "",
                 amount: 100,
-                currency: 'USD',
-                payment_method: '',
-                bank_name: '',
-                mtn_mobile_number: '',
-                payment_proof: null
+                currency: "USD",
+                payment_method: "",
+                bank_name: "",
+                mtn_mobile_number: "",
+                payment_proof: null,
             });
             setSelectedAmount(100);
         } catch (error) {
-            console.error('Failed to submit donation:', error);
-            setMessage('❌ Failed to submit donation: ' + error.message);
+            console.error("Failed to submit donation:", error);
+            setMessage("❌ Failed to submit donation: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -397,7 +427,11 @@ function DonateSupport() {
                         <h2>Make a Donation</h2>
 
                         {message && (
-                            <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                            <div
+                                className={`form-message ${
+                                    message.includes("✅") ? "success" : "error"
+                                }`}
+                            >
                                 {message}
                             </div>
                         )}
@@ -413,7 +447,9 @@ function DonateSupport() {
                                                 ? "selected"
                                                 : ""
                                         }`}
-                                        onClick={() => handleAmountSelect(amount)}
+                                        onClick={() =>
+                                            handleAmountSelect(amount)
+                                        }
                                     >
                                         ${amount}
                                     </button>
@@ -424,7 +460,11 @@ function DonateSupport() {
                                         type="number"
                                         placeholder="Custom amount"
                                         value={selectedAmount}
-                                        onChange={(e) => handleAmountSelect(Number(e.target.value))}
+                                        onChange={(e) =>
+                                            handleAmountSelect(
+                                                Number(e.target.value)
+                                            )
+                                        }
                                     />
                                 </div>
                             </div>
@@ -432,19 +472,23 @@ function DonateSupport() {
                             <div className="donation-form">
                                 <div className="form-row">
                                     <div className="input-group">
-                                        <label htmlFor="donation-name">Full Name *</label>
-                                        <input 
+                                        <label htmlFor="donation-name">
+                                            Full Name *
+                                        </label>
+                                        <input
                                             id="donation-name"
                                             name="full_name"
-                                            type="text" 
-                                            placeholder="Full Name" 
+                                            type="text"
+                                            placeholder="Full Name"
                                             value={formData.full_name}
                                             onChange={handleInputChange}
-                                            required 
+                                            required
                                         />
                                     </div>
                                     <div className="input-group">
-                                        <label htmlFor="donation-email">Email Address *</label>
+                                        <label htmlFor="donation-email">
+                                            Email Address *
+                                        </label>
                                         <input
                                             id="donation-email"
                                             name="email"
@@ -459,26 +503,39 @@ function DonateSupport() {
 
                                 <div className="payment-details">
                                     <h3>Payment Information</h3>
-                                    
+
                                     <div className="payment-method">
                                         <h4>MTN Mobile Money</h4>
-                                        <p>Send your donation to: <strong>*182*8*1*150000#</strong></p>
+                                        <p>
+                                            Send your donation to:{" "}
+                                            <strong>*182*8*1*150000#</strong>
+                                        </p>
                                         <p>Use this code for donations</p>
                                         <div className="input-group">
-                                            <label htmlFor="mtn-number">MTN Mobile Number (Optional)</label>
+                                            <label htmlFor="mtn-number">
+                                                MTN Mobile Number (Optional)
+                                            </label>
                                             <input
                                                 id="mtn-number"
                                                 name="mtn_mobile_number"
                                                 type="text"
                                                 placeholder="Your MTN number"
-                                                value={formData.mtn_mobile_number}
+                                                value={
+                                                    formData.mtn_mobile_number
+                                                }
                                                 onChange={handleInputChange}
                                             />
                                         </div>
-                                        <button 
+                                        <button
                                             type="button"
                                             className="payment-select-btn"
-                                            onClick={() => setFormData(prev => ({ ...prev, payment_method: 'mtn_mobile' }))}
+                                            onClick={() =>
+                                                setFormData((prev) => ({
+                                                    ...prev,
+                                                    payment_method:
+                                                        "mtn_mobile",
+                                                }))
+                                            }
                                         >
                                             Select MTN Mobile Money
                                         </button>
@@ -490,21 +547,34 @@ function DonateSupport() {
                                             <div className="bank-option">
                                                 <strong>Bank of Kigali</strong>
                                                 <p>Account: 00123-456789-00</p>
-                                                <p>Account Name: Aspire Architecture</p>
+                                                <p>
+                                                    Account Name: Aspire
+                                                    Architecture
+                                                </p>
                                             </div>
                                             <div className="bank-option">
-                                                <strong>Equity Bank Rwanda</strong>
+                                                <strong>
+                                                    Equity Bank Rwanda
+                                                </strong>
                                                 <p>Account: 4002-123456789</p>
-                                                <p>Account Name: Aspire Architecture</p>
+                                                <p>
+                                                    Account Name: Aspire
+                                                    Architecture
+                                                </p>
                                             </div>
                                             <div className="bank-option">
                                                 <strong>BPR Bank</strong>
                                                 <p>Account: 50001-123456789</p>
-                                                <p>Account Name: Aspire Architecture</p>
+                                                <p>
+                                                    Account Name: Aspire
+                                                    Architecture
+                                                </p>
                                             </div>
                                         </div>
                                         <div className="input-group">
-                                            <label htmlFor="bank-name">Bank Name (Optional)</label>
+                                            <label htmlFor="bank-name">
+                                                Bank Name (Optional)
+                                            </label>
                                             <input
                                                 id="bank-name"
                                                 name="bank_name"
@@ -514,10 +584,16 @@ function DonateSupport() {
                                                 onChange={handleInputChange}
                                             />
                                         </div>
-                                        <button 
+                                        <button
                                             type="button"
                                             className="payment-select-btn"
-                                            onClick={() => setFormData(prev => ({ ...prev, payment_method: 'bank_transfer' }))}
+                                            onClick={() =>
+                                                setFormData((prev) => ({
+                                                    ...prev,
+                                                    payment_method:
+                                                        "bank_transfer",
+                                                }))
+                                            }
                                         >
                                             Select Bank Transfer
                                         </button>
@@ -525,28 +601,40 @@ function DonateSupport() {
 
                                     <div className="payment-proof">
                                         <h4>Payment Proof (Optional)</h4>
-                                        <p>Upload a screenshot or proof of your payment to help us process it faster</p>
+                                        <p>
+                                            Upload a screenshot or proof of your
+                                            payment to help us process it faster
+                                        </p>
                                         <div className="file-upload">
-                                            <input 
-                                                type="file" 
-                                                id="payment-proof" 
-                                                accept="image/*,.pdf" 
+                                            <input
+                                                type="file"
+                                                id="payment-proof"
+                                                accept="image/*,.pdf"
                                                 onChange={handleFileChange}
                                             />
-                                            <label htmlFor="payment-proof" className="upload-btn">
+                                            <label
+                                                htmlFor="payment-proof"
+                                                className="upload-btn"
+                                            >
                                                 Choose File
                                             </label>
-                                            <span className="upload-note">PNG, JPG, or PDF files accepted</span>
+                                            <span className="upload-note">
+                                                PNG, JPG, or PDF files accepted
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button 
-                                    className="submit-donation-btn" 
+                                <button
+                                    className="submit-donation-btn"
                                     type="submit"
-                                    disabled={loading || !formData.payment_method}
+                                    disabled={
+                                        loading || !formData.payment_method
+                                    }
                                 >
-                                    {loading ? 'Submitting...' : 'Submit Donation'}
+                                    {loading
+                                        ? "Submitting..."
+                                        : "Submit Donation"}
                                 </button>
                             </div>
                         </form>
@@ -591,63 +679,65 @@ function DonateSupport() {
 function CommunityFeedback() {
     const [activeTab, setActiveTab] = useState("feedback");
     const [feedbackForm, setFeedbackForm] = useState({
-        full_name: '',
-        email: '',
-        category: '',
-        subject: '',
-        message: '',
-        rating: 0
+        full_name: "",
+        email: "",
+        category: "",
+        subject: "",
+        message: "",
+        rating: 0,
     });
     const [ideasForm, setIdeasForm] = useState({
-        full_name: '',
-        email: '',
-        idea_title: '',
-        category: '',
-        description: '',
-        target_audience: ''
+        full_name: "",
+        email: "",
+        idea_title: "",
+        category: "",
+        description: "",
+        target_audience: "",
     });
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState("");
 
     const handleFeedbackChange = (e) => {
         const { name, value } = e.target;
-        setFeedbackForm(prev => ({
+        setFeedbackForm((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const handleIdeasChange = (e) => {
         const { name, value } = e.target;
-        setIdeasForm(prev => ({
+        setIdeasForm((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const handleFeedbackSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
+        setMessage("");
 
         try {
-            await apiRequest('/api/get-involved/feedback', {
-                method: 'POST',
-                body: JSON.stringify(feedbackForm)
+            await apiRequest("/api/get-involved/feedback", {
+                method: "POST",
+                body: JSON.stringify(feedbackForm),
             });
-            
-            setMessage('✅ Feedback submitted successfully! Thank you for your input.');
+
+            setMessage(
+                "✅ Feedback submitted successfully! Thank you for your input."
+            );
             setFeedbackForm({
-                full_name: '',
-                email: '',
-                category: '',
-                subject: '',
-                message: '',
-                rating: 0
+                full_name: "",
+                email: "",
+                category: "",
+                subject: "",
+                message: "",
+                rating: 0,
             });
         } catch (error) {
-            console.error('Failed to submit feedback:', error);
-            setMessage('❌ Failed to submit feedback: ' + error.message);
+            console.error("Failed to submit feedback:", error);
+            setMessage("❌ Failed to submit feedback: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -656,26 +746,28 @@ function CommunityFeedback() {
     const handleIdeasSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setMessage('');
+        setMessage("");
 
         try {
-            await apiRequest('/api/get-involved/ideas', {
-                method: 'POST',
-                body: JSON.stringify(ideasForm)
+            await apiRequest("/api/get-involved/ideas", {
+                method: "POST",
+                body: JSON.stringify(ideasForm),
             });
-            
-            setMessage('✅ Idea submitted successfully! We appreciate your creativity.');
+
+            setMessage(
+                "✅ Idea submitted successfully! We appreciate your creativity."
+            );
             setIdeasForm({
-                full_name: '',
-                email: '',
-                idea_title: '',
-                category: '',
-                description: '',
-                target_audience: ''
+                full_name: "",
+                email: "",
+                idea_title: "",
+                category: "",
+                description: "",
+                target_audience: "",
             });
         } catch (error) {
-            console.error('Failed to submit idea:', error);
-            setMessage('❌ Failed to submit idea: ' + error.message);
+            console.error("Failed to submit idea:", error);
+            setMessage("❌ Failed to submit idea: " + error.message);
         } finally {
             setLoading(false);
         }
@@ -691,13 +783,17 @@ function CommunityFeedback() {
                         </h1>
                         <p className="involved-description">
                             Your voice matters. Help us improve our programs,
-                            suggest new initiatives, and share your ideas for how we
-                            can better serve the architectural community.
+                            suggest new initiatives, and share your ideas for
+                            how we can better serve the architectural community.
                         </p>
                     </div>
 
                     {message && (
-                        <div className={`form-message ${message.includes('✅') ? 'success' : 'error'}`}>
+                        <div
+                            className={`form-message ${
+                                message.includes("✅") ? "success" : "error"
+                            }`}
+                        >
                             {message}
                         </div>
                     )}
@@ -734,17 +830,24 @@ function CommunityFeedback() {
                             <div className="feedback-form">
                                 <h2>Share Your Feedback</h2>
                                 <p>
-                                    We're constantly working to improve our programs
-                                    and services. Your honest feedback helps us
-                                    understand what's working well and where we can
-                                    do better.
+                                    We're constantly working to improve our
+                                    programs and services. Your honest feedback
+                                    helps us understand what's working well and
+                                    where we can do better.
                                 </p>
 
-                                <form className="feedback-form-inner" onSubmit={handleFeedbackSubmit}>
+                                <form
+                                    className="feedback-form-inner"
+                                    onSubmit={handleFeedbackSubmit}
+                                >
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Contact Information</h3>
+                                        <h3 className="form-section-title">
+                                            Contact Information
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="feedback-name">Full Name *</label>
+                                            <label htmlFor="feedback-name">
+                                                Full Name *
+                                            </label>
                                             <input
                                                 id="feedback-name"
                                                 name="full_name"
@@ -756,7 +859,9 @@ function CommunityFeedback() {
                                             />
                                         </div>
                                         <div className="input-group">
-                                            <label htmlFor="feedback-email">Email Address *</label>
+                                            <label htmlFor="feedback-email">
+                                                Email Address *
+                                            </label>
                                             <input
                                                 id="feedback-email"
                                                 name="email"
@@ -770,11 +875,15 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Feedback Category</h3>
+                                        <h3 className="form-section-title">
+                                            Feedback Category
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="feedback-category">Select Program Category *</label>
-                                            <select 
-                                                id="feedback-category" 
+                                            <label htmlFor="feedback-category">
+                                                Select Program Category *
+                                            </label>
+                                            <select
+                                                id="feedback-category"
                                                 name="category"
                                                 value={feedbackForm.category}
                                                 onChange={handleFeedbackChange}
@@ -803,10 +912,15 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Your Feedback</h3>
+                                        <h3 className="form-section-title">
+                                            Your Feedback
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="feedback-message">Share your thoughts, suggestions, or concerns *</label>
-                                            <textarea 
+                                            <label htmlFor="feedback-message">
+                                                Share your thoughts,
+                                                suggestions, or concerns *
+                                            </label>
+                                            <textarea
                                                 id="feedback-message"
                                                 name="message"
                                                 placeholder="Please provide detailed feedback about your experience..."
@@ -816,14 +930,16 @@ function CommunityFeedback() {
                                             ></textarea>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="form-actions">
-                                        <button 
-                                            className="submit-feedback-btn" 
+                                        <button
+                                            className="submit-feedback-btn"
                                             type="submit"
                                             disabled={loading}
                                         >
-                                            {loading ? 'Submitting...' : 'Submit Feedback'}
+                                            {loading
+                                                ? "Submitting..."
+                                                : "Submit Feedback"}
                                         </button>
                                     </div>
                                 </form>
@@ -836,16 +952,23 @@ function CommunityFeedback() {
                                 <p>
                                     Have an idea for a workshop, event, or
                                     initiative? We're always looking for fresh
-                                    perspectives and innovative concepts from our
-                                    community.
+                                    perspectives and innovative concepts from
+                                    our community.
                                 </p>
 
-                                <form className="ideas-form-inner" onSubmit={handleIdeasSubmit}>
+                                <form
+                                    className="ideas-form-inner"
+                                    onSubmit={handleIdeasSubmit}
+                                >
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Contact Information</h3>
+                                        <h3 className="form-section-title">
+                                            Contact Information
+                                        </h3>
                                         <div className="form-row">
                                             <div className="input-group">
-                                                <label htmlFor="ideas-name">Full Name *</label>
+                                                <label htmlFor="ideas-name">
+                                                    Full Name *
+                                                </label>
                                                 <input
                                                     id="ideas-name"
                                                     name="full_name"
@@ -857,7 +980,9 @@ function CommunityFeedback() {
                                                 />
                                             </div>
                                             <div className="input-group">
-                                                <label htmlFor="ideas-email">Email Address *</label>
+                                                <label htmlFor="ideas-email">
+                                                    Email Address *
+                                                </label>
                                                 <input
                                                     id="ideas-email"
                                                     name="email"
@@ -872,9 +997,13 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Your Idea</h3>
+                                        <h3 className="form-section-title">
+                                            Your Idea
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="idea-title">Idea Title *</label>
+                                            <label htmlFor="idea-title">
+                                                Idea Title *
+                                            </label>
                                             <input
                                                 id="idea-title"
                                                 name="idea_title"
@@ -888,11 +1017,15 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Category</h3>
+                                        <h3 className="form-section-title">
+                                            Category
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="idea-category">Select Idea Category *</label>
-                                            <select 
-                                                id="idea-category" 
+                                            <label htmlFor="idea-category">
+                                                Select Idea Category *
+                                            </label>
+                                            <select
+                                                id="idea-category"
                                                 name="category"
                                                 value={ideasForm.category}
                                                 onChange={handleIdeasChange}
@@ -904,7 +1037,9 @@ function CommunityFeedback() {
                                                 <option value="workshop">
                                                     Workshop Idea
                                                 </option>
-                                                <option value="event">Event Idea</option>
+                                                <option value="event">
+                                                    Event Idea
+                                                </option>
                                                 <option value="resource">
                                                     Learning Resource
                                                 </option>
@@ -916,10 +1051,14 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="form-section">
-                                        <h3 className="form-section-title">Detailed Description</h3>
+                                        <h3 className="form-section-title">
+                                            Detailed Description
+                                        </h3>
                                         <div className="input-group">
-                                            <label htmlFor="idea-description">Describe your idea in detail *</label>
-                                            <textarea 
+                                            <label htmlFor="idea-description">
+                                                Describe your idea in detail *
+                                            </label>
+                                            <textarea
                                                 id="idea-description"
                                                 name="description"
                                                 placeholder="Provide a comprehensive description of your idea, including objectives, target audience, and expected outcomes..."
@@ -929,14 +1068,16 @@ function CommunityFeedback() {
                                             ></textarea>
                                         </div>
                                     </div>
-                                    
+
                                     <div className="form-actions">
-                                        <button 
-                                            className="submit-ideas-btn" 
+                                        <button
+                                            className="submit-ideas-btn"
                                             type="submit"
                                             disabled={loading}
                                         >
-                                            {loading ? 'Submitting...' : 'Submit Idea'}
+                                            {loading
+                                                ? "Submitting..."
+                                                : "Submit Idea"}
                                         </button>
                                     </div>
                                 </form>
@@ -947,20 +1088,22 @@ function CommunityFeedback() {
                             <div className="community-stories">
                                 <h2>Community Stories</h2>
                                 <p>
-                                    Read how our community members have benefited
-                                    from our programs and initiatives.
+                                    Read how our community members have
+                                    benefited from our programs and initiatives.
                                 </p>
 
                                 <div className="stories-grid">
                                     <div className="story-card">
-                                        <div className="story-icon"><FaStar /></div>
+                                        <div className="story-icon">
+                                            <FaStar />
+                                        </div>
                                         <h3>Transformed My Practice</h3>
                                         <p>
                                             "The sustainable design workshop
                                             completely changed how I approach
-                                            projects. I've implemented eco-friendly
-                                            practices that reduced energy costs by
-                                            40% for my clients."
+                                            projects. I've implemented
+                                            eco-friendly practices that reduced
+                                            energy costs by 40% for my clients."
                                         </p>
                                         <p className="story-author">
                                             — Maria L., Architect
@@ -968,14 +1111,16 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="story-card">
-                                        <div className="story-icon"><FaStar /></div>
+                                        <div className="story-icon">
+                                            <FaStar />
+                                        </div>
                                         <h3>Career Advancement</h3>
                                         <p>
                                             "Through the mentorship program, I
-                                            connected with an experienced architect
-                                            who guided me through my licensure
-                                            process. I'm now a project lead at my
-                                            firm."
+                                            connected with an experienced
+                                            architect who guided me through my
+                                            licensure process. I'm now a project
+                                            lead at my firm."
                                         </p>
                                         <p className="story-author">
                                             — James T., Designer
@@ -983,13 +1128,15 @@ function CommunityFeedback() {
                                     </div>
 
                                     <div className="story-card">
-                                        <div className="story-icon"><FaStar /></div>
+                                        <div className="story-icon">
+                                            <FaStar />
+                                        </div>
                                         <h3>Invaluable Network</h3>
                                         <p>
                                             "The connections I've made through
                                             membership have led to collaborative
-                                            projects and friendships with architects
-                                            from around the world."
+                                            projects and friendships with
+                                            architects from around the world."
                                         </p>
                                         <p className="story-author">
                                             — Sofia K., Urban Planner

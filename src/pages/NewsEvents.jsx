@@ -3,9 +3,10 @@ import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 
 // Dynamic API base URL that works in both development and production
-const API_BASE_URL = window.location.hostname === 'localhost' 
-  ? 'http://localhost:4000/api' 
-  : 'https://aspire-arch-server.onrender.com/api';
+const API_BASE_URL =
+    window.location.hostname === "localhost"
+        ? "http://localhost:4000/api"
+        : "https://aspire-arch-server.onrender.com/api";
 
 function NewsEvents() {
     const [activeFilter, setActiveFilter] = useState("all");
@@ -22,7 +23,9 @@ function NewsEvents() {
                 setLoading(true);
 
                 // Fetch news articles
-                const newsResponse = await fetch(`${API_BASE_URL}/newsevents/news`);
+                const newsResponse = await fetch(
+                    `${API_BASE_URL}/newsevents/news`
+                );
                 if (!newsResponse.ok) throw new Error("Failed to fetch news");
                 const newsData = await newsResponse.json();
 

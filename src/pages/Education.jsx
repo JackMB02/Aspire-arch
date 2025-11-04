@@ -36,6 +36,28 @@ const getBackendBaseUrl = () => {
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
 
+// Icon mapping for workshops from database
+const iconMap = {
+    FaLeaf: FaLeaf,
+    FaLaptop: FaLaptop,
+    FaRulerCombined: FaRulerCombined,
+    FaCamera: FaCamera,
+    FaHome: FaHome,
+    FaCity: FaCity,
+    FaChartBar: FaChartBar,
+    FaSeedling: FaSeedling,
+    FaPalette: FaPalette,
+    FaFileAlt: FaFileAlt,
+    FaCubes: FaCubes,
+    FaUsers: FaUsers,
+    FaBook: FaBook,
+    FaGraduationCap: FaGraduationCap,
+    FaLightbulb: FaLightbulb,
+    FaComments: FaComments,
+    FaUserCircle: FaUserCircle,
+    FaUserTie: FaUserTie,
+};
+
 function WorkshopsTraining() {
     const [workshops, setWorkshops] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -49,78 +71,13 @@ function WorkshopsTraining() {
         try {
             setLoading(true);
             setError(null);
-            console.log("Fetching workshops...");
+            console.log("Fetching workshops from server...");
 
-            // For now, use fallback data since API might not be configured for education
-            // const data = await apiRequest(API_ENDPOINTS.EDUCATION.WORKSHOPS);
-
-            // Simulate API call delay
-            setTimeout(() => {
-                const sampleWorkshops = [
-                    {
-                        title: "Sustainable Design Principles",
-                        description:
-                            "Learn how to integrate eco-friendly practices into your architectural projects from concept to completion.",
-                        tag: "Beginner",
-                        duration: "2 Days",
-                        date: "June 15-16, 2023",
-                        instructor: "Dr. Elena Martinez",
-                        icon: FaLeaf,
-                    },
-                    {
-                        title: "BIM Implementation Masterclass",
-                        description:
-                            "Advanced training on Building Information Modeling workflows for complex architectural projects.",
-                        tag: "Advanced",
-                        duration: "3 Days",
-                        date: "July 5-7, 2023",
-                        instructor: "Marcus Johnson",
-                        icon: FaLaptop,
-                    },
-                    {
-                        title: "Parametric Design with Rhino & Grasshopper",
-                        description:
-                            "Hands-on workshop exploring computational design techniques for innovative architectural forms.",
-                        tag: "Intermediate",
-                        duration: "2 Days",
-                        date: "June 22-23, 2023",
-                        instructor: "Sophie Chen",
-                        icon: FaRulerCombined,
-                    },
-                    {
-                        title: "Architectural Photography",
-                        description:
-                            "Master the art of capturing buildings and spaces with professional architectural photographer.",
-                        tag: "All Levels",
-                        duration: "1 Day",
-                        date: "July 12, 2023",
-                        instructor: "David Wilson",
-                        icon: FaCamera,
-                    },
-                    {
-                        title: "Passive House Design Certification",
-                        description:
-                            "Comprehensive training on passive house standards and certification process.",
-                        tag: "Intermediate",
-                        duration: "4 Days",
-                        date: "August 8-11, 2023",
-                        instructor: "Olivia Zhang",
-                        icon: FaHome,
-                    },
-                    {
-                        title: "Urban Planning for Sustainable Communities",
-                        description:
-                            "Learn strategies for creating resilient, sustainable urban environments.",
-                        tag: "Advanced",
-                        duration: "3 Days",
-                        date: "July 19-21, 2023",
-                        instructor: "Robert Kim",
-                        icon: FaCity,
-                    },
-                ];
-                setWorkshops(sampleWorkshops);
-                setLoading(false);
-            }, 1000);
+            const data = await apiRequest(API_ENDPOINTS.EDUCATION.WORKSHOPS);
+            console.log("Workshops data received:", data);
+            
+            setWorkshops(data.workshops || data);
+            setLoading(false);
         } catch (err) {
             console.error("Error fetching workshops:", err);
             setError(err.message);
@@ -207,30 +164,33 @@ function WorkshopsTraining() {
                     <h2 className="section-subtitle">Upcoming Workshops</h2>
 
                     <div className="education-grid">
-                        {workshops.map((workshop, index) => (
-                            <div key={index} className="education-card">
-                                <div className="education-icon">
-                                    <workshop.icon />
-                                </div>
-                                <span className="education-tag">
-                                    {workshop.tag}
-                                </span>
-                                <h3>{workshop.title}</h3>
-                                <p>{workshop.description}</p>
-                                <div className="education-meta">
-                                    <span>
-                                        <FaClock /> {workshop.duration}
+                        {workshops.map((workshop, index) => {
+                            const IconComponent = iconMap[workshop.icon] || FaLeaf;
+                            return (
+                                <div key={workshop.id || index} className="education-card">
+                                    <div className="education-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <span className="education-tag">
+                                        {workshop.tag}
                                     </span>
-                                    <span>
-                                        <FaCalendarAlt /> {workshop.date}
-                                    </span>
+                                    <h3>{workshop.title}</h3>
+                                    <p>{workshop.description}</p>
+                                    <div className="education-meta">
+                                        <span>
+                                            <FaClock /> {workshop.duration}
+                                        </span>
+                                        <span>
+                                            <FaCalendarAlt /> {workshop.date}
+                                        </span>
+                                    </div>
+                                    <p className="education-instructor">
+                                        <FaUserTie /> Instructor:{" "}
+                                        {workshop.instructor}
+                                    </p>
                                 </div>
-                                <p className="education-instructor">
-                                    <FaUserTie /> Instructor:{" "}
-                                    {workshop.instructor}
-                                </p>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     <div className="info-section">
@@ -271,68 +231,13 @@ function TutorialsGuides() {
         try {
             setLoading(true);
             setError(null);
+            console.log("Fetching tutorials from server...");
 
-            // Simulate API call delay
-            setTimeout(() => {
-                const sampleTutorials = [
-                    {
-                        title: "Revit for Architectural Documentation",
-                        description:
-                            "Complete guide to creating professional architectural documentation using Autodesk Revit.",
-                        category: "Software",
-                        level: "Beginner",
-                        format: "Video Series",
-                        icon: FaChartBar,
-                    },
-                    {
-                        title: "Sustainable Material Selection",
-                        description:
-                            "Handbook for choosing eco-friendly materials that meet performance and aesthetic requirements.",
-                        category: "Materials",
-                        level: "Intermediate",
-                        format: "PDF Guide",
-                        icon: FaSeedling,
-                    },
-                    {
-                        title: "Architectural Rendering with V-Ray",
-                        description:
-                            "Step-by-step tutorial for creating photorealistic architectural visualizations.",
-                        category: "Visualization",
-                        level: "Advanced",
-                        format: "Video Tutorial",
-                        icon: FaPalette,
-                    },
-                    {
-                        title: "Building Code Compliance",
-                        description:
-                            "Comprehensive reference for navigating building codes and regulations.",
-                        category: "Regulations",
-                        level: "All Levels",
-                        format: "Interactive Guide",
-                        icon: FaFileAlt,
-                    },
-                    {
-                        title: "Parametric Facade Design",
-                        description:
-                            "Advanced techniques for designing complex building envelopes using computational tools.",
-                        category: "Design",
-                        level: "Advanced",
-                        format: "Video Series",
-                        icon: FaCubes,
-                    },
-                    {
-                        title: "Client Presentation Techniques",
-                        description:
-                            "Strategies for effectively communicating design concepts to clients and stakeholders.",
-                        category: "Communication",
-                        level: "Intermediate",
-                        format: "Guidebook",
-                        icon: FaComments,
-                    },
-                ];
-                setTutorials(sampleTutorials);
-                setLoading(false);
-            }, 1000);
+            const data = await apiRequest(API_ENDPOINTS.EDUCATION.TUTORIALS);
+            console.log("Tutorials data received:", data);
+            
+            setTutorials(data.tutorials || data);
+            setLoading(false);
         } catch (err) {
             console.error("Error fetching tutorials:", err);
             setError(err.message);
@@ -402,29 +307,32 @@ function TutorialsGuides() {
                                     activeCategory === "All" ||
                                     tutorial.category === activeCategory
                             )
-                            .map((tutorial, index) => (
-                                <div key={index} className="tutorial-item">
-                                    <div className="tutorial-icon">
-                                        <tutorial.icon />
-                                    </div>
-                                    <div className="tutorial-content">
-                                        <h3>{tutorial.title}</h3>
-                                        <p>{tutorial.description}</p>
-                                        <div className="tutorial-meta">
-                                            <span>
-                                                <FaBook /> {tutorial.category}
-                                            </span>
-                                            <span>
-                                                <FaGraduationCap />{" "}
-                                                {tutorial.level}
-                                            </span>
-                                            <span>
-                                                <FaLaptop /> {tutorial.format}
-                                            </span>
+                            .map((tutorial, index) => {
+                                const IconComponent = iconMap[tutorial.icon] || FaBook;
+                                return (
+                                    <div key={tutorial.id || index} className="tutorial-item">
+                                        <div className="tutorial-icon">
+                                            <IconComponent />
+                                        </div>
+                                        <div className="tutorial-content">
+                                            <h3>{tutorial.title}</h3>
+                                            <p>{tutorial.description}</p>
+                                            <div className="tutorial-meta">
+                                                <span>
+                                                    <FaBook /> {tutorial.category}
+                                                </span>
+                                                <span>
+                                                    <FaGraduationCap />{" "}
+                                                    {tutorial.level}
+                                                </span>
+                                                <span>
+                                                    <FaLaptop /> {tutorial.format}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                     </div>
 
                     <div className="info-section">
@@ -470,68 +378,13 @@ function Exhibitions() {
         try {
             setLoading(true);
             setError(null);
+            console.log("Fetching exhibitions from server...");
 
-            // Simulate API call delay
-            setTimeout(() => {
-                const sampleExhibitions = [
-                    {
-                        title: "Future Cities: Sustainable Urban Futures",
-                        description:
-                            "Exploring innovative approaches to urban design that address climate change and population growth.",
-                        date: "June 1 - August 31, 2023",
-                        location: "Main Gallery",
-                        curator: "Dr. Amanda Chen",
-                        icon: FaCity,
-                    },
-                    {
-                        title: "Material Innovations in Architecture",
-                        description:
-                            "Showcasing cutting-edge materials and their applications in contemporary architecture.",
-                        date: "July 15 - September 15, 2023",
-                        location: "Materials Gallery",
-                        curator: "Prof. Michael Rodriguez",
-                        icon: FaCubes,
-                    },
-                    {
-                        title: "Digital Fabrication: From Concept to Construction",
-                        description:
-                            "Exhibition of projects demonstrating advanced digital fabrication techniques.",
-                        date: "September 1 - November 30, 2023",
-                        location: "Technology Pavilion",
-                        curator: "Alexandra Wong",
-                        icon: FaLaptop,
-                    },
-                    {
-                        title: "Women in Architecture: Pioneers and Innovators",
-                        description:
-                            "Celebrating the contributions of women architects throughout history and today.",
-                        date: "October 10 - December 20, 2023",
-                        location: "Heritage Hall",
-                        curator: "Sarah Johnson",
-                        icon: FaUsers,
-                    },
-                    {
-                        title: "Adaptive Reuse: Transforming Existing Structures",
-                        description:
-                            "Exhibition featuring innovative adaptive reuse projects from around the world.",
-                        date: "November 5, 2023 - January 15, 2024",
-                        location: "Main Gallery",
-                        curator: "David Kim",
-                        icon: FaHome,
-                    },
-                    {
-                        title: "Biomimicry in Architecture",
-                        description:
-                            "Exploring how nature-inspired design leads to more sustainable and efficient buildings.",
-                        date: "January 20 - March 30, 2024",
-                        location: "Nature & Design Pavilion",
-                        curator: "Elena Martinez",
-                        icon: FaLeaf,
-                    },
-                ];
-                setExhibitions(sampleExhibitions);
-                setLoading(false);
-            }, 1000);
+            const data = await apiRequest(API_ENDPOINTS.EDUCATION.EXHIBITIONS);
+            console.log("Exhibitions data received:", data);
+            
+            setExhibitions(data.exhibitions || data);
+            setLoading(false);
         } catch (err) {
             console.error("Error fetching exhibitions:", err);
             setError(err.message);
@@ -618,32 +471,35 @@ function Exhibitions() {
                     <h2 className="section-subtitle">Exhibition Schedule</h2>
 
                     <div className="education-grid">
-                        {exhibitions.map((exhibition, index) => (
-                            <div key={index} className="education-card">
-                                <div className="education-icon">
-                                    <exhibition.icon />
+                        {exhibitions.map((exhibition, index) => {
+                            const IconComponent = iconMap[exhibition.icon] || FaCity;
+                            return (
+                                <div key={exhibition.id || index} className="education-card">
+                                    <div className="education-icon">
+                                        <IconComponent />
+                                    </div>
+                                    <h3>{exhibition.title}</h3>
+                                    <p>{exhibition.description}</p>
+                                    <div className="exhibition-details">
+                                        <p>
+                                            <FaCalendarAlt />{" "}
+                                            <strong>Dates:</strong>{" "}
+                                            {exhibition.date}
+                                        </p>
+                                        <p>
+                                            <FaMapMarkerAlt />{" "}
+                                            <strong>Location:</strong>{" "}
+                                            {exhibition.location}
+                                        </p>
+                                        <p>
+                                            <FaUserTie />{" "}
+                                            <strong>Curated by:</strong>{" "}
+                                            {exhibition.curator}
+                                        </p>
+                                    </div>
                                 </div>
-                                <h3>{exhibition.title}</h3>
-                                <p>{exhibition.description}</p>
-                                <div className="exhibition-details">
-                                    <p>
-                                        <FaCalendarAlt />{" "}
-                                        <strong>Dates:</strong>{" "}
-                                        {exhibition.date}
-                                    </p>
-                                    <p>
-                                        <FaMapMarkerAlt />{" "}
-                                        <strong>Location:</strong>{" "}
-                                        {exhibition.location}
-                                    </p>
-                                    <p>
-                                        <FaUserTie />{" "}
-                                        <strong>Curated by:</strong>{" "}
-                                        {exhibition.curator}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
 
                     <div className="info-section">
@@ -673,38 +529,13 @@ function EducationOverview() {
         try {
             setLoading(true);
             setError(null);
+            console.log("Fetching upcoming events from server...");
 
-            // Simulate API call delay
-            setTimeout(() => {
-                const sampleEvents = [
-                    {
-                        date: "Jun 15",
-                        title: "Sustainable Design Workshop",
-                        time: "10:00 AM",
-                        icon: FaLeaf,
-                    },
-                    {
-                        date: "Jun 22",
-                        title: "Parametric Design Masterclass",
-                        time: "2:00 PM",
-                        icon: FaRulerCombined,
-                    },
-                    {
-                        date: "Jul 5",
-                        title: "BIM Implementation Training",
-                        time: "9:00 AM",
-                        icon: FaLaptop,
-                    },
-                    {
-                        date: "Jul 12",
-                        title: "Architectural Photography Workshop",
-                        time: "1:00 PM",
-                        icon: FaCamera,
-                    },
-                ];
-                setUpcomingEvents(sampleEvents);
-                setLoading(false);
-            }, 1000);
+            const data = await apiRequest(API_ENDPOINTS.EDUCATION.EVENTS);
+            console.log("Events data received:", data);
+            
+            setUpcomingEvents(data.events || data);
+            setLoading(false);
         } catch (err) {
             console.error("Error fetching upcoming events:", err);
             setError(err.message);
@@ -784,18 +615,21 @@ function EducationOverview() {
                             </div>
                         ) : (
                             <div className="events-grid">
-                                {upcomingEvents.map((event, index) => (
-                                    <div key={index} className="event-item">
-                                        <div className="event-icon">
-                                            <event.icon />
+                                {upcomingEvents.map((event, index) => {
+                                    const IconComponent = iconMap[event.icon] || FaCalendarAlt;
+                                    return (
+                                        <div key={event.id || index} className="event-item">
+                                            <div className="event-icon">
+                                                <IconComponent />
+                                            </div>
+                                            <div className="event-date">
+                                                {event.date}
+                                            </div>
+                                            <h3>{event.title}</h3>
+                                            <p>{event.time}</p>
                                         </div>
-                                        <div className="event-date">
-                                            {event.date}
-                                        </div>
-                                        <h3>{event.title}</h3>
-                                        <p>{event.time}</p>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                         )}
                     </div>

@@ -71,6 +71,14 @@ export const API_ENDPOINTS = {
   GET_INVOLVED: {
     MEMBERSHIP: `${API_BASE_URL}/get-involved/membership`,
   },
+
+  // Education endpoints
+  EDUCATION: {
+    WORKSHOPS: `${API_BASE_URL}/education/workshops`,
+    TUTORIALS: `${API_BASE_URL}/education/tutorials`,
+    EXHIBITIONS: `${API_BASE_URL}/education/exhibitions`,
+    EVENTS: `${API_BASE_URL}/education/events`,
+  },
 };
 
 // Test API connection

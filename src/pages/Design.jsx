@@ -708,12 +708,15 @@ function Design() {
                     margin: 0 auto 3rem;
                 }
 
-                /* Media Grid */
+                /* Media Grid - Modern Layout */
                 .media-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                    gap: 1.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 3rem;
                     margin-top: 2rem;
+                    max-width: 1000px;
+                    margin-left: auto;
+                    margin-right: auto;
                 }
 
                 .media-card {

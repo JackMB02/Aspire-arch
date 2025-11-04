@@ -335,8 +335,8 @@ const SlideIndicators = styled.div`
 `;
 
 const Indicator = styled(motion.button)`
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -349,8 +349,8 @@ const Indicator = styled(motion.button)`
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: ${(props) => (props.active ? "10px" : "6px")};
-        height: ${(props) => (props.active ? "10px" : "6px")};
+        width: ${(props) => (props.active ? "6px" : "4px")};
+        height: ${(props) => (props.active ? "6px" : "4px")};
         border-radius: 50%;
         background: ${(props) =>
             props.active ? "#ffffff" : "rgba(255, 255, 255, 0.4)"};
@@ -361,8 +361,8 @@ const Indicator = styled(motion.button)`
 
     &:hover::before {
         background: #ffffff;
-        width: 8px;
-        height: 8px;
+        width: 5px;
+        height: 5px;
         box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
     }
 

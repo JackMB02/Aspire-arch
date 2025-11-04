@@ -305,15 +305,14 @@ function MembershipPartnerships() {
 }
 
 function DonateSupport() {
-    const donationOptions = [50, 100, 250, 500, 1000];
-    const [selectedAmount, setSelectedAmount] = useState(100);
+    const donationOptions = [1, 2, 3, 4, 5];
+    const [selectedAmount, setSelectedAmount] = useState(1);
     const [formData, setFormData] = useState({
         full_name: "",
         email: "",
-        amount: 100,
+        amount: 1,
         currency: "USD",
-        payment_method: "",
-        bank_name: "",
+        payment_method: "mtn_mobile",
         mtn_mobile_number: "",
         payment_proof: null,
     });
@@ -376,10 +375,9 @@ function DonateSupport() {
             setFormData({
                 full_name: "",
                 email: "",
-                amount: 100,
+                amount: 1,
                 currency: "USD",
-                payment_method: "",
-                bank_name: "",
+                payment_method: "mtn_mobile",
                 mtn_mobile_number: "",
                 payment_proof: null,
             });
@@ -505,7 +503,7 @@ function DonateSupport() {
                                     <h3>Payment Information</h3>
 
                                     <div className="payment-method">
-                                        <h4>MTN Mobile Money</h4>
+                                        <h4>MTN Mobile Money (MoMo Pay)</h4>
                                         <p>
                                             Send your donation to:{" "}
                                             <strong>*182*8*1*150000#</strong>
@@ -513,90 +511,20 @@ function DonateSupport() {
                                         <p>Use this code for donations</p>
                                         <div className="input-group">
                                             <label htmlFor="mtn-number">
-                                                MTN Mobile Number (Optional)
+                                                MTN Mobile Number *
                                             </label>
                                             <input
                                                 id="mtn-number"
                                                 name="mtn_mobile_number"
                                                 type="text"
-                                                placeholder="Your MTN number"
+                                                placeholder="Your MTN number (e.g., 078XXXXXXX)"
                                                 value={
                                                     formData.mtn_mobile_number
                                                 }
                                                 onChange={handleInputChange}
+                                                required
                                             />
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="payment-select-btn"
-                                            onClick={() =>
-                                                setFormData((prev) => ({
-                                                    ...prev,
-                                                    payment_method:
-                                                        "mtn_mobile",
-                                                }))
-                                            }
-                                        >
-                                            Select MTN Mobile Money
-                                        </button>
-                                    </div>
-
-                                    <div className="payment-method">
-                                        <h4>Bank Transfer</h4>
-                                        <div className="bank-options">
-                                            <div className="bank-option">
-                                                <strong>Bank of Kigali</strong>
-                                                <p>Account: 00123-456789-00</p>
-                                                <p>
-                                                    Account Name: Aspire
-                                                    Architecture
-                                                </p>
-                                            </div>
-                                            <div className="bank-option">
-                                                <strong>
-                                                    Equity Bank Rwanda
-                                                </strong>
-                                                <p>Account: 4002-123456789</p>
-                                                <p>
-                                                    Account Name: Aspire
-                                                    Architecture
-                                                </p>
-                                            </div>
-                                            <div className="bank-option">
-                                                <strong>BPR Bank</strong>
-                                                <p>Account: 50001-123456789</p>
-                                                <p>
-                                                    Account Name: Aspire
-                                                    Architecture
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="input-group">
-                                            <label htmlFor="bank-name">
-                                                Bank Name (Optional)
-                                            </label>
-                                            <input
-                                                id="bank-name"
-                                                name="bank_name"
-                                                type="text"
-                                                placeholder="Which bank did you use?"
-                                                value={formData.bank_name}
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            className="payment-select-btn"
-                                            onClick={() =>
-                                                setFormData((prev) => ({
-                                                    ...prev,
-                                                    payment_method:
-                                                        "bank_transfer",
-                                                }))
-                                            }
-                                        >
-                                            Select Bank Transfer
-                                        </button>
                                     </div>
 
                                     <div className="payment-proof">

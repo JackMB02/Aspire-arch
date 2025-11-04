@@ -75,7 +75,7 @@ function WorkshopsTraining() {
 
             const data = await apiRequest(API_ENDPOINTS.EDUCATION.WORKSHOPS);
             console.log("Workshops data received:", data);
-            
+
             setWorkshops(data.workshops || data);
             setLoading(false);
         } catch (err) {
@@ -165,9 +165,13 @@ function WorkshopsTraining() {
 
                     <div className="education-grid">
                         {workshops.map((workshop, index) => {
-                            const IconComponent = iconMap[workshop.icon] || FaLeaf;
+                            const IconComponent =
+                                iconMap[workshop.icon] || FaLeaf;
                             return (
-                                <div key={workshop.id || index} className="education-card">
+                                <div
+                                    key={workshop.id || index}
+                                    className="education-card"
+                                >
                                     <div className="education-icon">
                                         <IconComponent />
                                     </div>
@@ -235,7 +239,7 @@ function TutorialsGuides() {
 
             const data = await apiRequest(API_ENDPOINTS.EDUCATION.TUTORIALS);
             console.log("Tutorials data received:", data);
-            
+
             setTutorials(data.tutorials || data);
             setLoading(false);
         } catch (err) {
@@ -308,9 +312,13 @@ function TutorialsGuides() {
                                     tutorial.category === activeCategory
                             )
                             .map((tutorial, index) => {
-                                const IconComponent = iconMap[tutorial.icon] || FaBook;
+                                const IconComponent =
+                                    iconMap[tutorial.icon] || FaBook;
                                 return (
-                                    <div key={tutorial.id || index} className="tutorial-item">
+                                    <div
+                                        key={tutorial.id || index}
+                                        className="tutorial-item"
+                                    >
                                         <div className="tutorial-icon">
                                             <IconComponent />
                                         </div>
@@ -319,14 +327,16 @@ function TutorialsGuides() {
                                             <p>{tutorial.description}</p>
                                             <div className="tutorial-meta">
                                                 <span>
-                                                    <FaBook /> {tutorial.category}
+                                                    <FaBook />{" "}
+                                                    {tutorial.category}
                                                 </span>
                                                 <span>
                                                     <FaGraduationCap />{" "}
                                                     {tutorial.level}
                                                 </span>
                                                 <span>
-                                                    <FaLaptop /> {tutorial.format}
+                                                    <FaLaptop />{" "}
+                                                    {tutorial.format}
                                                 </span>
                                             </div>
                                         </div>
@@ -382,7 +392,7 @@ function Exhibitions() {
 
             const data = await apiRequest(API_ENDPOINTS.EDUCATION.EXHIBITIONS);
             console.log("Exhibitions data received:", data);
-            
+
             setExhibitions(data.exhibitions || data);
             setLoading(false);
         } catch (err) {
@@ -472,9 +482,13 @@ function Exhibitions() {
 
                     <div className="education-grid">
                         {exhibitions.map((exhibition, index) => {
-                            const IconComponent = iconMap[exhibition.icon] || FaCity;
+                            const IconComponent =
+                                iconMap[exhibition.icon] || FaCity;
                             return (
-                                <div key={exhibition.id || index} className="education-card">
+                                <div
+                                    key={exhibition.id || index}
+                                    className="education-card"
+                                >
                                     <div className="education-icon">
                                         <IconComponent />
                                     </div>
@@ -533,7 +547,7 @@ function EducationOverview() {
 
             const data = await apiRequest(API_ENDPOINTS.EDUCATION.EVENTS);
             console.log("Events data received:", data);
-            
+
             setUpcomingEvents(data.events || data);
             setLoading(false);
         } catch (err) {
@@ -616,9 +630,13 @@ function EducationOverview() {
                         ) : (
                             <div className="events-grid">
                                 {upcomingEvents.map((event, index) => {
-                                    const IconComponent = iconMap[event.icon] || FaCalendarAlt;
+                                    const IconComponent =
+                                        iconMap[event.icon] || FaCalendarAlt;
                                     return (
-                                        <div key={event.id || index} className="event-item">
+                                        <div
+                                            key={event.id || index}
+                                            className="event-item"
+                                        >
                                             <div className="event-icon">
                                                 <IconComponent />
                                             </div>

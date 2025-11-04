@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './DesignCard.css';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./DesignCard.css";
 
 const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     // Combine main_image with gallery_images
-    const allImages = project.gallery_images && project.gallery_images.length > 0
-        ? [project.main_image, ...project.gallery_images]
-        : [project.main_image];
+    const allImages =
+        project.gallery_images && project.gallery_images.length > 0
+            ? [project.main_image, ...project.gallery_images]
+            : [project.main_image];
 
     // Auto slideshow every 4 seconds
     useEffect(() => {
         if (allImages.length <= 1) return;
 
         const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => 
+            setCurrentImageIndex((prev) =>
                 prev === allImages.length - 1 ? 0 : prev + 1
             );
         }, 4000);
@@ -24,13 +25,13 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     }, [allImages.length]);
 
     const nextSlide = () => {
-        setCurrentImageIndex((prev) => 
+        setCurrentImageIndex((prev) =>
             prev === allImages.length - 1 ? 0 : prev + 1
         );
     };
 
     const prevSlide = () => {
-        setCurrentImageIndex((prev) => 
+        setCurrentImageIndex((prev) =>
             prev === 0 ? allImages.length - 1 : prev - 1
         );
     };
@@ -48,14 +49,20 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                         }}
                         className="slideshow-image"
                     />
-                    
+
                     {/* Navigation Arrows */}
                     {allImages.length > 1 && (
                         <>
-                            <button className="slide-arrow prev" onClick={prevSlide}>
+                            <button
+                                className="slide-arrow prev"
+                                onClick={prevSlide}
+                            >
                                 ❮
                             </button>
-                            <button className="slide-arrow next" onClick={nextSlide}>
+                            <button
+                                className="slide-arrow next"
+                                onClick={nextSlide}
+                            >
                                 ❯
                             </button>
                         </>
@@ -72,7 +79,11 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                             {allImages.map((_, idx) => (
                                 <span
                                     key={idx}
-                                    className={`slide-indicator ${idx === currentImageIndex ? 'active' : ''}`}
+                                    className={`slide-indicator ${
+                                        idx === currentImageIndex
+                                            ? "active"
+                                            : ""
+                                    }`}
                                     onClick={() => setCurrentImageIndex(idx)}
                                 />
                             ))}
@@ -107,15 +118,20 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                                     <div className="gallery-image-wrapper">
                                         <img
                                             src={`${backendBaseUrl}${image}`}
-                                            alt={`${project.title} view ${idx + 1}`}
+                                            alt={`${project.title} view ${
+                                                idx + 1
+                                            }`}
                                             onError={(e) => {
-                                                e.target.src = "/images/placeholder.jpg";
+                                                e.target.src =
+                                                    "/images/placeholder.jpg";
                                             }}
                                             className="gallery-image"
                                         />
                                     </div>
                                     <p className="gallery-description">
-                                        {idx === 0 ? 'Main View' : `View ${idx + 1}`}
+                                        {idx === 0
+                                            ? "Main View"
+                                            : `View ${idx + 1}`}
                                     </p>
                                 </div>
                             ))}
@@ -126,13 +142,18 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                 {/* Full Description */}
                 {project.description && (
                     <div className="project-description">
-                        <h4 className="description-title">About This Project</h4>
+                        <h4 className="description-title">
+                            About This Project
+                        </h4>
                         <p>{project.description}</p>
                     </div>
                 )}
 
                 {/* View Details Button */}
-                <Link to={`/design/project/${project.id}`} className="view-details-link">
+                <Link
+                    to={`/design/project/${project.id}`}
+                    className="view-details-link"
+                >
                     <button className="view-details-btn">
                         View Full Details →
                     </button>

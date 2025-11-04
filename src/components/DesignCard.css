@@ -70,7 +70,7 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: linear-gradient(135deg, #FFD700, #FFA500);
+    background: linear-gradient(135deg, #ffd700, #ffa500);
     color: #000;
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -128,7 +128,7 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 1rem;
-    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
 }
 
 .project-tags {
@@ -178,7 +178,7 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 1.5rem;
-    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
 }
 
 .gallery-grid {
@@ -238,7 +238,7 @@
     font-weight: 600;
     color: rgba(255, 255, 255, 0.95);
     margin-bottom: 1rem;
-    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
 }
 
 .project-description p {
@@ -265,7 +265,7 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
 }

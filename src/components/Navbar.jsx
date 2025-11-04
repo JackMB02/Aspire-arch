@@ -432,8 +432,11 @@ function Navbar() {
   }, [location.pathname]);
 
   const handleSearch = (e) => {
-    if (e.key === "Enter") {
-      console.log("Search:", e.target.value);
+    if (e.key === "Enter" && e.target.value.trim()) {
+      const searchQuery = e.target.value.trim();
+      console.log("Search:", searchQuery);
+      // Navigate to design projects with search functionality
+      navigate(`/design?search=${encodeURIComponent(searchQuery)}`);
       setShowSearch(false);
       setIsNavOpen(false);
       e.target.value = "";

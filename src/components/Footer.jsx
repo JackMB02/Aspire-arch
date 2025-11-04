@@ -16,21 +16,33 @@ const FooterWrapper = styled.div`
 `;
 
 const FooterContainer = styled.footer`
-    background: var(--primary-dark);
-    color: white;
-    padding: 3rem 2rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 200; /* Ultra Light weight */
-`;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    padding: 4rem 2rem 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;;
 
 const FooterSection = styled.div`
+    flex: 1;
+    min-width: 250px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-`;
+
+const FooterTitle = styled.h3`
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 300; /* Slightly bolder for titles */
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+
+const FooterLink = styled.a`
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 200;
+    transition: color 0.3s;
+    letter-spacing: 0.3px;;
 
 const FooterTitle = styled.h3`
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -81,7 +93,7 @@ const NewsletterForm = styled.form`
 
     input {
         padding: 0.5rem;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
         font-weight: 200;
         border: none;
         border-radius: 4px;
@@ -96,7 +108,7 @@ const NewsletterForm = styled.form`
         border: none;
         padding: 0.5rem;
         cursor: pointer;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
         font-size: 0.9rem;
         font-weight: 300;
         border-radius: 4px;

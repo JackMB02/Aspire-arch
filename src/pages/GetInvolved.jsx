@@ -1126,22 +1126,6 @@ function GetInvolvedOverview() {
                             </div>
 
                             <div className="reason">
-                                <h3>Expand Your Network</h3>
-                                <p>
-                                    Connect with professionals and thought
-                                    leaders in the architecture community.
-                                </p>
-                            </div>
-
-                            <div className="reason">
-                                <h3>Access Resources</h3>
-                                <p>
-                                    Gain exclusive access to learning materials,
-                                    workshops, and research findings.
-                                </p>
-                            </div>
-
-                            <div className="reason">
                                 <h3>Shape the Future</h3>
                                 <p>
                                     Your ideas help guide our programs and

@@ -455,8 +455,9 @@ function Hero() {
 
                 <SocialMediaContainer>
                     <SocialIcon
-                        href="https://twitter.com"
+                        href="https://x.com/ArseneMugeni?t=iFqTTHWtGsULUd9pCGNNgw&s=09"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="twitter"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -464,8 +465,9 @@ function Hero() {
                         <FaXTwitter />
                     </SocialIcon>
                     <SocialIcon
-                        href="https://linkedin.com"
+                        href="https://www.linkedin.com/company/aspire-design-lab/"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="linkedin"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -473,8 +475,9 @@ function Hero() {
                         <FaLinkedin />
                     </SocialIcon>
                     <SocialIcon
-                        href="https://instagram.com"
+                        href="https://www.instagram.com/aspiredesignlab?igsh=Y3lnZTgzNDNkcGIw"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="instagram"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -482,8 +485,9 @@ function Hero() {
                         <FaInstagram />
                     </SocialIcon>
                     <SocialIcon
-                        href="mailto:info@architecturedesignlab.com"
+                        href="mailto:aspiredesignlab@gmail.com"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="email"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -491,8 +495,9 @@ function Hero() {
                         <FaEnvelope />
                     </SocialIcon>
                     <SocialIcon
-                        href="https://wa.me/1234567890"
+                        href="https://wa.me/250789924343"
                         target="_blank"
+                        rel="noopener noreferrer"
                         className="whatsapp"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}

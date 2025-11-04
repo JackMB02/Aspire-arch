@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-// Shimmer animation
+// Advanced shimmer animation with multiple gradients
 const shimmer = keyframes`
     0% {
         background-position: -1000px 0;
@@ -10,12 +10,47 @@ const shimmer = keyframes`
     }
 `;
 
-// Base skeleton style
+// Pulse animation for additional effect
+const pulse = keyframes`
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+`;
+
+// Base skeleton style with dark theme and advanced shimmer
 const SkeletonBase = styled.div`
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.08) 25%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0.08) 75%,
+        rgba(255, 255, 255, 0.03) 100%
+    );
     background-size: 1000px 100%;
-    animation: ${shimmer} 2s infinite linear;
+    animation: ${shimmer} 2.5s infinite linear, ${pulse} 2s infinite ease-in-out;
     border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 150%;
+        height: 100%;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent
+        );
+        animation: ${shimmer} 2s infinite;
+    }
 `;
 
 // Container for skeleton loaders
@@ -24,11 +59,22 @@ const SkeletonContainer = styled.div`
     padding: 2rem;
 `;
 
-// Card skeleton
+// Card skeleton with enhanced dark styling
 const SkeletonCard = styled(SkeletonBase)`
     width: 100%;
     height: 300px;
     margin-bottom: 1.5rem;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.1) 75%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    background-size: 1000px 100%;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 `;
 
 // Grid for cards
@@ -45,6 +91,10 @@ const SkeletonListItem = styled.div`
     gap: 1rem;
     margin-bottom: 1.5rem;
     align-items: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 `;
 
 const SkeletonCircle = styled(SkeletonBase)`
@@ -52,6 +102,7 @@ const SkeletonCircle = styled(SkeletonBase)`
     height: 60px;
     border-radius: 50%;
     flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 `;
 
 const SkeletonText = styled.div`
@@ -62,6 +113,7 @@ const SkeletonLine = styled(SkeletonBase)`
     height: ${(props) => props.height || "16px"};
     width: ${(props) => props.width || "100%"};
     margin-bottom: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.03);
 `;
 
 // Workshop skeleton
@@ -69,18 +121,28 @@ const SkeletonWorkshop = styled(SkeletonBase)`
     width: 100%;
     height: 200px;
     margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 `;
 
 // Table skeleton
 const SkeletonTable = styled.div`
     width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 `;
 
 const SkeletonTableRow = styled.div`
     display: flex;
     gap: 1rem;
     padding: 1rem;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:last-child {
+        border-bottom: none;
+    }
 `;
 
 const SkeletonTableCell = styled(SkeletonBase)`

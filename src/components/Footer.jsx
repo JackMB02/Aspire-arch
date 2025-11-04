@@ -257,32 +257,37 @@ function Footer() {
                         <FooterTitle>Connect</FooterTitle>
                         <SocialIcons>
                             <SocialIcon
-                                href="https://twitter.com"
+                                href="https://x.com/ArseneMugeni?t=iFqTTHWtGsULUd9pCGNNgw&s=09"
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <FaXTwitter />
                             </SocialIcon>
                             <SocialIcon
-                                href="https://linkedin.com"
+                                href="https://www.linkedin.com/company/aspire-design-lab/"
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <FaLinkedin />
                             </SocialIcon>
                             <SocialIcon
-                                href="https://instagram.com"
+                                href="https://www.instagram.com/aspiredesignlab?igsh=Y3lnZTgzNDNkcGIw"
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <FaInstagram />
                             </SocialIcon>
                             <SocialIcon
-                                href="mailto:info@aspirearchitecture.com"
+                                href="mailto:aspiredesignlab@gmail.com"
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <FaEnvelope />
                             </SocialIcon>
                             <SocialIcon
-                                href="https://wa.me/1234567890"
+                                href="https://wa.me/250789924343"
                                 target="_blank"
+                                rel="noopener noreferrer"
                             >
                                 <FaWhatsapp />
                             </SocialIcon>
@@ -290,11 +295,11 @@ function Footer() {
                         <FooterTitle>Visit Us</FooterTitle>
                         <MapContainer>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.475737568968!2d30.058889774997!3d-1.9535379980286423!2m3!1f0!2f0!3f0!3m2!1i1020!2i768!4f13.1!3m3!1m2!1s0x19dca4258ed8f3a3%3A0xf4e7c2f8e5f4b4e!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.5116543926594!2d30.0602284!3d-1.9440727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca425b3b91e85%3A0x31e7a9f1a1a24b46!2sNyarugenge%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                title="ASPIRE Architecture Firm Location in Kigali"
+                                title="ASPIRE Design Lab - Kigali, Nyarugenge, Rwanda"
                             ></iframe>
                         </MapContainer>
                     </FooterSection>

@@ -70,6 +70,8 @@ export const API_ENDPOINTS = {
   // Get Involved endpoints
   GET_INVOLVED: {
     MEMBERSHIP: `${API_BASE_URL}/get-involved/membership`,
+    FEEDBACK: `${API_BASE_URL}/get-involved/feedback`,
+    IDEAS: `${API_BASE_URL}/get-involved/ideas`,
   },
 
   // Education endpoints

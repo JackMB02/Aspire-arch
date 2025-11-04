@@ -655,7 +655,7 @@ function CommunityFeedback() {
         setMessage("");
 
         try {
-            await apiRequest("/api/get-involved/feedback", {
+            await apiRequest(API_ENDPOINTS.GET_INVOLVED.FEEDBACK, {
                 method: "POST",
                 body: JSON.stringify(feedbackForm),
             });
@@ -685,7 +685,7 @@ function CommunityFeedback() {
         setMessage("");
 
         try {
-            await apiRequest("/api/get-involved/ideas", {
+            await apiRequest(API_ENDPOINTS.GET_INVOLVED.IDEAS, {
                 method: "POST",
                 body: JSON.stringify(ideasForm),
             });

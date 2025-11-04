@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Link, useParams, useSearchParams } from "react-router-dom";
+import {
+    Routes,
+    Route,
+    Link,
+    useParams,
+    useSearchParams,
+} from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 import DesignCard from "../components/DesignCard";
@@ -429,7 +435,7 @@ function Design() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('search') || '';
+    const searchQuery = searchParams.get("search") || "";
 
     useEffect(() => {
         fetchAllProjects();
@@ -527,20 +533,33 @@ function Design() {
     // Filter projects based on search query
     const filterProjects = (projects) => {
         if (!searchQuery) return projects;
-        
-        return projects.filter(project => 
-            project.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            project.summary?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            project.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            project.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            project.sector?.toLowerCase().includes(searchQuery.toLowerCase())
+
+        return projects.filter(
+            (project) =>
+                project.title
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                project.summary
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                project.description
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                project.category
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                project.sector
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase())
         );
     };
 
     // If searching, show all matching projects; otherwise show featured or first 3
-    const displayProjects = searchQuery 
+    const displayProjects = searchQuery
         ? filterProjects(allProjects)
-        : (featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 3));
+        : featuredProjects.length > 0
+        ? featuredProjects
+        : allProjects.slice(0, 3);
 
     return (
         <div className="design-page">
@@ -555,10 +574,15 @@ function Design() {
                         <AnimatedSection>
                             <div className="design-intro">
                                 <PageWrapper
-                                    title={searchQuery ? `Search Results for "${searchQuery}"` : "Design Projects"}
-                                    description={searchQuery 
-                                        ? `Found ${displayProjects.length} project(s) matching your search.`
-                                        : "A showcase of architectural projects across academic, professional, and competition categories."
+                                    title={
+                                        searchQuery
+                                            ? `Search Results for "${searchQuery}"`
+                                            : "Design Projects"
+                                    }
+                                    description={
+                                        searchQuery
+                                            ? `Found ${displayProjects.length} project(s) matching your search.`
+                                            : "A showcase of architectural projects across academic, professional, and competition categories."
                                     }
                                     projects={displayProjects}
                                     loading={loading}

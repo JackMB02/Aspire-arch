@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
     FaLinkedin,
     FaInstagram,
@@ -168,6 +169,11 @@ const Slide = styled(motion.div)`
     background-image: ${(props) => `url(${props.bgImage})`};
     background-size: cover;
     background-position: center;
+
+    @media (max-width: 768px) {
+        background-position: center;
+        background-size: cover;
+    }
 `;
 
 // Overlay - removed opacity
@@ -203,17 +209,21 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 768px) {
-        top: 6rem;
+        top: 10rem;
         left: 1.5rem;
-        font-size: 2rem;
+        right: 1.5rem;
+        font-size: 1.8rem;
         letter-spacing: 2px;
+        max-width: calc(100% - 3rem);
     }
 
     @media (max-width: 480px) {
-        top: 5rem;
+        top: 9rem;
         left: 1rem;
-        font-size: 1.6rem;
+        right: 1rem;
+        font-size: 1.5rem;
         letter-spacing: 1.5px;
+        max-width: calc(100% - 2rem);
     }
 `;
 
@@ -232,18 +242,60 @@ const DescriptionCard = styled(motion.div)`
     text-align: left;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 
+    p {
+        margin: 0 0 1rem 0;
+        color: white;
+    }
+
     @media (max-width: 768px) {
-        bottom: 2rem;
-        right: 2rem;
-        max-width: 280px;
-        font-size: 0.9rem;
+        bottom: 5.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        max-width: calc(100% - 3rem);
+        font-size: 0.875rem;
         padding: 1.2rem;
+        line-height: 1.5;
+        background-color: rgba(0, 0, 0, 0.75);
     }
 
     @media (max-width: 480px) {
-        max-width: 220px;
-        font-size: 0.8rem;
+        bottom: 5rem;
+        left: 1rem;
+        right: 1rem;
+        max-width: calc(100% - 2rem);
+        font-size: 0.813rem;
         padding: 1rem;
+        line-height: 1.4;
+    }
+`;
+
+const ViewAlbumButton = styled(Link)`
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, var(--accent-light), var(--accent-medium));
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
+        background: linear-gradient(135deg, var(--accent-medium), var(--accent-light));
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.85rem;
     }
 `;
 
@@ -261,50 +313,63 @@ const SlideIndicators = styled.div`
     border-radius: 50px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 768px) {
+        bottom: 1.5rem;
+        padding: 0.6rem 1rem;
+    }
+
+    @media (max-width: 480px) {
+        bottom: 1.2rem;
+        padding: 0.5rem 0.8rem;
+        gap: 0.4rem;
+    }
 `;
 
 const Indicator = styled(motion.button)`
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: ${props => props.active ? '16px' : '8px'};
-        height: ${props => props.active ? '16px' : '8px'};
+        width: ${(props) => (props.active ? "10px" : "6px")};
+        height: ${(props) => (props.active ? "10px" : "6px")};
         border-radius: 50%;
-        background: ${props => props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.4)'};
+        background: ${(props) =>
+            props.active ? "#ffffff" : "rgba(255, 255, 255, 0.4)"};
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: ${props => props.active ? '0 0 10px rgba(255, 255, 255, 0.5)' : 'none'};
+        box-shadow: ${(props) =>
+            props.active ? "0 0 8px rgba(255, 255, 255, 0.5)" : "none"};
     }
 
     &:hover::before {
         background: #ffffff;
-        width: 12px;
-        height: 12px;
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        width: 8px;
+        height: 8px;
+        box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
     }
 
     @media (max-width: 768px) {
-        width: 6px;
-        height: 6px;
-        
+        width: 5px;
+        height: 5px;
+
         &::before {
-            width: ${props => props.active ? '12px' : '6px'};
-            height: ${props => props.active ? '12px' : '6px'};
+            width: ${(props) => (props.active ? "8px" : "5px")};
+            height: ${(props) => (props.active ? "8px" : "5px")};
         }
 
         &:hover::before {
-            width: 10px;
-            height: 10px;
+            width: 7px;
+            height: 7px;
         }
     }
 `;
@@ -374,7 +439,10 @@ function Hero() {
             >
                 <LogoSection>
                     {/* Bigger logo without circular border and no text */}
-                    <LogoImage src="images/hero logo.png" alt="ASPIRE Design Lab" />
+                    <LogoImage
+                        src="images/hero logo.png"
+                        alt="ASPIRE Design Lab"
+                    />
                 </LogoSection>
 
                 <SocialMediaContainer>
@@ -457,7 +525,10 @@ function Hero() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.7 }}
                 >
-                    {slides[currentSlide].description}
+                    <p>{slides[currentSlide].description}</p>
+                    <ViewAlbumButton to="/media-gallery">
+                        View Album →
+                    </ViewAlbumButton>
                 </DescriptionCard>
 
                 <SlideIndicators>

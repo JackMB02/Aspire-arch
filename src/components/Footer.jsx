@@ -8,6 +8,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useState } from "react";
 
 const FooterWrapper = styled.div`
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -105,7 +106,26 @@ const NewsletterForm = styled.form`
         &:hover {
             background: var(--accent-medium);
         }
+
+        &:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
     }
+`;
+
+const SuccessMessage = styled.p`
+    color: #4ade80;
+    font-size: 0.85rem;
+    margin: 0;
+    font-weight: 300;
+`;
+
+const ErrorMessage = styled.p`
+    color: #f87171;
+    font-size: 0.85rem;
+    margin: 0;
+    font-weight: 300;
 `;
 
 const MapContainer = styled.div`
@@ -128,10 +148,55 @@ const MapContainer = styled.div`
 `;
 
 function Footer() {
-    const handleNewsletterSubmit = (e) => {
+    const [email, setEmail] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [message, setMessage] = useState({ type: "", text: "" });
+
+    const handleNewsletterSubmit = async (e) => {
         e.preventDefault();
-        console.log("Newsletter email:", e.target.email.value); // Placeholder
-        e.target.reset();
+        setIsSubmitting(true);
+        setMessage({ type: "", text: "" });
+
+        try {
+            // Get API base URL
+            const API_BASE_URL = window.location.hostname === 'localhost' 
+                ? 'http://localhost:4000/api' 
+                : 'https://aspire-arch-server.onrender.com/api';
+
+            const response = await fetch(`${API_BASE_URL}/newsletter/subscribe`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                setMessage({ 
+                    type: "success", 
+                    text: "Thank you for subscribing!" 
+                });
+                setEmail("");
+                e.target.reset();
+            } else {
+                setMessage({ 
+                    type: "error", 
+                    text: data.message || "Subscription failed. Please try again." 
+                });
+            }
+        } catch (error) {
+            console.error("Newsletter subscription error:", error);
+            setMessage({ 
+                type: "error", 
+                text: "An error occurred. Please try again later." 
+            });
+        } finally {
+            setIsSubmitting(false);
+            // Clear message after 5 seconds
+            setTimeout(() => setMessage({ type: "", text: "" }), 5000);
+        }
     };
 
     return (
@@ -229,10 +294,22 @@ function Footer() {
                             <input
                                 type="email"
                                 name="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your email"
                                 required
+                                disabled={isSubmitting}
                             />
-                            <button type="submit">Subscribe</button>
+                            <button type="submit" disabled={isSubmitting}>
+                                {isSubmitting ? "Subscribing..." : "Subscribe"}
+                            </button>
+                            {message.text && (
+                                message.type === "success" ? (
+                                    <SuccessMessage>{message.text}</SuccessMessage>
+                                ) : (
+                                    <ErrorMessage>{message.text}</ErrorMessage>
+                                )
+                            )}
                         </NewsletterForm>
                     </FooterSection>
                 </motion.div>

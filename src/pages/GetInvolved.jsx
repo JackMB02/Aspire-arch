@@ -91,7 +91,7 @@ function MembershipPartnerships() {
         setMessage("");
 
         try {
-            await apiRequest("/api/get-involved/membership", {
+            await apiRequest(API_ENDPOINTS.GET_INVOLVED.MEMBERSHIP, {
                 method: "POST",
                 body: JSON.stringify(formData),
             });

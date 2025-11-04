@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route, Link, useParams } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
+import DesignCard from "../components/DesignCard";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
 
 // Dynamic backend base URL for images
@@ -56,38 +57,12 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
                 ) : (
                     <div className="media-grid">
                         {projects.map((project, idx) => (
-                            <div key={project.id || idx} className="media-card">
-                                <img
-                                    src={`${BACKEND_BASE_URL}${project.main_image}`}
-                                    alt={project.title}
-                                    onError={(e) => {
-                                        e.target.src =
-                                            "/images/placeholder.jpg";
-                                    }}
-                                />
-                                <div className="media-overlay">
-                                    <h3>{project.title}</h3>
-                                    <p>{project.summary}</p>
-                                    <div className="project-meta-tags">
-                                        <span className="meta-tag">
-                                            {project.category}
-                                        </span>
-                                        {project.sector && (
-                                            <span className="meta-tag">
-                                                {getSectorLabel(project.sector)}
-                                            </span>
-                                        )}
-                                        {project.is_featured && (
-                                            <span className="featured-badge-overlay">
-                                                ★ Featured
-                                            </span>
-                                        )}
-                                    </div>
-                                    <Link to={`/design/project/${project.id}`}>
-                                        <button>View Project →</button>
-                                    </Link>
-                                </div>
-                            </div>
+                            <DesignCard
+                                key={project.id || idx}
+                                project={project}
+                                backendBaseUrl={BACKEND_BASE_URL}
+                                getSectorLabel={getSectorLabel}
+                            />
                         ))}
                     </div>
                 )}
@@ -720,6 +695,41 @@ function Design() {
                     height: 220px;
                     object-fit: cover;
                     display: block;
+                }
+
+                .card-image-container {
+                    position: relative;
+                    width: 100%;
+                    height: 220px;
+                }
+
+                .image-indicators {
+                    position: absolute;
+                    bottom: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    display: flex;
+                    gap: 6px;
+                    z-index: 10;
+                }
+
+                .indicator {
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.5);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+
+                .indicator.active {
+                    background: rgba(255, 255, 255, 1);
+                    width: 10px;
+                    height: 10px;
+                }
+
+                .indicator:hover {
+                    background: rgba(255, 255, 255, 0.8);
                 }
 
                 .media-overlay {

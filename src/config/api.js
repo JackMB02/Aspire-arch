@@ -66,6 +66,11 @@ export const API_ENDPOINTS = {
       TOGGLE_FEATURED: (id) => `${API_BASE_URL}/design/projects/${id}/toggle-featured`,
     }
   },
+
+  // Get Involved endpoints
+  GET_INVOLVED: {
+    MEMBERSHIP: `${API_BASE_URL}/get-involved/membership`,
+  },
 };
 
 // Test API connection

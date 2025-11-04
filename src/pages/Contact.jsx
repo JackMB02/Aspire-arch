@@ -247,11 +247,9 @@ function Contact() {
                                                     <div>
                                                         <h3>Visit Us</h3>
                                                         <p>
-                                                            123 Architecture
-                                                            Avenue
+                                                            Kigali, Nyarugenge
                                                             <br />
-                                                            Design District, DC
-                                                            10001
+                                                            Rwanda
                                                         </p>
                                                     </div>
                                                 </div>
@@ -263,7 +261,7 @@ function Contact() {
                                                     <div>
                                                         <h3>Call Us</h3>
                                                         <p>
-                                                            +1 (555) 123-4567
+                                                            +250 789 924 343
                                                             <br />
                                                             Mon-Fri, 9:00 AM -
                                                             6:00 PM
@@ -278,9 +276,7 @@ function Contact() {
                                                     <div>
                                                         <h3>Email Us</h3>
                                                         <p>
-                                                            hello@aspirearchitecture.com
-                                                            <br />
-                                                            info@aspirearchitecture.com
+                                                            aspiredesignlab@gmail.com
                                                         </p>
                                                     </div>
                                                 </div>

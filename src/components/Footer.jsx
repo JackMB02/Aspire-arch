@@ -295,7 +295,7 @@ function Footer() {
                         <FooterTitle>Visit Us</FooterTitle>
                         <MapContainer>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.5116543926594!2d30.0602284!3d-1.9440727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca425b3b91e85%3A0x31e7a9f1a1a24b46!2sNyarugenge%2C%20Kigali%2C%20Rwanda!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.5116637795253!2d30.060228400000003!3d-1.944072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca68f5f8b1f89%3A0x7a0d0f0e0f0e0f0e!2sKN%203%20Ave%2C%20Kigali!5e0!3m2!1sen!2srw!4v1730736000000!5m2!1sen!2srw"
                                 allowFullScreen=""
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"

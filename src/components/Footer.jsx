@@ -29,6 +29,7 @@ const FooterSection = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
+`;
 
 const FooterTitle = styled.h3`
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
@@ -36,23 +37,21 @@ const FooterTitle = styled.h3`
     font-weight: 300; /* Slightly bolder for titles */
     margin-bottom: 0.5rem;
     letter-spacing: 0.5px;
+`;
 
 const FooterLink = styled.a`
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
     font-weight: 200;
     transition: color 0.3s;
-    letter-spacing: 0.3px;;
+    letter-spacing: 0.3px;
 
-const FooterTitle = styled.h3`
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 1.1rem;
-    font-weight: 300; /* Slightly bolder for titles */
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.5px;
+    &:hover {
+        color: var(--accent-light);
+    }
 `;
 
-const FooterLink = styled(Link)`
+const FooterLinkRouter = styled(Link)`
     font-size: 0.9rem;
     font-weight: 200;
     transition: color 0.3s;

@@ -5,11 +5,28 @@ import "./DesignCard.css";
 const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+    // Parse gallery_images if it's a string (from database JSON)
+    let galleryImages = [];
+    if (project.gallery_images) {
+        if (typeof project.gallery_images === 'string') {
+            try {
+                galleryImages = JSON.parse(project.gallery_images);
+            } catch (e) {
+                console.error('Error parsing gallery_images:', e);
+                galleryImages = [];
+            }
+        } else if (Array.isArray(project.gallery_images)) {
+            galleryImages = project.gallery_images;
+        }
+    }
+
     // Combine main_image with gallery_images
     const allImages =
-        project.gallery_images && project.gallery_images.length > 0
-            ? [project.main_image, ...project.gallery_images]
+        galleryImages && galleryImages.length > 0
+            ? [project.main_image, ...galleryImages]
             : [project.main_image];
+
+    console.log('Project:', project.title, 'All Images:', allImages);
 
     // Auto slideshow every 4 seconds
     useEffect(() => {

@@ -54,43 +54,40 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
                         No projects found in this category.
                     </div>
                 ) : (
-                    <div className="design-projects-grid">
+                    <div className="media-grid">
                         {projects.map((project, idx) => (
-                            <Link 
-                                key={project.id || idx} 
-                                to={`/design/project/${project.id}`}
-                                className="design-card"
-                            >
-                                <div className="design-card-image">
-                                    <img
-                                        src={`${BACKEND_BASE_URL}${project.main_image}`}
-                                        alt={project.title}
-                                        onError={(e) => {
-                                            e.target.src =
-                                                "/images/placeholder.jpg";
-                                        }}
-                                    />
-                                    {project.is_featured && (
-                                        <span className="featured-badge">
-                                            ★ Featured
-                                        </span>
-                                    )}
-                                </div>
-                                <div className="design-card-content">
+                            <div key={project.id || idx} className="media-card">
+                                <img
+                                    src={`${BACKEND_BASE_URL}${project.main_image}`}
+                                    alt={project.title}
+                                    onError={(e) => {
+                                        e.target.src =
+                                            "/images/placeholder.jpg";
+                                    }}
+                                />
+                                <div className="media-overlay">
                                     <h3>{project.title}</h3>
-                                    <p className="design-card-summary">{project.summary}</p>
-                                    <div className="design-card-meta">
-                                        <span className="meta-category">
+                                    <p>{project.summary}</p>
+                                    <div className="project-meta-tags">
+                                        <span className="meta-tag">
                                             {project.category}
                                         </span>
                                         {project.sector && (
-                                            <span className="meta-sector">
+                                            <span className="meta-tag">
                                                 {getSectorLabel(project.sector)}
                                             </span>
                                         )}
+                                        {project.is_featured && (
+                                            <span className="featured-badge-overlay">
+                                                ★ Featured
+                                            </span>
+                                        )}
                                     </div>
+                                    <Link to={`/design/project/${project.id}`}>
+                                        <button>View Project →</button>
+                                    </Link>
                                 </div>
-                            </Link>
+                            </div>
                         ))}
                     </div>
                 )}

@@ -160,6 +160,14 @@ function MembershipPartnerships() {
                     {/* Membership Application Form */}
                     <div className="membership-form-section">
                         <h2>Apply for Membership</h2>
+
+                        {!formData.membership_type && (
+                            <div className="info-message">
+                                ℹ️ Please select a membership type above to
+                                continue with your application
+                            </div>
+                        )}
+
                         {message && (
                             <div
                                 className={`form-message ${
@@ -1193,9 +1201,32 @@ function GetInvolved() {
           color: #dc3545;
         }
 
+        .info-message {
+          padding: 1rem;
+          border-radius: 4px;
+          margin-bottom: 1.5rem;
+          font-weight: 500;
+          background: rgba(122, 158, 217, 0.2);
+          border: 1px solid rgba(122, 158, 217, 0.3);
+          color: var(--accent-light);
+          text-align: center;
+        }
+
         .membership-card.selected {
           border-color: var(--accent-light);
           background: rgba(122, 158, 217, 0.1);
+          transform: scale(1.02);
+          box-shadow: 0 0 20px rgba(122, 158, 217, 0.3);
+        }
+
+        .membership-card {
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .membership-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(122, 158, 217, 0.5);
         }
 
         .payment-select-btn {

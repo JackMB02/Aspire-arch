@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Link, useParams } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
+import SkeletonLoader from "../components/SkeletonLoader";
 import { API_ENDPOINTS, apiRequest } from "../config/api";
 
 // Dynamic backend base URL for images
 const getBackendBaseUrl = () => {
-    return window.location.hostname === 'localhost' 
-        ? 'http://localhost:4000'
-        : 'https://aspire-arch-server.onrender.com';
+    return window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : "https://aspire-arch-server.onrender.com";
 };
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
@@ -20,10 +21,7 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
                 <div className="page-wrapper">
                     <h1 className="page-title">{title}</h1>
                     <p className="page-description">{description}</p>
-                    <div className="loading-spinner">
-                        <div className="spinner"></div>
-                        Loading projects...
-                    </div>
+                    <SkeletonLoader type="card" count={6} />
                 </div>
             </AnimatedSection>
         );
@@ -56,33 +54,43 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
                         No projects found in this category.
                     </div>
                 ) : (
-                    <div className="media-grid">
+                    <div className="design-projects-grid">
                         {projects.map((project, idx) => (
-                            <div key={project.id || idx} className="media-card">
-                                <img 
-                                    src={`${BACKEND_BASE_URL}${project.main_image}`} 
-                                    alt={project.title} 
-                                    onError={(e) => {
-                                        e.target.src = '/images/placeholder.jpg';
-                                    }}
-                                />
-                                <div className="media-overlay">
+                            <Link 
+                                key={project.id || idx} 
+                                to={`/design/project/${project.id}`}
+                                className="design-card"
+                            >
+                                <div className="design-card-image">
+                                    <img
+                                        src={`${BACKEND_BASE_URL}${project.main_image}`}
+                                        alt={project.title}
+                                        onError={(e) => {
+                                            e.target.src =
+                                                "/images/placeholder.jpg";
+                                        }}
+                                    />
+                                    {project.is_featured && (
+                                        <span className="featured-badge">
+                                            ★ Featured
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="design-card-content">
                                     <h3>{project.title}</h3>
-                                    <p>{project.summary}</p>
-                                    <div className="project-meta">
-                                        <span className="project-category">{project.category}</span>
+                                    <p className="design-card-summary">{project.summary}</p>
+                                    <div className="design-card-meta">
+                                        <span className="meta-category">
+                                            {project.category}
+                                        </span>
                                         {project.sector && (
-                                            <span className="project-sector">{getSectorLabel(project.sector)}</span>
-                                        )}
-                                        {project.is_featured && (
-                                            <span className="featured-badge">Featured</span>
+                                            <span className="meta-sector">
+                                                {getSectorLabel(project.sector)}
+                                            </span>
                                         )}
                                     </div>
-                                    <Link to={`/design/project/${project.id}`}>
-                                        <button>View Project →</button>
-                                    </Link>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 )}
@@ -94,19 +102,19 @@ const PageWrapper = ({ title, description, projects, loading, error }) => {
 // Sector labels mapping
 const getSectorLabel = (sector) => {
     const sectorLabels = {
-        'residential': 'Residential Architecture',
-        'interior': 'Interior Design',
-        'refurbishment': 'Refurbishment',
-        'cultural': 'Cultural Architecture',
-        'commercial': 'Commercial & Offices',
-        'hospitality': 'Hospitality Architecture',
-        'public': 'Public Architecture',
-        'healthcare': 'Healthcare Architecture',
-        'educational': 'Educational Architecture',
-        'sports': 'Sports Architecture',
-        'religious': 'Religious Architecture',
-        'industrial': 'Industrial & Infrastructure',
-        'landscape': 'Landscape & Urbanism'
+        residential: "Residential Architecture",
+        interior: "Interior Design",
+        refurbishment: "Refurbishment",
+        cultural: "Cultural Architecture",
+        commercial: "Commercial & Offices",
+        hospitality: "Hospitality Architecture",
+        public: "Public Architecture",
+        healthcare: "Healthcare Architecture",
+        educational: "Educational Architecture",
+        sports: "Sports Architecture",
+        religious: "Religious Architecture",
+        industrial: "Industrial & Infrastructure",
+        landscape: "Landscape & Urbanism",
     };
     return sectorLabels[sector] || sector;
 };
@@ -125,18 +133,22 @@ function Academic() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching academic projects...');
-            
-            const data = await apiRequest(API_ENDPOINTS.DESIGN_PROJECTS.ACADEMIC);
-            console.log('Academic projects data:', data);
-            
+            console.log("Fetching academic projects...");
+
+            const data = await apiRequest(
+                API_ENDPOINTS.DESIGN_PROJECTS.ACADEMIC
+            );
+            console.log("Academic projects data:", data);
+
             if (data.success) {
                 setProjects(data.data || []);
             } else {
-                throw new Error(data.message || 'Failed to fetch academic projects');
+                throw new Error(
+                    data.message || "Failed to fetch academic projects"
+                );
             }
         } catch (err) {
-            console.error('Error fetching academic projects:', err);
+            console.error("Error fetching academic projects:", err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -167,18 +179,22 @@ function Profession() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching professional projects...');
-            
-            const data = await apiRequest(API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL);
-            console.log('Professional projects data:', data);
-            
+            console.log("Fetching professional projects...");
+
+            const data = await apiRequest(
+                API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL
+            );
+            console.log("Professional projects data:", data);
+
             if (data.success) {
                 setProjects(data.data || []);
             } else {
-                throw new Error(data.message || 'Failed to fetch professional projects');
+                throw new Error(
+                    data.message || "Failed to fetch professional projects"
+                );
             }
         } catch (err) {
-            console.error('Error fetching professional projects:', err);
+            console.error("Error fetching professional projects:", err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -209,18 +225,22 @@ function Competition() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching competition projects...');
-            
-            const data = await apiRequest(API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION);
-            console.log('Competition projects data:', data);
-            
+            console.log("Fetching competition projects...");
+
+            const data = await apiRequest(
+                API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION
+            );
+            console.log("Competition projects data:", data);
+
             if (data.success) {
                 setProjects(data.data || []);
             } else {
-                throw new Error(data.message || 'Failed to fetch competition projects');
+                throw new Error(
+                    data.message || "Failed to fetch competition projects"
+                );
             }
         } catch (err) {
-            console.error('Error fetching competition projects:', err);
+            console.error("Error fetching competition projects:", err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -256,18 +276,20 @@ function VisitProject() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching project:', projectId);
-            
-            const data = await apiRequest(API_ENDPOINTS.DESIGN_PROJECTS.SINGLE_PROJECT(projectId));
-            console.log('Project data:', data);
-            
+            console.log("Fetching project:", projectId);
+
+            const data = await apiRequest(
+                API_ENDPOINTS.DESIGN_PROJECTS.SINGLE_PROJECT(projectId)
+            );
+            console.log("Project data:", data);
+
             if (data.success) {
                 setProject(data.data);
             } else {
-                throw new Error(data.message || 'Project not found');
+                throw new Error(data.message || "Project not found");
             }
         } catch (err) {
-            console.error('Error fetching project:', err);
+            console.error("Error fetching project:", err);
             setError(err.message);
         } finally {
             setLoading(false);
@@ -276,8 +298,9 @@ function VisitProject() {
 
     // Automatic slideshow every 3s
     useEffect(() => {
-        if (!project?.gallery_images || project.gallery_images.length <= 1) return;
-        
+        if (!project?.gallery_images || project.gallery_images.length <= 1)
+            return;
+
         const interval = setInterval(() => {
             setCurrentIndex((prev) =>
                 prev === project.gallery_images.length - 1 ? 0 : prev + 1
@@ -303,10 +326,7 @@ function VisitProject() {
     if (loading) {
         return (
             <div className="visit-project">
-                <div className="loading-spinner">
-                    <div className="spinner"></div>
-                    Loading project...
-                </div>
+                <SkeletonLoader type="card" count={1} />
             </div>
         );
     }
@@ -334,9 +354,10 @@ function VisitProject() {
     }
 
     // Combine main image with gallery images for slideshow
-    const allImages = project.gallery_images && project.gallery_images.length > 0 
-        ? [project.main_image, ...project.gallery_images]
-        : [project.main_image];
+    const allImages =
+        project.gallery_images && project.gallery_images.length > 0
+            ? [project.main_image, ...project.gallery_images]
+            : [project.main_image];
 
     return (
         <div className="visit-project">
@@ -346,10 +367,10 @@ function VisitProject() {
                     src={`${BACKEND_BASE_URL}${allImages[currentIndex]}`}
                     alt={`${project.title} slide ${currentIndex + 1}`}
                     onError={(e) => {
-                        e.target.src = '/images/placeholder.jpg';
+                        e.target.src = "/images/placeholder.jpg";
                     }}
                 />
-                
+
                 {/* Show arrows only if there are multiple images */}
                 {allImages.length > 1 && (
                     <>
@@ -359,13 +380,15 @@ function VisitProject() {
                         <button className="next-arrow" onClick={nextSlide}>
                             &#10095;
                         </button>
-                        
+
                         {/* Slide indicators */}
                         <div className="slide-indicators">
                             {allImages.map((_, index) => (
                                 <button
                                     key={index}
-                                    className={`indicator ${index === currentIndex ? 'active' : ''}`}
+                                    className={`indicator ${
+                                        index === currentIndex ? "active" : ""
+                                    }`}
                                     onClick={() => setCurrentIndex(index)}
                                 />
                             ))}
@@ -379,42 +402,50 @@ function VisitProject() {
                 <div className="project-header">
                     <h1>{project.title}</h1>
                     <div className="project-meta">
-                        <span className="project-category">{project.category}</span>
+                        <span className="project-category">
+                            {project.category}
+                        </span>
                         {project.sector && (
-                            <span className="project-sector">{getSectorLabel(project.sector)}</span>
+                            <span className="project-sector">
+                                {getSectorLabel(project.sector)}
+                            </span>
                         )}
                         {project.is_featured && (
                             <span className="featured-badge">Featured</span>
                         )}
                     </div>
                 </div>
-                
+
                 <div className="project-summary">
                     <p>{project.summary}</p>
                 </div>
-                
+
                 <div className="project-description">
                     <p>{project.description}</p>
                 </div>
 
                 {/* Additional gallery images (excluding the first one which is in slideshow) */}
-                {project.gallery_images && project.gallery_images.length > 0 && (
-                    <div className="additional-images">
-                        <h3>Project Gallery</h3>
-                        <div className="gallery-grid">
-                            {project.gallery_images.map((img, idx) => (
-                                <img 
-                                    key={idx} 
-                                    src={`${BACKEND_BASE_URL}${img}`} 
-                                    alt={`${project.title} detail ${idx + 1}`}
-                                    onError={(e) => {
-                                        e.target.src = '/images/placeholder.jpg';
-                                    }}
-                                />
-                            ))}
+                {project.gallery_images &&
+                    project.gallery_images.length > 0 && (
+                        <div className="additional-images">
+                            <h3>Project Gallery</h3>
+                            <div className="gallery-grid">
+                                {project.gallery_images.map((img, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={`${BACKEND_BASE_URL}${img}`}
+                                        alt={`${project.title} detail ${
+                                            idx + 1
+                                        }`}
+                                        onError={(e) => {
+                                            e.target.src =
+                                                "/images/placeholder.jpg";
+                                        }}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
             </div>
         </div>
     );
@@ -434,26 +465,29 @@ function Design() {
         try {
             setLoading(true);
             setError(null);
-            console.log('Fetching all projects...');
-            
+            console.log("Fetching all projects...");
+
             // Try the main endpoint first
             try {
-                const data = await apiRequest(API_ENDPOINTS.DESIGN_PROJECTS.ALL_PROJECTS);
-                console.log('All projects data:', data);
-                
+                const data = await apiRequest(
+                    API_ENDPOINTS.DESIGN_PROJECTS.ALL_PROJECTS
+                );
+                console.log("All projects data:", data);
+
                 if (data.success) {
                     setAllProjects(data.data || []);
                     return;
                 }
             } catch (mainError) {
-                console.log('Main endpoint failed, trying individual categories...');
+                console.log(
+                    "Main endpoint failed, trying individual categories..."
+                );
                 // If main endpoint fails, fetch from individual categories
                 await fetchProjectsFromCategories();
             }
-            
         } catch (err) {
-            console.error('Error fetching projects:', err);
-            setError('Unable to load projects. Please try again later.');
+            console.error("Error fetching projects:", err);
+            setError("Unable to load projects. Please try again later.");
         } finally {
             setLoading(false);
         }
@@ -462,56 +496,65 @@ function Design() {
     // Fallback: Fetch projects from individual categories if main endpoint fails
     const fetchProjectsFromCategories = async () => {
         try {
-            console.log('Fetching projects from individual categories...');
-            
-            const categories = ['academic', 'professional', 'competition'];
+            console.log("Fetching projects from individual categories...");
+
+            const categories = ["academic", "professional", "competition"];
             const allProjects = [];
-            
+
             for (const category of categories) {
                 try {
                     let endpoint;
-                    switch(category) {
-                        case 'academic':
+                    switch (category) {
+                        case "academic":
                             endpoint = API_ENDPOINTS.DESIGN_PROJECTS.ACADEMIC;
                             break;
-                        case 'professional':
-                            endpoint = API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL;
+                        case "professional":
+                            endpoint =
+                                API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL;
                             break;
-                        case 'competition':
-                            endpoint = API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION;
+                        case "competition":
+                            endpoint =
+                                API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION;
                             break;
                         default:
                             continue;
                     }
-                    
+
                     const data = await apiRequest(endpoint);
                     if (data.success && data.data) {
                         allProjects.push(...data.data);
                     }
                 } catch (categoryError) {
-                    console.warn(`Failed to fetch ${category} projects:`, categoryError);
+                    console.warn(
+                        `Failed to fetch ${category} projects:`,
+                        categoryError
+                    );
                 }
             }
-            
+
             setAllProjects(allProjects);
-            
+
             if (allProjects.length === 0) {
-                setError('No projects found. Please check if the server is running.');
+                setError(
+                    "No projects found. Please check if the server is running."
+                );
             }
-            
         } catch (err) {
-            console.error('Error fetching from categories:', err);
-            setError('Unable to load projects. Please try again later.');
+            console.error("Error fetching from categories:", err);
+            setError("Unable to load projects. Please try again later.");
         }
     };
 
     // Get featured projects (first 3 projects from all categories)
     const featuredProjects = allProjects
-        .filter(project => project.is_featured)
+        .filter((project) => project.is_featured)
         .slice(0, 3);
 
     // If no featured projects, just show first 3 projects
-    const displayProjects = featuredProjects.length > 0 ? featuredProjects : allProjects.slice(0, 3);
+    const displayProjects =
+        featuredProjects.length > 0
+            ? featuredProjects
+            : allProjects.slice(0, 3);
 
     return (
         <div className="design-page">

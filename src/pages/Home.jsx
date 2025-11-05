@@ -239,6 +239,15 @@ function Home() {
                     {featuredDesigns.length > 0 ? (
                         <div className="designs-grid">
                             {featuredDesigns.map((design) => {
+                                // Debug: Log the design data
+                                console.log('Design data:', {
+                                    id: design.id,
+                                    title: design.title,
+                                    main_image: design.main_image,
+                                    category: design.category,
+                                    summary: design.summary
+                                });
+                                
                                 // Handle image URL - add backend URL if needed
                                 const imageUrl = design.main_image?.startsWith(
                                     "http"
@@ -252,6 +261,8 @@ function Home() {
                                               : "https://aspire-arch-server.onrender.com"
                                       }${design.main_image}`
                                     : design.image || "/images/placeholder.jpg";
+                                
+                                console.log('Constructed imageUrl:', imageUrl);
 
                                 return (
                                     <div
@@ -281,7 +292,9 @@ function Home() {
                                             </p>
                                             <Link
                                                 to={`/design/project/${design.id}`}
-                                                style={{ textDecoration: "none" }}
+                                                style={{
+                                                    textDecoration: "none",
+                                                }}
                                             >
                                                 <button className="view-project-btn">
                                                     View Project →

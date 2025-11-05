@@ -259,7 +259,9 @@ function VisitProject() {
             const data = await apiRequest(
                 API_ENDPOINTS.DESIGN_PROJECTS.SINGLE_PROJECT(projectId)
             );
-            console.log("Project data:", data);
+            console.log("Project data received:", data);
+            console.log("Project main_image:", data.data?.main_image);
+            console.log("Project gallery_images:", data.data?.gallery_images);
 
             if (data.success) {
                 setProject(data.data);
@@ -277,22 +279,22 @@ function VisitProject() {
     // Automatic slideshow every 3s
     useEffect(() => {
         if (!project) return;
-        
+
         // Parse gallery_images if it's a string
         let galleryImages = [];
         if (project.gallery_images) {
-            if (typeof project.gallery_images === 'string') {
+            if (typeof project.gallery_images === "string") {
                 try {
                     galleryImages = JSON.parse(project.gallery_images);
                 } catch (e) {
-                    console.error('Error parsing gallery_images:', e);
+                    console.error("Error parsing gallery_images:", e);
                     galleryImages = [];
                 }
             } else if (Array.isArray(project.gallery_images)) {
                 galleryImages = project.gallery_images;
             }
         }
-        
+
         if (galleryImages.length <= 1) return;
 
         const interval = setInterval(() => {
@@ -305,9 +307,9 @@ function VisitProject() {
 
     const prevSlide = () => {
         if (!project) return;
-        
+
         let galleryImages = [];
-        if (typeof project.gallery_images === 'string') {
+        if (typeof project.gallery_images === "string") {
             try {
                 galleryImages = JSON.parse(project.gallery_images);
             } catch (e) {
@@ -316,11 +318,12 @@ function VisitProject() {
         } else if (Array.isArray(project.gallery_images)) {
             galleryImages = project.gallery_images;
         }
-        
-        const allImages = galleryImages.length > 0 
-            ? [project.main_image, ...galleryImages] 
-            : [project.main_image];
-            
+
+        const allImages =
+            galleryImages.length > 0
+                ? [project.main_image, ...galleryImages]
+                : [project.main_image];
+
         setCurrentIndex((prev) =>
             prev === 0 ? allImages.length - 1 : prev - 1
         );
@@ -328,9 +331,9 @@ function VisitProject() {
 
     const nextSlide = () => {
         if (!project) return;
-        
+
         let galleryImages = [];
-        if (typeof project.gallery_images === 'string') {
+        if (typeof project.gallery_images === "string") {
             try {
                 galleryImages = JSON.parse(project.gallery_images);
             } catch (e) {
@@ -339,11 +342,12 @@ function VisitProject() {
         } else if (Array.isArray(project.gallery_images)) {
             galleryImages = project.gallery_images;
         }
-        
-        const allImages = galleryImages.length > 0 
-            ? [project.main_image, ...galleryImages] 
-            : [project.main_image];
-            
+
+        const allImages =
+            galleryImages.length > 0
+                ? [project.main_image, ...galleryImages]
+                : [project.main_image];
+
         setCurrentIndex((prev) =>
             prev === allImages.length - 1 ? 0 : prev + 1
         );
@@ -382,22 +386,32 @@ function VisitProject() {
     // Parse gallery_images if it's a string
     let galleryImages = [];
     if (project.gallery_images) {
-        if (typeof project.gallery_images === 'string') {
+        if (typeof project.gallery_images === "string") {
             try {
                 galleryImages = JSON.parse(project.gallery_images);
+                console.log("Parsed gallery_images:", galleryImages);
             } catch (e) {
-                console.error('Error parsing gallery_images:', e);
+                console.error("Error parsing gallery_images:", e);
                 galleryImages = [];
             }
         } else if (Array.isArray(project.gallery_images)) {
             galleryImages = project.gallery_images;
+            console.log("Gallery_images already array:", galleryImages);
         }
     }
 
     // Combine main image with gallery images for slideshow
-    const allImages = galleryImages.length > 0
-        ? [project.main_image, ...galleryImages]
-        : [project.main_image];
+    const allImages =
+        galleryImages.length > 0
+            ? [project.main_image, ...galleryImages]
+            : [project.main_image];
+
+    console.log("All images for slideshow:", allImages);
+    console.log("Current image index:", currentIndex);
+    console.log(
+        "Current image URL:",
+        `${BACKEND_BASE_URL}${allImages[currentIndex]}`
+    );
 
     return (
         <div className="visit-project">
@@ -475,7 +489,8 @@ function VisitProject() {
                                     src={`${BACKEND_BASE_URL}${img}`}
                                     alt={`${project.title} detail ${idx + 1}`}
                                     onError={(e) => {
-                                        e.target.src = "/images/placeholder.jpg";
+                                        e.target.src =
+                                            "/images/placeholder.jpg";
                                     }}
                                 />
                             ))}

@@ -161,13 +161,6 @@ function MembershipPartnerships() {
                     <div className="membership-form-section">
                         <h2>Apply for Membership</h2>
 
-                        {!formData.membership_type && (
-                            <div className="info-message">
-                                ℹ️ Please select a membership type above to
-                                continue with your application
-                            </div>
-                        )}
-
                         {message && (
                             <div
                                 className={`form-message ${

@@ -1,30 +1,33 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, memo } from "react";
 import { Link } from "react-router-dom";
 import "./DesignCard.css";
 
 const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    // Parse gallery_images if it's a string (from database JSON)
-    let galleryImages = [];
-    if (project.gallery_images) {
+    // Parse gallery_images if it's a string (from database JSON) - memoize to prevent re-parsing
+    const galleryImages = useMemo(() => {
+        if (!project.gallery_images) return [];
+        
         if (typeof project.gallery_images === "string") {
             try {
-                galleryImages = JSON.parse(project.gallery_images);
+                return JSON.parse(project.gallery_images);
             } catch (e) {
                 console.error("Error parsing gallery_images:", e);
-                galleryImages = [];
+                return [];
             }
         } else if (Array.isArray(project.gallery_images)) {
-            galleryImages = project.gallery_images;
+            return project.gallery_images;
         }
-    }
+        return [];
+    }, [project.gallery_images]);
 
-    // Combine main_image with gallery_images
-    const allImages =
-        galleryImages && galleryImages.length > 0
+    // Combine main_image with gallery_images - memoize to prevent re-creation
+    const allImages = useMemo(() => {
+        return galleryImages && galleryImages.length > 0
             ? [project.main_image, ...galleryImages]
             : [project.main_image];
+    }, [project.main_image, galleryImages]);
 
     // Helper function to construct proper image URLs
     const getProperImageUrl = (imagePath) => {
@@ -114,4 +117,4 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     );
 };
 
-export default DesignCard;
+export default memo(DesignCard);

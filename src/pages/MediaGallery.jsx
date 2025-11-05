@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 
@@ -59,6 +59,98 @@ const PageWrapper = ({ title, description, children }) => {
 };
 
 // Individual Media Sections
+function PhotoAlbumDetail() {
+    const { photoId } = useParams();
+    const navigate = useNavigate();
+    const [album, setAlbum] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchAlbumDetails();
+    }, [photoId]);
+
+    const fetchAlbumDetails = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`${API_BASE_URL}/media/photos/${photoId}`);
+            if (response.ok) {
+                const data = await response.json();
+                setAlbum(data);
+            } else {
+                console.error("Failed to fetch photo album");
+            }
+        } catch (error) {
+            console.error("Error fetching photo album:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <PageWrapper title="Loading..." description="Please wait...">
+                <SkeletonLoader type="card" count={1} />
+            </PageWrapper>
+        );
+    }
+
+    if (!album) {
+        return (
+            <PageWrapper title="Album Not Found" description="The requested photo album could not be found.">
+                <div className="no-data">
+                    <button
+                        onClick={() => navigate("/media-gallery/photo-albums")}
+                        className="back-btn-primary"
+                    >
+                        ← Back to Albums
+                    </button>
+                </div>
+            </PageWrapper>
+        );
+    }
+
+    return (
+        <PageWrapper title={album.title} description={album.category}>
+            <button
+                onClick={() => navigate("/media-gallery/photo-albums")}
+                className="back-btn-primary"
+                style={{ marginBottom: '2rem' }}
+            >
+                ← Back to Albums
+            </button>
+            <div className="album-detail">
+                <div className="album-main-image">
+                    <img
+                        src={getImageUrl(album.image)}
+                        alt={album.title}
+                        onError={(e) => {
+                            e.target.src = "/images/placeholder.jpg";
+                        }}
+                    />
+                </div>
+                <div className="album-info">
+                    <h2>{album.title}</h2>
+                    <p className="album-category">{album.category}</p>
+                    {album.description && <p className="album-description">{album.description}</p>}
+                    {album.location && <p className="album-location"><strong>Location:</strong> {album.location}</p>}
+                    {album.date && (
+                        <p className="album-date">
+                            <strong>Date:</strong> {new Date(album.date).toLocaleDateString()}
+                        </p>
+                    )}
+                    {album.tags && album.tags.length > 0 && (
+                        <div className="album-tags">
+                            {album.tags.map((tag, idx) => (
+                                <span key={idx} className="tag">{tag}</span>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </PageWrapper>
+    );
+}
+
 function PhotoAlbums() {
     const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -151,7 +243,10 @@ function PhotoAlbums() {
                             <div className="media-overlay">
                                 <h3>{photo.title}</h3>
                                 <p>{photo.category}</p>
-                                <Link to={`/photo/${photo.id}`} className="view-album-btn">
+                                <Link
+                                    to={`/media-gallery/photo-albums/${photo.id}`}
+                                    className="view-album-btn"
+                                >
                                     View Album →
                                 </Link>
                             </div>
@@ -265,6 +360,7 @@ function VideoStories() {
 function DesignVisualizations() {
     const [designs, setDesigns] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedDesign, setSelectedDesign] = useState(null);
 
     useEffect(() => {
         fetchDesigns();
@@ -327,12 +423,56 @@ function DesignVisualizations() {
                             <div className="media-overlay">
                                 <h3>{design.title}</h3>
                                 <p>{design.type}</p>
-                                <button>View Details →</button>
+                                <button onClick={() => setSelectedDesign(design)}>
+                                    View Details →
+                                </button>
                             </div>
                         </div>
                     ))
                 )}
             </div>
+
+            {/* Design Detail Modal */}
+            {selectedDesign && (
+                <div
+                    className="modal-overlay"
+                    onClick={() => setSelectedDesign(null)}
+                >
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            className="modal-close"
+                            onClick={() => setSelectedDesign(null)}
+                        >
+                            ×
+                        </button>
+                        <img
+                            src={getImageUrl(selectedDesign.image)}
+                            alt={selectedDesign.title}
+                            className="modal-image"
+                        />
+                        <div className="modal-info">
+                            <h2>{selectedDesign.title}</h2>
+                            <p className="design-type">{selectedDesign.type} · {selectedDesign.category}</p>
+                            <p className="design-description">{selectedDesign.description}</p>
+                            {selectedDesign.project && (
+                                <p className="design-project">
+                                    <strong>Project:</strong> {selectedDesign.project}
+                                </p>
+                            )}
+                            {selectedDesign.tags && selectedDesign.tags.length > 0 && (
+                                <div className="design-tags">
+                                    {selectedDesign.tags.map((tag, idx) => (
+                                        <span key={idx} className="tag">{tag}</span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </PageWrapper>
     );
 }
@@ -432,24 +572,63 @@ function MediaOverview() {
         designs: 0,
         testimonials: 0,
     });
+    const [categoryImages, setCategoryImages] = useState({
+        photo: null,
+        video: null,
+        design: null,
+        testimonial: null,
+    });
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchStats();
+        fetchStatsAndImages();
     }, []);
 
-    const fetchStats = async () => {
+    const fetchStatsAndImages = async () => {
         try {
             setLoading(true);
-            const response = await fetch(`${API_BASE_URL}/media/stats`);
-            if (response.ok) {
-                const data = await response.json();
-                setStats(data);
-            } else {
-                console.error("Failed to fetch media stats");
+            // Fetch stats
+            const statsResponse = await fetch(`${API_BASE_URL}/media/stats`);
+            if (statsResponse.ok) {
+                const statsData = await statsResponse.json();
+                setStats(statsData);
             }
+
+            // Fetch sample images from each category
+            const [photosRes, videosRes, designsRes, testimonialsRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/media/photos`),
+                fetch(`${API_BASE_URL}/media/videos`),
+                fetch(`${API_BASE_URL}/media/designs`),
+                fetch(`${API_BASE_URL}/media/testimonials`)
+            ]);
+
+            const images = {
+                photo: null,
+                video: null,
+                design: null,
+                testimonial: null,
+            };
+
+            if (photosRes.ok) {
+                const photos = await photosRes.json();
+                images.photo = photos.length > 0 ? photos[0].image : null;
+            }
+            if (videosRes.ok) {
+                const videos = await videosRes.json();
+                images.video = videos.length > 0 ? videos[0].thumbnail : null;
+            }
+            if (designsRes.ok) {
+                const designs = await designsRes.json();
+                images.design = designs.length > 0 ? designs[0].image : null;
+            }
+            if (testimonialsRes.ok) {
+                const testimonials = await testimonialsRes.json();
+                images.testimonial = testimonials.length > 0 ? testimonials[0].image : null;
+            }
+
+            setCategoryImages(images);
         } catch (error) {
-            console.error("Error fetching media stats:", error);
+            console.error("Error fetching media stats and images:", error);
         } finally {
             setLoading(false);
         }
@@ -460,28 +639,28 @@ function MediaOverview() {
             title: "Photo Albums",
             description: "Browse curated photo collections from our projects.",
             link: "photo-albums",
-            image: "/images/pome.jpg",
+            image: categoryImages.photo || "/images/pome.jpg",
             count: `${stats.photos} photos`,
         },
         {
             title: "Video Stories",
             description: "Watch inspiring video stories of our work.",
             link: "video-stories",
-            image: "/images/villa.jpg",
+            image: categoryImages.video || "/images/villa.jpg",
             count: `${stats.videos} videos`,
         },
         {
             title: "Design Visualizations",
             description: "See 3D renders and visual concepts of our designs.",
             link: "design-visualizations",
-            image: "/images/office.jpg",
+            image: categoryImages.design || "/images/office.jpg",
             count: `${stats.designs} renders`,
         },
         {
             title: "Community Voices",
             description: "Read testimonials and stories from the community.",
             link: "community-voices",
-            image: "/images/park.jpg",
+            image: categoryImages.testimonial || "/images/park.jpg",
             count: `${stats.testimonials} stories`,
         },
     ];
@@ -506,7 +685,15 @@ function MediaOverview() {
                 {categories.map((cat, idx) => (
                     <Link to={cat.link} key={idx} className="category-card">
                         <div className="category-image">
-                            <img src={cat.image} alt={cat.title} />
+                            <img 
+                                src={getImageUrl(cat.image)} 
+                                alt={cat.title}
+                                onError={(e) => {
+                                    e.target.src = cat.image.startsWith('/images/') 
+                                        ? cat.image 
+                                        : "/images/placeholder.jpg";
+                                }}
+                            />
                             <div className="category-count">{cat.count}</div>
                         </div>
                         <div className="category-content">
@@ -533,6 +720,7 @@ function MediaGallery() {
             }}
         >
             <Routes>
+                <Route path="photo-albums/:photoId" element={<PhotoAlbumDetail />} />
                 <Route path="photo-albums" element={<PhotoAlbums />} />
                 <Route path="video-stories" element={<VideoStories />} />
                 <Route
@@ -953,6 +1141,175 @@ function MediaGallery() {
           color: rgba(255, 255, 255, 0.7);
           font-size: 0.85rem;
           font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.9);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          padding: 2rem;
+        }
+
+        .modal-content {
+          background: var(--primary-dark);
+          border-radius: 12px;
+          max-width: 900px;
+          max-height: 90vh;
+          overflow-y: auto;
+          position: relative;
+          box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          color: white;
+          font-size: 2rem;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+          transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: rotate(90deg);
+        }
+
+        .modal-image {
+          width: 100%;
+          max-height: 60vh;
+          object-fit: contain;
+          background: rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-info {
+          padding: 2rem;
+        }
+
+        .modal-info h2 {
+          color: var(--accent-light);
+          margin-bottom: 0.5rem;
+        }
+
+        .design-type {
+          color: rgba(255, 255, 255, 0.7);
+          margin-bottom: 1rem;
+        }
+
+        .design-description {
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+
+        .design-project {
+          color: rgba(255, 255, 255, 0.8);
+          margin-bottom: 1rem;
+        }
+
+        .design-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+
+        .tag {
+          background: rgba(122, 158, 217, 0.2);
+          color: var(--accent-light);
+          padding: 0.3rem 0.8rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
+        }
+
+        /* Album Detail Page */
+        .album-detail {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+        }
+
+        .album-main-image {
+          width: 100%;
+          border-radius: 12px;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .album-main-image img {
+          width: 100%;
+          height: auto;
+          display: block;
+        }
+
+        .album-info {
+          background: rgba(255, 255, 255, 0.05);
+          padding: 2rem;
+          border-radius: 12px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .album-info h2 {
+          color: var(--accent-light);
+          margin-bottom: 0.5rem;
+        }
+
+        .album-category {
+          color: rgba(255, 255, 255, 0.7);
+          margin-bottom: 1rem;
+          font-weight: 500;
+        }
+
+        .album-description {
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+
+        .album-location,
+        .album-date {
+          color: rgba(255, 255, 255, 0.8);
+          margin-bottom: 0.5rem;
+        }
+
+        .album-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-top: 1rem;
+        }
+
+        .back-btn-primary {
+          background: var(--accent-light);
+          color: var(--primary-dark);
+          padding: 0.8rem 1.5rem;
+          border: none;
+          border-radius: 6px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .back-btn-primary:hover {
+          background: rgba(122, 158, 217, 0.9);
+          transform: translateX(-5px);
         }
 
         /* Responsive Design */

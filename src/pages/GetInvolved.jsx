@@ -127,10 +127,24 @@ function MembershipPartnerships() {
                         collaborate on meaningful projects.
                     </p>
 
-                    <h2 className="section-heading" style={{marginTop: '2rem', marginBottom: '1rem', textAlign: 'center', color: 'var(--accent-light)'}}>
+                    <h2
+                        className="section-heading"
+                        style={{
+                            marginTop: "2rem",
+                            marginBottom: "1rem",
+                            textAlign: "center",
+                            color: "var(--accent-light)",
+                        }}
+                    >
                         Select Your Membership Type
                     </h2>
-                    <p style={{textAlign: 'center', marginBottom: '2rem', opacity: '0.8'}}>
+                    <p
+                        style={{
+                            textAlign: "center",
+                            marginBottom: "2rem",
+                            opacity: "0.8",
+                        }}
+                    >
                         Click on a membership card below to select it
                     </p>
 
@@ -556,11 +570,12 @@ function DonateSupport() {
                                                 className="upload-btn"
                                             >
                                                 {formData.payment_proof
-                                                    ? formData.payment_proof.name
+                                                    ? formData.payment_proof
+                                                          .name
                                                     : "Choose File"}
                                             </label>
                                             <span className="upload-note">
-                                                {formData.payment_proof 
+                                                {formData.payment_proof
                                                     ? `Selected: ${formData.payment_proof.name}`
                                                     : "PNG, JPG, or PDF files accepted"}
                                             </span>

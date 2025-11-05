@@ -62,8 +62,12 @@ const VideoPlayer = () => {
                 const response = await fetch(`${API_BASE_URL}/media/videos`);
                 if (response.ok) {
                     const videos = await response.json();
-                    const current = videos.find((v) => v.id === parseInt(videoId));
-                    const suggested = videos.filter((v) => v.id !== parseInt(videoId));
+                    const current = videos.find(
+                        (v) => v.id === parseInt(videoId)
+                    );
+                    const suggested = videos.filter(
+                        (v) => v.id !== parseInt(videoId)
+                    );
                     setCurrentVideo(current);
                     setSuggestedVideos(suggested);
                 } else {
@@ -169,7 +173,11 @@ const VideoPlayer = () => {
     }
 
     // Get the video URL - check both videoSrc, video_url and video_file fields
-    const videoUrl = getMediaUrl(currentVideo.videoSrc || currentVideo.video_url || currentVideo.video_file);
+    const videoUrl = getMediaUrl(
+        currentVideo.videoSrc ||
+            currentVideo.video_url ||
+            currentVideo.video_file
+    );
     const thumbnailUrl = getMediaUrl(currentVideo.thumbnail);
 
     return (
@@ -283,12 +291,16 @@ const VideoPlayer = () => {
                     <div className="video-info">
                         <h1>{currentVideo.title}</h1>
                         <div className="video-meta">
-                            <span>{currentVideo.views || '0'} views</span>
+                            <span>{currentVideo.views || "0"} views</span>
                             <span>•</span>
                             <span>
-                                {currentVideo.upload_date 
-                                    ? new Date(currentVideo.upload_date).toLocaleDateString()
-                                    : new Date(currentVideo.created_at).toLocaleDateString()}
+                                {currentVideo.upload_date
+                                    ? new Date(
+                                          currentVideo.upload_date
+                                      ).toLocaleDateString()
+                                    : new Date(
+                                          currentVideo.created_at
+                                      ).toLocaleDateString()}
                             </span>
                         </div>
                         <p className="video-description">
@@ -325,12 +337,18 @@ const VideoPlayer = () => {
                                     <div className="suggested-content">
                                         <h4>{video.title}</h4>
                                         <div className="suggested-meta">
-                                            <span>{video.views || '0'} views</span>
+                                            <span>
+                                                {video.views || "0"} views
+                                            </span>
                                             <span>•</span>
                                             <span>
-                                                {video.upload_date 
-                                                    ? new Date(video.upload_date).toLocaleDateString()
-                                                    : new Date(video.created_at).toLocaleDateString()}
+                                                {video.upload_date
+                                                    ? new Date(
+                                                          video.upload_date
+                                                      ).toLocaleDateString()
+                                                    : new Date(
+                                                          video.created_at
+                                                      ).toLocaleDateString()}
                                             </span>
                                         </div>
                                     </div>

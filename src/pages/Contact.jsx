@@ -85,16 +85,17 @@ function Contact() {
                         <div className="contact-info">
                             <h1>GET IN TOUCH</h1>
                             <p className="contact-description">
-                                Join us in advancing sustainable, community-centered design.
-                                Membership for students is free, architects and other professionals are welcome to collaborate, support, or mentor.
-                                Together, we shape the future of architecture.
+                                Join us in advancing sustainable,
+                                community-centered design. Membership for
+                                students is free, architects and other
+                                professionals are welcome to collaborate,
+                                support, or mentor. Together, we shape the
+                                future of architecture.
                             </p>
 
                             <div className="contact-details">
                                 <div className="contact-item">
-                                    <div className="contact-icon">
-                                        �
-                                    </div>
+                                    <div className="contact-icon">�</div>
                                     <div>
                                         <h3>Call Us</h3>
                                         <p style={{ whiteSpace: "pre-line" }}>
@@ -106,9 +107,7 @@ function Contact() {
                                 </div>
 
                                 <div className="contact-item">
-                                    <div className="contact-icon">
-                                        ✉️
-                                    </div>
+                                    <div className="contact-icon">✉️</div>
                                     <div>
                                         <h3>Email</h3>
                                         <p style={{ whiteSpace: "pre-line" }}>

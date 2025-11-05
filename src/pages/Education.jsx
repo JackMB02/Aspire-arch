@@ -631,7 +631,10 @@ function EducationOverview() {
                             </div>
                         ) : upcomingEvents.length === 0 ? (
                             <div className="no-events-message">
-                                <p>No upcoming events at the moment. Check back soon!</p>
+                                <p>
+                                    No upcoming events at the moment. Check back
+                                    soon!
+                                </p>
                             </div>
                         ) : (
                             <div className="events-grid">

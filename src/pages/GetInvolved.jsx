@@ -1266,8 +1266,8 @@ function GetInvolved() {
         .membership-form .form-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1rem;
-          margin-bottom: 1rem;
+          gap: 2rem;
+          margin-bottom: 1.5rem;
         }
 
         /* Keep all your existing CSS styles from before */
@@ -1513,8 +1513,8 @@ function GetInvolved() {
         .form-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 1rem;
-          margin-bottom: 1rem;
+          gap: 2rem;
+          margin-bottom: 1.5rem;
           max-width: 600px;
         }
 

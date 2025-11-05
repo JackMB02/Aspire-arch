@@ -283,8 +283,8 @@ function VisitProject() {
                 API_ENDPOINTS.DESIGN_PROJECTS.SINGLE_PROJECT(projectId)
             );
             console.log("Project data received:", data);
-            console.log("Project main_image:", data.data?.main_image);
-            console.log("Project gallery_images:", data.data?.gallery_images);
+            console.log("Full project object:", data.data);
+            console.log("All project fields:", Object.keys(data.data || {}));
 
             if (data.success) {
                 setProject(data.data);
@@ -301,32 +301,36 @@ function VisitProject() {
 
     // Automatic slideshow every 3s
     useEffect(() => {
-        if (!project) return;
+        if (!project || !project.gallery_images) return;
 
         // Parse gallery_images if it's a string
         let galleryImages = [];
-        if (project.gallery_images) {
-            if (typeof project.gallery_images === "string") {
-                try {
-                    galleryImages = JSON.parse(project.gallery_images);
-                } catch (e) {
-                    console.error("Error parsing gallery_images:", e);
-                    galleryImages = [];
-                }
-            } else if (Array.isArray(project.gallery_images)) {
-                galleryImages = project.gallery_images;
+        if (typeof project.gallery_images === "string") {
+            try {
+                galleryImages = JSON.parse(project.gallery_images);
+            } catch (e) {
+                console.error("Error parsing gallery_images:", e);
+                return;
             }
+        } else if (Array.isArray(project.gallery_images)) {
+            galleryImages = project.gallery_images;
         }
 
-        if (galleryImages.length <= 1) return;
+        // Only set up interval if we have multiple images
+        if (!galleryImages || galleryImages.length <= 0) return;
+
+        const allImagesCount = galleryImages.length + (project.main_image ? 1 : 0);
+        if (allImagesCount <= 1) return;
 
         const interval = setInterval(() => {
-            setCurrentIndex((prev) =>
-                prev === galleryImages.length - 1 ? 0 : prev + 1
-            );
+            setCurrentIndex((prev) => {
+                const maxIndex = allImagesCount - 1;
+                return prev >= maxIndex ? 0 : prev + 1;
+            });
         }, 3000);
+
         return () => clearInterval(interval);
-    }, [project]);
+    }, [project?.id, project?.main_image, project?.gallery_images]);
 
     const prevSlide = () => {
         if (!project) return;
@@ -437,7 +441,7 @@ function VisitProject() {
     );
 
     return (
-        <div className="visit-project">
+        <div className="visit-project" key={project.id}>
             {/* Advanced Slideshow */}
             <div className="slideshow-wrapper">
                 <div className="slideshow">
@@ -532,13 +536,113 @@ function VisitProject() {
                     </div>
                 </div>
 
-                <div className="project-summary">
-                    <p>{project.summary}</p>
+                {/* Project Summary */}
+                {project.summary && (
+                    <div className="project-summary">
+                        <h3>Summary</h3>
+                        <p>{project.summary}</p>
+                    </div>
+                )}
+
+                {/* Project Description */}
+                {project.description && (
+                    <div className="project-description">
+                        <h3>Description</h3>
+                        <p>{project.description}</p>
+                    </div>
+                )}
+
+                {/* Project Details Grid */}
+                <div className="project-details-grid">
+                    {project.location && (
+                        <div className="detail-item">
+                            <span className="detail-label">📍 Location</span>
+                            <span className="detail-value">{project.location}</span>
+                        </div>
+                    )}
+                    {project.client && (
+                        <div className="detail-item">
+                            <span className="detail-label">👤 Client</span>
+                            <span className="detail-value">{project.client}</span>
+                        </div>
+                    )}
+                    {project.year && (
+                        <div className="detail-item">
+                            <span className="detail-label">📅 Year</span>
+                            <span className="detail-value">{project.year}</span>
+                        </div>
+                    )}
+                    {project.area && (
+                        <div className="detail-item">
+                            <span className="detail-label">📐 Area</span>
+                            <span className="detail-value">{project.area}</span>
+                        </div>
+                    )}
+                    {project.status && (
+                        <div className="detail-item">
+                            <span className="detail-label">⚡ Status</span>
+                            <span className="detail-value">{project.status}</span>
+                        </div>
+                    )}
+                    {project.budget && (
+                        <div className="detail-item">
+                            <span className="detail-label">💰 Budget</span>
+                            <span className="detail-value">{project.budget}</span>
+                        </div>
+                    )}
+                    {project.team && (
+                        <div className="detail-item">
+                            <span className="detail-label">👥 Team</span>
+                            <span className="detail-value">{project.team}</span>
+                        </div>
+                    )}
+                    {project.awards && (
+                        <div className="detail-item">
+                            <span className="detail-label">🏆 Awards</span>
+                            <span className="detail-value">{project.awards}</span>
+                        </div>
+                    )}
                 </div>
 
-                <div className="project-description">
-                    <p>{project.description}</p>
-                </div>
+                {/* Additional Content Fields */}
+                {project.content && (
+                    <div className="project-additional-content">
+                        <h3>Project Content</h3>
+                        <div dangerouslySetInnerHTML={{ __html: project.content }} />
+                    </div>
+                )}
+
+                {project.specifications && (
+                    <div className="project-specifications">
+                        <h3>Specifications</h3>
+                        <p>{project.specifications}</p>
+                    </div>
+                )}
+
+                {project.challenges && (
+                    <div className="project-challenges">
+                        <h3>Challenges</h3>
+                        <p>{project.challenges}</p>
+                    </div>
+                )}
+
+                {project.solutions && (
+                    <div className="project-solutions">
+                        <h3>Solutions</h3>
+                        <p>{project.solutions}</p>
+                    </div>
+                )}
+
+                {project.tags && (
+                    <div className="project-tags-section">
+                        <h3>Tags</h3>
+                        <div className="tags-list">
+                            {(Array.isArray(project.tags) ? project.tags : project.tags.split(',')).map((tag, idx) => (
+                                <span key={idx} className="tag-item">{tag.trim()}</span>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
@@ -1080,6 +1184,20 @@ function Design() {
                     border-left: 4px solid var(--accent-light);
                 }
 
+                .project-summary h3,
+                .project-description h3,
+                .project-additional-content h3,
+                .project-specifications h3,
+                .project-challenges h3,
+                .project-solutions h3,
+                .project-tags-section h3 {
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    font-size: 1.3rem;
+                    color: var(--accent-light);
+                    margin-bottom: 1rem;
+                    font-weight: 600;
+                }
+
                 .project-summary p {
                     font-family: 'Lora', 'Georgia', serif;
                     color: rgba(255, 255, 255, 0.9);
@@ -1102,6 +1220,90 @@ function Design() {
                     padding: 1.5rem;
                     border-radius: 8px;
                     border: 1px solid rgba(255, 255, 255, 0.1);
+                    margin-bottom: 2rem;
+                }
+
+                /* Project Details Grid */
+                .project-details-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                    gap: 1rem;
+                    margin: 2rem 0;
+                    padding: 1.5rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border-radius: 8px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .detail-item {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    padding: 1rem;
+                    background: rgba(0, 0, 0, 0.2);
+                    border-radius: 6px;
+                    transition: all 0.3s ease;
+                }
+
+                .detail-item:hover {
+                    background: rgba(176, 140, 77, 0.1);
+                    transform: translateY(-2px);
+                }
+
+                .detail-label {
+                    font-size: 0.85rem;
+                    color: rgba(255, 255, 255, 0.6);
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+
+                .detail-value {
+                    font-size: 1rem;
+                    color: rgba(255, 255, 255, 0.95);
+                    font-weight: 600;
+                }
+
+                /* Additional Content Sections */
+                .project-additional-content,
+                .project-specifications,
+                .project-challenges,
+                .project-solutions {
+                    background: rgba(255, 255, 255, 0.03);
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    margin-bottom: 2rem;
+                }
+
+                /* Tags Section */
+                .project-tags-section {
+                    margin-top: 2rem;
+                    padding: 1.5rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border-radius: 8px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .tags-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+
+                .tag-item {
+                    background: rgba(176, 140, 77, 0.2);
+                    color: var(--accent-light);
+                    padding: 0.4rem 0.8rem;
+                    border-radius: 20px;
+                    font-size: 0.85rem;
+                    border: 1px solid rgba(176, 140, 77, 0.3);
+                    transition: all 0.3s ease;
+                }
+
+                .tag-item:hover {
+                    background: rgba(176, 140, 77, 0.3);
+                    transform: translateY(-2px);
                 }
 
                 .additional-images {

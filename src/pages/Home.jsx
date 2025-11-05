@@ -265,7 +265,9 @@ function Home() {
                                         imageUrl = design.main_image;
                                     }
                                     // If it's already a full HTTP URL, use it directly
-                                    else if (design.main_image.startsWith("http")) {
+                                    else if (
+                                        design.main_image.startsWith("http")
+                                    ) {
                                         imageUrl = design.main_image;
                                     }
                                     // If it starts with /uploads, prepend backend URL
@@ -273,7 +275,8 @@ function Home() {
                                         design.main_image.startsWith("/uploads")
                                     ) {
                                         const backendUrl =
-                                            window.location.hostname === "localhost"
+                                            window.location.hostname ===
+                                            "localhost"
                                                 ? "http://localhost:4000"
                                                 : "https://aspire-arch-server.onrender.com";
                                         imageUrl = `${backendUrl}${design.main_image}`;
@@ -281,13 +284,17 @@ function Home() {
                                     // Otherwise, assume it's a relative path and prepend backend URL
                                     else {
                                         const backendUrl =
-                                            window.location.hostname === "localhost"
+                                            window.location.hostname ===
+                                            "localhost"
                                                 ? "http://localhost:4000"
                                                 : "https://aspire-arch-server.onrender.com";
                                         imageUrl = `${backendUrl}/${design.main_image}`;
                                     }
 
-                                    console.log("Constructed imageUrl:", imageUrl);
+                                    console.log(
+                                        "Constructed imageUrl:",
+                                        imageUrl
+                                    );
 
                                     return (
                                         <div
@@ -330,14 +337,26 @@ function Home() {
                                     );
                                 })}
                             </div>
-                            
+
                             {/* View More Button */}
                             <div className="view-more-section">
                                 <Link to="/design" className="view-more-link">
                                     <button className="view-more-btn">
                                         <span>View All Projects</span>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M5 12H19M19 12L12 5M19 12L12 19"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
                                         </svg>
                                     </button>
                                 </Link>

@@ -8,7 +8,7 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     // Parse gallery_images if it's a string (from database JSON) - memoize to prevent re-parsing
     const galleryImages = useMemo(() => {
         if (!project.gallery_images) return [];
-        
+
         if (typeof project.gallery_images === "string") {
             try {
                 return JSON.parse(project.gallery_images);

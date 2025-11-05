@@ -20,6 +20,29 @@ const getBackendBaseUrl = () => {
 
 const BACKEND_BASE_URL = getBackendBaseUrl();
 
+// Helper function to construct proper image URLs
+const getProperImageUrl = (imagePath) => {
+    if (!imagePath) return "/images/placeholder.jpg";
+    
+    // If it's a data URL (base64), use it directly
+    if (imagePath.startsWith("data:")) {
+        return imagePath;
+    }
+    
+    // If it's already a full HTTP URL, use it directly
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+        return imagePath;
+    }
+    
+    // If it starts with /uploads, prepend backend URL
+    if (imagePath.startsWith("/uploads/")) {
+        return `${BACKEND_BASE_URL}${imagePath}`;
+    }
+    
+    // Otherwise, assume it's a relative path and prepend backend URL
+    return `${BACKEND_BASE_URL}/${imagePath}`;
+};
+
 // ---------------- PageWrapper ----------------
 const PageWrapper = ({ title, description, projects, loading, error }) => {
     if (loading) {
@@ -410,7 +433,7 @@ function VisitProject() {
     console.log("Current image index:", currentIndex);
     console.log(
         "Current image URL:",
-        `${BACKEND_BASE_URL}${allImages[currentIndex]}`
+        getProperImageUrl(allImages[currentIndex])
     );
 
     return (
@@ -418,7 +441,7 @@ function VisitProject() {
             {/* Slideshow */}
             <div className="slideshow">
                 <img
-                    src={`${BACKEND_BASE_URL}${allImages[currentIndex]}`}
+                    src={getProperImageUrl(allImages[currentIndex])}
                     alt={`${project.title} slide ${currentIndex + 1}`}
                     onError={(e) => {
                         e.target.src = "/images/placeholder.jpg";
@@ -486,7 +509,7 @@ function VisitProject() {
                             {galleryImages.map((img, idx) => (
                                 <img
                                     key={idx}
-                                    src={`${BACKEND_BASE_URL}${img}`}
+                                    src={getProperImageUrl(img)}
                                     alt={`${project.title} detail ${idx + 1}`}
                                     onError={(e) => {
                                         e.target.src =

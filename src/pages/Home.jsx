@@ -248,19 +248,35 @@ function Home() {
                                     summary: design.summary
                                 });
                                 
-                                // Handle image URL - add backend URL if needed
-                                const imageUrl = design.main_image?.startsWith(
-                                    "http"
-                                )
-                                    ? design.main_image
-                                    : design.main_image?.startsWith("/uploads")
-                                    ? `${
-                                          window.location.hostname ===
-                                          "localhost"
-                                              ? "http://localhost:4000"
-                                              : "https://aspire-arch-server.onrender.com"
-                                      }${design.main_image}`
-                                    : design.image || "/images/placeholder.jpg";
+                                // Handle image URL
+                                let imageUrl;
+                                
+                                // Check if main_image exists and is not null
+                                if (!design.main_image) {
+                                    imageUrl = design.image || "/images/placeholder.jpg";
+                                }
+                                // If it's a data URL (base64), use it directly
+                                else if (design.main_image.startsWith("data:")) {
+                                    imageUrl = design.main_image;
+                                }
+                                // If it's already a full HTTP URL, use it directly
+                                else if (design.main_image.startsWith("http")) {
+                                    imageUrl = design.main_image;
+                                }
+                                // If it starts with /uploads, prepend backend URL
+                                else if (design.main_image.startsWith("/uploads")) {
+                                    const backendUrl = window.location.hostname === "localhost"
+                                        ? "http://localhost:4000"
+                                        : "https://aspire-arch-server.onrender.com";
+                                    imageUrl = `${backendUrl}${design.main_image}`;
+                                }
+                                // Otherwise, assume it's a relative path and prepend backend URL
+                                else {
+                                    const backendUrl = window.location.hostname === "localhost"
+                                        ? "http://localhost:4000"
+                                        : "https://aspire-arch-server.onrender.com";
+                                    imageUrl = `${backendUrl}/${design.main_image}`;
+                                }
                                 
                                 console.log('Constructed imageUrl:', imageUrl);
 

@@ -319,7 +319,8 @@ function VisitProject() {
         // Only set up interval if we have multiple images
         if (!galleryImages || galleryImages.length <= 0) return;
 
-        const allImagesCount = galleryImages.length + (project.main_image ? 1 : 0);
+        const allImagesCount =
+            galleryImages.length + (project.main_image ? 1 : 0);
         if (allImagesCount <= 1) return;
 
         const interval = setInterval(() => {
@@ -557,13 +558,17 @@ function VisitProject() {
                     {project.location && (
                         <div className="detail-item">
                             <span className="detail-label">📍 Location</span>
-                            <span className="detail-value">{project.location}</span>
+                            <span className="detail-value">
+                                {project.location}
+                            </span>
                         </div>
                     )}
                     {project.client && (
                         <div className="detail-item">
                             <span className="detail-label">👤 Client</span>
-                            <span className="detail-value">{project.client}</span>
+                            <span className="detail-value">
+                                {project.client}
+                            </span>
                         </div>
                     )}
                     {project.year && (
@@ -581,13 +586,17 @@ function VisitProject() {
                     {project.status && (
                         <div className="detail-item">
                             <span className="detail-label">⚡ Status</span>
-                            <span className="detail-value">{project.status}</span>
+                            <span className="detail-value">
+                                {project.status}
+                            </span>
                         </div>
                     )}
                     {project.budget && (
                         <div className="detail-item">
                             <span className="detail-label">💰 Budget</span>
-                            <span className="detail-value">{project.budget}</span>
+                            <span className="detail-value">
+                                {project.budget}
+                            </span>
                         </div>
                     )}
                     {project.team && (
@@ -599,7 +608,9 @@ function VisitProject() {
                     {project.awards && (
                         <div className="detail-item">
                             <span className="detail-label">🏆 Awards</span>
-                            <span className="detail-value">{project.awards}</span>
+                            <span className="detail-value">
+                                {project.awards}
+                            </span>
                         </div>
                     )}
                 </div>
@@ -608,7 +619,11 @@ function VisitProject() {
                 {project.content && (
                     <div className="project-additional-content">
                         <h3>Project Content</h3>
-                        <div dangerouslySetInnerHTML={{ __html: project.content }} />
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: project.content,
+                            }}
+                        />
                     </div>
                 )}
 
@@ -637,8 +652,13 @@ function VisitProject() {
                     <div className="project-tags-section">
                         <h3>Tags</h3>
                         <div className="tags-list">
-                            {(Array.isArray(project.tags) ? project.tags : project.tags.split(',')).map((tag, idx) => (
-                                <span key={idx} className="tag-item">{tag.trim()}</span>
+                            {(Array.isArray(project.tags)
+                                ? project.tags
+                                : project.tags.split(",")
+                            ).map((tag, idx) => (
+                                <span key={idx} className="tag-item">
+                                    {tag.trim()}
+                                </span>
                             ))}
                         </div>
                     </div>

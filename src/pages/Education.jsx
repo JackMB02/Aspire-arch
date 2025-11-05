@@ -552,7 +552,9 @@ function EducationOverview() {
             setLoading(false);
         } catch (err) {
             console.error("Error fetching upcoming events:", err);
-            setError(err.message);
+            // Set empty array instead of error to show "No upcoming events"
+            setUpcomingEvents([]);
+            setError(null);
             setLoading(false);
         }
     };
@@ -626,6 +628,10 @@ function EducationOverview() {
                             <div className="error-message">
                                 <i className="fas fa-exclamation-triangle"></i>
                                 Error loading events
+                            </div>
+                        ) : upcomingEvents.length === 0 ? (
+                            <div className="no-events-message">
+                                <p>No upcoming events at the moment. Check back soon!</p>
                             </div>
                         ) : (
                             <div className="events-grid">

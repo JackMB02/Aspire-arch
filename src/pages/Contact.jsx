@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AnimatedSection from "../components/AnimatedSection";
-import SkeletonLoader from "../components/SkeletonLoader";
 import { API_ENDPOINTS } from "../config/api";
 
 function Contact() {
@@ -9,40 +8,8 @@ function Contact() {
         email: "",
         message: "",
     });
-    const [contactInfo, setContactInfo] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [infoLoading, setInfoLoading] = useState(true);
-
-    // Fetch contact information from backend
-    useEffect(() => {
-        const fetchContactInfo = async () => {
-            try {
-                setInfoLoading(true);
-                // Use absolute URL with port 4000
-                const response = await fetch(API_ENDPOINTS.CONTACT_INFO);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    throw new TypeError("Received non-JSON response");
-                }
-
-                const data = await response.json();
-                setContactInfo(data);
-            } catch (error) {
-                console.error("Error fetching contact info:", error);
-                // Continue with fallback UI - don't show error to user for this
-            } finally {
-                setInfoLoading(false);
-            }
-        };
-
-        fetchContactInfo();
-    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -103,15 +70,6 @@ function Contact() {
         }
     };
 
-    // Helper function to get contact info by type
-    const getContactInfoByType = (type) => {
-        return contactInfo.find((info) => info.type === type);
-    };
-
-    const addressInfo = getContactInfoByType("address");
-    const phoneInfo = getContactInfoByType("phone");
-    const emailInfo = getContactInfoByType("email");
-
     return (
         <div
             className="contact-page"
@@ -125,165 +83,41 @@ function Contact() {
                 <div className="contact-container">
                     <div className="contact-content">
                         <div className="contact-info">
-                            <h1>Get in Touch</h1>
+                            <h1>GET IN TOUCH</h1>
                             <p className="contact-description">
-                                Have a project in mind? Interested in our
-                                services? We'd love to hear from you. Reach out
-                                to start a conversation about your architectural
-                                vision.
+                                Join us in advancing sustainable, community-centered design.
+                                Membership for students is free, architects and other professionals are welcome to collaborate, support, or mentor.
+                                Together, we shape the future of architecture.
                             </p>
 
                             <div className="contact-details">
-                                {infoLoading ? (
-                                    <SkeletonLoader type="list" count={3} />
-                                ) : (
-                                    <>
-                                        {addressInfo && (
-                                            <div className="contact-item">
-                                                <div className="contact-icon">
-                                                    📍
-                                                </div>
-                                                <div>
-                                                    <h3>{addressInfo.title}</h3>
-                                                    <p
-                                                        style={{
-                                                            whiteSpace:
-                                                                "pre-line",
-                                                        }}
-                                                    >
-                                                        {addressInfo.value}
-                                                        {addressInfo.description && (
-                                                            <>
-                                                                <br />
-                                                                <small
-                                                                    style={{
-                                                                        opacity: 0.8,
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        addressInfo.description
-                                                                    }
-                                                                </small>
-                                                            </>
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        )}
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        �
+                                    </div>
+                                    <div>
+                                        <h3>Call Us</h3>
+                                        <p style={{ whiteSpace: "pre-line" }}>
+                                            +250789924343
+                                            <br />
+                                            +250732237642
+                                        </p>
+                                    </div>
+                                </div>
 
-                                        {phoneInfo && (
-                                            <div className="contact-item">
-                                                <div className="contact-icon">
-                                                    📞
-                                                </div>
-                                                <div>
-                                                    <h3>{phoneInfo.title}</h3>
-                                                    <p
-                                                        style={{
-                                                            whiteSpace:
-                                                                "pre-line",
-                                                        }}
-                                                    >
-                                                        {phoneInfo.value}
-                                                        {phoneInfo.description && (
-                                                            <>
-                                                                <br />
-                                                                <small
-                                                                    style={{
-                                                                        opacity: 0.8,
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        phoneInfo.description
-                                                                    }
-                                                                </small>
-                                                            </>
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {emailInfo && (
-                                            <div className="contact-item">
-                                                <div className="contact-icon">
-                                                    ✉️
-                                                </div>
-                                                <div>
-                                                    <h3>{emailInfo.title}</h3>
-                                                    <p
-                                                        style={{
-                                                            whiteSpace:
-                                                                "pre-line",
-                                                        }}
-                                                    >
-                                                        {emailInfo.value}
-                                                        {emailInfo.description && (
-                                                            <>
-                                                                <br />
-                                                                <small
-                                                                    style={{
-                                                                        opacity: 0.8,
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        emailInfo.description
-                                                                    }
-                                                                </small>
-                                                            </>
-                                                        )}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        )}
-
-                                        {/* Fallback if no data from API */}
-                                        {contactInfo.length === 0 && (
-                                            <>
-                                                <div className="contact-item">
-                                                    <div className="contact-icon">
-                                                        📍
-                                                    </div>
-                                                    <div>
-                                                        <h3>Visit Us</h3>
-                                                        <p>
-                                                            Kigali, Nyarugenge
-                                                            <br />
-                                                            Rwanda
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="contact-item">
-                                                    <div className="contact-icon">
-                                                        📞
-                                                    </div>
-                                                    <div>
-                                                        <h3>Call Us</h3>
-                                                        <p>
-                                                            +250 789 924 343
-                                                            <br />
-                                                            Mon-Fri, 9:00 AM -
-                                                            6:00 PM
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="contact-item">
-                                                    <div className="contact-icon">
-                                                        ✉️
-                                                    </div>
-                                                    <div>
-                                                        <h3>Email Us</h3>
-                                                        <p>
-                                                            aspiredesignlab@gmail.com
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        )}
-                                    </>
-                                )}
+                                <div className="contact-item">
+                                    <div className="contact-icon">
+                                        ✉️
+                                    </div>
+                                    <div>
+                                        <h3>Email</h3>
+                                        <p style={{ whiteSpace: "pre-line" }}>
+                                            aspiredesignlab@gmail.com
+                                            <br />
+                                            thearchi.colleagueslab.aspire@gmail.com
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

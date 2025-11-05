@@ -329,10 +329,13 @@ function DonateSupport() {
     };
 
     const handleFileChange = (e) => {
-        setFormData((prev) => ({
-            ...prev,
-            payment_proof: e.target.files[0],
-        }));
+        const file = e.target.files[0];
+        if (file) {
+            setFormData((prev) => ({
+                ...prev,
+                payment_proof: file,
+            }));
+        }
     };
 
     const handleAmountSelect = (amount) => {
@@ -545,10 +548,14 @@ function DonateSupport() {
                                                 htmlFor="payment-proof"
                                                 className="upload-btn"
                                             >
-                                                Choose File
+                                                {formData.payment_proof
+                                                    ? formData.payment_proof.name
+                                                    : "Choose File"}
                                             </label>
                                             <span className="upload-note">
-                                                PNG, JPG, or PDF files accepted
+                                                {formData.payment_proof 
+                                                    ? `Selected: ${formData.payment_proof.name}`
+                                                    : "PNG, JPG, or PDF files accepted"}
                                             </span>
                                         </div>
                                     </div>
@@ -1266,8 +1273,8 @@ function GetInvolved() {
         .membership-form .form-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 2rem;
-          margin-bottom: 1.5rem;
+          gap: 2.5rem;
+          margin-bottom: 1rem;
         }
 
         /* Keep all your existing CSS styles from before */
@@ -1513,8 +1520,8 @@ function GetInvolved() {
         .form-row {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 2rem;
-          margin-bottom: 1.5rem;
+          gap: 2.5rem;
+          margin-bottom: 1rem;
           max-width: 600px;
         }
 

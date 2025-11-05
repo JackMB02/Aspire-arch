@@ -533,7 +533,7 @@ function Navbar() {
             <div ref={navRef}>
                 <NavContainer>
                     <Logo to="/" onClick={closeAllMenus}>
-                        <img src="images/hero logo.png" alt="ASPIRE Logo" />
+                        <img src="/images/hero logo.png" alt="ASPIRE Logo" />
                     </Logo>
 
                     {/* Desktop Navigation */}

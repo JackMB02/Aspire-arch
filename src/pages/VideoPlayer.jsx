@@ -9,6 +9,36 @@ import {
     FaArrowLeft,
 } from "react-icons/fa";
 
+// Dynamic backend base URL
+const getBackendBaseUrl = () => {
+    return window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : "https://aspire-arch-server.onrender.com";
+};
+
+const BACKEND_BASE_URL = getBackendBaseUrl();
+const API_BASE_URL = `${BACKEND_BASE_URL}/api`;
+
+// Helper function to construct proper URLs
+const getMediaUrl = (path) => {
+    if (!path || path === "null" || path === "undefined") {
+        return null;
+    }
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+        return path;
+    }
+    if (path.startsWith("data:")) {
+        return path;
+    }
+    if (path.startsWith("/uploads/")) {
+        return `${BACKEND_BASE_URL}${path}`;
+    }
+    if (!path.includes("/")) {
+        return `${BACKEND_BASE_URL}/uploads/${path}`;
+    }
+    return `${BACKEND_BASE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
+};
+
 const VideoPlayer = () => {
     const { videoId } = useParams();
     const navigate = useNavigate();
@@ -19,57 +49,35 @@ const VideoPlayer = () => {
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [showControls, setShowControls] = useState(true);
+    const [currentVideo, setCurrentVideo] = useState(null);
+    const [suggestedVideos, setSuggestedVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Sample video data - in a real app, this would come from an API
-    const videos = [
-        {
-            id: 1,
-            title: "Sustainable Architecture in Rwanda",
-            description:
-                "Exploring innovative sustainable building practices in Kigali's urban development projects.",
-            videoUrl: "/videos/wa.mp4",
-            thumbnail: "/images/office.jpg",
-            duration: "5:32",
-            views: "2.1K",
-            uploadDate: "2024-03-15",
-        },
-        {
-            id: 2,
-            title: "Community Housing Project",
-            description:
-                "A look into affordable housing solutions for growing communities in Rwanda.",
-            videoUrl: "/videos/wa.mp4",
-            thumbnail: "/images/villa.jpg",
-            duration: "4:18",
-            views: "1.8K",
-            uploadDate: "2024-03-12",
-        },
-        {
-            id: 3,
-            title: "Green Building Technologies",
-            description:
-                "Modern eco-friendly construction techniques being implemented in East Africa.",
-            videoUrl: "/videos/wa.mp4",
-            thumbnail: "/images/park.jpg",
-            duration: "6:45",
-            views: "3.2K",
-            uploadDate: "2024-03-10",
-        },
-        {
-            id: 4,
-            title: "Urban Planning Excellence",
-            description:
-                "Strategic urban development approaches for sustainable city growth.",
-            videoUrl: "/videos/wa.mp4",
-            thumbnail: "/images/pavilion.jpg",
-            duration: "7:22",
-            views: "2.9K",
-            uploadDate: "2024-03-08",
-        },
-    ];
+    // Fetch video data from API
+    useEffect(() => {
+        const fetchVideoData = async () => {
+            try {
+                setLoading(true);
+                // Fetch all videos
+                const response = await fetch(`${API_BASE_URL}/media/videos`);
+                if (response.ok) {
+                    const videos = await response.json();
+                    const current = videos.find((v) => v.id === parseInt(videoId));
+                    const suggested = videos.filter((v) => v.id !== parseInt(videoId));
+                    setCurrentVideo(current);
+                    setSuggestedVideos(suggested);
+                } else {
+                    console.error("Failed to fetch videos");
+                }
+            } catch (error) {
+                console.error("Error fetching video data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const currentVideo = videos.find((v) => v.id === parseInt(videoId));
-    const suggestedVideos = videos.filter((v) => v.id !== parseInt(videoId));
+        fetchVideoData();
+    }, [videoId]);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -133,6 +141,18 @@ const VideoPlayer = () => {
         return `${minutes}:${seconds.toString().padStart(2, "0")}`;
     };
 
+    if (loading) {
+        return (
+            <div className="video-player-page">
+                <div className="container">
+                    <div className="video-not-found">
+                        <h2>Loading video...</h2>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     if (!currentVideo) {
         return (
             <div className="video-player-page">
@@ -147,6 +167,10 @@ const VideoPlayer = () => {
             </div>
         );
     }
+
+    // Get the video URL - check both video_url and video_file fields
+    const videoUrl = getMediaUrl(currentVideo.video_url || currentVideo.video_file);
+    const thumbnailUrl = getMediaUrl(currentVideo.thumbnail);
 
     return (
         <div className="video-player-page">
@@ -170,8 +194,8 @@ const VideoPlayer = () => {
                     >
                         <video
                             ref={videoRef}
-                            src={currentVideo.videoUrl}
-                            poster={currentVideo.thumbnail}
+                            src={videoUrl}
+                            poster={thumbnailUrl}
                             onClick={togglePlay}
                             className="main-video"
                         />
@@ -259,12 +283,12 @@ const VideoPlayer = () => {
                     <div className="video-info">
                         <h1>{currentVideo.title}</h1>
                         <div className="video-meta">
-                            <span>{currentVideo.views} views</span>
+                            <span>{currentVideo.views || '0'} views</span>
                             <span>•</span>
                             <span>
-                                {new Date(
-                                    currentVideo.uploadDate
-                                ).toLocaleDateString()}
+                                {currentVideo.upload_date 
+                                    ? new Date(currentVideo.upload_date).toLocaleDateString()
+                                    : new Date(currentVideo.created_at).toLocaleDateString()}
                             </span>
                         </div>
                         <p className="video-description">
@@ -274,43 +298,47 @@ const VideoPlayer = () => {
                 </div>
 
                 {/* Suggested Videos */}
-                <div className="suggested-videos">
-                    <h3>Suggested Videos</h3>
-                    <div className="suggested-grid">
-                        {suggestedVideos.map((video) => (
-                            <Link
-                                key={video.id}
-                                to={`/video/${video.id}`}
-                                className="suggested-video-card"
-                            >
-                                <div className="suggested-thumbnail">
-                                    <img
-                                        src={video.thumbnail}
-                                        alt={video.title}
-                                    />
-                                    <div className="suggested-play-icon">
-                                        <FaPlay />
+                {suggestedVideos.length > 0 && (
+                    <div className="suggested-videos">
+                        <h3>Suggested Videos</h3>
+                        <div className="suggested-grid">
+                            {suggestedVideos.map((video) => (
+                                <Link
+                                    key={video.id}
+                                    to={`/video/${video.id}`}
+                                    className="suggested-video-card"
+                                >
+                                    <div className="suggested-thumbnail">
+                                        <img
+                                            src={getMediaUrl(video.thumbnail)}
+                                            alt={video.title}
+                                        />
+                                        <div className="suggested-play-icon">
+                                            <FaPlay />
+                                        </div>
+                                        {video.duration && (
+                                            <span className="duration-badge">
+                                                {video.duration}
+                                            </span>
+                                        )}
                                     </div>
-                                    <span className="duration-badge">
-                                        {video.duration}
-                                    </span>
-                                </div>
-                                <div className="suggested-content">
-                                    <h4>{video.title}</h4>
-                                    <div className="suggested-meta">
-                                        <span>{video.views} views</span>
-                                        <span>•</span>
-                                        <span>
-                                            {new Date(
-                                                video.uploadDate
-                                            ).toLocaleDateString()}
-                                        </span>
+                                    <div className="suggested-content">
+                                        <h4>{video.title}</h4>
+                                        <div className="suggested-meta">
+                                            <span>{video.views || '0'} views</span>
+                                            <span>•</span>
+                                            <span>
+                                                {video.upload_date 
+                                                    ? new Date(video.upload_date).toLocaleDateString()
+                                                    : new Date(video.created_at).toLocaleDateString()}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
 
             <style jsx>{`

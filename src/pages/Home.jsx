@@ -520,8 +520,8 @@ function Home() {
 
         .designs-grid, .research-grid, .events-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 1.5rem;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 2rem;
           margin-bottom: 3rem;
         }
 
@@ -771,6 +771,12 @@ function Home() {
           .designs-grid, .research-grid, .events-grid {
             grid-template-columns: 1fr;
             gap: 1.2rem;
+          }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .designs-grid, .research-grid, .events-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
 

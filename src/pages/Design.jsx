@@ -127,34 +127,46 @@ function Academic() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchAcademicProjects();
-    }, []);
+        let mounted = true;
 
-    const fetchAcademicProjects = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            console.log("Fetching academic projects...");
+        const fetchAcademicProjects = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                console.log("Fetching academic projects...");
 
-            const data = await apiRequest(
-                API_ENDPOINTS.DESIGN_PROJECTS.ACADEMIC
-            );
-            console.log("Academic projects data:", data);
-
-            if (data.success) {
-                setProjects(data.data || []);
-            } else {
-                throw new Error(
-                    data.message || "Failed to fetch academic projects"
+                const data = await apiRequest(
+                    API_ENDPOINTS.DESIGN_PROJECTS.ACADEMIC
                 );
+                console.log("Academic projects data:", data);
+
+                if (mounted) {
+                    if (data.success) {
+                        setProjects(data.data || []);
+                    } else {
+                        throw new Error(
+                            data.message || "Failed to fetch academic projects"
+                        );
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching academic projects:", err);
+                if (mounted) {
+                    setError(err.message);
+                }
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                }
             }
-        } catch (err) {
-            console.error("Error fetching academic projects:", err);
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchAcademicProjects();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
 
     return (
         <PageWrapper
@@ -173,34 +185,46 @@ function Profession() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchProfessionalProjects();
-    }, []);
+        let mounted = true;
 
-    const fetchProfessionalProjects = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            console.log("Fetching professional projects...");
+        const fetchProfessionalProjects = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                console.log("Fetching professional projects...");
 
-            const data = await apiRequest(
-                API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL
-            );
-            console.log("Professional projects data:", data);
-
-            if (data.success) {
-                setProjects(data.data || []);
-            } else {
-                throw new Error(
-                    data.message || "Failed to fetch professional projects"
+                const data = await apiRequest(
+                    API_ENDPOINTS.DESIGN_PROJECTS.PROFESSIONAL
                 );
+                console.log("Professional projects data:", data);
+
+                if (mounted) {
+                    if (data.success) {
+                        setProjects(data.data || []);
+                    } else {
+                        throw new Error(
+                            data.message || "Failed to fetch professional projects"
+                        );
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching professional projects:", err);
+                if (mounted) {
+                    setError(err.message);
+                }
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                }
             }
-        } catch (err) {
-            console.error("Error fetching professional projects:", err);
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchProfessionalProjects();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
 
     return (
         <PageWrapper
@@ -219,34 +243,46 @@ function Competition() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchCompetitionProjects();
-    }, []);
+        let mounted = true;
 
-    const fetchCompetitionProjects = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            console.log("Fetching competition projects...");
+        const fetchCompetitionProjects = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                console.log("Fetching competition projects...");
 
-            const data = await apiRequest(
-                API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION
-            );
-            console.log("Competition projects data:", data);
-
-            if (data.success) {
-                setProjects(data.data || []);
-            } else {
-                throw new Error(
-                    data.message || "Failed to fetch competition projects"
+                const data = await apiRequest(
+                    API_ENDPOINTS.DESIGN_PROJECTS.COMPETITION
                 );
+                console.log("Competition projects data:", data);
+
+                if (mounted) {
+                    if (data.success) {
+                        setProjects(data.data || []);
+                    } else {
+                        throw new Error(
+                            data.message || "Failed to fetch competition projects"
+                        );
+                    }
+                }
+            } catch (err) {
+                console.error("Error fetching competition projects:", err);
+                if (mounted) {
+                    setError(err.message);
+                }
+            } finally {
+                if (mounted) {
+                    setLoading(false);
+                }
             }
-        } catch (err) {
-            console.error("Error fetching competition projects:", err);
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchCompetitionProjects();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
 
     return (
         <PageWrapper
@@ -438,62 +474,52 @@ function VisitProject() {
 
     return (
         <div className="visit-project">
-            {/* Slideshow */}
-            <div className="slideshow">
-                <img
-                    src={getProperImageUrl(allImages[currentIndex])}
-                    alt={`${project.title} slide ${currentIndex + 1}`}
-                    onError={(e) => {
-                        e.target.src = "/images/placeholder.jpg";
-                    }}
-                />
+            {/* Advanced Slideshow */}
+            <div className="slideshow-wrapper">
+                <div className="slideshow">
+                    <img
+                        src={getProperImageUrl(allImages[currentIndex])}
+                        alt={`${project.title} slide ${currentIndex + 1}`}
+                        onError={(e) => {
+                            e.target.src = "/images/placeholder.jpg";
+                        }}
+                    />
 
-                {/* Show arrows only if there are multiple images */}
-                {allImages.length > 1 && (
-                    <>
-                        <button className="prev-arrow" onClick={prevSlide}>
-                            &#10094;
-                        </button>
-                        <button className="next-arrow" onClick={nextSlide}>
-                            &#10095;
-                        </button>
+                    {/* Show arrows only if there are multiple images */}
+                    {allImages.length > 1 && (
+                        <>
+                            <button className="prev-arrow" onClick={prevSlide}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
+                            <button className="next-arrow" onClick={nextSlide}>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </button>
 
-                        {/* Slide indicators */}
-                        <div className="slide-indicators">
-                            {allImages.map((_, index) => (
-                                <button
-                                    key={index}
-                                    className={`indicator ${
-                                        index === currentIndex ? "active" : ""
-                                    }`}
-                                    onClick={() => setCurrentIndex(index)}
-                                />
-                            ))}
-                        </div>
-                    </>
-                )}
-            </div>
+                            {/* Image counter */}
+                            <div className="image-counter">
+                                {currentIndex + 1} / {allImages.length}
+                            </div>
 
-            {/* All Uploaded Images Gallery */}
-            {allImages.length > 1 && (
-                <div className="all-images-gallery">
-                    <h3>All Project Images</h3>
-                    <div className="images-grid">
-                        {allImages.map((img, idx) => (
-                            <img
-                                key={idx}
-                                src={getProperImageUrl(img)}
-                                alt={`${project.title} image ${idx + 1}`}
-                                onClick={() => setCurrentIndex(idx)}
-                                className={currentIndex === idx ? "active-thumb" : ""}
-                                onError={(e) => {
-                                    e.target.src = "/images/placeholder.jpg";
-                                }}
-                            />
-                        ))}
-                    </div>
+                            {/* Slide indicators */}
+                            <div className="slide-indicators">
+                                {allImages.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        className={`indicator ${
+                                            index === currentIndex ? "active" : ""
+                                        }`}
+                                        onClick={() => setCurrentIndex(index)}
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </div>
-            )}
+            </div>
 
             {/* Project Content */}
             <div className="project-content">
@@ -509,7 +535,7 @@ function VisitProject() {
                             </span>
                         )}
                         {project.is_featured && (
-                            <span className="featured-badge">Featured</span>
+                            <span className="featured-badge-detail">Featured</span>
                         )}
                     </div>
                 </div>
@@ -928,74 +954,109 @@ function Design() {
 
                 /* Visit Project Page Styles */
                 .visit-project {
-                    padding: 8rem 2rem 2rem;
-                    max-width: 1200px;
+                    padding: 8rem 15% 2rem;
+                    max-width: 1400px;
                     margin: 0 auto;
+                }
+
+                .slideshow-wrapper {
+                    max-width: 900px;
+                    margin: 0 auto 3rem;
                 }
 
                 .slideshow {
                     position: relative;
-                    margin-bottom: 2rem;
-                    border-radius: 8px;
+                    border-radius: 12px;
                     overflow: hidden;
-                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+                    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+                    background: rgba(0, 0, 0, 0.2);
                 }
 
                 .slideshow img {
                     width: 100%;
-                    height: 500px;
+                    height: 400px;
                     object-fit: cover;
+                    display: block;
                 }
 
                 .prev-arrow, .next-arrow {
                     position: absolute;
                     top: 50%;
                     transform: translateY(-50%);
-                    background: rgba(255, 255, 255, 0.1);
-                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    background: rgba(0, 0, 0, 0.6);
+                    border: none;
                     color: white;
-                    padding: 1rem;
+                    width: 50px;
+                    height: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                     cursor: pointer;
-                    font-size: 1.2rem;
-                    transition: all 0.2s ease;
+                    transition: all 0.3s ease;
                     backdrop-filter: blur(10px);
-                    border-radius: 4px;
+                    border-radius: 50%;
+                    z-index: 10;
                 }
 
                 .prev-arrow:hover, .next-arrow:hover {
-                    background: rgba(255, 255, 255, 0.2);
+                    background: rgba(176, 140, 77, 0.9);
+                    transform: translateY(-50%) scale(1.1);
                 }
 
                 .prev-arrow {
-                    left: 1rem;
+                    left: 1.5rem;
                 }
 
                 .next-arrow {
-                    right: 1rem;
+                    right: 1.5rem;
+                }
+
+                .image-counter {
+                    position: absolute;
+                    top: 1.5rem;
+                    right: 1.5rem;
+                    background: rgba(0, 0, 0, 0.7);
+                    color: white;
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    backdrop-filter: blur(10px);
+                    z-index: 10;
                 }
 
                 .slide-indicators {
                     position: absolute;
-                    bottom: 1rem;
+                    bottom: 1.5rem;
                     left: 50%;
                     transform: translateX(-50%);
                     display: flex;
                     gap: 0.5rem;
+                    background: rgba(0, 0, 0, 0.5);
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    backdrop-filter: blur(10px);
+                    z-index: 10;
                 }
 
-                .indicator {
+                .slide-indicators .indicator {
                     width: 10px;
                     height: 10px;
                     border-radius: 50%;
                     border: none;
-                    background: rgba(255, 255, 255, 0.3);
+                    background: rgba(255, 255, 255, 0.4);
                     cursor: pointer;
-                    transition: all 0.2s ease;
+                    transition: all 0.3s ease;
                 }
 
-                .indicator.active {
-                    background: rgba(255, 255, 255, 0.9);
-                    transform: scale(1.2);
+                .slide-indicators .indicator.active {
+                    background: rgba(255, 255, 255, 1);
+                    width: 30px;
+                    border-radius: 10px;
+                }
+
+                .slide-indicators .indicator:hover {
+                    background: rgba(255, 255, 255, 0.7);
                 }
 
                 .visit-project .project-content {
@@ -1044,48 +1105,11 @@ function Design() {
                     margin-bottom: 1.5rem;
                 }
 
-                /* All Images Gallery - Shows all uploaded images */
-                .all-images-gallery {
-                    margin: 2rem 0;
-                    padding: 2rem;
+                .project-description {
                     background: rgba(255, 255, 255, 0.03);
+                    padding: 1.5rem;
                     border-radius: 8px;
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                }
-
-                .all-images-gallery h3 {
-                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    font-size: 1.5rem;
-                    color: rgba(255, 255, 255, 0.95);
-                    margin-bottom: 1.5rem;
-                    text-align: center;
-                }
-
-                .images-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                    gap: 1rem;
-                }
-
-                .images-grid img {
-                    width: 100%;
-                    height: 200px;
-                    object-fit: cover;
-                    border-radius: 8px;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-                    border: 3px solid transparent;
-                }
-
-                .images-grid img:hover {
-                    transform: scale(1.05);
-                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-                }
-
-                .images-grid img.active-thumb {
-                    border-color: var(--accent-light);
-                    box-shadow: 0 6px 20px rgba(176, 140, 77, 0.5);
                 }
 
                 .additional-images {
@@ -1141,6 +1165,23 @@ function Design() {
                     .visit-project {
                         padding: 7rem 1rem 1rem;
                     }
+
+                    .slideshow-wrapper {
+                        max-width: 100%;
+                    }
+
+                    .prev-arrow, .next-arrow {
+                        width: 40px;
+                        height: 40px;
+                    }
+
+                    .prev-arrow {
+                        left: 0.5rem;
+                    }
+
+                    .next-arrow {
+                        right: 0.5rem;
+                    }
                     
                     .media-overlay {
                         padding: 1rem;
@@ -1157,19 +1198,15 @@ function Design() {
                     .gallery-grid {
                         grid-template-columns: 1fr;
                     }
-
-                    .images-grid {
-                        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                    }
-
-                    .images-grid img {
-                        height: 150px;
-                    }
                 }
 
                 @media (min-width: 769px) and (max-width: 1024px) {
                     .media-grid {
                         grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .visit-project {
+                        padding: 7rem 5% 2rem;
                     }
                 }
 
@@ -1182,8 +1219,13 @@ function Design() {
                         justify-content: center;
                     }
 
-                    .images-grid {
-                        grid-template-columns: 1fr;
+                    .slideshow img {
+                        height: 250px;
+                    }
+
+                    .image-counter {
+                        font-size: 0.75rem;
+                        padding: 0.4rem 0.8rem;
                     }
                 }
             `}</style>

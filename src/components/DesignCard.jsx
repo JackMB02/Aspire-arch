@@ -36,7 +36,10 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
         }
 
         // If it's already a full HTTP URL, use it directly
-        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+        if (
+            imagePath.startsWith("http://") ||
+            imagePath.startsWith("https://")
+        ) {
             return imagePath;
         }
 

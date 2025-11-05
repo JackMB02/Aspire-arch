@@ -240,23 +240,27 @@ function Home() {
                         <div className="designs-grid">
                             {featuredDesigns.map((design) => {
                                 // Debug: Log the design data
-                                console.log('Design data:', {
+                                console.log("Design data:", {
                                     id: design.id,
                                     title: design.title,
                                     main_image: design.main_image,
                                     category: design.category,
-                                    summary: design.summary
+                                    summary: design.summary,
                                 });
-                                
+
                                 // Handle image URL
                                 let imageUrl;
-                                
+
                                 // Check if main_image exists and is not null
                                 if (!design.main_image) {
-                                    imageUrl = design.image || "/images/placeholder.jpg";
+                                    imageUrl =
+                                        design.image ||
+                                        "/images/placeholder.jpg";
                                 }
                                 // If it's a data URL (base64), use it directly
-                                else if (design.main_image.startsWith("data:")) {
+                                else if (
+                                    design.main_image.startsWith("data:")
+                                ) {
                                     imageUrl = design.main_image;
                                 }
                                 // If it's already a full HTTP URL, use it directly
@@ -264,21 +268,25 @@ function Home() {
                                     imageUrl = design.main_image;
                                 }
                                 // If it starts with /uploads, prepend backend URL
-                                else if (design.main_image.startsWith("/uploads")) {
-                                    const backendUrl = window.location.hostname === "localhost"
-                                        ? "http://localhost:4000"
-                                        : "https://aspire-arch-server.onrender.com";
+                                else if (
+                                    design.main_image.startsWith("/uploads")
+                                ) {
+                                    const backendUrl =
+                                        window.location.hostname === "localhost"
+                                            ? "http://localhost:4000"
+                                            : "https://aspire-arch-server.onrender.com";
                                     imageUrl = `${backendUrl}${design.main_image}`;
                                 }
                                 // Otherwise, assume it's a relative path and prepend backend URL
                                 else {
-                                    const backendUrl = window.location.hostname === "localhost"
-                                        ? "http://localhost:4000"
-                                        : "https://aspire-arch-server.onrender.com";
+                                    const backendUrl =
+                                        window.location.hostname === "localhost"
+                                            ? "http://localhost:4000"
+                                            : "https://aspire-arch-server.onrender.com";
                                     imageUrl = `${backendUrl}/${design.main_image}`;
                                 }
-                                
-                                console.log('Constructed imageUrl:', imageUrl);
+
+                                console.log("Constructed imageUrl:", imageUrl);
 
                                 return (
                                     <div

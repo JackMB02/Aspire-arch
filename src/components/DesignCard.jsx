@@ -26,7 +26,28 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
             ? [project.main_image, ...galleryImages]
             : [project.main_image];
 
-    console.log("Project:", project.title, "All Images:", allImages);
+    // Helper function to construct proper image URLs
+    const getProperImageUrl = (imagePath) => {
+        if (!imagePath) return "/images/placeholder.jpg";
+
+        // If it's a data URL (base64), use it directly
+        if (imagePath.startsWith("data:")) {
+            return imagePath;
+        }
+
+        // If it's already a full HTTP URL, use it directly
+        if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+            return imagePath;
+        }
+
+        // If it starts with /uploads, prepend backend URL
+        if (imagePath.startsWith("/uploads/")) {
+            return `${backendBaseUrl}${imagePath}`;
+        }
+
+        // Otherwise, assume it's a relative path and prepend backend URL
+        return `${backendBaseUrl}/${imagePath}`;
+    };
 
     // Auto slideshow every 4 seconds
     useEffect(() => {
@@ -41,136 +62,48 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
         return () => clearInterval(interval);
     }, [allImages.length]);
 
-    const nextSlide = () => {
-        setCurrentImageIndex((prev) =>
-            prev === allImages.length - 1 ? 0 : prev + 1
-        );
-    };
-
-    const prevSlide = () => {
-        setCurrentImageIndex((prev) =>
-            prev === 0 ? allImages.length - 1 : prev - 1
-        );
-    };
-
     return (
-        <div className="modern-design-card">
-            {/* Main Slideshow Section */}
-            <div className="card-slideshow">
-                <div className="slideshow-container">
-                    <img
-                        src={`${backendBaseUrl}${allImages[currentImageIndex]}`}
-                        alt={`${project.title} ${currentImageIndex + 1}`}
-                        onError={(e) => {
-                            e.target.src = "/images/placeholder.jpg";
-                        }}
-                        className="slideshow-image"
-                    />
-
-                    {/* Navigation Arrows */}
-                    {allImages.length > 1 && (
-                        <>
+        <div className="home-style-design-card">
+            <div className="card-image">
+                <img
+                    src={getProperImageUrl(allImages[currentImageIndex])}
+                    alt={project.title}
+                    onError={(e) => {
+                        e.target.src = "/images/placeholder.jpg";
+                    }}
+                />
+                <span className="card-type">
+                    {project.category || "Design"}
+                </span>
+                {/* Image indicators */}
+                {allImages.length > 1 && (
+                    <div className="card-image-indicators">
+                        {allImages.map((_, index) => (
                             <button
-                                className="slide-arrow prev"
-                                onClick={prevSlide}
-                            >
-                                ❮
-                            </button>
-                            <button
-                                className="slide-arrow next"
-                                onClick={nextSlide}
-                            >
-                                ❯
-                            </button>
-                        </>
-                    )}
-
-                    {/* Featured Badge */}
-                    {project.is_featured && (
-                        <div className="featured-badge">★ Featured</div>
-                    )}
-
-                    {/* Indicators */}
-                    {allImages.length > 1 && (
-                        <div className="slideshow-indicators">
-                            {allImages.map((_, idx) => (
-                                <span
-                                    key={idx}
-                                    className={`slide-indicator ${
-                                        idx === currentImageIndex
-                                            ? "active"
-                                            : ""
-                                    }`}
-                                    onClick={() => setCurrentImageIndex(idx)}
-                                />
-                            ))}
-                        </div>
-                    )}
-                </div>
+                                key={index}
+                                className={`card-indicator ${
+                                    index === currentImageIndex ? "active" : ""
+                                }`}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setCurrentImageIndex(index);
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
-
-            {/* Project Info Section */}
             <div className="card-content">
-                <div className="card-header">
-                    <h3 className="project-title">{project.title}</h3>
-                    <div className="project-tags">
-                        <span className="tag category">{project.category}</span>
-                        {project.sector && (
-                            <span className="tag sector">
-                                {getSectorLabel(project.sector)}
-                            </span>
-                        )}
-                    </div>
-                </div>
-
-                {/* Summary in a highlighted box */}
-                {project.summary && (
-                    <div className="project-summary-box">
-                        <p className="project-summary">{project.summary}</p>
-                    </div>
-                )}
-
-                {/* Full Description with better formatting */}
-                {project.description && (
-                    <div className="project-description-section">
-                        <h4 className="section-subtitle">Project Details</h4>
-                        <div className="description-content">
-                            <p>{project.description}</p>
-                        </div>
-                    </div>
-                )}
-
-                {/* Project Stats if available */}
-                <div className="project-stats">
-                    <div className="stat-item">
-                        <span className="stat-label">Category</span>
-                        <span className="stat-value">{project.category}</span>
-                    </div>
-                    {project.sector && (
-                        <div className="stat-item">
-                            <span className="stat-label">Sector</span>
-                            <span className="stat-value">
-                                {getSectorLabel(project.sector)}
-                            </span>
-                        </div>
-                    )}
-                    {allImages.length > 1 && (
-                        <div className="stat-item">
-                            <span className="stat-label">Images</span>
-                            <span className="stat-value">
-                                {allImages.length} Photos
-                            </span>
-                        </div>
-                    )}
-                </div>
-
-                {/* View Details Button */}
+                <h3>{project.title}</h3>
+                <p>{project.summary || project.description}</p>
                 <Link
                     to={`/design/project/${project.id}`}
-                    className="view-details-link"
+                    style={{
+                        textDecoration: "none",
+                    }}
                 >
-                    <button className="view-details-btn">
-                        View Full Project →
+                    <button className="card-view-project-btn">
+                        View Project →
                     </button>
                 </Link>
             </div>

@@ -23,22 +23,22 @@ const BACKEND_BASE_URL = getBackendBaseUrl();
 // Helper function to construct proper image URLs
 const getProperImageUrl = (imagePath) => {
     if (!imagePath) return "/images/placeholder.jpg";
-    
+
     // If it's a data URL (base64), use it directly
     if (imagePath.startsWith("data:")) {
         return imagePath;
     }
-    
+
     // If it's already a full HTTP URL, use it directly
     if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
         return imagePath;
     }
-    
+
     // If it starts with /uploads, prepend backend URL
     if (imagePath.startsWith("/uploads/")) {
         return `${BACKEND_BASE_URL}${imagePath}`;
     }
-    
+
     // Otherwise, assume it's a relative path and prepend backend URL
     return `${BACKEND_BASE_URL}/${imagePath}`;
 };
@@ -474,6 +474,27 @@ function VisitProject() {
                 )}
             </div>
 
+            {/* All Uploaded Images Gallery */}
+            {allImages.length > 1 && (
+                <div className="all-images-gallery">
+                    <h3>All Project Images</h3>
+                    <div className="images-grid">
+                        {allImages.map((img, idx) => (
+                            <img
+                                key={idx}
+                                src={getProperImageUrl(img)}
+                                alt={`${project.title} image ${idx + 1}`}
+                                onClick={() => setCurrentIndex(idx)}
+                                className={currentIndex === idx ? "active-thumb" : ""}
+                                onError={(e) => {
+                                    e.target.src = "/images/placeholder.jpg";
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
             {/* Project Content */}
             <div className="project-content">
                 <div className="project-header">
@@ -500,26 +521,6 @@ function VisitProject() {
                 <div className="project-description">
                     <p>{project.description}</p>
                 </div>
-
-                {/* Additional gallery images (excluding the first one which is in slideshow) */}
-                {galleryImages.length > 0 && (
-                    <div className="additional-images">
-                        <h3>Project Gallery</h3>
-                        <div className="gallery-grid">
-                            {galleryImages.map((img, idx) => (
-                                <img
-                                    key={idx}
-                                    src={getProperImageUrl(img)}
-                                    alt={`${project.title} detail ${idx + 1}`}
-                                    onError={(e) => {
-                                        e.target.src =
-                                            "/images/placeholder.jpg";
-                                    }}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                )}
             </div>
         </div>
     );
@@ -804,13 +805,13 @@ function Design() {
                     margin: 0 auto 3rem;
                 }
 
-                /* Media Grid - Modern Layout */
+                /* Media Grid - Modern Layout - 3 cards per row */
                 .media-grid {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 3rem;
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 2rem;
                     margin-top: 2rem;
-                    max-width: 1000px;
+                    max-width: 1200px;
                     margin-left: auto;
                     margin-right: auto;
                 }
@@ -1043,6 +1044,50 @@ function Design() {
                     margin-bottom: 1.5rem;
                 }
 
+                /* All Images Gallery - Shows all uploaded images */
+                .all-images-gallery {
+                    margin: 2rem 0;
+                    padding: 2rem;
+                    background: rgba(255, 255, 255, 0.03);
+                    border-radius: 8px;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                }
+
+                .all-images-gallery h3 {
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    font-size: 1.5rem;
+                    color: rgba(255, 255, 255, 0.95);
+                    margin-bottom: 1.5rem;
+                    text-align: center;
+                }
+
+                .images-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    gap: 1rem;
+                }
+
+                .images-grid img {
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    border: 3px solid transparent;
+                }
+
+                .images-grid img:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+                }
+
+                .images-grid img.active-thumb {
+                    border-color: var(--accent-light);
+                    box-shadow: 0 6px 20px rgba(176, 140, 77, 0.5);
+                }
+
                 .additional-images {
                     margin-top: 3rem;
                 }
@@ -1086,6 +1131,7 @@ function Design() {
                     
                     .media-grid {
                         grid-template-columns: 1fr;
+                        gap: 1.5rem;
                     }
                     
                     .slideshow img {
@@ -1111,6 +1157,20 @@ function Design() {
                     .gallery-grid {
                         grid-template-columns: 1fr;
                     }
+
+                    .images-grid {
+                        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                    }
+
+                    .images-grid img {
+                        height: 150px;
+                    }
+                }
+
+                @media (min-width: 769px) and (max-width: 1024px) {
+                    .media-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
                 }
 
                 @media (max-width: 480px) {
@@ -1120,6 +1180,10 @@ function Design() {
                     
                     .project-meta {
                         justify-content: center;
+                    }
+
+                    .images-grid {
+                        grid-template-columns: 1fr;
                     }
                 }
             `}</style>

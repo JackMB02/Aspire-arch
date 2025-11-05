@@ -158,93 +158,139 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
+/* Summary Box - Highlighted */
+.project-summary-box {
+    background: linear-gradient(135deg, rgba(122, 158, 217, 0.1), rgba(122, 158, 217, 0.05));
+    border-left: 4px solid var(--accent-light);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .project-summary {
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.7;
-    margin-bottom: 2rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Description Section - New Layout */
+.project-description-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 1rem;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid rgba(122, 158, 217, 0.3);
+    padding-bottom: 0.5rem;
+}
+
+.description-content {
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.9;
     font-size: 1rem;
 }
 
-/* Image Gallery Section */
-.image-gallery {
-    margin: 2rem 0;
-    padding: 2rem 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.description-content p {
+    margin: 0;
+    text-align: justify;
 }
 
-.gallery-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 1.5rem;
-    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-}
-
-.gallery-grid {
+/* Project Stats Section */
+.project-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.gallery-item {
+.stat-item {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-}
-
-.gallery-image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    text-align: center;
     transition: all 0.3s ease;
 }
 
-.gallery-image-wrapper:hover {
-    transform: scale(1.02);
-    border-color: var(--accent-light);
-    box-shadow: 0 5px 20px rgba(122, 158, 217, 0.3);
+.stat-item:hover {
+    background: rgba(122, 158, 217, 0.1);
+    transform: translateY(-2px);
 }
 
-.gallery-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.gallery-image-wrapper:hover .gallery-image {
-    transform: scale(1.05);
-}
-
-.gallery-description {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    text-align: center;
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
     font-weight: 500;
 }
 
-/* Project Description Section */
-.project-description {
-    margin: 2rem 0;
-}
-
-.description-title {
-    font-size: 1.3rem;
-    font-weight: 600;
+.stat-value {
+    font-size: 1.1rem;
     color: rgba(255, 255, 255, 0.95);
-    margin-bottom: 1rem;
+    font-weight: 600;
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
 }
 
+/* Remove old gallery styles since we're not using it */
+.image-gallery {
+    display: none;
+}
+
+.gallery-title {
+    display: none;
+}
+
+.gallery-grid {
+    display: none;
+}
+
+.gallery-item {
+    display: none;
+}
+
+.gallery-image-wrapper {
+    display: none;
+}
+
+.gallery-image {
+    display: none;
+}
+
+.gallery-description {
+    display: none;
+}
+
+/* Old project description - replaced */
+.project-description {
+    display: none;
+}
+
+.description-title {
+    display: none;
+}
+
 .project-description p {
-    color: rgba(255, 255, 255, 0.8);
-    line-height: 1.8;
-    font-size: 1rem;
+    display: none;
 }
 
 /* View Details Button */

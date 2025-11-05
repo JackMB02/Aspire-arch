@@ -21,61 +21,49 @@ function Home() {
                 setLoading(true);
                 setError(null);
                 setDataSource("");
+                
+                // Fetch featured design projects first
                 console.log(
-                    "🔍 Fetching home page data from:",
-                    API_ENDPOINTS.HOME
+                    "🔍 Fetching featured design projects from:",
+                    API_ENDPOINTS.DESIGN_PROJECTS.FEATURED
                 );
 
-                const response = await fetch(API_ENDPOINTS.HOME);
+                const response = await fetch(API_ENDPOINTS.DESIGN_PROJECTS.FEATURED);
                 console.log(
                     "📡 Response status:",
                     response.status,
                     response.statusText
                 );
 
-                // Check if response is HTML (error page) instead of JSON
-                const contentType = response.headers.get("content-type");
-                console.log("📄 Content-Type:", contentType);
-
-                if (!contentType || !contentType.includes("application/json")) {
-                    const text = await response.text();
-                    console.error(
-                        "❌ Received non-JSON response:",
-                        text.substring(0, 200)
-                    );
-                    throw new Error(
-                        `Server returned HTML instead of JSON. Backend might not be running.`
-                    );
-                }
-
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const result = await response.json();
-                console.log("✅ Data received:", result);
+                console.log("✅ Featured projects data received:", result);
 
                 if (result.success) {
-                    setFeaturedDesigns(result.data.featuredDesigns || []);
-                    setResearchHighlights(result.data.researchHighlights || []);
-                    setUpcomingEvents(result.data.upcomingEvents || []);
-                    setDataSource(result.message || "Live data from backend");
+                    setFeaturedDesigns(result.data || []);
+                    setDataSource("Live data from backend");
 
-                    console.log("🎉 Data loaded successfully:", {
-                        designs: result.data.featuredDesigns?.length,
-                        research: result.data.researchHighlights?.length,
-                        events: result.data.upcomingEvents?.length,
-                        source: result.message,
+                    console.log("🎉 Featured projects loaded successfully:", {
+                        designs: result.data?.length,
                     });
                 } else {
-                    throw new Error(result.message || "Failed to fetch data");
+                    throw new Error(result.message || "Failed to fetch featured projects");
                 }
+
+                // For now, use mock data for research and events
+                // These can be fetched from backend when endpoints are ready
+                setResearchHighlights(getMockResearchHighlights());
+                setUpcomingEvents(getMockUpcomingEvents());
+
             } catch (err) {
-                console.error(" Error  fetching Home data:", err);
+                console.error("❌ Error fetching Home data:", err);
                 setError(err.message);
                 setDataSource("Using demo data due to connection issues");
 
-                // Fallback to mock data for now
+                // Fallback to mock data
                 setFeaturedDesigns(getMockFeaturedDesigns());
                 setResearchHighlights(getMockResearchHighlights());
                 setUpcomingEvents(getMockUpcomingEvents());
@@ -246,30 +234,38 @@ function Home() {
 
                     {featuredDesigns.length > 0 ? (
                         <div className="designs-grid">
-                            {featuredDesigns.map((design) => (
-                                <div key={design.id} className="design-card">
-                                    <div className="design-image">
-                                        <img
-                                            src={design.image}
-                                            alt={design.title}
-                                            onError={(e) => {
-                                                e.target.src =
-                                                    "/images/placeholder.jpg";
-                                            }}
-                                        />
-                                        <span className="design-type">
-                                            {design.type}
-                                        </span>
+                            {featuredDesigns.map((design) => {
+                                // Handle image URL - add backend URL if needed
+                                const imageUrl = design.main_image?.startsWith('http') 
+                                    ? design.main_image 
+                                    : design.main_image?.startsWith('/uploads')
+                                    ? `${window.location.hostname === 'localhost' ? 'http://localhost:4000' : 'https://aspire-arch-server.onrender.com'}${design.main_image}`
+                                    : design.image || '/images/placeholder.jpg';
+                                
+                                return (
+                                    <div key={design.id} className="design-card">
+                                        <div className="design-image">
+                                            <img
+                                                src={imageUrl}
+                                                alt={design.title}
+                                                onError={(e) => {
+                                                    e.target.src = "/images/placeholder.jpg";
+                                                }}
+                                            />
+                                            <span className="design-type">
+                                                {design.category || design.type || 'Design'}
+                                            </span>
+                                        </div>
+                                        <div className="design-content">
+                                            <h3>{design.title}</h3>
+                                            <p>{design.summary || design.description}</p>
+                                            <button className="view-project-btn">
+                                                View Project →
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="design-content">
-                                        <h3>{design.title}</h3>
-                                        <p>{design.description}</p>
-                                        <button className="view-project-btn">
-                                            View Project →
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                     ) : (
                         <div className="no-data-message">

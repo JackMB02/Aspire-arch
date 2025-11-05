@@ -123,48 +123,42 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                     </div>
                 </div>
 
-                <p className="project-summary">{project.summary}</p>
+                {/* Summary in a highlighted box */}
+                {project.summary && (
+                    <div className="project-summary-box">
+                        <p className="project-summary">{project.summary}</p>
+                    </div>
+                )}
 
-                {/* Individual Images with Descriptions */}
-                {allImages.length > 0 && (
-                    <div className="image-gallery">
-                        <h4 className="gallery-title">Project Gallery</h4>
-                        <div className="gallery-grid">
-                            {allImages.map((image, idx) => (
-                                <div key={idx} className="gallery-item">
-                                    <div className="gallery-image-wrapper">
-                                        <img
-                                            src={`${backendBaseUrl}${image}`}
-                                            alt={`${project.title} view ${
-                                                idx + 1
-                                            }`}
-                                            onError={(e) => {
-                                                e.target.src =
-                                                    "/images/placeholder.jpg";
-                                            }}
-                                            className="gallery-image"
-                                        />
-                                    </div>
-                                    <p className="gallery-description">
-                                        {idx === 0
-                                            ? "Main View"
-                                            : `View ${idx + 1}`}
-                                    </p>
-                                </div>
-                            ))}
+                {/* Full Description with better formatting */}
+                {project.description && (
+                    <div className="project-description-section">
+                        <h4 className="section-subtitle">Project Details</h4>
+                        <div className="description-content">
+                            <p>{project.description}</p>
                         </div>
                     </div>
                 )}
 
-                {/* Full Description */}
-                {project.description && (
-                    <div className="project-description">
-                        <h4 className="description-title">
-                            About This Project
-                        </h4>
-                        <p>{project.description}</p>
+                {/* Project Stats if available */}
+                <div className="project-stats">
+                    <div className="stat-item">
+                        <span className="stat-label">Category</span>
+                        <span className="stat-value">{project.category}</span>
                     </div>
-                )}
+                    {project.sector && (
+                        <div className="stat-item">
+                            <span className="stat-label">Sector</span>
+                            <span className="stat-value">{getSectorLabel(project.sector)}</span>
+                        </div>
+                    )}
+                    {allImages.length > 1 && (
+                        <div className="stat-item">
+                            <span className="stat-label">Images</span>
+                            <span className="stat-value">{allImages.length} Photos</span>
+                        </div>
+                    )}
+                </div>
 
                 {/* View Details Button */}
                 <Link
@@ -172,7 +166,7 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                     className="view-details-link"
                 >
                     <button className="view-details-btn">
-                        View Full Details →
+                        View Full Project →
                     </button>
                 </Link>
             </div>

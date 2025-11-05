@@ -21,7 +21,8 @@ const FooterContainer = styled.footer`
     color: rgba(255, 255, 255, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
-    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+`;
 
 const FooterSection = styled.div`
     flex: 1;

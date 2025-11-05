@@ -8,7 +8,7 @@ import { API_ENDPOINTS } from "../config/api";
 
 function Home() {
     const [activeTab, setActiveTab] = useState("featured");
-    const [featuredDesigns, setFeaturedDesigns] = useState([]);
+    const [allDesigns, setAllDesigns] = useState([]);
     const [researchHighlights, setResearchHighlights] = useState([]);
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -23,14 +23,14 @@ function Home() {
                 setError(null);
                 setDataSource("");
 
-                // Fetch featured design projects first
+                // Fetch ALL design projects
                 console.log(
-                    "🔍 Fetching featured design projects from:",
-                    API_ENDPOINTS.DESIGN_PROJECTS.FEATURED
+                    "🔍 Fetching all design projects from:",
+                    API_ENDPOINTS.DESIGN_PROJECTS.ALL_PROJECTS
                 );
 
                 const response = await fetch(
-                    API_ENDPOINTS.DESIGN_PROJECTS.FEATURED
+                    API_ENDPOINTS.DESIGN_PROJECTS.ALL_PROJECTS
                 );
                 console.log(
                     "📡 Response status:",
@@ -43,18 +43,18 @@ function Home() {
                 }
 
                 const result = await response.json();
-                console.log("✅ Featured projects data received:", result);
+                console.log("✅ All projects data received:", result);
 
                 if (result.success) {
-                    setFeaturedDesigns(result.data || []);
+                    setAllDesigns(result.data || []);
                     setDataSource("Live data from backend");
 
-                    console.log("🎉 Featured projects loaded successfully:", {
+                    console.log("🎉 All projects loaded successfully:", {
                         designs: result.data?.length,
                     });
                 } else {
                     throw new Error(
-                        result.message || "Failed to fetch featured projects"
+                        result.message || "Failed to fetch design projects"
                     );
                 }
 
@@ -68,7 +68,7 @@ function Home() {
                 setDataSource("Using demo data due to connection issues");
 
                 // Fallback to mock data
-                setFeaturedDesigns(getMockFeaturedDesigns());
+                setAllDesigns(getMockFeaturedDesigns());
                 setResearchHighlights(getMockResearchHighlights());
                 setUpcomingEvents(getMockUpcomingEvents());
             } finally {
@@ -236,99 +236,113 @@ function Home() {
                         </p>
                     </div>
 
-                    {featuredDesigns.length > 0 ? (
-                        <div className="designs-grid">
-                            {featuredDesigns.map((design) => {
-                                // Debug: Log the design data
-                                console.log("Design data:", {
-                                    id: design.id,
-                                    title: design.title,
-                                    main_image: design.main_image,
-                                    category: design.category,
-                                    summary: design.summary,
-                                });
+                    {allDesigns.length > 0 ? (
+                        <>
+                            <div className="designs-grid">
+                                {allDesigns.map((design) => {
+                                    // Debug: Log the design data
+                                    console.log("Design data:", {
+                                        id: design.id,
+                                        title: design.title,
+                                        main_image: design.main_image,
+                                        category: design.category,
+                                        summary: design.summary,
+                                    });
 
-                                // Handle image URL
-                                let imageUrl;
+                                    // Handle image URL
+                                    let imageUrl;
 
-                                // Check if main_image exists and is not null
-                                if (!design.main_image) {
-                                    imageUrl =
-                                        design.image ||
-                                        "/images/placeholder.jpg";
-                                }
-                                // If it's a data URL (base64), use it directly
-                                else if (
-                                    design.main_image.startsWith("data:")
-                                ) {
-                                    imageUrl = design.main_image;
-                                }
-                                // If it's already a full HTTP URL, use it directly
-                                else if (design.main_image.startsWith("http")) {
-                                    imageUrl = design.main_image;
-                                }
-                                // If it starts with /uploads, prepend backend URL
-                                else if (
-                                    design.main_image.startsWith("/uploads")
-                                ) {
-                                    const backendUrl =
-                                        window.location.hostname === "localhost"
-                                            ? "http://localhost:4000"
-                                            : "https://aspire-arch-server.onrender.com";
-                                    imageUrl = `${backendUrl}${design.main_image}`;
-                                }
-                                // Otherwise, assume it's a relative path and prepend backend URL
-                                else {
-                                    const backendUrl =
-                                        window.location.hostname === "localhost"
-                                            ? "http://localhost:4000"
-                                            : "https://aspire-arch-server.onrender.com";
-                                    imageUrl = `${backendUrl}/${design.main_image}`;
-                                }
+                                    // Check if main_image exists and is not null
+                                    if (!design.main_image) {
+                                        imageUrl =
+                                            design.image ||
+                                            "/images/placeholder.jpg";
+                                    }
+                                    // If it's a data URL (base64), use it directly
+                                    else if (
+                                        design.main_image.startsWith("data:")
+                                    ) {
+                                        imageUrl = design.main_image;
+                                    }
+                                    // If it's already a full HTTP URL, use it directly
+                                    else if (design.main_image.startsWith("http")) {
+                                        imageUrl = design.main_image;
+                                    }
+                                    // If it starts with /uploads, prepend backend URL
+                                    else if (
+                                        design.main_image.startsWith("/uploads")
+                                    ) {
+                                        const backendUrl =
+                                            window.location.hostname === "localhost"
+                                                ? "http://localhost:4000"
+                                                : "https://aspire-arch-server.onrender.com";
+                                        imageUrl = `${backendUrl}${design.main_image}`;
+                                    }
+                                    // Otherwise, assume it's a relative path and prepend backend URL
+                                    else {
+                                        const backendUrl =
+                                            window.location.hostname === "localhost"
+                                                ? "http://localhost:4000"
+                                                : "https://aspire-arch-server.onrender.com";
+                                        imageUrl = `${backendUrl}/${design.main_image}`;
+                                    }
 
-                                console.log("Constructed imageUrl:", imageUrl);
+                                    console.log("Constructed imageUrl:", imageUrl);
 
-                                return (
-                                    <div
-                                        key={design.id}
-                                        className="design-card"
-                                    >
-                                        <div className="design-image">
-                                            <img
-                                                src={imageUrl}
-                                                alt={design.title}
-                                                onError={(e) => {
-                                                    e.target.src =
-                                                        "/images/placeholder.jpg";
-                                                }}
-                                            />
-                                            <span className="design-type">
-                                                {design.category ||
-                                                    design.type ||
-                                                    "Design"}
-                                            </span>
+                                    return (
+                                        <div
+                                            key={design.id}
+                                            className="design-card"
+                                        >
+                                            <div className="design-image">
+                                                <img
+                                                    src={imageUrl}
+                                                    alt={design.title}
+                                                    onError={(e) => {
+                                                        e.target.src =
+                                                            "/images/placeholder.jpg";
+                                                    }}
+                                                />
+                                                <span className="design-type">
+                                                    {design.category ||
+                                                        design.type ||
+                                                        "Design"}
+                                                </span>
+                                            </div>
+                                            <div className="design-content">
+                                                <h3>{design.title}</h3>
+                                                <p>
+                                                    {design.summary ||
+                                                        design.description}
+                                                </p>
+                                                <Link
+                                                    to={`/design/project/${design.id}`}
+                                                    style={{
+                                                        textDecoration: "none",
+                                                    }}
+                                                >
+                                                    <button className="view-project-btn">
+                                                        View Project →
+                                                    </button>
+                                                </Link>
+                                            </div>
                                         </div>
-                                        <div className="design-content">
-                                            <h3>{design.title}</h3>
-                                            <p>
-                                                {design.summary ||
-                                                    design.description}
-                                            </p>
-                                            <Link
-                                                to={`/design/project/${design.id}`}
-                                                style={{
-                                                    textDecoration: "none",
-                                                }}
-                                            >
-                                                <button className="view-project-btn">
-                                                    View Project →
-                                                </button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                                    );
+                                })}
+                            </div>
+                            
+                            {/* View More Button */}
+                            <div className="view-more-section">
+                                <Link to="/design" className="view-more-link">
+                                    <button className="view-more-btn">
+                                        <span>View All Projects</span>
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </Link>
+                            </div>
+                        </>
                     ) : (
                         <div className="no-data-message">
                             <p>No featured designs available at the moment.</p>
@@ -756,6 +770,46 @@ function Home() {
           padding: 2rem;
           color: rgba(255, 255, 255, 0.6);
           font-style: italic;
+        }
+
+        /* View More Section */
+        .view-more-section {
+          text-align: center;
+          margin: 3rem 0;
+        }
+
+        .view-more-link {
+          text-decoration: none;
+        }
+
+        .view-more-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          background: linear-gradient(135deg, #8A6D3B, #B08C4D);
+          color: white;
+          border: none;
+          padding: 1rem 2.5rem;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          border-radius: 50px;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(138, 109, 59, 0.3);
+        }
+
+        .view-more-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(138, 109, 59, 0.5);
+          background: linear-gradient(135deg, #B08C4D, #8A6D3B);
+        }
+
+        .view-more-btn svg {
+          transition: transform 0.3s ease;
+        }
+
+        .view-more-btn:hover svg {
+          transform: translateX(5px);
         }
 
         /* Responsive Design */

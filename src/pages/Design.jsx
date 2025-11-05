@@ -127,8 +127,6 @@ function Academic() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        let mounted = true;
-
         const fetchAcademicProjects = async () => {
             try {
                 setLoading(true);
@@ -140,32 +138,22 @@ function Academic() {
                 );
                 console.log("Academic projects data:", data);
 
-                if (mounted) {
-                    if (data.success) {
-                        setProjects(data.data || []);
-                    } else {
-                        throw new Error(
-                            data.message || "Failed to fetch academic projects"
-                        );
-                    }
+                if (data.success) {
+                    setProjects(data.data || []);
+                } else {
+                    throw new Error(
+                        data.message || "Failed to fetch academic projects"
+                    );
                 }
             } catch (err) {
                 console.error("Error fetching academic projects:", err);
-                if (mounted) {
-                    setError(err.message);
-                }
+                setError(err.message);
             } finally {
-                if (mounted) {
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         fetchAcademicProjects();
-
-        return () => {
-            mounted = false;
-        };
     }, []);
 
     return (
@@ -185,8 +173,6 @@ function Profession() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        let mounted = true;
-
         const fetchProfessionalProjects = async () => {
             try {
                 setLoading(true);
@@ -198,32 +184,22 @@ function Profession() {
                 );
                 console.log("Professional projects data:", data);
 
-                if (mounted) {
-                    if (data.success) {
-                        setProjects(data.data || []);
-                    } else {
-                        throw new Error(
-                            data.message || "Failed to fetch professional projects"
-                        );
-                    }
+                if (data.success) {
+                    setProjects(data.data || []);
+                } else {
+                    throw new Error(
+                        data.message || "Failed to fetch professional projects"
+                    );
                 }
             } catch (err) {
                 console.error("Error fetching professional projects:", err);
-                if (mounted) {
-                    setError(err.message);
-                }
+                setError(err.message);
             } finally {
-                if (mounted) {
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         fetchProfessionalProjects();
-
-        return () => {
-            mounted = false;
-        };
     }, []);
 
     return (
@@ -243,8 +219,6 @@ function Competition() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        let mounted = true;
-
         const fetchCompetitionProjects = async () => {
             try {
                 setLoading(true);
@@ -256,32 +230,22 @@ function Competition() {
                 );
                 console.log("Competition projects data:", data);
 
-                if (mounted) {
-                    if (data.success) {
-                        setProjects(data.data || []);
-                    } else {
-                        throw new Error(
-                            data.message || "Failed to fetch competition projects"
-                        );
-                    }
+                if (data.success) {
+                    setProjects(data.data || []);
+                } else {
+                    throw new Error(
+                        data.message || "Failed to fetch competition projects"
+                    );
                 }
             } catch (err) {
                 console.error("Error fetching competition projects:", err);
-                if (mounted) {
-                    setError(err.message);
-                }
+                setError(err.message);
             } finally {
-                if (mounted) {
-                    setLoading(false);
-                }
+                setLoading(false);
             }
         };
 
         fetchCompetitionProjects();
-
-        return () => {
-            mounted = false;
-        };
     }, []);
 
     return (
@@ -489,13 +453,37 @@ function VisitProject() {
                     {allImages.length > 1 && (
                         <>
                             <button className="prev-arrow" onClick={prevSlide}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M15 18L9 12L15 6"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
                                 </svg>
                             </button>
                             <button className="next-arrow" onClick={nextSlide}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M9 18L15 12L9 6"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
                                 </svg>
                             </button>
 
@@ -510,7 +498,9 @@ function VisitProject() {
                                     <button
                                         key={index}
                                         className={`indicator ${
-                                            index === currentIndex ? "active" : ""
+                                            index === currentIndex
+                                                ? "active"
+                                                : ""
                                         }`}
                                         onClick={() => setCurrentIndex(index)}
                                     />
@@ -535,7 +525,9 @@ function VisitProject() {
                             </span>
                         )}
                         {project.is_featured && (
-                            <span className="featured-badge-detail">Featured</span>
+                            <span className="featured-badge-detail">
+                                Featured
+                            </span>
                         )}
                     </div>
                 </div>

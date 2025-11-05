@@ -16,73 +16,94 @@ const FooterWrapper = styled.div`
 `;
 
 const FooterContainer = styled.footer`
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    padding: 4rem 2rem 2rem;
+    background: #122324;
+    padding: 3rem 2rem 1.5rem;
     color: rgba(255, 255, 255, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+    
+    /* Horizontal layout */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
 `;
 
 const FooterSection = styled.div`
-    flex: 1;
-    min-width: 250px;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
 `;
 
 const FooterTitle = styled.h3`
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-    font-size: 1.1rem;
-    font-weight: 300; /* Slightly bolder for titles */
+    font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
     letter-spacing: 0.5px;
+    color: var(--accent-light);
+    text-transform: uppercase;
 `;
 
 const FooterLink = styled.a`
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    font-weight: 200;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 300;
     transition: color 0.3s;
     letter-spacing: 0.3px;
+    text-decoration: none;
+    padding: 0.25rem 0;
 
     &:hover {
         color: var(--accent-light);
+        padding-left: 5px;
     }
 `;
 
 const FooterLinkRouter = styled(Link)`
-    font-size: 0.9rem;
-    font-weight: 200;
-    transition: color 0.3s;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    font-weight: 300;
+    transition: all 0.3s;
     letter-spacing: 0.3px;
+    text-decoration: none;
+    padding: 0.25rem 0;
 
     &:hover {
         color: var(--accent-light);
+        padding-left: 5px;
     }
 `;
 
 const FooterText = styled.p`
-    font-weight: 200;
-    line-height: 1.5;
+    font-weight: 300;
+    line-height: 1.6;
     letter-spacing: 0.3px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0.25rem 0;
 `;
 
 const SocialIcons = styled.div`
     display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
 `;
 
 const SocialIcon = styled.a`
-    color: white;
-    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.2rem;
     transition: color 0.3s, transform 0.3s;
 
     &:hover {
         color: var(--accent-light);
-        transform: scale(1.1);
+        transform: translateY(-3px);
     }
 `;
 
@@ -92,69 +113,82 @@ const NewsletterForm = styled.form`
     gap: 0.5rem;
 
     input {
-        padding: 0.5rem;
+        padding: 0.6rem;
         font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-        font-weight: 200;
-        border: none;
+        font-weight: 300;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 4px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         letter-spacing: 0.3px;
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:focus {
+            outline: none;
+            border-color: var(--accent-light);
+            background: rgba(255, 255, 255, 0.08);
+        }
     }
 
     button {
         background: var(--accent-light);
         color: white;
         border: none;
-        padding: 0.5rem;
+        padding: 0.6rem;
         cursor: pointer;
         font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-        font-size: 0.9rem;
-        font-weight: 300;
+        font-size: 0.85rem;
+        font-weight: 600;
         border-radius: 4px;
-        transition: background 0.3s;
+        transition: all 0.3s;
         letter-spacing: 0.5px;
+        text-transform: uppercase;
 
         &:hover {
             background: var(--accent-medium);
+            transform: translateY(-2px);
         }
 
         &:disabled {
-            background: #999;
+            background: #666;
             cursor: not-allowed;
+            transform: none;
         }
     }
 `;
 
 const SuccessMessage = styled.p`
     color: #4ade80;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin: 0;
-    font-weight: 300;
+    font-weight: 400;
 `;
 
 const ErrorMessage = styled.p`
     color: #f87171;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin: 0;
-    font-weight: 300;
+    font-weight: 400;
 `;
 
 const MapContainer = styled.div`
+    margin-top: 0.5rem;
+    
     iframe {
-        border-radius: 8px;
-        border: none;
+        border-radius: 6px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         width: 100%;
-        height: 150px;
-        opacity: 0.9;
+        height: 120px;
+        opacity: 0.8;
         transition: opacity 0.3s ease;
 
-        @media (min-width: 768px) {
-            opacity: 0.7;
-
-            &:hover {
-                opacity: 1;
-            }
+        &:hover {
+            opacity: 1;
         }
     }
 `;
@@ -243,21 +277,21 @@ function Footer() {
                 >
                     <FooterSection>
                         <FooterTitle>Navigation</FooterTitle>
-                        <FooterLink to="/about">About</FooterLink>
-                        <FooterLink to="/design">Design</FooterLink>
-                        <FooterLink to="/research-insights">
+                        <FooterLinkRouter to="/about">About</FooterLinkRouter>
+                        <FooterLinkRouter to="/design">Design</FooterLinkRouter>
+                        <FooterLinkRouter to="/research-insights">
                             Research & Insights
-                        </FooterLink>
-                        <FooterLink to="/the-colleague-uni">
+                        </FooterLinkRouter>
+                        <FooterLinkRouter to="/the-colleague-uni">
                             TheArchi.Co. Lab
-                        </FooterLink>
-                        <FooterLink to="/education">Education</FooterLink>
-                        <FooterLink to="/media-gallery">
+                        </FooterLinkRouter>
+                        <FooterLinkRouter to="/education">Education</FooterLinkRouter>
+                        <FooterLinkRouter to="/media-gallery">
                             Media Gallery
-                        </FooterLink>
-                        <FooterLink to="/get-involved">Get Involved</FooterLink>
-                        <FooterLink to="/news-events">News & Events</FooterLink>
-                        <FooterLink to="/contact">Contact</FooterLink>
+                        </FooterLinkRouter>
+                        <FooterLinkRouter to="/get-involved">Get Involved</FooterLinkRouter>
+                        <FooterLinkRouter to="/news-events">News & Events</FooterLinkRouter>
+                        <FooterLinkRouter to="/contact">Contact</FooterLinkRouter>
                     </FooterSection>
                 </motion.div>
                 <motion.div

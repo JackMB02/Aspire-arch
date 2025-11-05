@@ -21,14 +21,16 @@ function Home() {
                 setLoading(true);
                 setError(null);
                 setDataSource("");
-                
+
                 // Fetch featured design projects first
                 console.log(
                     "🔍 Fetching featured design projects from:",
                     API_ENDPOINTS.DESIGN_PROJECTS.FEATURED
                 );
 
-                const response = await fetch(API_ENDPOINTS.DESIGN_PROJECTS.FEATURED);
+                const response = await fetch(
+                    API_ENDPOINTS.DESIGN_PROJECTS.FEATURED
+                );
                 console.log(
                     "📡 Response status:",
                     response.status,
@@ -50,14 +52,15 @@ function Home() {
                         designs: result.data?.length,
                     });
                 } else {
-                    throw new Error(result.message || "Failed to fetch featured projects");
+                    throw new Error(
+                        result.message || "Failed to fetch featured projects"
+                    );
                 }
 
                 // For now, use mock data for research and events
                 // These can be fetched from backend when endpoints are ready
                 setResearchHighlights(getMockResearchHighlights());
                 setUpcomingEvents(getMockUpcomingEvents());
-
             } catch (err) {
                 console.error("❌ Error fetching Home data:", err);
                 setError(err.message);
@@ -236,29 +239,45 @@ function Home() {
                         <div className="designs-grid">
                             {featuredDesigns.map((design) => {
                                 // Handle image URL - add backend URL if needed
-                                const imageUrl = design.main_image?.startsWith('http') 
-                                    ? design.main_image 
-                                    : design.main_image?.startsWith('/uploads')
-                                    ? `${window.location.hostname === 'localhost' ? 'http://localhost:4000' : 'https://aspire-arch-server.onrender.com'}${design.main_image}`
-                                    : design.image || '/images/placeholder.jpg';
-                                
+                                const imageUrl = design.main_image?.startsWith(
+                                    "http"
+                                )
+                                    ? design.main_image
+                                    : design.main_image?.startsWith("/uploads")
+                                    ? `${
+                                          window.location.hostname ===
+                                          "localhost"
+                                              ? "http://localhost:4000"
+                                              : "https://aspire-arch-server.onrender.com"
+                                      }${design.main_image}`
+                                    : design.image || "/images/placeholder.jpg";
+
                                 return (
-                                    <div key={design.id} className="design-card">
+                                    <div
+                                        key={design.id}
+                                        className="design-card"
+                                    >
                                         <div className="design-image">
                                             <img
                                                 src={imageUrl}
                                                 alt={design.title}
                                                 onError={(e) => {
-                                                    e.target.src = "/images/placeholder.jpg";
+                                                    e.target.src =
+                                                        "/images/placeholder.jpg";
                                                 }}
                                             />
                                             <span className="design-type">
-                                                {design.category || design.type || 'Design'}
+                                                {design.category ||
+                                                    design.type ||
+                                                    "Design"}
                                             </span>
                                         </div>
                                         <div className="design-content">
                                             <h3>{design.title}</h3>
-                                            <p>{design.summary || design.description}</p>
+                                            <p>
+                                                {design.summary ||
+                                                    design.description}
+                                            </p>
                                             <button className="view-project-btn">
                                                 View Project →
                                             </button>

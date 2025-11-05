@@ -8,11 +8,11 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     // Parse gallery_images if it's a string (from database JSON)
     let galleryImages = [];
     if (project.gallery_images) {
-        if (typeof project.gallery_images === 'string') {
+        if (typeof project.gallery_images === "string") {
             try {
                 galleryImages = JSON.parse(project.gallery_images);
             } catch (e) {
-                console.error('Error parsing gallery_images:', e);
+                console.error("Error parsing gallery_images:", e);
                 galleryImages = [];
             }
         } else if (Array.isArray(project.gallery_images)) {
@@ -26,7 +26,7 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
             ? [project.main_image, ...galleryImages]
             : [project.main_image];
 
-    console.log('Project:', project.title, 'All Images:', allImages);
+    console.log("Project:", project.title, "All Images:", allImages);
 
     // Auto slideshow every 4 seconds
     useEffect(() => {
@@ -149,13 +149,17 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
                     {project.sector && (
                         <div className="stat-item">
                             <span className="stat-label">Sector</span>
-                            <span className="stat-value">{getSectorLabel(project.sector)}</span>
+                            <span className="stat-value">
+                                {getSectorLabel(project.sector)}
+                            </span>
                         </div>
                     )}
                     {allImages.length > 1 && (
                         <div className="stat-item">
                             <span className="stat-label">Images</span>
-                            <span className="stat-value">{allImages.length} Photos</span>
+                            <span className="stat-value">
+                                {allImages.length} Photos
+                            </span>
                         </div>
                     )}
                 </div>

@@ -160,7 +160,11 @@
 
 /* Summary Box - Highlighted */
 .project-summary-box {
-    background: linear-gradient(135deg, rgba(122, 158, 217, 0.1), rgba(122, 158, 217, 0.05));
+    background: linear-gradient(
+        135deg,
+        rgba(122, 158, 217, 0.1),
+        rgba(122, 158, 217, 0.05)
+    );
     border-left: 4px solid var(--accent-light);
     padding: 1.5rem;
     margin: 1.5rem 0;

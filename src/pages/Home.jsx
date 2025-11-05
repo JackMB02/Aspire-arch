@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 import Hero from "../components/Hero";
@@ -278,9 +279,14 @@ function Home() {
                                                 {design.summary ||
                                                     design.description}
                                             </p>
-                                            <button className="view-project-btn">
-                                                View Project →
-                                            </button>
+                                            <Link
+                                                to={`/design/project/${design.id}`}
+                                                style={{ textDecoration: "none" }}
+                                            >
+                                                <button className="view-project-btn">
+                                                    View Project →
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 );

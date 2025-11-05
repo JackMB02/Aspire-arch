@@ -276,28 +276,76 @@ function VisitProject() {
 
     // Automatic slideshow every 3s
     useEffect(() => {
-        if (!project?.gallery_images || project.gallery_images.length <= 1)
-            return;
+        if (!project) return;
+        
+        // Parse gallery_images if it's a string
+        let galleryImages = [];
+        if (project.gallery_images) {
+            if (typeof project.gallery_images === 'string') {
+                try {
+                    galleryImages = JSON.parse(project.gallery_images);
+                } catch (e) {
+                    console.error('Error parsing gallery_images:', e);
+                    galleryImages = [];
+                }
+            } else if (Array.isArray(project.gallery_images)) {
+                galleryImages = project.gallery_images;
+            }
+        }
+        
+        if (galleryImages.length <= 1) return;
 
         const interval = setInterval(() => {
             setCurrentIndex((prev) =>
-                prev === project.gallery_images.length - 1 ? 0 : prev + 1
+                prev === galleryImages.length - 1 ? 0 : prev + 1
             );
         }, 3000);
         return () => clearInterval(interval);
     }, [project]);
 
     const prevSlide = () => {
-        if (!project?.gallery_images) return;
+        if (!project) return;
+        
+        let galleryImages = [];
+        if (typeof project.gallery_images === 'string') {
+            try {
+                galleryImages = JSON.parse(project.gallery_images);
+            } catch (e) {
+                galleryImages = [];
+            }
+        } else if (Array.isArray(project.gallery_images)) {
+            galleryImages = project.gallery_images;
+        }
+        
+        const allImages = galleryImages.length > 0 
+            ? [project.main_image, ...galleryImages] 
+            : [project.main_image];
+            
         setCurrentIndex((prev) =>
-            prev === 0 ? project.gallery_images.length - 1 : prev - 1
+            prev === 0 ? allImages.length - 1 : prev - 1
         );
     };
 
     const nextSlide = () => {
-        if (!project?.gallery_images) return;
+        if (!project) return;
+        
+        let galleryImages = [];
+        if (typeof project.gallery_images === 'string') {
+            try {
+                galleryImages = JSON.parse(project.gallery_images);
+            } catch (e) {
+                galleryImages = [];
+            }
+        } else if (Array.isArray(project.gallery_images)) {
+            galleryImages = project.gallery_images;
+        }
+        
+        const allImages = galleryImages.length > 0 
+            ? [project.main_image, ...galleryImages] 
+            : [project.main_image];
+            
         setCurrentIndex((prev) =>
-            prev === project.gallery_images.length - 1 ? 0 : prev + 1
+            prev === allImages.length - 1 ? 0 : prev + 1
         );
     };
 
@@ -331,11 +379,25 @@ function VisitProject() {
         );
     }
 
+    // Parse gallery_images if it's a string
+    let galleryImages = [];
+    if (project.gallery_images) {
+        if (typeof project.gallery_images === 'string') {
+            try {
+                galleryImages = JSON.parse(project.gallery_images);
+            } catch (e) {
+                console.error('Error parsing gallery_images:', e);
+                galleryImages = [];
+            }
+        } else if (Array.isArray(project.gallery_images)) {
+            galleryImages = project.gallery_images;
+        }
+    }
+
     // Combine main image with gallery images for slideshow
-    const allImages =
-        project.gallery_images && project.gallery_images.length > 0
-            ? [project.main_image, ...project.gallery_images]
-            : [project.main_image];
+    const allImages = galleryImages.length > 0
+        ? [project.main_image, ...galleryImages]
+        : [project.main_image];
 
     return (
         <div className="visit-project">
@@ -403,27 +465,23 @@ function VisitProject() {
                 </div>
 
                 {/* Additional gallery images (excluding the first one which is in slideshow) */}
-                {project.gallery_images &&
-                    project.gallery_images.length > 0 && (
-                        <div className="additional-images">
-                            <h3>Project Gallery</h3>
-                            <div className="gallery-grid">
-                                {project.gallery_images.map((img, idx) => (
-                                    <img
-                                        key={idx}
-                                        src={`${BACKEND_BASE_URL}${img}`}
-                                        alt={`${project.title} detail ${
-                                            idx + 1
-                                        }`}
-                                        onError={(e) => {
-                                            e.target.src =
-                                                "/images/placeholder.jpg";
-                                        }}
-                                    />
-                                ))}
-                            </div>
+                {galleryImages.length > 0 && (
+                    <div className="additional-images">
+                        <h3>Project Gallery</h3>
+                        <div className="gallery-grid">
+                            {galleryImages.map((img, idx) => (
+                                <img
+                                    key={idx}
+                                    src={`${BACKEND_BASE_URL}${img}`}
+                                    alt={`${project.title} detail ${idx + 1}`}
+                                    onError={(e) => {
+                                        e.target.src = "/images/placeholder.jpg";
+                                    }}
+                                />
+                            ))}
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
         </div>
     );

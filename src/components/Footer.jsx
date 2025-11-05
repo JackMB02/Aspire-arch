@@ -21,14 +21,14 @@ const FooterContainer = styled.footer`
     color: rgba(255, 255, 255, 0.9);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-    
+
     /* Horizontal layout */
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     max-width: 1400px;
     margin: 0 auto;
-    
+
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -178,7 +178,7 @@ const ErrorMessage = styled.p`
 
 const MapContainer = styled.div`
     margin-top: 0.5rem;
-    
+
     iframe {
         border-radius: 6px;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -285,13 +285,21 @@ function Footer() {
                         <FooterLinkRouter to="/the-colleague-uni">
                             TheArchi.Co. Lab
                         </FooterLinkRouter>
-                        <FooterLinkRouter to="/education">Education</FooterLinkRouter>
+                        <FooterLinkRouter to="/education">
+                            Education
+                        </FooterLinkRouter>
                         <FooterLinkRouter to="/media-gallery">
                             Media Gallery
                         </FooterLinkRouter>
-                        <FooterLinkRouter to="/get-involved">Get Involved</FooterLinkRouter>
-                        <FooterLinkRouter to="/news-events">News & Events</FooterLinkRouter>
-                        <FooterLinkRouter to="/contact">Contact</FooterLinkRouter>
+                        <FooterLinkRouter to="/get-involved">
+                            Get Involved
+                        </FooterLinkRouter>
+                        <FooterLinkRouter to="/news-events">
+                            News & Events
+                        </FooterLinkRouter>
+                        <FooterLinkRouter to="/contact">
+                            Contact
+                        </FooterLinkRouter>
                     </FooterSection>
                 </motion.div>
                 <motion.div

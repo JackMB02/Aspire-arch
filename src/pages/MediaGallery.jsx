@@ -151,7 +151,9 @@ function PhotoAlbums() {
                             <div className="media-overlay">
                                 <h3>{photo.title}</h3>
                                 <p>{photo.category}</p>
-                                <button>View Album →</button>
+                                <Link to={`/photo/${photo.id}`} className="view-album-btn">
+                                    View Album →
+                                </Link>
                             </div>
                         </div>
                     ))
@@ -738,7 +740,8 @@ function MediaGallery() {
           opacity: 0.9;
         }
 
-        .media-overlay button {
+        .media-overlay button,
+        .media-overlay .view-album-btn {
           background: var(--accent-light);
           color: white;
           border: none;
@@ -749,9 +752,12 @@ function MediaGallery() {
           transition: all 0.2s ease;
           align-self: flex-start;
           font-weight: 600;
+          text-decoration: none;
+          display: inline-block;
         }
 
-        .media-overlay button:hover {
+        .media-overlay button:hover,
+        .media-overlay .view-album-btn:hover {
           background: rgba(176, 140, 77, 0.9);
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(176, 140, 77, 0.4);

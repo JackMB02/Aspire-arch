@@ -127,6 +127,13 @@ function MembershipPartnerships() {
                         collaborate on meaningful projects.
                     </p>
 
+                    <h2 className="section-heading" style={{marginTop: '2rem', marginBottom: '1rem', textAlign: 'center', color: 'var(--accent-light)'}}>
+                        Select Your Membership Type
+                    </h2>
+                    <p style={{textAlign: 'center', marginBottom: '2rem', opacity: '0.8'}}>
+                        Click on a membership card below to select it
+                    </p>
+
                     <div className="membership-grid">
                         {membershipOptions.map((option, index) => (
                             <div
@@ -1198,9 +1205,24 @@ function GetInvolved() {
 
         .membership-card.selected {
           border-color: var(--accent-light);
-          background: rgba(122, 158, 217, 0.1);
-          transform: scale(1.02);
-          box-shadow: 0 0 20px rgba(122, 158, 217, 0.3);
+          border-width: 3px;
+          background: rgba(122, 158, 217, 0.15);
+          transform: scale(1.05);
+          box-shadow: 0 0 30px rgba(122, 158, 217, 0.5);
+          position: relative;
+        }
+        
+        .membership-card.selected::before {
+          content: "✓ Selected";
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: var(--accent-light);
+          color: var(--primary-dark);
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: bold;
         }
 
         .membership-card {

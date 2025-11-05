@@ -168,8 +168,8 @@ const VideoPlayer = () => {
         );
     }
 
-    // Get the video URL - check both video_url and video_file fields
-    const videoUrl = getMediaUrl(currentVideo.video_url || currentVideo.video_file);
+    // Get the video URL - check both videoSrc, video_url and video_file fields
+    const videoUrl = getMediaUrl(currentVideo.videoSrc || currentVideo.video_url || currentVideo.video_file);
     const thumbnailUrl = getMediaUrl(currentVideo.thumbnail);
 
     return (

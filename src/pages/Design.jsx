@@ -158,8 +158,8 @@ function Academic() {
 
     return (
         <PageWrapper
-            title="Academic Designs"
-            description="Exploring innovative solutions through academic architectural projects that challenge creativity and functionality."
+            title="Academic Projects"
+            description="Engage with and critique our academic projects that celebrate place, honor cultural identity, and express architecture as a dialogue of dignity and empathy."
             projects={projects}
             loading={loading}
             error={error}
@@ -204,8 +204,8 @@ function Profession() {
 
     return (
         <PageWrapper
-            title="Professional Designs"
-            description="A showcase of professional architecture projects completed for clients, merging aesthetics with purpose."
+            title="Professional Projects"
+            description="Our portfolio currently highlights academic explorations, competition entries, and professional training or mentorship projects developed through internships. These works reflect our commitment to rigorous research, collaborative learning, and a growing practice that is steadily evolving into a client-facing professional platform."
             projects={projects}
             loading={loading}
             error={error}

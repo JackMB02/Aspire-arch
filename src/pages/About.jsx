@@ -39,18 +39,28 @@ function Mission() {
                             and environmental art form, ASPIRE Design Lab is
                             grounded in research, advocacy, and action. We are
                             committed to studying and steadying architecture for
-                            society and planet, framing our work in a practice
-                            of deep listening, allowing the voices of the
-                            communities we serve to guide and shape every design
-                            decision.
+                            both society and the planet, framing our work in a
+                            practice of deep listening that allows the voices of
+                            the communities we serve to guide and shape every
+                            design decision.
                         </p>
                         <p>
                             ASPIRE Design Lab is a factory of architectural
-                            ideas and decisions, co-creating spaces that go
-                            beyond solving functional needs. We seek to
-                            celebrate identity, foster belonging, and design
-                            with an unwavering commitment to both people and
-                            planet.
+                            ideas and decisions, where design becomes a process
+                            of inquiry, collaboration, and co-creation. We seek
+                            to craft spaces that go beyond solving functional
+                            needs — spaces that celebrate identity, foster
+                            belonging, and embody cultural and environmental
+                            consciousness.
+                        </p>
+                        <p>
+                            Our mission extends beyond building forms; it is
+                            about shaping environments that respond to people's
+                            lived experiences, their aspirations, and their
+                            relationship with place. Through this, we aim to
+                            inspire an architecture that is grounded in empathy,
+                            driven by purpose, and dedicated to the shared
+                            well-being of both people and planet.
                         </p>
                     </div>
                 </div>
@@ -207,68 +217,6 @@ function AboutNavigation() {
     );
 }
 
-function DefaultContent() {
-    return (
-        <AnimatedSection>
-            <div className="about-page-wrapper">
-                <div className="about-content">
-                    <div className="default-content">
-                        <div className="intro-section">
-                            <p>
-                                ASPIRE Design Lab is a forward-thinking
-                                architecture practice dedicated to creating
-                                sustainable, meaningful spaces that serve both
-                                people and planet. Our work is guided by a deep
-                                commitment to environmental stewardship,
-                                cultural preservation, and community engagement.
-                            </p>
-                        </div>
-
-                        <div className="highlights-grid">
-                            <div className="highlight-card">
-                                <h3>Mission Driven</h3>
-                                <p>
-                                    Creating architecture that serves social and
-                                    environmental purposes through deep
-                                    community engagement.
-                                </p>
-                            </div>
-
-                            <div className="highlight-card">
-                                <h3>Sustainable Future</h3>
-                                <p>
-                                    Pioneering net-zero carbon projects and
-                                    sustainable building practices for a better
-                                    tomorrow.
-                                </p>
-                            </div>
-
-                            <div className="highlight-card">
-                                <h3>Community Focused</h3>
-                                <p>
-                                    Listening to and collaborating with
-                                    communities to shape spaces that truly serve
-                                    their needs.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="goals-preview">
-                            <h3>Our 2030 Commitment</h3>
-                            <p>
-                                We are committed to achieving significant
-                                milestones by 2030, including net-zero carbon
-                                projects, affordable housing solutions, and
-                                sustainable material innovation.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </AnimatedSection>
-    );
-}
-
 function About() {
     return (
         <div className="about-container">
@@ -280,7 +228,7 @@ function About() {
                 <Route path="vision" element={<Vision />} />
                 <Route path="approach" element={<Approach />} />
                 <Route path="goals" element={<Goals />} />
-                <Route path="/" element={<DefaultContent />} />
+                <Route path="/" element={<Mission />} />
             </Routes>
 
             <style jsx>{`
@@ -489,78 +437,6 @@ function About() {
                     top: 1rem;
                 }
 
-                /* Default Content Styles */
-                .default-content {
-                    text-align: center;
-                }
-
-                .intro-section p {
-                    font-family: 'Lora', 'Georgia', serif;
-                    font-size: 1.2rem;
-                    margin-bottom: 3rem;
-                    text-align: center;
-                    max-width: 700px;
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-
-                .highlights-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                    gap: 2rem;
-                    margin: 3rem 0;
-                }
-
-                .highlight-card {
-                    background: rgba(255, 255, 255, 0.05);
-                    padding: 2rem;
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    transition: transform 0.3s ease;
-                }
-
-                .highlight-card:hover {
-                    transform: translateY(-5px);
-                    background: rgba(255, 255, 255, 0.08);
-                }
-
-                .highlight-card h3 {
-                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    color: var(--accent-light);
-                    margin-bottom: 1rem;
-                    font-size: 1.3rem;
-                    font-weight: 600;
-                    letter-spacing: -0.3px;
-                }
-
-                .highlight-card p {
-                    font-family: 'Lora', 'Georgia', serif;
-                    font-size: 1rem;
-                    line-height: 1.5;
-                }
-
-                .goals-preview {
-                    background: rgba(255, 255, 255, 0.03);
-                    padding: 2.5rem;
-                    border: 1px solid rgba(255, 255, 255, 0.1);
-                    margin-top: 3rem;
-                }
-
-                .goals-preview h3 {
-                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    color: var(--accent-light);
-                    margin-bottom: 1rem;
-                    font-size: 1.5rem;
-                    font-weight: 600;
-                    letter-spacing: -0.3px;
-                }
-
-                .goals-preview p {
-                    font-family: 'Lora', 'Georgia', serif;
-                    font-size: 1.1rem;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-
                 @media (max-width: 768px) {
                     .about-hero {
                         padding: 3rem 1.5rem 2rem;
@@ -605,11 +481,6 @@ function About() {
                     .goal-item {
                         padding: 1rem;
                         padding-left: 2rem;
-                    }
-                    
-                    .highlights-grid {
-                        grid-template-columns: 1fr;
-                        gap: 1.5rem;
                     }
                 }
 

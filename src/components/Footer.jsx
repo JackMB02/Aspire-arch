@@ -4,6 +4,7 @@ import {
     FaInstagram,
     FaEnvelope,
     FaWhatsapp,
+    FaVimeoV
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -44,11 +45,11 @@ const FooterSection = styled.div`
 const FooterTitle = styled.h3`
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 300; /* Changed from 600 to 300 for lighter weight */
     margin-bottom: 0.5rem;
     letter-spacing: 0.5px;
     color: var(--accent-light);
-    text-transform: uppercase;
+    /* Removed text-transform: uppercase */
 `;
 
 const FooterLink = styled.a`
@@ -193,6 +194,16 @@ const MapContainer = styled.div`
     }
 `;
 
+// New styled component for the larger ASPIRE text
+const AspireTitle = styled.h2`
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
+    font-size: 2rem; /* Larger font size */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    color: var(--accent-light);
+`;
+
 function Footer() {
     const [email, setEmail] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -260,7 +271,7 @@ function Footer() {
                     transition={{ duration: 0.5 }}
                 >
                     <FooterSection>
-                        <FooterTitle>ASPIRE Design Lab</FooterTitle>
+                        <AspireTitle>ASPIRE</AspireTitle> {/* Changed to ASPIRE with larger font */}
                         <FooterText>
                             Architecture for Society and Planet, Inspiring
                             Resilient Environments
@@ -276,7 +287,7 @@ function Footer() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <FooterSection>
-                        <FooterTitle>Navigation</FooterTitle>
+                        {/* Removed "Navigation" title */}
                         <FooterLinkRouter to="/about">About</FooterLinkRouter>
                         <FooterLinkRouter to="/design">Design</FooterLinkRouter>
                         <FooterLinkRouter to="/research-insights">
@@ -330,6 +341,13 @@ function Footer() {
                                 rel="noopener noreferrer"
                             >
                                 <FaInstagram />
+                            </SocialIcon>
+                            <SocialIcon
+                                href="https://vimeo.com/user249123844?fl=pp&fe=sh"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <FaVimeoV />
                             </SocialIcon>
                             <SocialIcon
                                 href="mailto:aspiredesignlab@gmail.com"

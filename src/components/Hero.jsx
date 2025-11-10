@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import {
     FaLinkedin,
     FaInstagram,
     FaEnvelope,
     FaWhatsapp,
+    FaVimeoV
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -142,6 +142,9 @@ const SocialIcon = styled(motion.a)`
     &.whatsapp:hover {
         background: rgba(37, 211, 102, 0.3);
     }
+    &.vimeo:hover {
+        background: rgba(26, 183, 234, 0.3);
+    }
 
     @media (max-width: 768px) {
         font-size: 1.1rem;
@@ -159,7 +162,7 @@ const SlideshowContainer = styled.div`
     z-index: 0;
 `;
 
-// Individual slide
+// Individual slide with improved animation
 const Slide = styled(motion.div)`
     position: absolute;
     top: 0;
@@ -169,11 +172,10 @@ const Slide = styled(motion.div)`
     background-image: ${(props) => `url(${props.bgImage})`};
     background-size: cover;
     background-position: center;
-
-    @media (max-width: 768px) {
-        background-position: center;
-        background-size: cover;
-    }
+    background-repeat: no-repeat;
+    
+    /* Fallback background color if image fails to load */
+    background-color: #2c3e50;
 `;
 
 // Overlay - removed opacity
@@ -209,101 +211,47 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 768px) {
-        top: 10rem;
+        top: 6rem;
         left: 1.5rem;
-        right: 1.5rem;
-        font-size: 1.8rem;
+        font-size: 2rem;
         letter-spacing: 2px;
-        max-width: calc(100% - 3rem);
     }
 
     @media (max-width: 480px) {
-        top: 9rem;
+        top: 5rem;
         left: 1rem;
-        right: 1rem;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         letter-spacing: 1.5px;
-        max-width: calc(100% - 2rem);
     }
 `;
 
-// Description Card (bottom-right) - Reduced opacity to 0.4
+// Description Card (bottom-right) - Reduced font size to 0.9rem
 const DescriptionCard = styled(motion.div)`
     position: absolute;
     bottom: 3rem;
     right: 3rem;
-    background-color: rgba(0, 0, 0, 0.6); /* Black with increased opacity */
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 1.5rem;
     border-radius: 10px;
     font-family: "Montserrat", sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem; /* Reduced from 1rem to 0.9rem */
+    line-height: 1.5; /* Adjusted line height */
     max-width: 380px;
     text-align: left;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 
-    p {
-        margin: 0 0 1rem 0;
-        color: white;
-    }
-
     @media (max-width: 768px) {
-        bottom: 5.5rem;
-        left: 1.5rem;
-        right: 1.5rem;
-        max-width: calc(100% - 3rem);
-        font-size: 0.875rem;
+        bottom: 2rem;
+        right: 2rem;
+        max-width: 280px;
+        font-size: 0.85rem; /* Slightly smaller on mobile */
         padding: 1.2rem;
-        line-height: 1.5;
-        background-color: rgba(0, 0, 0, 0.75);
     }
 
     @media (max-width: 480px) {
-        bottom: 5rem;
-        left: 1rem;
-        right: 1rem;
-        max-width: calc(100% - 2rem);
-        font-size: 0.813rem;
+        max-width: 220px;
+        font-size: 0.8rem;
         padding: 1rem;
-        line-height: 1.4;
-    }
-`;
-
-const ViewAlbumButton = styled(Link)`
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(
-        135deg,
-        var(--accent-light),
-        var(--accent-medium)
-    );
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-family: "Montserrat", sans-serif;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4);
-        background: linear-gradient(
-            135deg,
-            var(--accent-medium),
-            var(--accent-light)
-        );
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
-
-    @media (max-width: 768px) {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.85rem;
     }
 `;
 
@@ -321,68 +269,55 @@ const SlideIndicators = styled.div`
     border-radius: 50px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-
-    @media (max-width: 768px) {
-        bottom: 1.5rem;
-        padding: 0.6rem 1rem;
-    }
-
-    @media (max-width: 480px) {
-        bottom: 1.2rem;
-        padding: 0.5rem 0.8rem;
-        gap: 0.4rem;
-    }
 `;
 
 const Indicator = styled(motion.button)`
-    width: 4px;
-    height: 4px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
+    
     &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: ${(props) => (props.active ? "6px" : "4px")};
-        height: ${(props) => (props.active ? "6px" : "4px")};
+        width: ${props => props.active ? '16px' : '8px'};
+        height: ${props => props.active ? '16px' : '8px'};
         border-radius: 50%;
-        background: ${(props) =>
-            props.active ? "#ffffff" : "rgba(255, 255, 255, 0.4)"};
+        background: ${props => props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.4)'};
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: ${(props) =>
-            props.active ? "0 0 8px rgba(255, 255, 255, 0.5)" : "none"};
+        box-shadow: ${props => props.active ? '0 0 10px rgba(255, 255, 255, 0.5)' : 'none'};
     }
 
     &:hover::before {
         background: #ffffff;
-        width: 5px;
-        height: 5px;
-        box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
     }
 
     @media (max-width: 768px) {
-        width: 5px;
-        height: 5px;
-
+        width: 6px;
+        height: 6px;
+        
         &::before {
-            width: ${(props) => (props.active ? "8px" : "5px")};
-            height: ${(props) => (props.active ? "8px" : "5px")};
+            width: ${props => props.active ? '12px' : '6px'};
+            height: ${props => props.active ? '12px' : '6px'};
         }
 
         &:hover::before {
-            width: 7px;
-            height: 7px;
+            width: 10px;
+            height: 10px;
         }
     }
 `;
 
-// Animation variants
+// Improved animation variants for smoother transitions
 const overlayVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -391,42 +326,59 @@ const overlayVariants = {
     },
 };
 
+// New slide variants for right-to-left fade animation
 const slideVariants = {
-    enter: { opacity: 0 },
-    center: { opacity: 1 },
-    exit: { opacity: 0 },
+    enter: (direction) => ({
+        x: direction > 0 ? "100%" : "-100%",
+        opacity: 0
+    }),
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction) => ({
+        zIndex: 0,
+        x: direction < 0 ? "100%" : "-100%",
+        opacity: 0
+    })
 };
 
-// Slideshow data with different categories
+// Updated slideshow data with public folder paths
 const slides = [
     {
         id: 1,
-        image: "/images/office.jpg",
-        category: "Commercial Excellence",
-        description:
-            "Our office designs prioritize both functionality and employee wellbeing. We create spaces that foster collaboration while incorporating sustainable materials and energy-efficient systems for a healthier work environment.",
+        image: "/images/Hallway%20with%20Sky.png",
+        category: "Space As Connection",
+        description: "Transition Space | Social Area For The Family. Is a dignified house defined by its walls, or by the safety and connection it fosters? As UN-Habitat (2021) affirms, 'Adequate housing is not just four walls it is the right to security, privacy, and cultural expression.'",
     },
     {
         id: 2,
-        image: "/images/villa.jpg",
-        category: "Luxury Residential",
-        description:
-            "Experience the pinnacle of luxury living with our custom villa designs. We blend contemporary aesthetics with functional spaces, creating harmonious environments that reflect the unique personalities of modern families.",
+        image: "/images/living%20.png",
+        category: "Day Light Admittance",
+        description: "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",
     },
     {
         id: 3,
-        image: "/images/park.jpg",
-        category: "Community Spaces",
-        description:
-            "Our park designs reimagine public spaces to promote community interaction and environmental sustainability. We create inclusive recreational areas that serve people of all ages and backgrounds.",
+        image: "/images/MoneyShoot%20with%20sky%201.png",
+        category: "The A-House Case Study",
+        description: "A Dignified Dwelling in Kabacuzi, Muhanga, Rwanda. A-House re-imagines the Rwandan single-family home by restoring privacy as a layered, culturally embedded, and environmentally responsive condition. Inspired by traditional thresholds such as Irembo (gateway), Igikari (courtyard), and Urugo (fence), the proposal uses spatial sequencing, vernacular materials, and climate-sensitive strategies to create a dignified home that nurtures identity, autonomy, and comfort.",
+    },
+    {
+        id: 4,
+        image: "/images/M2WW.png",
+        category: "Tiny House",
+        description: "Urban Density and Dignity, Kigali, Nyarugenge. This project explores how compact housing can address Rwanda's growing urban population and land scarcity. Designed on a tight urban plot, each of the three two-story units prioritizes vertical space, functional zoning, and shared walls to reduce land use while maintaining livability. The goal was to maximize land efficiency without sacrificing privacy, daylight, or dignity showcasing how micro-scale solutions can contribute to Rwanda's broader urban housing strategy.",
     },
 ];
 
 function Hero() {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [direction, setDirection] = useState(0);
 
     useEffect(() => {
         const timer = setInterval(() => {
+            setDirection(1); // Moving forward
             setCurrentSlide((prev) => (prev + 1) % slides.length);
         }, 5000); // Change slide every 5 seconds
 
@@ -434,6 +386,8 @@ function Hero() {
     }, []);
 
     const goToSlide = (index) => {
+        const newDirection = index > currentSlide ? 1 : -1;
+        setDirection(newDirection);
         setCurrentSlide(index);
     };
 
@@ -446,18 +400,13 @@ function Hero() {
                 transition={{ duration: 0.8, delay: 0.2 }}
             >
                 <LogoSection>
-                    {/* Bigger logo without circular border and no text */}
-                    <LogoImage
-                        src="images/hero logo.png"
-                        alt="ASPIRE Design Lab"
-                    />
+                    <LogoImage src="/images/hero%20logo.png" alt="ASPIRE Design Lab" />
                 </LogoSection>
 
                 <SocialMediaContainer>
                     <SocialIcon
                         href="https://x.com/ArseneMugeni?t=iFqTTHWtGsULUd9pCGNNgw&s=09"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="twitter"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -467,7 +416,6 @@ function Hero() {
                     <SocialIcon
                         href="https://www.linkedin.com/company/aspire-design-lab/"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="linkedin"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -477,7 +425,6 @@ function Hero() {
                     <SocialIcon
                         href="https://www.instagram.com/aspiredesignlab?igsh=Y3lnZTgzNDNkcGIw"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="instagram"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -485,9 +432,17 @@ function Hero() {
                         <FaInstagram />
                     </SocialIcon>
                     <SocialIcon
+                        href="https://vimeo.com/user249123844?fl=pp&fe=sh"
+                        target="_blank"
+                        className="vimeo"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <FaVimeoV />
+                    </SocialIcon>
+                    <SocialIcon
                         href="mailto:aspiredesignlab@gmail.com"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="email"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -497,7 +452,6 @@ function Hero() {
                     <SocialIcon
                         href="https://wa.me/250789924343"
                         target="_blank"
-                        rel="noopener noreferrer"
                         className="whatsapp"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
@@ -511,11 +465,15 @@ function Hero() {
                 {slides.map((slide, index) => (
                     <Slide
                         key={slide.id}
+                        custom={direction}
                         bgImage={slide.image}
                         variants={slideVariants}
                         initial="enter"
                         animate={index === currentSlide ? "center" : "exit"}
-                        transition={{ duration: 1.2 }}
+                        transition={{
+                            x: { type: "spring", stiffness: 300, damping: 30 },
+                            opacity: { duration: 0.5 }
+                        }}
                     />
                 ))}
             </SlideshowContainer>
@@ -538,10 +496,7 @@ function Hero() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.7 }}
                 >
-                    <p>{slides[currentSlide].description}</p>
-                    <ViewAlbumButton to="/media-gallery">
-                        View Album →
-                    </ViewAlbumButton>
+                    {slides[currentSlide].description}
                 </DescriptionCard>
 
                 <SlideIndicators>

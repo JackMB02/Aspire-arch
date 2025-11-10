@@ -6,7 +6,7 @@ import {
     FaInstagram,
     FaEnvelope,
     FaWhatsapp,
-    FaVimeoV
+    FaVimeoV,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -182,7 +182,7 @@ const Slide = styled(motion.div)`
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
+
     /* Fallback background color if image fails to load */
     background-color: #2c3e50;
 `;
@@ -331,19 +331,21 @@ const Indicator = styled(motion.button)`
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: ${props => props.active ? '16px' : '8px'};
-        height: ${props => props.active ? '16px' : '8px'};
+        width: ${(props) => (props.active ? "16px" : "8px")};
+        height: ${(props) => (props.active ? "16px" : "8px")};
         border-radius: 50%;
-        background: ${props => props.active ? '#ffffff' : 'rgba(255, 255, 255, 0.4)'};
+        background: ${(props) =>
+            props.active ? "#ffffff" : "rgba(255, 255, 255, 0.4)"};
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: ${props => props.active ? '0 0 10px rgba(255, 255, 255, 0.5)' : 'none'};
+        box-shadow: ${(props) =>
+            props.active ? "0 0 10px rgba(255, 255, 255, 0.5)" : "none"};
     }
 
     &:hover::before {
@@ -356,10 +358,10 @@ const Indicator = styled(motion.button)`
     @media (max-width: 768px) {
         width: 6px;
         height: 6px;
-        
+
         &::before {
-            width: ${props => props.active ? '12px' : '6px'};
-            height: ${props => props.active ? '12px' : '6px'};
+            width: ${(props) => (props.active ? "12px" : "6px")};
+            height: ${(props) => (props.active ? "12px" : "6px")};
         }
 
         &:hover::before {
@@ -382,18 +384,18 @@ const overlayVariants = {
 const slideVariants = {
     enter: (direction) => ({
         x: direction > 0 ? "100%" : "-100%",
-        opacity: 0
+        opacity: 0,
     }),
     center: {
         zIndex: 1,
         x: 0,
-        opacity: 1
+        opacity: 1,
     },
     exit: (direction) => ({
         zIndex: 0,
         x: direction < 0 ? "100%" : "-100%",
-        opacity: 0
-    })
+        opacity: 0,
+    }),
 };
 
 // Updated slideshow data with public folder paths
@@ -402,25 +404,29 @@ const slides = [
         id: 1,
         image: "/images/Hallway with Sky.png",
         category: "Space As Connection",
-        description: "Transition Space | Social Area For The Family. Is a dignified house defined by its walls, or by the safety and connection it fosters? As UN-Habitat (2021) affirms, 'Adequate housing is not just four walls it is the right to security, privacy, and cultural expression.'",
+        description:
+            "Transition Space | Social Area For The Family. Is a dignified house defined by its walls, or by the safety and connection it fosters? As UN-Habitat (2021) affirms, 'Adequate housing is not just four walls it is the right to security, privacy, and cultural expression.'",
     },
     {
         id: 2,
         image: "/images/Living.png",
         category: "Day Light Admittance",
-        description: "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",
+        description:
+            "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",
     },
     {
         id: 3,
         image: "/images/MoneyShoot with sky 1.png",
         category: "The A-House Case Study",
-        description: "A Dignified Dwelling in Kabacuzi, Muhanga, Rwanda. A-House re-imagines the Rwandan single-family home by restoring privacy as a layered, culturally embedded, and environmentally responsive condition. Inspired by traditional thresholds such as Irembo (gateway), Igikari (courtyard), and Urugo (fence), the proposal uses spatial sequencing, vernacular materials, and climate-sensitive strategies to create a dignified home that nurtures identity, autonomy, and comfort.",
+        description:
+            "A Dignified Dwelling in Kabacuzi, Muhanga, Rwanda. A-House re-imagines the Rwandan single-family home by restoring privacy as a layered, culturally embedded, and environmentally responsive condition. Inspired by traditional thresholds such as Irembo (gateway), Igikari (courtyard), and Urugo (fence), the proposal uses spatial sequencing, vernacular materials, and climate-sensitive strategies to create a dignified home that nurtures identity, autonomy, and comfort.",
     },
     {
         id: 4,
         image: "/images/M2WW.png",
         category: "Tiny House",
-        description: "Urban Density and Dignity, Kigali, Nyarugenge. This project explores how compact housing can address Rwanda's growing urban population and land scarcity. Designed on a tight urban plot, each of the three two-story units prioritizes vertical space, functional zoning, and shared walls to reduce land use while maintaining livability. The goal was to maximize land efficiency without sacrificing privacy, daylight, or dignity showcasing how micro-scale solutions can contribute to Rwanda's broader urban housing strategy.",
+        description:
+            "Urban Density and Dignity, Kigali, Nyarugenge. This project explores how compact housing can address Rwanda's growing urban population and land scarcity. Designed on a tight urban plot, each of the three two-story units prioritizes vertical space, functional zoning, and shared walls to reduce land use while maintaining livability. The goal was to maximize land efficiency without sacrificing privacy, daylight, or dignity showcasing how micro-scale solutions can contribute to Rwanda's broader urban housing strategy.",
     },
 ];
 
@@ -452,7 +458,10 @@ function Hero() {
                 transition={{ duration: 0.8, delay: 0.2 }}
             >
                 <LogoSection>
-                    <LogoImage src="/images/hero%20logo.png" alt="ASPIRE Design Lab" />
+                    <LogoImage
+                        src="/images/hero%20logo.png"
+                        alt="ASPIRE Design Lab"
+                    />
                 </LogoSection>
 
                 <SocialMediaContainer>
@@ -524,7 +533,7 @@ function Hero() {
                         animate={index === currentSlide ? "center" : "exit"}
                         transition={{
                             x: { type: "spring", stiffness: 300, damping: 30 },
-                            opacity: { duration: 0.5 }
+                            opacity: { duration: 0.5 },
                         }}
                     />
                 ))}

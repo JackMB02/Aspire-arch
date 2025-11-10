@@ -169,7 +169,7 @@ const Slide = styled(motion.div)`
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: ${(props) => `url(${props.bgImage})`};
+    background-image: ${(props) => `url("${encodeURI(props.bgImage)}")`};
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

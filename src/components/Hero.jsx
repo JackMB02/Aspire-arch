@@ -189,6 +189,11 @@ const HeroOverlay = styled(motion.div)`
     padding: 0 1rem;
     position: relative;
     z-index: 2;
+
+    @media (max-width: 768px) {
+        justify-content: flex-start;
+        padding: 0;
+    }
 `;
 
 // Category Tag (top-left) - Reduced font size, white color, compressed font
@@ -196,6 +201,7 @@ const CategoryTag = styled(motion.h1)`
     position: absolute;
     top: 10rem;
     left: 2.5rem;
+    right: 2.5rem;
     color: #ffffff;
     font-family: "Oswald", "Arial Narrow", sans-serif;
     font-size: 3rem;
@@ -204,54 +210,79 @@ const CategoryTag = styled(motion.h1)`
     letter-spacing: 3px;
     margin: 0;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
 
     @media (max-width: 1024px) {
         font-size: 2.5rem;
         top: 8rem;
+        left: 2rem;
+        right: 2rem;
     }
 
     @media (max-width: 768px) {
-        top: 6rem;
+        top: 7rem;
         left: 1.5rem;
-        font-size: 2rem;
+        right: 1.5rem;
+        font-size: 1.8rem;
         letter-spacing: 2px;
     }
 
     @media (max-width: 480px) {
-        top: 5rem;
+        top: 6rem;
         left: 1rem;
-        font-size: 1.6rem;
-        letter-spacing: 1.5px;
+        right: 1rem;
+        font-size: 1.4rem;
+        letter-spacing: 1px;
     }
 `;
 
 // Description Card (bottom-right) - Reduced font size to 0.9rem
 const DescriptionCard = styled(motion.div)`
     position: absolute;
-    bottom: 3rem;
+    bottom: 5rem;
     right: 3rem;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 10px;
     font-family: "Montserrat", sans-serif;
-    font-size: 0.9rem; /* Reduced from 1rem to 0.9rem */
-    line-height: 1.5; /* Adjusted line height */
-    max-width: 380px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    max-width: 400px;
     text-align: left;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 1024px) {
+        bottom: 4rem;
+        right: 2rem;
+        max-width: 350px;
+        font-size: 0.85rem;
+    }
 
     @media (max-width: 768px) {
-        bottom: 2rem;
-        right: 2rem;
-        max-width: 280px;
-        font-size: 0.85rem; /* Slightly smaller on mobile */
+        position: relative;
+        bottom: auto;
+        right: auto;
+        left: 0;
+        margin: 0 1.5rem;
+        margin-top: auto;
+        margin-bottom: 5rem;
+        max-width: 100%;
+        width: calc(100% - 3rem);
+        font-size: 0.8rem;
         padding: 1.2rem;
+        line-height: 1.5;
     }
 
     @media (max-width: 480px) {
-        max-width: 220px;
-        font-size: 0.8rem;
+        margin: 0 1rem;
+        margin-top: auto;
+        margin-bottom: 4.5rem;
+        width: calc(100% - 2rem);
+        font-size: 0.75rem;
         padding: 1rem;
+        line-height: 1.4;
     }
 `;
 
@@ -264,11 +295,23 @@ const SlideIndicators = styled.div`
     display: flex;
     gap: 0.5rem;
     z-index: 3;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.4);
     padding: 0.8rem 1.2rem;
     border-radius: 50px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 768px) {
+        bottom: 1.5rem;
+        padding: 0.6rem 1rem;
+        gap: 0.4rem;
+    }
+
+    @media (max-width: 480px) {
+        bottom: 1.2rem;
+        padding: 0.5rem 0.8rem;
+        gap: 0.3rem;
+    }
 `;
 
 const Indicator = styled(motion.button)`
@@ -348,19 +391,19 @@ const slideVariants = {
 const slides = [
     {
         id: 1,
-        image: "/images/Hallway%20with%20Sky.png",
+        image: "/images/Hallway with Sky.png",
         category: "Space As Connection",
         description: "Transition Space | Social Area For The Family. Is a dignified house defined by its walls, or by the safety and connection it fosters? As UN-Habitat (2021) affirms, 'Adequate housing is not just four walls it is the right to security, privacy, and cultural expression.'",
     },
     {
         id: 2,
-        image: "/images/living%20.png",
+        image: "/images/Living.png",
         category: "Day Light Admittance",
         description: "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",
     },
     {
         id: 3,
-        image: "/images/MoneyShoot%20with%20sky%201.png",
+        image: "/images/MoneyShoot with sky 1.png",
         category: "The A-House Case Study",
         description: "A Dignified Dwelling in Kabacuzi, Muhanga, Rwanda. A-House re-imagines the Rwandan single-family home by restoring privacy as a layered, culturally embedded, and environmentally responsive condition. Inspired by traditional thresholds such as Irembo (gateway), Igikari (courtyard), and Urugo (fence), the proposal uses spatial sequencing, vernacular materials, and climate-sensitive strategies to create a dignified home that nurtures identity, autonomy, and comfort.",
     },

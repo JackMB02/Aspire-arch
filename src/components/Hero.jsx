@@ -46,13 +46,13 @@ const TopHeader = styled(motion.div)`
     );
 
     @media (max-width: 768px) {
-        padding: 1rem 1.5rem;
+        padding: 0.8rem 1rem;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.5rem;
         background: linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.8) 0%,
-            rgba(0, 0, 0, 0.4) 70%,
+            rgba(0, 0, 0, 0.85) 0%,
+            rgba(0, 0, 0, 0.5) 60%,
             transparent 100%
         );
     }
@@ -87,11 +87,11 @@ const LogoImage = styled.img`
     }
 
     @media (max-width: 768px) {
-        height: 80px;
+        height: 60px;
     }
 
     @media (max-width: 480px) {
-        height: 60px;
+        height: 50px;
     }
 `;
 
@@ -102,8 +102,12 @@ const SocialMediaContainer = styled.div`
     align-items: center;
 
     @media (max-width: 768px) {
-        gap: 1rem;
+        gap: 0.6rem;
         justify-content: center;
+    }
+
+    @media (max-width: 480px) {
+        gap: 0.5rem;
     }
 `;
 
@@ -147,8 +151,13 @@ const SocialIcon = styled(motion.a)`
     }
 
     @media (max-width: 768px) {
-        font-size: 1.1rem;
-        padding: 0.5rem;
+        font-size: 1rem;
+        padding: 0.4rem;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 0.9rem;
+        padding: 0.35rem;
     }
 `;
 
@@ -220,7 +229,7 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 768px) {
-        top: 7rem;
+        top: 6rem;
         left: 1.5rem;
         right: 1.5rem;
         font-size: 1.8rem;
@@ -228,7 +237,7 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 480px) {
-        top: 6rem;
+        top: 5rem;
         left: 1rem;
         right: 1rem;
         font-size: 1.4rem;

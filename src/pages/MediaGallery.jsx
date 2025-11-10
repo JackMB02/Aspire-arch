@@ -15,7 +15,8 @@ const API_BASE_URL = `${BACKEND_BASE_URL}/api`;
 
 // Helper function to construct proper image URLs
 const getImageUrl = (imagePath) => {
-    if (!imagePath || imagePath === "null" || imagePath === "undefined") {
+    // Check if imagePath is not a string or is empty
+    if (!imagePath || typeof imagePath !== 'string' || imagePath === "null" || imagePath === "undefined") {
         return "/images/placeholder.jpg";
     }
 
@@ -564,71 +565,27 @@ function CommunityVoices() {
     );
 }
 
-// Media Overview Grid
+// Media Overview Grid - Now shows Photo Albums by default
 function MediaOverview() {
-    const [stats, setStats] = useState({
-        photos: 0,
-        videos: 0,
-        designs: 0,
-        testimonials: 0,
-    });
-    const [categoryImages, setCategoryImages] = useState({
-        photo: null,
-        video: null,
-        design: null,
-        testimonial: null,
-    });
+    const [photos, setPhotos] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchStatsAndImages();
+        fetchPhotos();
     }, []);
 
-    const fetchStatsAndImages = async () => {
+    const fetchPhotos = async () => {
         try {
             setLoading(true);
-            // Fetch stats
-            const statsResponse = await fetch(`${API_BASE_URL}/media/stats`);
-            if (statsResponse.ok) {
-                const statsData = await statsResponse.json();
-                setStats(statsData);
+            const response = await fetch(`${API_BASE_URL}/media/photos`);
+            if (response.ok) {
+                const data = await response.json();
+                setPhotos(data);
+            } else {
+                console.error("Failed to fetch photos");
             }
-
-            // Fetch sample images from each category
-            const [photosRes, videosRes, designsRes, testimonialsRes] = await Promise.all([
-                fetch(`${API_BASE_URL}/media/photos`),
-                fetch(`${API_BASE_URL}/media/videos`),
-                fetch(`${API_BASE_URL}/media/designs`),
-                fetch(`${API_BASE_URL}/media/testimonials`)
-            ]);
-
-            const images = {
-                photo: null,
-                video: null,
-                design: null,
-                testimonial: null,
-            };
-
-            if (photosRes.ok) {
-                const photos = await photosRes.json();
-                images.photo = photos.length > 0 ? photos[0].image : null;
-            }
-            if (videosRes.ok) {
-                const videos = await videosRes.json();
-                images.video = videos.length > 0 ? videos[0].thumbnail : null;
-            }
-            if (designsRes.ok) {
-                const designs = await designsRes.json();
-                images.design = designs.length > 0 ? designs[0].image : null;
-            }
-            if (testimonialsRes.ok) {
-                const testimonials = await testimonialsRes.json();
-                images.testimonial = testimonials.length > 0 ? testimonials[0].image : null;
-            }
-
-            setCategoryImages(images);
         } catch (error) {
-            console.error("Error fetching media stats and images:", error);
+            console.error("Error fetching photos:", error);
         } finally {
             setLoading(false);
         }
@@ -637,31 +594,23 @@ function MediaOverview() {
     const categories = [
         {
             title: "Photo Albums",
-            description: "Browse curated photo collections from our projects.",
             link: "photo-albums",
-            image: categoryImages.photo || "/images/pome.jpg",
-            count: `${stats.photos} photos`,
+            icon: "📷",
         },
         {
             title: "Video Stories",
-            description: "Watch inspiring video stories of our work.",
             link: "video-stories",
-            image: categoryImages.video || "/images/villa.jpg",
-            count: `${stats.videos} videos`,
+            icon: "🎥",
         },
         {
             title: "Design Visualizations",
-            description: "See 3D renders and visual concepts of our designs.",
             link: "design-visualizations",
-            image: categoryImages.design || "/images/office.jpg",
-            count: `${stats.designs} renders`,
+            icon: "🎨",
         },
         {
             title: "Community Voices",
-            description: "Read testimonials and stories from the community.",
             link: "community-voices",
-            image: categoryImages.testimonial || "/images/park.jpg",
-            count: `${stats.testimonials} stories`,
+            icon: "💬",
         },
     ];
 
@@ -669,9 +618,9 @@ function MediaOverview() {
         return (
             <PageWrapper
                 title="Media Gallery"
-                description="Loading media gallery..."
+                description="Loading photo albums..."
             >
-                <SkeletonLoader type="card" count={4} />
+                <SkeletonLoader type="card" count={6} />
             </PageWrapper>
         );
     }
@@ -679,31 +628,62 @@ function MediaOverview() {
     return (
         <PageWrapper
             title="Media Gallery"
-            description="Explore our media collection including photos, videos, design visualizations, and community stories. Click any category to explore further."
+            description="Browse through our curated collection of photographs capturing architecture, community events, and behind-the-scenes moments."
         >
-            <div className="media-categories-grid">
+            {/* Navigation Buttons */}
+            <div className="gallery-navigation">
                 {categories.map((cat, idx) => (
-                    <Link to={cat.link} key={idx} className="category-card">
-                        <div className="category-image">
-                            <img 
-                                src={getImageUrl(cat.image)} 
-                                alt={cat.title}
-                                onError={(e) => {
-                                    e.target.src = cat.image.startsWith('/images/') 
-                                        ? cat.image 
-                                        : "/images/placeholder.jpg";
-                                }}
-                            />
-                            <div className="category-count">{cat.count}</div>
-                        </div>
-                        <div className="category-content">
-                            <h3>{cat.title}</h3>
-                            <p>{cat.description}</p>
-                            <span className="explore-link">Explore →</span>
-                        </div>
+                    <Link to={cat.link} key={idx} className="nav-btn">
+                        <span className="nav-icon">{cat.icon}</span>
+                        <span className="nav-text">{cat.title}</span>
                     </Link>
                 ))}
             </div>
+
+            {/* Photo Albums Grid */}
+            <div className="media-grid">
+                {photos.length === 0 ? (
+                    <div className="no-data">
+                        No photos found. Upload some photos through the admin
+                        dashboard!
+                    </div>
+                ) : (
+                    photos.slice(0, 12).map((photo) => (
+                        <div key={photo.id} className="media-card">
+                            <img
+                                src={getImageUrl(photo.image)}
+                                alt={photo.title}
+                                onError={(e) => {
+                                    console.log(
+                                        "Image failed to load:",
+                                        photo.image
+                                    );
+                                    e.target.src = "/images/placeholder.jpg";
+                                }}
+                            />
+                            <div className="media-overlay">
+                                <h3>{photo.title}</h3>
+                                <p>{photo.category}</p>
+                                <Link
+                                    to={`photo-albums/${photo.id}`}
+                                    className="view-album-btn"
+                                >
+                                    View Album →
+                                </Link>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+
+            {/* View All Link */}
+            {photos.length > 12 && (
+                <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                    <Link to="photo-albums" className="view-all-btn">
+                        View All Photo Albums →
+                    </Link>
+                </div>
+            )}
         </PageWrapper>
     );
 }
@@ -866,6 +846,61 @@ function MediaGallery() {
 
         .category-card:hover .explore-link {
           color: rgba(176, 140, 77, 0.8);
+        }
+
+        /* Gallery Navigation Buttons */
+        .gallery-navigation {
+          display: flex;
+          gap: 1rem;
+          margin-bottom: 2.5rem;
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .nav-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.8rem 1.5rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 25px;
+          color: rgba(255, 255, 255, 0.9);
+          text-decoration: none;
+          transition: all 0.3s ease;
+          font-weight: 500;
+        }
+
+        .nav-btn:hover {
+          background: var(--accent-light);
+          border-color: var(--accent-light);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(176, 140, 77, 0.3);
+        }
+
+        .nav-icon {
+          font-size: 1.2rem;
+        }
+
+        .nav-text {
+          font-size: 0.95rem;
+        }
+
+        .view-all-btn {
+          display: inline-block;
+          padding: 1rem 2rem;
+          background: var(--accent-light);
+          color: white;
+          text-decoration: none;
+          border-radius: 25px;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+          background: rgba(176, 140, 77, 0.9);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(176, 140, 77, 0.4);
         }
 
         /* Media Grid */

@@ -22,25 +22,36 @@ const BACKEND_BASE_URL = getBackendBaseUrl();
 
 // Helper function to construct proper image URLs
 const getProperImageUrl = (imagePath) => {
-    if (!imagePath) return "/images/placeholder.jpg";
+    // Handle null, undefined, empty values, and non-string types
+    if (!imagePath) {
+        return "/images/placeholder.jpg";
+    }
+    
+    // Convert to string if it's not already a string (handles numbers, objects, etc.)
+    const pathStr = String(imagePath);
+    
+    // Check for invalid string values
+    if (pathStr === "null" || pathStr === "undefined" || pathStr.trim() === "") {
+        return "/images/placeholder.jpg";
+    }
 
     // If it's a data URL (base64), use it directly
-    if (imagePath.startsWith("data:")) {
-        return imagePath;
+    if (pathStr.startsWith("data:")) {
+        return pathStr;
     }
 
     // If it's already a full HTTP URL, use it directly
-    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
-        return imagePath;
+    if (pathStr.startsWith("http://") || pathStr.startsWith("https://")) {
+        return pathStr;
     }
 
     // If it starts with /uploads, prepend backend URL
-    if (imagePath.startsWith("/uploads/")) {
-        return `${BACKEND_BASE_URL}${imagePath}`;
+    if (pathStr.startsWith("/uploads/")) {
+        return `${BACKEND_BASE_URL}${pathStr}`;
     }
 
     // Otherwise, assume it's a relative path and prepend backend URL
-    return `${BACKEND_BASE_URL}/${imagePath}`;
+    return `${BACKEND_BASE_URL}/${pathStr}`;
 };
 
 // ---------------- PageWrapper ----------------

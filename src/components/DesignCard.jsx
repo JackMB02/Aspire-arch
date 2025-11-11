@@ -9,17 +9,32 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
     const galleryImages = useMemo(() => {
         if (!project.gallery_images) return [];
 
+        let parsedImages = [];
         if (typeof project.gallery_images === "string") {
             try {
-                return JSON.parse(project.gallery_images);
+                parsedImages = JSON.parse(project.gallery_images);
             } catch (e) {
                 console.error("Error parsing gallery_images:", e);
                 return [];
             }
         } else if (Array.isArray(project.gallery_images)) {
-            return project.gallery_images;
+            parsedImages = project.gallery_images;
+        } else {
+            return [];
         }
-        return [];
+
+        // Extract image paths from objects or use strings directly
+        const galleryImagePaths = parsedImages
+            .map((img) => {
+                if (typeof img === "object" && img !== null) {
+                    return img.image || img.url || img.path || null;
+                }
+                if (typeof img === "string") return img;
+                return null;
+            })
+            .filter((img) => img !== null && img !== undefined && img !== "");
+
+        return galleryImagePaths;
     }, [project.gallery_images]);
 
     // Combine main_image with gallery_images - memoize to prevent re-creation
@@ -31,28 +46,34 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
 
     // Helper function to construct proper image URLs
     const getProperImageUrl = (imagePath) => {
-        if (!imagePath) return "/images/placeholder.jpg";
+        // Convert to string and handle null/undefined/empty
+        const pathStr = String(imagePath);
+        if (
+            !imagePath ||
+            pathStr === "null" ||
+            pathStr === "undefined" ||
+            pathStr.trim() === ""
+        ) {
+            return "/images/placeholder.jpg";
+        }
 
         // If it's a data URL (base64), use it directly
-        if (imagePath.startsWith("data:")) {
-            return imagePath;
+        if (pathStr.startsWith("data:")) {
+            return pathStr;
         }
 
         // If it's already a full HTTP URL, use it directly
-        if (
-            imagePath.startsWith("http://") ||
-            imagePath.startsWith("https://")
-        ) {
-            return imagePath;
+        if (pathStr.startsWith("http://") || pathStr.startsWith("https://")) {
+            return pathStr;
         }
 
         // If it starts with /uploads, prepend backend URL
-        if (imagePath.startsWith("/uploads/")) {
-            return `${backendBaseUrl}${imagePath}`;
+        if (pathStr.startsWith("/uploads/")) {
+            return `${backendBaseUrl}${pathStr}`;
         }
 
         // Otherwise, assume it's a relative path and prepend backend URL
-        return `${backendBaseUrl}/${imagePath}`;
+        return `${backendBaseUrl}/${pathStr}`;
     };
 
     // Auto slideshow every 4 seconds

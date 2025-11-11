@@ -679,10 +679,85 @@ function VisitProject() {
                     )}
                 </div>
 
+                {/* Project Content Builder - Display custom content blocks */}
+                {project.content_blocks && (() => {
+                    let contentBlocks = [];
+                    
+                    // Parse content_blocks if it's a string
+                    if (typeof project.content_blocks === "string") {
+                        try {
+                            contentBlocks = JSON.parse(project.content_blocks);
+                        } catch (e) {
+                            console.error("Error parsing content_blocks:", e);
+                            contentBlocks = [];
+                        }
+                    } else if (Array.isArray(project.content_blocks)) {
+                        contentBlocks = project.content_blocks;
+                    }
+
+                    // Only render if we have content blocks
+                    if (contentBlocks.length === 0) return null;
+
+                    return (
+                        <div className="project-content-builder">
+                            <h3>Project Details</h3>
+                            <div className="content-blocks">
+                                {contentBlocks.map((block, index) => {
+                                    if (block.type === "text") {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="content-block text-block"
+                                            >
+                                                <div
+                                                    className="text-content"
+                                                    style={{
+                                                        whiteSpace: "pre-wrap",
+                                                        lineHeight: "1.6",
+                                                    }}
+                                                >
+                                                    {block.content}
+                                                </div>
+                                            </div>
+                                        );
+                                    } else if (block.type === "image") {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="content-block image-block"
+                                            >
+                                                <img
+                                                    src={getProperImageUrl(
+                                                        block.url || block.image || block.content
+                                                    )}
+                                                    alt={
+                                                        block.caption ||
+                                                        `Content image ${index + 1}`
+                                                    }
+                                                    onError={(e) => {
+                                                        e.target.src =
+                                                            "/images/placeholder.jpg";
+                                                    }}
+                                                />
+                                                {block.caption && (
+                                                    <p className="image-caption">
+                                                        {block.caption}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        );
+                                    }
+                                    return null;
+                                })}
+                            </div>
+                        </div>
+                    );
+                })()}
+
                 {/* Additional Content Fields */}
                 {project.content && (
                     <div className="project-additional-content">
-                        <h3>Project Content</h3>
+                        <h3>Additional Information</h3>
                         <div
                             dangerouslySetInnerHTML={{
                                 __html: project.content,

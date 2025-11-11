@@ -439,3 +439,104 @@
         margin: 1rem 0;
     }
 }
+
+/* Project Content Builder Styles */
+.project-content-builder {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.project-content-builder h3 {
+    font-size: 1.75rem;
+    color: #222;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.content-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.content-block {
+    width: 100%;
+}
+
+/* Text Block Styles */
+.content-block.text-block {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 8px;
+    border-left: 4px solid #f97316;
+}
+
+.text-content {
+    font-size: 1.1rem;
+    color: #374151;
+    line-height: 1.8;
+}
+
+/* Image Block Styles */
+.content-block.image-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-block.image-block img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.content-block.image-block img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.image-caption {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #6b7280;
+    font-style: italic;
+    text-align: center;
+    max-width: 800px;
+}
+
+/* Additional Information Section */
+.project-additional-content {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.project-additional-content h3 {
+    font-size: 1.75rem;
+    color: #222;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Responsive styles for content builder */
+@media (max-width: 768px) {
+    .project-content-builder h3 {
+        font-size: 1.5rem;
+    }
+
+    .content-block.text-block {
+        padding: 1.5rem;
+    }
+
+    .text-content {
+        font-size: 1rem;
+    }
+
+    .content-block.image-block img {
+        max-width: 100%;
+    }
+}

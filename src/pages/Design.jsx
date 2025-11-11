@@ -296,6 +296,8 @@ function VisitProject() {
             console.log("Project data received:", data);
             console.log("Full project object:", data.data);
             console.log("All project fields:", Object.keys(data.data || {}));
+            console.log("content_blocks field:", data.data?.content_blocks);
+            console.log("content_blocks type:", typeof data.data?.content_blocks);
 
             if (data.success) {
                 setProject(data.data);
@@ -683,26 +685,41 @@ function VisitProject() {
                 {project.content_blocks && (() => {
                     let contentBlocks = [];
                     
+                    console.log("=== CONTENT BLOCKS DEBUG ===");
+                    console.log("Raw content_blocks:", project.content_blocks);
+                    console.log("Type:", typeof project.content_blocks);
+                    
                     // Parse content_blocks if it's a string
                     if (typeof project.content_blocks === "string") {
                         try {
                             contentBlocks = JSON.parse(project.content_blocks);
+                            console.log("Parsed contentBlocks:", contentBlocks);
                         } catch (e) {
                             console.error("Error parsing content_blocks:", e);
                             contentBlocks = [];
                         }
                     } else if (Array.isArray(project.content_blocks)) {
                         contentBlocks = project.content_blocks;
+                        console.log("contentBlocks is already array:", contentBlocks);
                     }
 
+                    console.log("Final contentBlocks length:", contentBlocks.length);
+                    console.log("Final contentBlocks:", contentBlocks);
+
                     // Only render if we have content blocks
-                    if (contentBlocks.length === 0) return null;
+                    if (contentBlocks.length === 0) {
+                        console.log("No content blocks to render");
+                        return null;
+                    }
+
+                    console.log("Rendering", contentBlocks.length, "content blocks");
 
                     return (
                         <div className="project-content-builder">
                             <h3>Project Details</h3>
                             <div className="content-blocks">
                                 {contentBlocks.map((block, index) => {
+                                    console.log(`Block ${index}:`, block);
                                     if (block.type === "text") {
                                         return (
                                             <div
@@ -721,20 +738,21 @@ function VisitProject() {
                                             </div>
                                         );
                                     } else if (block.type === "image") {
+                                        const imageUrl = block.url || block.image || block.content;
+                                        console.log(`Image block ${index} URL:`, imageUrl);
                                         return (
                                             <div
                                                 key={index}
                                                 className="content-block image-block"
                                             >
                                                 <img
-                                                    src={getProperImageUrl(
-                                                        block.url || block.image || block.content
-                                                    )}
+                                                    src={getProperImageUrl(imageUrl)}
                                                     alt={
                                                         block.caption ||
                                                         `Content image ${index + 1}`
                                                     }
                                                     onError={(e) => {
+                                                        console.error(`Failed to load image ${index}:`, imageUrl);
                                                         e.target.src =
                                                             "/images/placeholder.jpg";
                                                     }}
@@ -747,6 +765,7 @@ function VisitProject() {
                                             </div>
                                         );
                                     }
+                                    console.log(`Unknown block type at ${index}:`, block.type);
                                     return null;
                                 })}
                             </div>

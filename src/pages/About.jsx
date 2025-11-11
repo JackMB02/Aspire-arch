@@ -264,7 +264,7 @@ function About() {
 
                 .about-hero {
                     padding: 4rem 2rem 2rem;
-                    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('/images/park.jpg') center/cover no-repeat;
+                    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)), url('/images/Hallway with Sky.png') center/cover no-repeat;
                     text-align: center;
                     position: relative;
                     min-height: 200px;

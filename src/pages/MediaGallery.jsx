@@ -19,12 +19,16 @@ const getImageUrl = (imagePath) => {
     if (!imagePath) {
         return "/images/placeholder.jpg";
     }
-    
+
     // Convert to string if it's not already a string (handles numbers, objects, etc.)
     const pathStr = String(imagePath);
-    
+
     // Check for invalid string values
-    if (pathStr === "null" || pathStr === "undefined" || pathStr.trim() === "") {
+    if (
+        pathStr === "null" ||
+        pathStr === "undefined" ||
+        pathStr.trim() === ""
+    ) {
         return "/images/placeholder.jpg";
     }
 
@@ -49,9 +53,7 @@ const getImageUrl = (imagePath) => {
     }
 
     // For any other relative paths
-    return `${BACKEND_BASE_URL}${
-        pathStr.startsWith("/") ? "" : "/"
-    }${pathStr}`;
+    return `${BACKEND_BASE_URL}${pathStr.startsWith("/") ? "" : "/"}${pathStr}`;
 };
 
 // PageWrapper Component

@@ -123,7 +123,7 @@ function Contact() {
                         <div className="contact-form-section">
                             <div className="form-image">
                                 <img
-                                    src="/images/office.jpg"
+                                    src="/images/M2WW.png"
                                     alt="Our office"
                                     onError={(e) => {
                                         e.target.style.display = "none";

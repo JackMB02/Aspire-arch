@@ -150,7 +150,7 @@ function UniMission() {
                         <p>{missionData?.vision}</p>
                     </div>
 
-                    <h2 className="values-title">Our Values</h2>
+                    <h2 className="values-title">Our Drivers</h2>
 
                     <div className="values-grid">
                         {missionData?.values?.map((value, index) => (
@@ -384,9 +384,7 @@ function UniContact() {
                             </div>
                             <h3>Phone</h3>
                             <p>
-                                General: +250 (788) 123-456
-                                <br />
-                                Support: +250 (788) 654-321
+                                +250 788 924 343
                             </p>
                         </div>
 
@@ -396,11 +394,7 @@ function UniContact() {
                             </div>
                             <h3>Email</h3>
                             <p>
-                                hello@thearchitecturecolleagueslab.com
-                                <br />
-                                support@thearchitecturecolleagueslab.com
-                                <br />
-                                partners@thearchitecturecolleagueslab.com
+                                thearchi.colleagueslab.aspire@gmail.com
                             </p>
                         </div>
                     </div>

@@ -965,7 +965,7 @@ function Design() {
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
                     transition: transform 0.3s ease, box-shadow 0.3s ease;
                     border: 1px solid rgba(255, 255, 255, 0.1);
-                    border-radius: 8px;
+                    border-radius: 0;
                 }
 
                 .media-card:hover {
@@ -1082,7 +1082,7 @@ function Design() {
 
                 .slideshow {
                     position: relative;
-                    border-radius: 12px;
+                    border-radius: 0;
                     overflow: hidden;
                     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
                     background: rgba(0, 0, 0, 0.2);
@@ -1199,7 +1199,7 @@ function Design() {
                 .project-summary {
                     background: rgba(255, 255, 255, 0.05);
                     padding: 1.5rem;
-                    border-radius: 8px;
+                    border-radius: 0;
                     margin-bottom: 2rem;
                     border-left: 4px solid var(--accent-light);
                 }
@@ -1238,7 +1238,7 @@ function Design() {
                 .project-description {
                     background: rgba(255, 255, 255, 0.03);
                     padding: 1.5rem;
-                    border-radius: 8px;
+                    border-radius: 0;
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     margin-bottom: 2rem;
                 }
@@ -1251,7 +1251,7 @@ function Design() {
                     margin: 2rem 0;
                     padding: 1.5rem;
                     background: rgba(255, 255, 255, 0.03);
-                    border-radius: 8px;
+                    border-radius: 0;
                     border: 1px solid rgba(255, 255, 255, 0.1);
                 }
 
@@ -1261,7 +1261,7 @@ function Design() {
                     gap: 0.5rem;
                     padding: 1rem;
                     background: rgba(0, 0, 0, 0.2);
-                    border-radius: 6px;
+                    border-radius: 0;
                     transition: all 0.3s ease;
                 }
 
@@ -1291,7 +1291,7 @@ function Design() {
                 .project-solutions {
                     background: rgba(255, 255, 255, 0.03);
                     padding: 1.5rem;
-                    border-radius: 8px;
+                    border-radius: 0;
                     border: 1px solid rgba(255, 255, 255, 0.1);
                     margin-bottom: 2rem;
                 }
@@ -1301,7 +1301,7 @@ function Design() {
                     margin-top: 2rem;
                     padding: 1.5rem;
                     background: rgba(255, 255, 255, 0.03);
-                    border-radius: 8px;
+                    border-radius: 0;
                     border: 1px solid rgba(255, 255, 255, 0.1);
                 }
 
@@ -1348,7 +1348,7 @@ function Design() {
                     width: 100%;
                     height: 250px;
                     object-fit: cover;
-                    border-radius: 8px;
+                    border-radius: 0;
                     transition: transform 0.3s ease;
                     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
                 }

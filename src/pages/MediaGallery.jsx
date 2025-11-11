@@ -755,7 +755,7 @@ function MediaGallery() {
                     element={<DesignVisualizations />}
                 />
                 <Route path="community-voices" element={<CommunityVoices />} />
-                <Route path="*" element={<MediaOverview />} />
+                <Route path="*" element={<PhotoAlbums />} />
             </Routes>
 
             {/* Embedded CSS - Add loading styles */}
@@ -822,7 +822,7 @@ function MediaGallery() {
 
         .category-card {
           background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
+          border-radius: 0;
           overflow: hidden;
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
           transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -905,7 +905,7 @@ function MediaGallery() {
 
         .media-card {
           position: relative;
-          border-radius: 8px;
+          border-radius: 0;
           overflow: hidden;
           background: rgba(255, 255, 255, 0.05);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -1273,7 +1273,7 @@ function MediaGallery() {
 
         .album-main-image {
           width: 100%;
-          border-radius: 12px;
+          border-radius: 0;
           overflow: hidden;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
@@ -1287,7 +1287,7 @@ function MediaGallery() {
         .album-info {
           background: rgba(255, 255, 255, 0.05);
           padding: 2rem;
-          border-radius: 12px;
+          border-radius: 0;
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
 

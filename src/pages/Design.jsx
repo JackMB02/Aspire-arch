@@ -327,11 +327,23 @@ function VisitProject() {
             galleryImages = project.gallery_images;
         }
 
-        // Only set up interval if we have multiple images
-        if (!galleryImages || galleryImages.length <= 0) return;
+        // Extract image paths properly
+        const galleryImagePaths = galleryImages
+            .map(img => {
+                if (typeof img === 'object' && img !== null) {
+                    return img.image || img.url || img.path || null;
+                }
+                if (typeof img === 'string') {
+                    return img;
+                }
+                return null;
+            })
+            .filter(img => img !== null && img !== undefined && img !== '');
 
-        const allImagesCount =
-            galleryImages.length + (project.main_image ? 1 : 0);
+        // Only set up interval if we have multiple images
+        if (galleryImagePaths.length <= 0) return;
+
+        const allImagesCount = galleryImagePaths.length + (project.main_image ? 1 : 0);
         if (allImagesCount <= 1) return;
 
         const interval = setInterval(() => {
@@ -358,10 +370,23 @@ function VisitProject() {
             galleryImages = project.gallery_images;
         }
 
-        const allImages =
-            galleryImages.length > 0
-                ? [project.main_image, ...galleryImages]
-                : [project.main_image];
+        // Extract image paths properly
+        const galleryImagePaths = galleryImages
+            .map(img => {
+                if (typeof img === 'object' && img !== null) {
+                    return img.image || img.url || img.path || null;
+                }
+                if (typeof img === 'string') {
+                    return img;
+                }
+                return null;
+            })
+            .filter(img => img !== null && img !== undefined && img !== '');
+
+        const allImages = [
+            project.main_image,
+            ...galleryImagePaths
+        ].filter(img => img !== null && img !== undefined && img !== '');
 
         setCurrentIndex((prev) =>
             prev === 0 ? allImages.length - 1 : prev - 1
@@ -382,10 +407,23 @@ function VisitProject() {
             galleryImages = project.gallery_images;
         }
 
-        const allImages =
-            galleryImages.length > 0
-                ? [project.main_image, ...galleryImages]
-                : [project.main_image];
+        // Extract image paths properly
+        const galleryImagePaths = galleryImages
+            .map(img => {
+                if (typeof img === 'object' && img !== null) {
+                    return img.image || img.url || img.path || null;
+                }
+                if (typeof img === 'string') {
+                    return img;
+                }
+                return null;
+            })
+            .filter(img => img !== null && img !== undefined && img !== '');
+
+        const allImages = [
+            project.main_image,
+            ...galleryImagePaths
+        ].filter(img => img !== null && img !== undefined && img !== '');
 
         setCurrentIndex((prev) =>
             prev === allImages.length - 1 ? 0 : prev + 1
@@ -439,11 +477,26 @@ function VisitProject() {
         }
     }
 
+    // Extract image paths from gallery_images (handle both strings and objects)
+    const galleryImagePaths = galleryImages
+        .map(img => {
+            // If it's an object with an image property, use that
+            if (typeof img === 'object' && img !== null) {
+                return img.image || img.url || img.path || null;
+            }
+            // If it's already a string, use it
+            if (typeof img === 'string') {
+                return img;
+            }
+            return null;
+        })
+        .filter(img => img !== null && img !== undefined && img !== '');
+
     // Combine main image with gallery images for slideshow
-    const allImages =
-        galleryImages.length > 0
-            ? [project.main_image, ...galleryImages]
-            : [project.main_image];
+    const allImages = [
+        project.main_image,
+        ...galleryImagePaths
+    ].filter(img => img !== null && img !== undefined && img !== '');
 
     console.log("All images for slideshow:", allImages);
     console.log("Current image index:", currentIndex);

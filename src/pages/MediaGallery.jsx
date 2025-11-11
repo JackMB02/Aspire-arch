@@ -602,6 +602,54 @@ function CommunityVoices() {
 
 // Media Overview Grid - Now shows Photo Albums by default
 function MediaOverview() {
+    const [categoryImages, setCategoryImages] = useState({
+        photoAlbums: null,
+        videoStories: null,
+        designs: null,
+        testimonials: null,
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchCategoryImages();
+    }, []);
+
+    const fetchCategoryImages = async () => {
+        try {
+            setLoading(true);
+            // Fetch the first image from each category
+            const [photosRes, videosRes, designsRes, testimonialsRes] = await Promise.all([
+                fetch(`${API_BASE_URL}/media/photos`),
+                fetch(`${API_BASE_URL}/media/videos`),
+                fetch(`${API_BASE_URL}/media/designs`),
+                fetch(`${API_BASE_URL}/media/testimonials`),
+            ]);
+
+            const photos = photosRes.ok ? await photosRes.json() : [];
+            const videos = videosRes.ok ? await videosRes.json() : [];
+            const designs = designsRes.ok ? await designsRes.json() : [];
+            const testimonials = testimonialsRes.ok ? await testimonialsRes.json() : [];
+
+            setCategoryImages({
+                photoAlbums: photos.length > 0 ? getImageUrl(photos[0].image) : "/images/placeholder.jpg",
+                videoStories: videos.length > 0 ? getImageUrl(videos[0].thumbnail) : "/images/placeholder.jpg",
+                designs: designs.length > 0 ? getImageUrl(designs[0].image) : "/images/placeholder.jpg",
+                testimonials: testimonials.length > 0 ? getImageUrl(testimonials[0].image) : "/images/placeholder.jpg",
+            });
+        } catch (error) {
+            console.error("Error fetching category images:", error);
+            // Set placeholder images on error
+            setCategoryImages({
+                photoAlbums: "/images/placeholder.jpg",
+                videoStories: "/images/placeholder.jpg",
+                designs: "/images/placeholder.jpg",
+                testimonials: "/images/placeholder.jpg",
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const categories = [
         {
             title: "Photo Albums",
@@ -609,7 +657,6 @@ function MediaOverview() {
                 "Curated collections capturing architectural excellence, project milestones, and memorable moments.",
             link: "photo-albums",
             icon: "📷",
-            image: "/images/office.jpg",
         },
         {
             title: "Video Stories",
@@ -617,7 +664,6 @@ function MediaOverview() {
                 "Dynamic narratives showcasing our projects, team insights, and architectural journeys.",
             link: "video-stories",
             icon: "🎥",
-            image: "/images/pavilion.jpg",
         },
         {
             title: "Design Visualizations",
@@ -625,7 +671,6 @@ function MediaOverview() {
                 "Detailed renderings and concepts bringing architectural visions to life.",
             link: "design-visualizations",
             icon: "🎨",
-            image: "/images/park.jpg",
         },
         {
             title: "Community Voices",
@@ -633,9 +678,19 @@ function MediaOverview() {
                 "Testimonials and experiences from clients, partners, and community members.",
             link: "community-voices",
             icon: "💬",
-            image: "/images/villa.jpg",
         },
     ];
+
+    if (loading) {
+        return (
+            <PageWrapper
+                title="Media Gallery"
+                description="Loading..."
+            >
+                <SkeletonLoader type="card" count={4} />
+            </PageWrapper>
+        );
+    }
 
     return (
         <PageWrapper
@@ -643,27 +698,35 @@ function MediaOverview() {
             description="Explore our visual journey through photographs, videos, design concepts, and community stories."
         >
             <div className="categories-grid">
-                {categories.map((category, index) => (
-                    <Link
-                        to={category.link}
-                        key={index}
-                        className="category-card"
-                    >
-                        <div className="category-image-container">
-                            <img
-                                src={category.image}
-                                alt={category.title}
-                                className="category-image"
-                            />
-                            <div className="category-icon">{category.icon}</div>
-                        </div>
-                        <div className="category-content">
-                            <h3>{category.title}</h3>
-                            <p>{category.description}</p>
-                            <span className="category-link-arrow">→</span>
-                        </div>
-                    </Link>
-                ))}
+                {categories.map((category, index) => {
+                    const imageKey = index === 0 ? 'photoAlbums' : 
+                                   index === 1 ? 'videoStories' : 
+                                   index === 2 ? 'designs' : 'testimonials';
+                    return (
+                        <Link
+                            to={category.link}
+                            key={index}
+                            className="category-card"
+                        >
+                            <div className="category-image-container">
+                                <img
+                                    src={categoryImages[imageKey]}
+                                    alt={category.title}
+                                    className="category-image"
+                                    onError={(e) => {
+                                        e.target.src = "/images/placeholder.jpg";
+                                    }}
+                                />
+                                <div className="category-icon">{category.icon}</div>
+                            </div>
+                            <div className="category-content">
+                                <h3>{category.title}</h3>
+                                <p>{category.description}</p>
+                                <span className="category-link-arrow">→</span>
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
         </PageWrapper>
     );

@@ -383,7 +383,6 @@ const subMenus = {
         { label: "Exhibitions", path: "/education/exhibitions" },
     ],
     "media-gallery": [
-        { label: "Gallery", path: "/media-gallery", isDefault: true },
         { label: "Photo Albums", path: "/media-gallery/photo-albums" },
         { label: "Video Stories", path: "/media-gallery/video-stories" },
         {

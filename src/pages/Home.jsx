@@ -59,9 +59,79 @@ function Home() {
                     );
                 }
 
-                // Set empty arrays for research and events (no fallback mock data)
-                setResearchHighlights([]);
-                setUpcomingEvents([]);
+                // Fetch Research Insights
+                console.log(
+                    "🔍 Fetching research articles from:",
+                    API_ENDPOINTS.RESEARCH.ARTICLES
+                );
+                try {
+                    const researchResponse = await fetch(
+                        API_ENDPOINTS.RESEARCH.ARTICLES
+                    );
+                    if (researchResponse.ok) {
+                        const researchData = await researchResponse.json();
+                        console.log("✅ Research data received:", researchData);
+                        
+                        // Format research data and take only first 3 articles for home page
+                        const articles = (researchData.data || researchData || [])
+                            .slice(0, 3)
+                            .map(article => ({
+                                id: article.id,
+                                title: article.title,
+                                author: article.author || "ASPIRE Design Lab",
+                                date: article.year || article.date || new Date().getFullYear(),
+                                excerpt: article.description || article.excerpt || ""
+                            }));
+                        
+                        setResearchHighlights(articles);
+                    } else {
+                        console.log("⚠️ Research endpoint not available");
+                        setResearchHighlights([]);
+                    }
+                } catch (researchErr) {
+                    console.log("⚠️ Could not fetch research:", researchErr);
+                    setResearchHighlights([]);
+                }
+
+                // Fetch Upcoming Events
+                console.log(
+                    "🔍 Fetching events from:",
+                    API_ENDPOINTS.NEWS_EVENTS.EVENTS
+                );
+                try {
+                    const eventsResponse = await fetch(
+                        API_ENDPOINTS.NEWS_EVENTS.EVENTS
+                    );
+                    if (eventsResponse.ok) {
+                        const eventsData = await eventsResponse.json();
+                        console.log("✅ Events data received:", eventsData);
+                        
+                        // Filter for upcoming events and take first 3
+                        const events = eventsData.data || eventsData || [];
+                        const upcomingOnly = events
+                            .filter(event => {
+                                const eventDate = new Date(event.eventDate || event.date);
+                                return eventDate >= new Date();
+                            })
+                            .slice(0, 3)
+                            .map(event => ({
+                                id: event.id,
+                                title: event.title,
+                                date: event.eventDate || event.date,
+                                time: event.eventTime || event.time || "TBA",
+                                location: event.location || "TBA",
+                                image: event.image || "/images/event-placeholder.jpg"
+                            }));
+                        
+                        setUpcomingEvents(upcomingOnly);
+                    } else {
+                        console.log("⚠️ Events endpoint not available");
+                        setUpcomingEvents([]);
+                    }
+                } catch (eventsErr) {
+                    console.log("⚠️ Could not fetch events:", eventsErr);
+                    setUpcomingEvents([]);
+                }
             } catch (err) {
                 console.error("❌ Error fetching Home data:", err);
                 setError(err.message);

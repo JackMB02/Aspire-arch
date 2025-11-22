@@ -85,6 +85,20 @@ export const API_ENDPOINTS = {
         EXHIBITIONS: `${API_BASE_URL}/education/exhibitions`,
         EVENTS: `${API_BASE_URL}/education/events`,
     },
+
+    // Research endpoints
+    RESEARCH: {
+        ARTICLES: `${API_BASE_URL}/research/articles`,
+        ALL: `${API_BASE_URL}/research`,
+    },
+
+    // News & Events endpoints
+    NEWS_EVENTS: {
+        NEWS: `${API_BASE_URL}/newsevents/news`,
+        EVENTS: `${API_BASE_URL}/newsevents/events`,
+        FEATURED: `${API_BASE_URL}/newsevents/featured`,
+        ALL: `${API_BASE_URL}/newsevents`,
+    },
 };
 
 // Test API connection

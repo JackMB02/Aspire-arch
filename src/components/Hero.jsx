@@ -200,8 +200,13 @@ const HeroOverlay = styled(motion.div)`
     z-index: 2;
 
     @media (max-width: 768px) {
-        justify-content: flex-start;
+        justify-content: space-between;
         padding: 0;
+        padding-top: 6rem;
+    }
+
+    @media (max-width: 480px) {
+        padding-top: 5rem;
     }
 `;
 
@@ -212,36 +217,47 @@ const CategoryTag = styled(motion.h1)`
     left: 2.5rem;
     right: 2.5rem;
     color: #ffffff;
-    font-family: "Oswald", "Arial Narrow", sans-serif;
+    font-family: "Futura PT", "Futura", "Century Gothic", sans-serif;
     font-size: 3rem;
     font-weight: 700;
+    font-stretch: condensed;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin: 0;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     line-height: 1.2;
+    z-index: 3;
 
     @media (max-width: 1024px) {
         font-size: 2.5rem;
-        top: 8rem;
+        top: 9rem;
         left: 2rem;
         right: 2rem;
-    }
-
-    @media (max-width: 768px) {
-        top: 6rem;
-        left: 1.5rem;
-        right: 1.5rem;
-        font-size: 1.8rem;
         letter-spacing: 2px;
     }
 
+    @media (max-width: 768px) {
+        top: 7.5rem;
+        left: 1.5rem;
+        right: 1.5rem;
+        font-size: 1.6rem;
+        letter-spacing: 1.5px;
+        line-height: 1.3;
+    }
+
     @media (max-width: 480px) {
-        top: 5rem;
+        top: 6.5rem;
         left: 1rem;
         right: 1rem;
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         letter-spacing: 1px;
+        line-height: 1.4;
+    }
+
+    @media (max-width: 375px) {
+        top: 6rem;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
     }
 `;
 
@@ -253,44 +269,47 @@ const DescriptionCard = styled(motion.div)`
     background-color: rgba(0, 0, 0, 0.75);
     padding: 1.5rem;
     border-radius: 10px;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Futura PT", "Futura", "Century Gothic", sans-serif;
     font-size: 0.9rem;
+    font-weight: 400;
     line-height: 1.6;
     max-width: 400px;
     text-align: left;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 3;
 
     @media (max-width: 1024px) {
-        bottom: 4rem;
+        bottom: 4.5rem;
         right: 2rem;
         max-width: 350px;
         font-size: 0.85rem;
+        padding: 1.3rem;
     }
 
     @media (max-width: 768px) {
-        position: relative;
-        bottom: auto;
-        right: auto;
-        left: 0;
-        margin: 0 1.5rem;
-        margin-top: auto;
-        margin-bottom: 5rem;
-        max-width: 100%;
-        width: calc(100% - 3rem);
+        position: static;
+        margin: auto 1.5rem 5.5rem;
+        max-width: calc(100% - 3rem);
+        width: auto;
         font-size: 0.8rem;
         padding: 1.2rem;
         line-height: 1.5;
     }
 
     @media (max-width: 480px) {
-        margin: 0 1rem;
-        margin-top: auto;
-        margin-bottom: 4.5rem;
-        width: calc(100% - 2rem);
+        margin: auto 1rem 5rem;
+        max-width: calc(100% - 2rem);
         font-size: 0.75rem;
         padding: 1rem;
         line-height: 1.4;
+    }
+
+    @media (max-width: 375px) {
+        margin: auto 0.8rem 4.5rem;
+        max-width: calc(100% - 1.6rem);
+        font-size: 0.7rem;
+        padding: 0.9rem;
     }
 `;
 
@@ -309,14 +328,20 @@ const SlideIndicators = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.1);
 
     @media (max-width: 768px) {
-        bottom: 1.5rem;
+        bottom: 1.8rem;
         padding: 0.6rem 1rem;
         gap: 0.4rem;
     }
 
     @media (max-width: 480px) {
-        bottom: 1.2rem;
+        bottom: 1.5rem;
         padding: 0.5rem 0.8rem;
+        gap: 0.35rem;
+    }
+
+    @media (max-width: 375px) {
+        bottom: 1.2rem;
+        padding: 0.4rem 0.7rem;
         gap: 0.3rem;
     }
 `;
@@ -365,6 +390,21 @@ const Indicator = styled(motion.button)`
         &:hover::before {
             width: 10px;
             height: 10px;
+        }
+    }
+
+    @media (max-width: 375px) {
+        width: 5px;
+        height: 5px;
+
+        &::before {
+            width: ${(props) => (props.active ? "10px" : "5px")};
+            height: ${(props) => (props.active ? "10px" : "5px")};
+        }
+
+        &:hover::before {
+            width: 8px;
+            height: 8px;
         }
     }
 `;

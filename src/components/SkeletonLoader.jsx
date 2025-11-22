@@ -57,6 +57,14 @@ const SkeletonBase = styled.div`
 const SkeletonContainer = styled.div`
     width: 100%;
     padding: 2rem;
+
+    @media (max-width: 768px) {
+        padding: 1.5rem 1rem;
+    }
+
+    @media (max-width: 480px) {
+        padding: 1rem 0.5rem;
+    }
 `;
 
 // Card skeleton with enhanced dark styling
@@ -75,6 +83,16 @@ const SkeletonCard = styled(SkeletonBase)`
     background-size: 1000px 100%;
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 768px) {
+        height: 250px;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 480px) {
+        height: 200px;
+        margin-bottom: 0.75rem;
+    }
 `;
 
 // Grid for cards
@@ -83,6 +101,17 @@ const SkeletonGrid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     width: 100%;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    @media (max-width: 480px) {
+        gap: 1rem;
+        padding: 0 0.5rem;
+    }
 `;
 
 // List item skeleton

@@ -251,7 +251,6 @@ const DescriptionCard = styled(motion.div)`
     bottom: 5rem;
     right: 3rem;
     background-color: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(10px);
     padding: 1.5rem;
     border-radius: 10px;
     font-family: "Montserrat", sans-serif;
@@ -307,7 +306,6 @@ const SlideIndicators = styled.div`
     background: rgba(0, 0, 0, 0.4);
     padding: 0.8rem 1.2rem;
     border-radius: 50px;
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
 
     @media (max-width: 768px) {
@@ -438,7 +436,7 @@ function Hero() {
         const timer = setInterval(() => {
             setDirection(1); // Moving forward
             setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000); // Change slide every 5 seconds
+        }, 30000); // Change slide every 30 seconds
 
         return () => clearInterval(timer);
     }, []);

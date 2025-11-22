@@ -56,14 +56,16 @@ const SkeletonBase = styled.div`
 // Container for skeleton loaders
 const SkeletonContainer = styled.div`
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 2rem;
 
     @media (max-width: 768px) {
-        padding: 1.5rem 1rem;
+        padding: 1.5rem;
     }
 
     @media (max-width: 480px) {
-        padding: 1rem 0.5rem;
+        padding: 1rem;
     }
 `;
 
@@ -101,16 +103,15 @@ const SkeletonGrid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     width: 100%;
+    margin: 0 auto;
 
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
         gap: 1.5rem;
-        padding: 0 1rem;
     }
 
     @media (max-width: 480px) {
         gap: 1rem;
-        padding: 0 0.5rem;
     }
 `;
 

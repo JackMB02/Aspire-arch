@@ -58,19 +58,18 @@ function Home() {
                     );
                 }
 
-                // For now, use mock data for research and events
-                // These can be fetched from backend when endpoints are ready
-                setResearchHighlights(getMockResearchHighlights());
-                setUpcomingEvents(getMockUpcomingEvents());
+                // Set empty arrays for research and events (no fallback mock data)
+                setResearchHighlights([]);
+                setUpcomingEvents([]);
             } catch (err) {
                 console.error("❌ Error fetching Home data:", err);
                 setError(err.message);
-                setDataSource("Using demo data due to connection issues");
+                setDataSource("Database connection issue - no data available");
 
-                // Fallback to mock data
-                setAllDesigns(getMockFeaturedDesigns());
-                setResearchHighlights(getMockResearchHighlights());
-                setUpcomingEvents(getMockUpcomingEvents());
+                // No fallback mock data - keep arrays empty
+                setAllDesigns([]);
+                setResearchHighlights([]);
+                setUpcomingEvents([]);
             } finally {
                 setLoading(false);
             }
@@ -78,88 +77,6 @@ function Home() {
 
         fetchHomeData();
     }, []);
-
-    // Mock data fallback
-    const getMockFeaturedDesigns = () => [
-        {
-            id: 1,
-            title: "Urban Green Park",
-            type: "Public Space",
-            image: "/images/park.jpg",
-            description:
-                "Sustainable urban park design integrating native vegetation and community spaces",
-        },
-        {
-            id: 2,
-            title: "Modern Campus Library",
-            type: "Educational",
-            image: "/images/library.jpg",
-            description:
-                "Innovative learning environment with sustainable features and flexible spaces",
-        },
-        {
-            id: 3,
-            title: "Luxury Residential Villa",
-            type: "Residential",
-            image: "/images/villa.jpg",
-            description:
-                "Contemporary villa blending modern architecture with natural landscapes",
-        },
-    ];
-
-    const getMockResearchHighlights = () => [
-        {
-            id: 1,
-            title: "Biophilic Design in Urban Environments",
-            author: "Dr. Elena Rodriguez",
-            date: "May 2023",
-            excerpt:
-                "Exploring how natural elements in urban design improve wellbeing and environmental performance through integrated green spaces and natural materials.",
-        },
-        {
-            id: 2,
-            title: "Sustainable Materials in Modern Architecture",
-            author: "Michael Chen",
-            date: "April 2023",
-            excerpt:
-                "Analysis of innovative sustainable materials and their application in contemporary building design, focusing on lifecycle assessment and environmental impact.",
-        },
-        {
-            id: 3,
-            title: "Adaptive Reuse of Industrial Spaces",
-            author: "Sarah Johnson",
-            date: "March 2023",
-            excerpt:
-                "Transforming former industrial buildings into vibrant community spaces while preserving architectural heritage and reducing construction waste.",
-        },
-    ];
-
-    const getMockUpcomingEvents = () => [
-        {
-            id: 1,
-            title: "Architecture Exhibition Opening",
-            date: "2023-06-15",
-            time: "6:00 PM",
-            location: "City Art Gallery",
-            image: "/images/exhibition.jpg",
-        },
-        {
-            id: 2,
-            title: "Sustainable Design Workshop",
-            date: "2023-06-22",
-            time: "2:00 PM",
-            location: "Community Center",
-            image: "/images/workshop.jpg",
-        },
-        {
-            id: 3,
-            title: "Urban Planning Conference",
-            date: "2023-07-05",
-            time: "9:00 AM",
-            location: "Convention Center",
-            image: "/images/conference.jpg",
-        },
-    ];
 
     // Format date for event display
     const formatEventDate = (dateString) => {

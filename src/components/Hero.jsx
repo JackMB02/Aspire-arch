@@ -178,7 +178,7 @@ const Slide = styled(motion.div)`
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: ${(props) => `url("${encodeURI(props.bgImage)}")`};
+    background-image: ${(props) => `url("${props.bgImage}")`};
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -398,7 +398,7 @@ const slideVariants = {
     }),
 };
 
-// Updated slideshow data with public folder paths
+// Updated slideshow data with corrected file paths
 const slides = [
     {
         id: 1,
@@ -409,14 +409,14 @@ const slides = [
     },
     {
         id: 2,
-        image: "/images/Living.png",
+        image: "/images/living.png",
         category: "Day Light Admittance",
         description:
             "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",
     },
     {
         id: 3,
-        image: "/images/MoneyShoot with sky 1.png",
+        image: "/images/MoneyShoot%20with%20sky%201.png",
         category: "The A-House Case Study",
         description:
             "A Dignified Dwelling in Kabacuzi, Muhanga, Rwanda. A-House re-imagines the Rwandan single-family home by restoring privacy as a layered, culturally embedded, and environmentally responsive condition. Inspired by traditional thresholds such as Irembo (gateway), Igikari (courtyard), and Urugo (fence), the proposal uses spatial sequencing, vernacular materials, and climate-sensitive strategies to create a dignified home that nurtures identity, autonomy, and comfort.",
@@ -448,6 +448,11 @@ function Hero() {
         setDirection(newDirection);
         setCurrentSlide(index);
     };
+
+    // Debug: Log current slide and image path
+    useEffect(() => {
+        console.log('Current slide:', currentSlide, 'Image path:', slides[currentSlide].image);
+    }, [currentSlide]);
 
     return (
         <HeroSection>
@@ -534,6 +539,10 @@ function Hero() {
                         transition={{
                             x: { type: "spring", stiffness: 300, damping: 30 },
                             opacity: { duration: 0.5 },
+                        }}
+                        onError={(e) => {
+                            console.error(`Failed to load image: ${slide.image}`);
+                            e.target.style.backgroundColor = '#2c3e50'; // Fallback color
                         }}
                     />
                 ))}

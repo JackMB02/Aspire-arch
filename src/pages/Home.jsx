@@ -4,6 +4,7 @@ import AnimatedSection from "../components/AnimatedSection";
 import SkeletonLoader from "../components/SkeletonLoader";
 import Hero from "../components/Hero";
 import HomeNavbar from "../components/HomeNavbar";
+import TruncatedText from "../components/TruncatedText";
 import { API_ENDPOINTS } from "../config/api";
 
 function Home() {
@@ -235,10 +236,14 @@ function Home() {
                                             </div>
                                             <div className="design-content">
                                                 <h3>{design.title}</h3>
-                                                <p>
-                                                    {design.summary ||
-                                                        design.description}
-                                                </p>
+                                                <TruncatedText
+                                                    text={
+                                                        design.summary ||
+                                                        design.description ||
+                                                        "No description available"
+                                                    }
+                                                    maxLines={4}
+                                                />
                                                 <Link
                                                     to={`/design/project/${design.id}`}
                                                     style={{
@@ -312,9 +317,10 @@ function Home() {
                                                 {research.date}
                                             </span>
                                         </div>
-                                        <p className="research-excerpt">
-                                            {research.excerpt}
-                                        </p>
+                                        <TruncatedText
+                                            text={research.excerpt || "No excerpt available"}
+                                            maxLines={4}
+                                        />
                                         <button className="read-more-btn">
                                             Read More →
                                         </button>

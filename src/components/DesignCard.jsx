@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, memo } from "react";
 import { Link } from "react-router-dom";
+import TruncatedText from "./TruncatedText";
 import "./DesignCard.css";
 
 const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
@@ -122,7 +123,10 @@ const DesignCard = ({ project, backendBaseUrl, getSectorLabel }) => {
             </div>
             <div className="card-content">
                 <h3>{project.title}</h3>
-                <p>{project.summary || project.description}</p>
+                <TruncatedText
+                    text={project.summary || project.description || "No description available"}
+                    maxLines={4}
+                />
                 <Link
                     to={`/design/project/${project.id}`}
                     style={{

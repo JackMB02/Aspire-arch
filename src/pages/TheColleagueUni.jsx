@@ -398,7 +398,7 @@ function UniContact() {
                             </div>
                             <h3>Phone</h3>
                             <p>
-                                +250 788 924 343
+                                +250 789 924 343
                             </p>
                         </div>
 

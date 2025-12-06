@@ -798,7 +798,7 @@ function VisitProject() {
                                                         `Content image ${index + 1}`
                                                     }
                                                     style={{
-                                                        maxWidth: "800px",
+                                                        maxWidth: "900px",
                                                         width: "100%",
                                                         display: "block",
                                                         margin: "0 auto"

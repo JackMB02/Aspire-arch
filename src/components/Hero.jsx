@@ -240,7 +240,7 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 768px) {
-        top: 7.5rem;
+        top: 9rem;
         left: 1.5rem;
         right: 1.5rem;
         font-size: 1.6rem;
@@ -249,7 +249,7 @@ const CategoryTag = styled(motion.h1)`
     }
 
     @media (max-width: 480px) {
-        top: 6.5rem;
+        top: 8rem;
         left: 1rem;
         right: 1rem;
         font-size: 1.3rem;
@@ -353,30 +353,25 @@ const Indicator = styled(motion.button)`
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid rgba(255, 255, 255, 0.8);
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: ${(props) =>
-        props.active ? "#ffffff" : "rgba(255, 255, 255, 0.3)"};
-    box-shadow: ${(props) =>
-        props.active ? "0 0 10px rgba(255, 255, 255, 0.5)" : "none"};
+        props.active ? "rgba(255, 255, 255, 0.9)" : "transparent"};
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     &:hover {
-        background: rgba(255, 255, 255, 0.7);
-        box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.6);
+        border-color: rgba(255, 255, 255, 1);
     }
 
     @media (max-width: 768px) {
-        width: 10px;
-        height: 10px;
-        border-width: 1.5px;
+        display: none;
     }
 
     @media (max-width: 375px) {
-        width: 8px;
-        height: 8px;
-        border-width: 1px;
+        display: none;
     }
 `;
 

@@ -257,9 +257,11 @@ function About() {
                 }
                 
                 .about-container p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .about-hero {

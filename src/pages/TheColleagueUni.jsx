@@ -905,7 +905,7 @@ function TheColleagueUni() {
         }
 
         .team-bio {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.9rem;
@@ -959,7 +959,7 @@ function TheColleagueUni() {
         }
 
         .contact-info p {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.95rem;
@@ -1008,14 +1008,14 @@ function TheColleagueUni() {
           transition: border-color 0.3s ease;
           background: rgba(255, 255, 255, 0.05);
           color: rgba(255, 255, 255, 0.9);
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
         }
 
         .contact-form input::placeholder,
         .contact-form textarea::placeholder {
           color: rgba(255, 255, 255, 0.6);
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 100;
         }
 
@@ -1041,7 +1041,7 @@ function TheColleagueUni() {
           font-size: 0.95rem;
           color: white;
           font-weight: 600;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
           letter-spacing: 0.5px;
         }
@@ -1157,7 +1157,7 @@ function TheColleagueUni() {
           font-size: 0.95rem;
           color: white;
           font-weight: 600;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
           letter-spacing: 0.5px;
           margin-top: 1rem;

@@ -238,7 +238,7 @@ function About() {
                     min-height: 100vh;
                     background: var(--primary-dark);
                     color: rgba(255, 255, 255, 0.9);
-                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 300;
                 }
                 
@@ -306,7 +306,7 @@ function About() {
                 }
 
                 .hero-text p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.4rem;
                     color: rgba(255, 255, 255, 0.9);
                     line-height: 1.6;
@@ -335,7 +335,7 @@ function About() {
                     font-size: 0.95rem;
                     color: rgba(255, 255, 255, 0.8);
                     text-decoration: none;
-                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 100;
                     letter-spacing: 0.5px;
                 }

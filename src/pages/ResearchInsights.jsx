@@ -938,7 +938,7 @@ function ResearchInsights() {
                 }
 
                 .study-item p {
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
                     margin-bottom: 1rem;
@@ -948,7 +948,7 @@ function ResearchInsights() {
                 .study-meta {
                     display: flex;
                     gap: 1.5rem;
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
                 }
 
                 .study-focus {
@@ -1010,7 +1010,7 @@ function ResearchInsights() {
                     font-size: 0.95rem;
                     color: white;
                     font-weight: 600;
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
                     font-weight: 300;
                     letter-spacing: 0.5px;
                     margin-top: 1rem;

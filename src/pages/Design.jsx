@@ -966,7 +966,7 @@ function Design() {
                     background: var(--primary-dark);
                     min-height: 100vh;
                     color: rgba(255, 255, 255, 0.9);
-                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 300;
                 }
 
@@ -987,7 +987,7 @@ function Design() {
                 .loading-spinner, .error-message, .no-projects {
                     padding: 3rem;
                     text-align: center;
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.1rem;
                     color: rgba(255, 255, 255, 0.8);
                     display: flex;
@@ -1169,7 +1169,7 @@ function Design() {
                 }
 
                 .media-overlay p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 0.9rem;
                     margin-bottom: 1rem;
                     opacity: 0.9;
@@ -1185,7 +1185,7 @@ function Design() {
                     cursor: pointer;
                     transition: all 0.2s ease;
                     align-self: flex-start;
-                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 600;
                     border-radius: 4px;
                 }
@@ -1347,7 +1347,7 @@ function Design() {
                 }
 
                 .project-summary p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.9);
                     line-height: 1.7;
                     font-size: 1.1rem;
@@ -1356,7 +1356,7 @@ function Design() {
                 }
 
                 .visit-project .project-content p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
                     font-size: 1rem;

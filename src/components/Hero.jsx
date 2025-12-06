@@ -578,19 +578,6 @@ function Hero() {
                 >
                     {slides[currentSlide].description}
                 </DescriptionCard>
-
-                <SlideIndicators>
-                    {slides.map((_, index) => (
-                        <Indicator
-                            key={index}
-                            active={index === currentSlide}
-                            onClick={() => goToSlide(index)}
-                            whileHover={{ scale: 1.2 }}
-                            whileTap={{ scale: 0.9 }}
-                            aria-label={`Go to slide ${index + 1}`}
-                        />
-                    ))}
-                </SlideIndicators>
             </HeroOverlay>
         </HeroSection>
     );

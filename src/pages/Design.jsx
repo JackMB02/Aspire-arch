@@ -601,21 +601,6 @@ function VisitProject() {
                             <div className="image-counter">
                                 {validIndex + 1} / {allImages.length}
                             </div>
-
-                            {/* Slide indicators */}
-                            <div className="slide-indicators">
-                                {allImages.map((_, index) => (
-                                    <button
-                                        key={index}
-                                        className={`indicator ${
-                                            index === validIndex
-                                                ? "active"
-                                                : ""
-                                        }`}
-                                        onClick={() => setCurrentIndex(index)}
-                                    />
-                                ))}
-                            </div>
                         </>
                     )}
                 </div>

@@ -637,7 +637,7 @@ function VisitProject() {
             {/* Project Content */}
             <div className="project-content">
                 <div className="project-header">
-                    <h1 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontSize: "2.5rem" }}>{project.title}</h1>
+                    <h1 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontSize: "2.5rem", fontWeight: "normal" }}>{project.title}</h1>
                 </div>
 
                 {/* Project Summary */}
@@ -655,60 +655,6 @@ function VisitProject() {
                         <p>{project.description}</p>
                     </div>
                 )}
-
-                {/* Project Details Grid */}
-                <div className="project-details-grid">
-                    {project.location && (
-                        <div className="detail-item">
-                            <span className="detail-label">📍 Location</span>
-                            <span className="detail-value">
-                                {project.location}
-                            </span>
-                        </div>
-                    )}
-                    {project.client && (
-                        <div className="detail-item">
-                            <span className="detail-label">👤 Client</span>
-                            <span className="detail-value">
-                                {project.client}
-                            </span>
-                        </div>
-                    )}
-                    {project.year && (
-                        <div className="detail-item">
-                            <span className="detail-label">📅 Year</span>
-                            <span className="detail-value">{project.year}</span>
-                        </div>
-                    )}
-                    {project.area && (
-                        <div className="detail-item">
-                            <span className="detail-label">📐 Area</span>
-                            <span className="detail-value">{project.area}</span>
-                        </div>
-                    )}
-                    {project.budget && (
-                        <div className="detail-item">
-                            <span className="detail-label">💰 Budget</span>
-                            <span className="detail-value">
-                                {project.budget}
-                            </span>
-                        </div>
-                    )}
-                    {project.team && (
-                        <div className="detail-item">
-                            <span className="detail-label">👥 Team</span>
-                            <span className="detail-value">{project.team}</span>
-                        </div>
-                    )}
-                    {project.awards && (
-                        <div className="detail-item">
-                            <span className="detail-label">🏆 Awards</span>
-                            <span className="detail-value">
-                                {project.awards}
-                            </span>
-                        </div>
-                    )}
-                </div>
 
                 {/* Project Content Builder - Display custom content blocks */}
                 {project.content_blocks && (() => {
@@ -745,7 +691,7 @@ function VisitProject() {
 
                     return (
                         <div className="project-content-builder">
-                            <h3 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif" }}>Project Description</h3>
+                            <h3 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontWeight: "normal" }}>Project Description</h3>
                             <div className="content-blocks">
                                 {contentBlocks.map((block, index) => {
                                     console.log(`Block ${index}:`, block);

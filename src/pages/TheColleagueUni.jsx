@@ -71,7 +71,7 @@ function UniAbout() {
                 <div className="uni-content">
                     <h1 className="uni-title">
                         {aboutData?.title ||
-                            "About The Arch. Colleagues Lab"}
+                            "The Archi. Colleagues Lab"}
                     </h1>
                     <p className="uni-description">
                         {aboutData?.description ||
@@ -374,7 +374,7 @@ function UniContact() {
                 <div className="uni-content">
                     <h1 className="uni-title">Contact Us</h1>
                     <p className="uni-description">
-                        Have questions about The Arch. Colleagues Lab?
+                        Have questions about The Archi. Colleagues Lab?
                         Want to explore partnership opportunities? We'd love to
                         hear from you.
                     </p>
@@ -483,7 +483,7 @@ function UniOverview() {
             <div className="uni-page-wrapper">
                 <div className="uni-content overview-content">
                     <h1 className="uni-main-title">
-                        The Arch. Colleagues Lab
+                        The Archi. Colleagues Lab
                     </h1>
                     <p className="uni-main-description">
                         Curious About What Rwandan (In) Architecture Really Is?
@@ -639,6 +639,8 @@ function TheColleagueUni() {
         .uni-main-description {
           font-size: 1.1rem;
           max-width: 700px;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Navigation */
@@ -720,7 +722,8 @@ function TheColleagueUni() {
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.95rem;
-          text-align: left;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Mission Sections */
@@ -797,6 +800,8 @@ function TheColleagueUni() {
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.95rem;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Initiatives */
@@ -904,6 +909,8 @@ function TheColleagueUni() {
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.9rem;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Contact */

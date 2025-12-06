@@ -451,7 +451,7 @@
 .content-blocks {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 14rem;
 }
 
 .content-block {

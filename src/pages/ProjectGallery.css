@@ -460,10 +460,10 @@
 }
 
 .slide-indicators .indicator {
-    width: 6px;
-    height: 6px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.9);
     border: none;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -471,13 +471,13 @@
 }
 
 .slide-indicators .indicator.active {
-    background: white;
-    width: 8px;
-    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    width: 10px;
+    height: 10px;
 }
 
 .slide-indicators .indicator:hover {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .content-blocks {

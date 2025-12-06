@@ -608,10 +608,12 @@ function Home() {
 
         .design-content p {
           color: rgba(255, 255, 255, 0.7);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.6;
+          font-size: 0.85rem;
           margin-bottom: 1rem;
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          font-weight: 100;
+          letter-spacing: 0.3px;
         }
 
         .view-project-btn {
@@ -656,17 +658,21 @@ function Home() {
           display: flex;
           gap: 0.8rem;
           margin-bottom: 0.8rem;
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.6);
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.7);
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          font-weight: 100;
+          letter-spacing: 0.3px;
         }
 
         .research-excerpt {
           color: rgba(255, 255, 255, 0.7);
-          line-height: 1.5;
-          font-size: 0.9rem;
+          line-height: 1.6;
+          font-size: 0.85rem;
           margin-bottom: 1rem;
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          font-weight: 100;
+          letter-spacing: 0.3px;
         }
 
         .read-more-btn {

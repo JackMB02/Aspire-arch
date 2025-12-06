@@ -628,16 +628,18 @@ function TheColleagueUni() {
 
         .uni-description, .uni-main-description {
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-size: 1rem;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.7;
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.7);
+          line-height: 1.6;
+          font-weight: 100;
+          letter-spacing: 0.3px;
           max-width: 800px;
           margin: 0 auto 2.5rem;
           text-align: center;
         }
 
         .uni-main-description {
-          font-size: 1.1rem;
+          font-size: 0.85rem;
           max-width: 700px;
           text-align: justify;
           text-align-last: left;

@@ -390,7 +390,11 @@ function About() {
                 .vision-section p,
                 .approach-section p {
                     font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    font-size: 1.1rem;
+                    font-size: 0.85rem;
+                    font-weight: 100;
+                    letter-spacing: 0.3px;
+                    line-height: 1.6;
+                    color: rgba(255, 255, 255, 0.7);
                     margin-bottom: 1.5rem;
                     text-align: justify;
                     text-align-last: left;

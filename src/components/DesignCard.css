@@ -93,8 +93,8 @@
 
 .card-content p {
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.5;
-    font-size: 0.9rem;
+    line-height: 1.6;
+    font-size: 0.85rem;
     margin-bottom: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -103,6 +103,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+    font-weight: 100;
+    letter-spacing: 0.3px;
 }
 
 .card-view-project-btn {

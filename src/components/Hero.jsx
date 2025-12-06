@@ -413,7 +413,7 @@ const slides = [
     },
     {
         id: 2,
-        image: "/images/living.png",
+        image: "/images/Living.png",
         category: "Day Light Admittance",
         description:
             "Mu nzu (Inside The House) | Mu uruganiriro (Living room), reflect a culturally embedded perception of privacy shaped by transitions, thresholds, and make meaning!",

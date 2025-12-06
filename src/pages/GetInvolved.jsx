@@ -1356,7 +1356,9 @@ function GetInvolved() {
           line-height: 1.6;
           max-width: 800px;
           margin: 0 auto 2.5rem;
-          text-align: center;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .involved-main-description {
@@ -1365,6 +1367,9 @@ function GetInvolved() {
           line-height: 1.6;
           max-width: 700px;
           margin: 0 auto 3rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .membership-grid {
@@ -1413,6 +1418,9 @@ function GetInvolved() {
           line-height: 1.5;
           font-size: 0.9rem;
           margin-bottom: 1.5rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .benefits-list {
@@ -1460,6 +1468,9 @@ function GetInvolved() {
           line-height: 1.5;
           margin-bottom: 1.5rem;
           font-size: 0.9rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .partnership-types {
@@ -1487,6 +1498,9 @@ function GetInvolved() {
           line-height: 1.5;
           font-size: 0.9rem;
           margin: 0;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .donation-section {

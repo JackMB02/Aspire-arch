@@ -806,10 +806,12 @@ function MediaGallery() {
           color: rgba(255, 255, 255, 0.8);
           margin-bottom: 3rem;
           line-height: 1.6;
-          text-align: center;
           max-width: 800px;
           margin-left: auto;
           margin-right: auto;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Categories Grid */
@@ -882,6 +884,9 @@ function MediaGallery() {
           margin-bottom: 1.5rem;
           line-height: 1.5;
           font-size: 0.95rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .explore-link {

@@ -522,7 +522,9 @@ function NewsEvents() {
                     max-width: 800px;
                     margin-left: auto;
                     margin-right: auto;
-                    text-align: center;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .news-filters {
@@ -648,6 +650,9 @@ function NewsEvents() {
                 .news-excerpt {
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.6;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    text-align: justify;
+                    text-align-last: left;
                     margin-bottom: 1rem;
                     flex-grow: 1;
                     font-size: 0.95rem;

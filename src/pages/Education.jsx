@@ -727,7 +727,9 @@ function Education() {
                     line-height: 1.6;
                     max-width: 800px;
                     margin: 0 auto 3rem;
-                    text-align: center;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 /* Loading and Error States */
@@ -735,7 +737,7 @@ function Education() {
                 .error-message {
                     padding: 3rem;
                     text-align: center;
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.1rem;
                     color: rgba(255, 255, 255, 0.8);
                     display: flex;
@@ -859,6 +861,9 @@ function Education() {
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.6;
                     margin-bottom: 1.5rem;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .education-meta {

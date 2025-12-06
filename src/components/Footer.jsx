@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import {
     FaLinkedin,
     FaInstagram,
+    FaPinterest,
     FaEnvelope,
     FaWhatsapp,
     FaVimeoV
@@ -341,6 +342,13 @@ function Footer() {
                                 rel="noopener noreferrer"
                             >
                                 <FaInstagram />
+                            </SocialIcon>
+                            <SocialIcon
+                                href="https://pinterest.com"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <FaPinterest />
                             </SocialIcon>
                             <SocialIcon
                                 href="https://vimeo.com/user249123844?fl=pp&fe=sh"

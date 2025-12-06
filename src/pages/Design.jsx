@@ -774,7 +774,6 @@ function VisitProject() {
                                                     className="text-content"
                                                     style={{
                                                         whiteSpace: "pre-wrap",
-                                                        lineHeight: "1.6",
                                                     }}
                                                 >
                                                     {block.content}
@@ -797,6 +796,12 @@ function VisitProject() {
                                                         block.caption ||
                                                         `Content image ${index + 1}`
                                                     }
+                                                    style={{
+                                                        maxWidth: "600px",
+                                                        width: "100%",
+                                                        display: "block",
+                                                        margin: "0 auto"
+                                                    }}
                                                     onError={(e) => {
                                                         console.error(`Failed to load image ${index}:`, imageUrl);
                                                         e.target.src =

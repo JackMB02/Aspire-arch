@@ -111,6 +111,7 @@ const SkeletonGrid = styled.div`
     }
 
     @media (max-width: 480px) {
+        grid-template-columns: 1fr;
         gap: 1rem;
     }
 `;
@@ -125,6 +126,12 @@ const SkeletonListItem = styled.div`
     background: rgba(255, 255, 255, 0.02);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+
+    @media (max-width: 480px) {
+        padding: 0.75rem;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+    }
 `;
 
 const SkeletonCircle = styled(SkeletonBase)`
@@ -133,6 +140,11 @@ const SkeletonCircle = styled(SkeletonBase)`
     border-radius: 50%;
     flex-shrink: 0;
     border: 1px solid rgba(255, 255, 255, 0.05);
+
+    @media (max-width: 480px) {
+        width: 50px;
+        height: 50px;
+    }
 `;
 
 const SkeletonText = styled.div`
@@ -162,6 +174,10 @@ const SkeletonTable = styled.div`
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.05);
+
+    @media (max-width: 768px) {
+        overflow-x: auto;
+    }
 `;
 
 const SkeletonTableRow = styled.div`
@@ -172,6 +188,12 @@ const SkeletonTableRow = styled.div`
 
     &:last-child {
         border-bottom: none;
+    }
+
+    @media (max-width: 480px) {
+        padding: 0.75rem;
+        gap: 0.5rem;
+        min-width: 300px;
     }
 `;
 

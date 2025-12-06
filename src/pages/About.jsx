@@ -373,30 +373,32 @@ function About() {
                 }
 
                 .mission-statement {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.2rem;
-                    font-style: italic;
+                    font-style: normal;
                     color: rgba(255, 255, 255, 0.9);
                     border-left: 3px solid var(--accent-light);
                     padding-left: 1.5rem;
                     margin: 2rem 0;
-                    text-align: left;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .mission-section p,
                 .vision-section p,
                 .approach-section p {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.1rem;
                     margin-bottom: 1.5rem;
-                    text-align: left;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .vision-quote,
                 .approach-quote {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.3rem;
-                    font-style: italic;
+                    font-style: normal;
                     color: var(--accent-light);
                     text-align: center;
                     margin: 3rem 0;
@@ -424,8 +426,9 @@ function About() {
                     line-height: 1.5;
                     position: relative;
                     padding-left: 2.2rem;
-                    font-family: 'Lora', 'Georgia', serif;
-                    text-align: left;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 .goal-item:before {

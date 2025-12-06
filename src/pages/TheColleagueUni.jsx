@@ -1089,7 +1089,7 @@ function TheColleagueUni() {
           font-size: 1.1rem;
           font-weight: bold;
           margin: 0 auto 1rem;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
         }
 
@@ -1103,7 +1103,7 @@ function TheColleagueUni() {
         }
 
         .process-step p {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.9rem;

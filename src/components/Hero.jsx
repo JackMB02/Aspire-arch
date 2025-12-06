@@ -350,20 +350,17 @@ const SlideIndicators = styled.div`
 `;
 
 const Indicator = styled(motion.button)`
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.8);
+    border: none;
     cursor: pointer;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     background: ${(props) =>
-        props.active ? "rgba(255, 255, 255, 0.9)" : "transparent"};
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        props.active ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 255, 255, 0.4)"};
 
     &:hover {
-        background: rgba(255, 255, 255, 0.6);
-        border-color: rgba(255, 255, 255, 1);
+        background: rgba(255, 255, 255, 0.7);
     }
 
     @media (max-width: 768px) {

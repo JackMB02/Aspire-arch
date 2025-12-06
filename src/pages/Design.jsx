@@ -1082,7 +1082,7 @@ function Design() {
                 }
 
                 .page-description {
-                    font-family: 'Lora', 'Georgia', serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1.1rem;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;

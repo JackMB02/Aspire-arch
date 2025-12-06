@@ -300,6 +300,24 @@ function VisitProject() {
             console.log("gallery_images:", data.data?.gallery_images);
             console.log("content_blocks field:", data.data?.content_blocks);
             console.log("content_blocks type:", typeof data.data?.content_blocks);
+            
+            // Log all available text fields
+            console.log("=== TEXT FIELDS ===");
+            console.log("title:", data.data?.title);
+            console.log("summary:", data.data?.summary);
+            console.log("description:", data.data?.description);
+            console.log("location:", data.data?.location);
+            console.log("client:", data.data?.client);
+            console.log("year:", data.data?.year);
+            console.log("area:", data.data?.area);
+            console.log("budget:", data.data?.budget);
+            console.log("team:", data.data?.team);
+            console.log("awards:", data.data?.awards);
+            console.log("content:", data.data?.content);
+            console.log("specifications:", data.data?.specifications);
+            console.log("challenges:", data.data?.challenges);
+            console.log("solutions:", data.data?.solutions);
+            console.log("tags:", data.data?.tags);
 
             if (data.success) {
                 setProject(data.data);

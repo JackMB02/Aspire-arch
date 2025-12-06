@@ -376,7 +376,8 @@ function VisitProject() {
         const galleryImagePaths = galleryImages
             .map(img => {
                 if (typeof img === 'object' && img !== null) {
-                    return img.image || img.url || img.path || null;
+                    // Try common property names for the image path
+                    return img.image || img.url || img.path || img.src || img.file || img.imageUrl || null;
                 }
                 if (typeof img === 'string') {
                     return img;
@@ -413,7 +414,8 @@ function VisitProject() {
         const galleryImagePaths = galleryImages
             .map(img => {
                 if (typeof img === 'object' && img !== null) {
-                    return img.image || img.url || img.path || null;
+                    // Try common property names for the image path
+                    return img.image || img.url || img.path || img.src || img.file || img.imageUrl || null;
                 }
                 if (typeof img === 'string') {
                     return img;
@@ -479,17 +481,28 @@ function VisitProject() {
         }
     }
 
+    // Log the structure of gallery images for debugging
+    if (galleryImages.length > 0) {
+        console.log("First gallery image structure:", galleryImages[0]);
+        console.log("First gallery image keys:", Object.keys(galleryImages[0] || {}));
+    }
+
     // Extract image paths from gallery_images (handle both strings and objects)
     const galleryImagePaths = galleryImages
-        .map(img => {
+        .map((img, idx) => {
             // If it's an object with an image property, use that
             if (typeof img === 'object' && img !== null) {
-                return img.image || img.url || img.path || null;
+                // Try common property names for the image path
+                const extractedPath = img.image || img.url || img.path || img.src || img.file || img.imageUrl || null;
+                console.log(`Gallery image ${idx} extracted path:`, extractedPath, 'from object:', img);
+                return extractedPath;
             }
             // If it's already a string, use it
             if (typeof img === 'string') {
+                console.log(`Gallery image ${idx} is string:`, img);
                 return img;
             }
+            console.log(`Gallery image ${idx} could not be extracted:`, img);
             return null;
         })
         .filter(img => img !== null && img !== undefined && img !== '');
@@ -738,8 +751,10 @@ function VisitProject() {
                                             </div>
                                         );
                                     } else if (block.type === "image") {
-                                        const imageUrl = block.url || block.image || block.content;
+                                        // Try multiple property names for the image URL
+                                        const imageUrl = block.url || block.image || block.content || block.src || block.file || block.imageUrl;
                                         console.log(`Image block ${index} URL:`, imageUrl);
+                                        console.log(`Image block ${index} full object:`, block);
                                         return (
                                             <div
                                                 key={index}

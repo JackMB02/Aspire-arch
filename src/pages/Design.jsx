@@ -662,14 +662,6 @@ function VisitProject() {
                             <span className="detail-value">{project.area}</span>
                         </div>
                     )}
-                    {project.status && (
-                        <div className="detail-item">
-                            <span className="detail-label">⚡ Status</span>
-                            <span className="detail-value">
-                                {project.status}
-                            </span>
-                        </div>
-                    )}
                     {project.budget && (
                         <div className="detail-item">
                             <span className="detail-label">💰 Budget</span>

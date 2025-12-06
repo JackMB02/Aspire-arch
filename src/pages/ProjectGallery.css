@@ -489,7 +489,7 @@
 
 .content-block.image-block img {
     width: calc(100% - 4rem);
-    max-width: 800px;
+    max-width: 500px;
     height: auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -508,6 +508,7 @@
     color: #6b7280;
     font-style: italic;
     text-align: center;
+    max-width: 500px;
     max-width: 800px;
 }
 

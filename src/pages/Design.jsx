@@ -637,22 +637,7 @@ function VisitProject() {
             {/* Project Content */}
             <div className="project-content">
                 <div className="project-header">
-                    <h1>{project.title}</h1>
-                    <div className="project-meta">
-                        <span className="project-category">
-                            {project.category}
-                        </span>
-                        {project.sector && (
-                            <span className="project-sector">
-                                {getSectorLabel(project.sector)}
-                            </span>
-                        )}
-                        {project.is_featured && (
-                            <span className="featured-badge-detail">
-                                Featured
-                            </span>
-                        )}
-                    </div>
+                    <h1 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontSize: "2.5rem" }}>{project.title}</h1>
                 </div>
 
                 {/* Project Summary */}
@@ -760,7 +745,7 @@ function VisitProject() {
 
                     return (
                         <div className="project-content-builder">
-                            <h3>Project Details</h3>
+                            <h3 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif" }}>Project Description</h3>
                             <div className="content-blocks">
                                 {contentBlocks.map((block, index) => {
                                     console.log(`Block ${index}:`, block);
@@ -774,7 +759,9 @@ function VisitProject() {
                                                     className="text-content"
                                                     style={{
                                                         whiteSpace: "pre-wrap",
-                                                        textAlign: "center",
+                                                        textAlign: "justify",
+                                                        textAlignLast: "left",
+                                                        fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif",
                                                     }}
                                                 >
                                                     {block.content}

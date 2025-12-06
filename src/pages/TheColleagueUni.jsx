@@ -71,7 +71,7 @@ function UniAbout() {
                 <div className="uni-content">
                     <h1 className="uni-title">
                         {aboutData?.title ||
-                            "About The Architecture Colleagues Lab"}
+                            "About The Arch. Colleagues Lab"}
                     </h1>
                     <p className="uni-description">
                         {aboutData?.description ||
@@ -374,7 +374,7 @@ function UniContact() {
                 <div className="uni-content">
                     <h1 className="uni-title">Contact Us</h1>
                     <p className="uni-description">
-                        Have questions about The Architecture Colleagues Lab?
+                        Have questions about The Arch. Colleagues Lab?
                         Want to explore partnership opportunities? We'd love to
                         hear from you.
                     </p>
@@ -483,7 +483,7 @@ function UniOverview() {
             <div className="uni-page-wrapper">
                 <div className="uni-content overview-content">
                     <h1 className="uni-main-title">
-                        The Architecture Colleagues Lab
+                        The Arch. Colleagues Lab
                     </h1>
                     <p className="uni-main-description">
                         Curious About What Rwandan (In) Architecture Really Is?
@@ -590,7 +590,7 @@ function TheColleagueUni() {
         .uni-container {
           min-height: 100vh;
           background: var(--primary-dark);
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
         }
 
@@ -627,7 +627,7 @@ function TheColleagueUni() {
         }
 
         .uni-description, .uni-main-description {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-size: 1rem;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
@@ -660,7 +660,7 @@ function TheColleagueUni() {
           font-size: 0.95rem;
           color: rgba(255, 255, 255, 0.8);
           text-decoration: none;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 100;
           letter-spacing: 0.5px;
         }
@@ -716,7 +716,7 @@ function TheColleagueUni() {
         }
 
         .feature-card p {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.95rem;
@@ -744,7 +744,7 @@ function TheColleagueUni() {
         }
 
         .mission-section p {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 1rem;
@@ -793,7 +793,7 @@ function TheColleagueUni() {
         }
 
         .value-card p {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 0.95rem;
@@ -819,7 +819,7 @@ function TheColleagueUni() {
         }
 
         .initiatives-list {
-          font-family: 'Lora', 'Georgia', serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           padding-left: 1.2rem;
@@ -867,7 +867,7 @@ function TheColleagueUni() {
           font-size: 2rem;
           font-weight: bold;
           margin: 0 auto 1rem;
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           font-weight: 300;
           overflow: hidden;
           border: 4px solid rgba(255, 255, 255, 0.3);
@@ -891,7 +891,7 @@ function TheColleagueUni() {
         }
 
         .team-role {
-          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: var(--accent-light);
           font-weight: 300;
           margin-bottom: 1rem;

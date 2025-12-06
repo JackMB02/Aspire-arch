@@ -630,6 +630,7 @@ function NewsEvents() {
                     color: rgba(255, 255, 255, 0.95);
                     line-height: 1.4;
                     font-weight: 600;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                 }
 
                 .news-meta {
@@ -711,6 +712,7 @@ function NewsEvents() {
                     font-weight: 600;
                     color: rgba(255, 255, 255, 0.95);
                     margin: 1rem 1.5rem 0.5rem;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                 }
 
                 .project-card p {
@@ -718,6 +720,7 @@ function NewsEvents() {
                     line-height: 1.5;
                     margin: 0 1.5rem 1.5rem;
                     font-size: 0.95rem;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                 }
 
                 /* Upcoming Events Section */
@@ -786,6 +789,7 @@ function NewsEvents() {
                     font-weight: 600;
                     color: rgba(255, 255, 255, 0.95);
                     margin-bottom: 0.5rem;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                 }
 
                 .event-details p {
@@ -793,6 +797,7 @@ function NewsEvents() {
                     line-height: 1.5;
                     margin-bottom: 0.5rem;
                     font-size: 0.95rem;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                 }
 
                 .event-time {

@@ -642,7 +642,7 @@ function ResearchInsights() {
                     background: var(--primary-dark);
                     min-height: 100vh;
                     color: rgba(255, 255, 255, 0.9);
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 300;
                 }
 
@@ -681,7 +681,7 @@ function ResearchInsights() {
 
                 .research-description,
                 .research-main-description {
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1rem;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
@@ -714,7 +714,7 @@ function ResearchInsights() {
                     font-size: 0.95rem;
                     color: rgba(255, 255, 255, 0.8);
                     text-decoration: none;
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 100;
                     letter-spacing: 0.5px;
                 }
@@ -752,7 +752,7 @@ function ResearchInsights() {
                 }
 
                 .stat-label {
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-size: 1rem;
                     color: rgba(255, 255, 255, 0.8);
                     font-weight: 300;
@@ -803,7 +803,7 @@ function ResearchInsights() {
                     font-size: 0.8rem;
                     font-weight: 600;
                     margin-bottom: 1rem;
-                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     font-weight: 300;
                 }
 
@@ -817,7 +817,7 @@ function ResearchInsights() {
                 }
 
                 .research-card p {
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
                     font-size: 0.95rem;
@@ -858,7 +858,7 @@ function ResearchInsights() {
                 .methodology-section p,
                 .certifications-section p,
                 .partnerships-section p {
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
                     font-size: 1rem;
@@ -889,7 +889,7 @@ function ResearchInsights() {
                 }
 
                 .approach-item p {
-                    font-family: "Lora", "Georgia", serif;
+                    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
                     color: rgba(255, 255, 255, 0.8);
                     line-height: 1.7;
                     font-size: 0.95rem;

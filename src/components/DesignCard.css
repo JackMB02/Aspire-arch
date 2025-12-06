@@ -102,6 +102,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
 }
 
 .card-view-project-btn {

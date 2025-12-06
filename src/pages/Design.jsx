@@ -296,6 +296,8 @@ function VisitProject() {
             console.log("Project data received:", data);
             console.log("Full project object:", data.data);
             console.log("All project fields:", Object.keys(data.data || {}));
+            console.log("main_image:", data.data?.main_image);
+            console.log("gallery_images:", data.data?.gallery_images);
             console.log("content_blocks field:", data.data?.content_blocks);
             console.log("content_blocks type:", typeof data.data?.content_blocks);
 
@@ -515,23 +517,29 @@ function VisitProject() {
 
     console.log("All images for slideshow:", allImages);
     console.log("Current image index:", currentIndex);
+    
+    // Ensure currentIndex is valid
+    const validIndex = allImages.length > 0 ? Math.min(currentIndex, allImages.length - 1) : 0;
+    const currentImageUrl = allImages.length > 0 ? allImages[validIndex] : project.main_image || '/images/placeholder.jpg';
+    
     console.log(
         "Current image URL:",
-        getProperImageUrl(allImages[currentIndex])
+        getProperImageUrl(currentImageUrl)
     );
 
     return (
         <div className="visit-project" key={project.id}>
             {/* Advanced Slideshow */}
-            <div className="slideshow-wrapper">
-                <div className="slideshow">
-                    <img
-                        src={getProperImageUrl(allImages[currentIndex])}
-                        alt={`${project.title} slide ${currentIndex + 1}`}
-                        onError={(e) => {
-                            e.target.src = "/images/placeholder.jpg";
-                        }}
-                    />
+            {allImages.length > 0 && (
+                <div className="slideshow-wrapper">
+                    <div className="slideshow">
+                        <img
+                            src={getProperImageUrl(currentImageUrl)}
+                            alt={`${project.title} slide ${validIndex + 1}`}
+                            onError={(e) => {
+                                e.target.src = "/images/placeholder.jpg";
+                            }}
+                        />
 
                     {/* Show arrows only if there are multiple images */}
                     {allImages.length > 1 && (
@@ -573,7 +581,7 @@ function VisitProject() {
 
                             {/* Image counter */}
                             <div className="image-counter">
-                                {currentIndex + 1} / {allImages.length}
+                                {validIndex + 1} / {allImages.length}
                             </div>
 
                             {/* Slide indicators */}
@@ -582,7 +590,7 @@ function VisitProject() {
                                     <button
                                         key={index}
                                         className={`indicator ${
-                                            index === currentIndex
+                                            index === validIndex
                                                 ? "active"
                                                 : ""
                                         }`}
@@ -594,6 +602,19 @@ function VisitProject() {
                     )}
                 </div>
             </div>
+            )}
+            
+            {/* Fallback: Show placeholder when no images available */}
+            {allImages.length === 0 && (
+                <div className="slideshow-wrapper">
+                    <div className="slideshow">
+                        <img
+                            src="/images/placeholder.jpg"
+                            alt={`${project.title}`}
+                        />
+                    </div>
+                </div>
+            )}
 
             {/* Project Content */}
             <div className="project-content">

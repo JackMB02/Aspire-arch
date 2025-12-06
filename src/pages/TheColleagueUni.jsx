@@ -276,10 +276,24 @@ function UniTeam() {
                         {teamMembers.map((member, index) => (
                             <div key={member.id || index} className="team-card">
                                 <div className="team-avatar">
-                                    {member.name
-                                        .split(" ")
-                                        .map((n) => n[0])
-                                        .join("")}
+                                    {member.image_url ? (
+                                        <img 
+                                            src={member.image_url} 
+                                            alt={member.name}
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.parentElement.textContent = member.name
+                                                    .split(" ")
+                                                    .map((n) => n[0])
+                                                    .join("");
+                                            }}
+                                        />
+                                    ) : (
+                                        member.name
+                                            .split(" ")
+                                            .map((n) => n[0])
+                                            .join("")
+                                    )}
                                 </div>
                                 <h3>{member.name}</h3>
                                 <p className="team-role">{member.role}</p>
@@ -855,6 +869,14 @@ function TheColleagueUni() {
           margin: 0 auto 1rem;
           font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
           font-weight: 300;
+          overflow: hidden;
+        }
+
+        .team-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
         }
 
         .team-card h3 {

@@ -603,6 +603,7 @@ function Home() {
           margin-bottom: 0.6rem;
           color: rgba(255, 255, 255, 0.9);
           font-weight: 600;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
         }
 
         .design-content p {
@@ -610,6 +611,7 @@ function Home() {
           line-height: 1.5;
           font-size: 0.9rem;
           margin-bottom: 1rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
         }
 
         .view-project-btn {

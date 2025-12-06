@@ -7,6 +7,7 @@ import {
     FaEnvelope,
     FaWhatsapp,
     FaVimeoV,
+    FaPinterest,
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
@@ -69,9 +70,9 @@ const LogoSection = styled.div`
     }
 `;
 
-// Updated LogoImage - Bigger and without circular border
+// Updated LogoImage - Reduced size
 const LogoImage = styled.img`
-    height: 120px;
+    height: 80px;
     width: auto;
     object-fit: contain;
     transition: all 0.3s ease;
@@ -83,15 +84,15 @@ const LogoImage = styled.img`
     }
 
     @media (max-width: 1024px) {
-        height: 100px;
+        height: 70px;
     }
 
     @media (max-width: 768px) {
-        height: 60px;
+        height: 50px;
     }
 
     @media (max-width: 480px) {
-        height: 50px;
+        height: 40px;
     }
 `;
 
@@ -139,6 +140,9 @@ const SocialIcon = styled(motion.a)`
     }
     &.instagram:hover {
         background: rgba(225, 48, 108, 0.3);
+    }
+    &.pinterest:hover {
+        background: rgba(230, 0, 35, 0.3);
     }
     &.email:hover {
         background: rgba(234, 67, 53, 0.3);
@@ -210,18 +214,17 @@ const HeroOverlay = styled(motion.div)`
     }
 `;
 
-// Category Tag (top-left) - Reduced font size, white color, compressed font
+// Category Tag (top-left) - Title case, Futura font
 const CategoryTag = styled(motion.h1)`
     position: absolute;
     top: 10rem;
     left: 2.5rem;
     right: 2.5rem;
     color: #ffffff;
-    font-family: "Futura PT", "Futura", "Century Gothic", sans-serif;
+    font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
     font-size: 3rem;
-    font-weight: 700;
-    font-stretch: condensed;
-    text-transform: uppercase;
+    font-weight: normal;
+    text-transform: capitalize;
     letter-spacing: 3px;
     margin: 0;
     text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
@@ -347,65 +350,33 @@ const SlideIndicators = styled.div`
 `;
 
 const Indicator = styled(motion.button)`
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
-    border: none;
+    border: 2px solid white;
     cursor: pointer;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: ${(props) =>
+        props.active ? "#ffffff" : "rgba(255, 255, 255, 0.3)"};
+    box-shadow: ${(props) =>
+        props.active ? "0 0 10px rgba(255, 255, 255, 0.5)" : "none"};
 
-    &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: ${(props) => (props.active ? "16px" : "8px")};
-        height: ${(props) => (props.active ? "16px" : "8px")};
-        border-radius: 50%;
-        background: ${(props) =>
-            props.active ? "#ffffff" : "rgba(255, 255, 255, 0.4)"};
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: ${(props) =>
-            props.active ? "0 0 10px rgba(255, 255, 255, 0.5)" : "none"};
-    }
-
-    &:hover::before {
-        background: #ffffff;
-        width: 12px;
-        height: 12px;
+    &:hover {
+        background: rgba(255, 255, 255, 0.7);
         box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
     }
 
     @media (max-width: 768px) {
-        width: 6px;
-        height: 6px;
-
-        &::before {
-            width: ${(props) => (props.active ? "12px" : "6px")};
-            height: ${(props) => (props.active ? "12px" : "6px")};
-        }
-
-        &:hover::before {
-            width: 10px;
-            height: 10px;
-        }
+        width: 10px;
+        height: 10px;
+        border-width: 1.5px;
     }
 
     @media (max-width: 375px) {
-        width: 5px;
-        height: 5px;
-
-        &::before {
-            width: ${(props) => (props.active ? "10px" : "5px")};
-            height: ${(props) => (props.active ? "10px" : "5px")};
-        }
-
-        &:hover::before {
-            width: 8px;
-            height: 8px;
-        }
+        width: 8px;
+        height: 8px;
+        border-width: 1px;
     }
 `;
 
@@ -534,6 +505,15 @@ function Hero() {
                         whileTap={{ scale: 0.95 }}
                     >
                         <FaInstagram />
+                    </SocialIcon>
+                    <SocialIcon
+                        href="https://www.pinterest.com/aspiredesignlab/"
+                        target="_blank"
+                        className="pinterest"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <FaPinterest />
                     </SocialIcon>
                     <SocialIcon
                         href="https://vimeo.com/user249123844?fl=pp&fe=sh"

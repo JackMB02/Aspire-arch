@@ -856,20 +856,22 @@ function TheColleagueUni() {
         }
 
         .team-avatar {
-          width: 70px;
-          height: 70px;
+          width: 120px;
+          height: 120px;
           border-radius: 50%;
           background: var(--accent-light);
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.5rem;
+          font-size: 2rem;
           font-weight: bold;
           margin: 0 auto 1rem;
           font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
           font-weight: 300;
           overflow: hidden;
+          border: 4px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         .team-avatar img {

@@ -151,7 +151,7 @@ const SubItem = styled(Link)`
   white-space: nowrap;
   display: block;
   position: relative;
-  font-weight: 300;
+  font-weight: 100;
   letter-spacing: 0.3px;
 
   /* Underline effect on hover */

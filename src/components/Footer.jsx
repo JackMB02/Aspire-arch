@@ -46,7 +46,7 @@ const FooterSection = styled.div`
 const FooterTitle = styled.h3`
     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
     font-size: 1rem;
-    font-weight: 300; /* Changed from 600 to 300 for lighter weight */
+    font-weight: 100; /* Changed from 600 to 100 for thinner weight */
     margin-bottom: 0.5rem;
     letter-spacing: 0.5px;
     color: var(--accent-light);
@@ -56,7 +56,7 @@ const FooterTitle = styled.h3`
 const FooterLink = styled.a`
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
-    font-weight: 300;
+    font-weight: 100;
     transition: color 0.3s;
     letter-spacing: 0.3px;
     text-decoration: none;
@@ -71,7 +71,7 @@ const FooterLink = styled.a`
 const FooterLinkRouter = styled(Link)`
     color: rgba(255, 255, 255, 0.7);
     font-size: 0.85rem;
-    font-weight: 300;
+    font-weight: 100;
     transition: all 0.3s;
     letter-spacing: 0.3px;
     text-decoration: none;
@@ -84,7 +84,7 @@ const FooterLinkRouter = styled(Link)`
 `;
 
 const FooterText = styled.p`
-    font-weight: 300;
+    font-weight: 100;
     line-height: 1.6;
     letter-spacing: 0.3px;
     font-size: 0.85rem;
@@ -117,7 +117,7 @@ const NewsletterForm = styled.form`
     input {
         padding: 0.6rem;
         font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-        font-weight: 300;
+        font-weight: 100;
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 4px;
         font-size: 0.85rem;

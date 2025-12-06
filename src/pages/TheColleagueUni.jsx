@@ -591,7 +591,7 @@ function TheColleagueUni() {
           min-height: 100vh;
           background: var(--primary-dark);
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-weight: 300;
+          font-weight: 100;
         }
 
         .uni-page-wrapper {
@@ -873,7 +873,7 @@ function TheColleagueUni() {
           font-weight: bold;
           margin: 0 auto 1rem;
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-weight: 300;
+          font-weight: 100;
           overflow: hidden;
           border: 4px solid rgba(255, 255, 255, 0.3);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
@@ -898,7 +898,7 @@ function TheColleagueUni() {
         .team-role {
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
           color: var(--accent-light);
-          font-weight: 300;
+          font-weight: 100;
           margin-bottom: 1rem;
           font-size: 0.9rem;
           letter-spacing: 0.5px;
@@ -1009,7 +1009,7 @@ function TheColleagueUni() {
           background: rgba(255, 255, 255, 0.05);
           color: rgba(255, 255, 255, 0.9);
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-weight: 300;
+          font-weight: 100;
         }
 
         .contact-form input::placeholder,
@@ -1042,7 +1042,7 @@ function TheColleagueUni() {
           color: white;
           font-weight: 600;
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-weight: 300;
+          font-weight: 100;
           letter-spacing: 0.5px;
         }
 
@@ -1158,7 +1158,7 @@ function TheColleagueUni() {
           color: white;
           font-weight: 600;
           font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-          font-weight: 300;
+          font-weight: 100;
           letter-spacing: 0.5px;
           margin-top: 1rem;
         }

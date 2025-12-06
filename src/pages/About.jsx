@@ -239,7 +239,7 @@ function About() {
                     background: var(--primary-dark);
                     color: rgba(255, 255, 255, 0.9);
                     font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    font-weight: 300;
+                    font-weight: 100;
                 }
                 
                 .about-container * {

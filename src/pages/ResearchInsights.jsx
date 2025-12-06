@@ -962,7 +962,7 @@ function ResearchInsights() {
                 .study-year {
                     color: rgba(255, 255, 255, 0.7);
                     font-size: 0.9rem;
-                    font-weight: 300;
+                    font-weight: 100;
                 }
 
                 /* Loading and Error States */
@@ -1011,7 +1011,7 @@ function ResearchInsights() {
                     color: white;
                     font-weight: 600;
                     font-family: "Futura", "Trebuchet MS", Arial, sans-serif;
-                    font-weight: 300;
+                    font-weight: 100;
                     letter-spacing: 0.5px;
                     margin-top: 1rem;
                 }

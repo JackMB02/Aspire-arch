@@ -464,6 +464,8 @@
     padding: 2rem;
     border-radius: 8px;
     border-left: 4px solid #f97316;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .text-content {

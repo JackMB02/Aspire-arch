@@ -9,7 +9,7 @@ function AboutHero() {
             <div className="hero-content">
                 <div className="hero-text">
                     <h1>ASPIRE Design Lab</h1>
-                    <p>
+                    <p style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontWeight: "normal" }}>
                         Architecture for Society and Planet, Inspiring Resilient
                         Environment
                     </p>

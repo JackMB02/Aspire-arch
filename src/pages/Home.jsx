@@ -647,8 +647,9 @@ function Home() {
           font-size: 1.1rem;
           margin-bottom: 0.8rem;
           color: rgba(255, 255, 255, 0.9);
-          font-weight: 600;
+          font-weight: normal;
           line-height: 1.4;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
         }
 
         .research-meta {
@@ -657,6 +658,7 @@ function Home() {
           margin-bottom: 0.8rem;
           font-size: 0.8rem;
           color: rgba(255, 255, 255, 0.6);
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
         }
 
         .research-excerpt {
@@ -664,6 +666,7 @@ function Home() {
           line-height: 1.5;
           font-size: 0.9rem;
           margin-bottom: 1rem;
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
         }
 
         .read-more-btn {

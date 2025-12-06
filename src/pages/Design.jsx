@@ -559,9 +559,49 @@ function VisitProject() {
                             }}
                         />
 
-                    {/* Show indicators only if there are multiple images */}
+                    {/* Show arrows only if there are multiple images */}
                     {allImages.length > 1 && (
                         <>
+                            <button className="prev-arrow" onClick={prevSlide}>
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M15 18L9 12L15 6"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                            <button className="next-arrow" onClick={nextSlide}>
+                                <svg
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M9 18L15 12L9 6"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </button>
+
+                            {/* Image counter */}
+                            <div className="image-counter">
+                                {validIndex + 1} / {allImages.length}
+                            </div>
+
                             {/* Slide indicators */}
                             <div className="slide-indicators">
                                 {allImages.map((_, index) => (

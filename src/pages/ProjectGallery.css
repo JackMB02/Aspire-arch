@@ -448,6 +448,38 @@
     font-weight: 600;
 }
 
+/* Slide Indicators (Dots) */
+.slide-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.slide-indicators .indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.slide-indicators .indicator.active {
+    background: white;
+    width: 8px;
+    height: 8px;
+}
+
+.slide-indicators .indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
 .content-blocks {
     display: flex;
     flex-direction: column;

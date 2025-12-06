@@ -774,6 +774,7 @@ function VisitProject() {
                                                     className="text-content"
                                                     style={{
                                                         whiteSpace: "pre-wrap",
+                                                        textAlign: "center",
                                                     }}
                                                 >
                                                     {block.content}
@@ -797,7 +798,7 @@ function VisitProject() {
                                                         `Content image ${index + 1}`
                                                     }
                                                     style={{
-                                                        maxWidth: "600px",
+                                                        maxWidth: "800px",
                                                         width: "100%",
                                                         display: "block",
                                                         margin: "0 auto"

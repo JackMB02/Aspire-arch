@@ -149,7 +149,13 @@ function UniMission() {
                             <li>To bridge academia and practice by inviting professionals to mentor, co-create, and transform shared knowledge into socially responsive design outcomes.</li>
                         </ul>
                     </div>
-
+                    
+                   <div className="mission-section">
+                        <h2>Rationale</h2>
+                        <p className="rationale-text">
+                            We believe it is time for communities to truly see and shape the role of architecture in the built environment. And to understand how transformation happens. As young and proud future architects, we take on the Responsibility to collaborate with one another and with other disciplines engineers, sociologists, Anthropologists so that we can learn from each other and build together.
+                        </p>
+                    </div>
                     <InitiativesSection />
                 </div>
             </div>
@@ -756,6 +762,17 @@ function TheColleagueUni() {
 
         .vision-list li {
           margin-bottom: 1rem;
+        }
+
+        .rationale-text {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.8;
+          font-size: 0.95rem;
+          font-weight: 100;
+          letter-spacing: 0.3px;
+          text-align: justify;
+          text-align-last: left;
         }
 
         /* Values */

@@ -141,7 +141,7 @@ function UniMission() {
                     <h1 className="uni-title">Vision</h1>
 
                     <div className="mission-section">
-                        <h2>Our Vision</h2>
+                        <h2>Overview</h2>
                         <ul className="vision-list">
                             <li>To foster a living culture of collaboration among architecture students and colleagues a space where learning, experimentation, and collective authorship thrive.</li>
                             <li>To ask and act on new questions: Why can't we have in Kigali a platform where students, professionals, and communities design, debate, and dene architecture together?</li>

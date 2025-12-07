@@ -155,6 +155,15 @@ function UniMission() {
                         <p className="rationale-text">
                             We believe it is time for communities to truly see and shape the role of architecture in the built environment. And to understand how transformation happens. As young and proud future architects, we take on the Responsibility to collaborate with one another and with other disciplines engineers, sociologists, Anthropologists so that we can learn from each other and build together.
                         </p>
+                        <p className="rationale-text">
+                            TheArchi.ColleaguesLab (Architecture + Colleagues + Laboratory) — a student-led collaborative learning platform envisioned to foster architecture as dialogue and strengthen the transformative bridge between academia and professional practice in Rwanda.
+                        </p>
+                        <p className="rationale-text">
+                            The initiative brings together architecture colleagues specifically students, alongside architects, engineers, educators, and theorists from related disciplines to learn, study, and define architecture through the lenses of culture, society, and practice, with a strong focus on context-driven design in Rwanda. Inspired by global models such as Harvard GSD's Laboratory for Design Technologies and Virginia Tech's DesignBuildLab, our mission is to create a space where architecture becomes both a medium of learning and a voice for community engagement.
+                        </p>
+                        <p className="rationale-text">
+                            Through TheArchi.ColleaguesLab, we aim to nurture a culture of design collaboration, mentorship, and innovation, while envisioning platforms that can draw and learn from the vibrancy of Design Week Lagos, the Milan Design Week, or the London Design Festival celebrating Rwandan creativity and architectural identity on a broader stage.
+                        </p>
                     </div>
                     <InitiativesSection />
                 </div>

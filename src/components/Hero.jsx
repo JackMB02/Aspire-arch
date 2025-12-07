@@ -579,19 +579,6 @@ function Hero() {
                     {slides[currentSlide].description}
                 </DescriptionCard>
             </HeroOverlay>
-
-            {/* Slideshow Dots */}
-            <SlideIndicators>
-                {slides.map((_, index) => (
-                    <Indicator
-                        key={index}
-                        active={index === currentSlide}
-                        onClick={() => goToSlide(index)}
-                        whileHover={{ scale: 1.2 }}
-                        whileTap={{ scale: 0.9 }}
-                    />
-                ))}
-            </SlideIndicators>
         </HeroSection>
     );
 }

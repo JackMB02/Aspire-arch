@@ -138,27 +138,16 @@ function UniMission() {
         <AnimatedSection>
             <div className="uni-page-wrapper">
                 <div className="uni-content">
-                    <h1 className="uni-title">Our Mission & Vision</h1>
-
-                    <div className="mission-section">
-                        <h2>Our Mission</h2>
-                        <p>{missionData?.mission}</p>
-                    </div>
+                    <h1 className="uni-title">Vision</h1>
 
                     <div className="mission-section">
                         <h2>Our Vision</h2>
-                        <p>{missionData?.vision}</p>
-                    </div>
-
-                    <h2 className="values-title">Our Drivers</h2>
-
-                    <div className="values-grid">
-                        {missionData?.values?.map((value, index) => (
-                            <div key={index} className="value-card">
-                                <h3>{value.title}</h3>
-                                <p>{value.description}</p>
-                            </div>
-                        ))}
+                        <ul className="vision-list">
+                            <li>To foster a living culture of collaboration among architecture students and colleagues a space where learning, experimentation, and collective authorship thrive.</li>
+                            <li>To ask and act on new questions: Why can't we have in Kigali a platform where students, professionals, and communities design, debate, and dene architecture together?</li>
+                            <li>To advance architecture as dialogue not limited to architects alone, but open to engineers, sociologists, anthropologists, and heritage thinkers shaping how we live.</li>
+                            <li>To bridge academia and practice by inviting professionals to mentor, co-create, and transform shared knowledge into socially responsive design outcomes.</li>
+                        </ul>
                     </div>
 
                     <InitiativesSection />
@@ -485,34 +474,22 @@ function UniOverview() {
                     <h1 className="uni-main-title">
                         The Archi. Colleagues Lab
                     </h1>
+                    <p className="uni-subtitle">
+                        Grounding
+                    </p>
                     <p className="uni-main-description">
                         Curious About What Rwandan (In) Architecture Really Is?
                     </p>
-                    <p className="uni-main-description">
-                        Program of Rwandan architecture students passionate
-                        about learning, working, and studying together. Through
-                        the lens of culture, society, and practice, we explore
-                        how architecture can respond to today's challenges and
-                        give communities a stronger voice in shaping their
-                        spaces.
-                    </p>
-                    <p className="uni-main-description">
-                        We welcome architecture students, architects,
-                        professionals (engineers, sociologists, anthropologist)
-                        and anyone even without an architecture background who
-                        believes in design that speaks for the people.
-                    </p>
-                    <p className="uni-main-description">
-                        Let's connect and shape a future where architecture
-                        speaks for everyone.
+                    <p className="uni-main-description" style={{ textAlign: 'justify', textAlignLast: 'left' }}>
+                        A Student-Led Collaborative Learning Lab "The primary vision is to evolve into a platform that fosters architecture as dialogue and brings together Rwandan architecture students as colleagues, alongside architects, engineers, educators, and theorists from architectural, sociological, and other relevant disciplines, to learn, study, and dene architecture through the lenses of culture, society, and practice, with a strong focus on context-driven architecture in Rwanda."
                     </p>
 
                     <div className="uni-navigation">
                         <Link to="about" className="nav-link">
-                            About Us
+                            TheArchi.co Lab
                         </Link>
                         <Link to="mission" className="nav-link">
-                            Our Mission
+                            Vision
                         </Link>
                         <Link to="team" className="nav-link">
                             Our Team
@@ -645,6 +622,16 @@ function TheColleagueUni() {
           text-align-last: left;
         }
 
+        .uni-subtitle {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          font-size: 1.2rem;
+          color: rgba(255, 255, 255, 0.85);
+          font-weight: 500;
+          letter-spacing: 0.5px;
+          text-align: center;
+          margin: -1rem auto 1.5rem;
+        }
+
         /* Navigation */
         .uni-navigation {
           display: flex;
@@ -753,6 +740,22 @@ function TheColleagueUni() {
           color: rgba(255, 255, 255, 0.8);
           line-height: 1.7;
           font-size: 1rem;
+        }
+
+        .vision-list {
+          font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.8;
+          font-size: 0.95rem;
+          font-weight: 100;
+          letter-spacing: 0.3px;
+          list-style-type: disc;
+          padding-left: 2rem;
+          text-align: left;
+        }
+
+        .vision-list li {
+          margin-bottom: 1rem;
         }
 
         /* Values */

@@ -475,7 +475,7 @@ function UniOverview() {
                         TheArchi. Colleagues Lab
                     </h1>
                     <p className="uni-subtitle">
-                        Grounding
+                        
                     </p>
                     <p className="uni-main-description">
                         Curious About What Rwandan (In) Architecture Really Is?

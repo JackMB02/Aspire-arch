@@ -218,10 +218,6 @@ function Home() {
 
                     <div className="section-header">
                         <h2>Featured Work</h2>
-                        <p>
-                            Explore our latest architectural projects and
-                            innovations
-                        </p>
                     </div>
 
                     {allDesigns.length > 0 ? (

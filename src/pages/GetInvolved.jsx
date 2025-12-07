@@ -1117,10 +1117,7 @@ function GetInvolvedOverview() {
                 <div className="involved-content overview-content">
                     <h1 className="involved-main-title">Get Involved</h1>
                     <p className="involved-main-description">
-                        Join our movement to advance sustainable architecture
-                        and design education. Whether through membership,
-                        donations, or sharing your ideas, there are many ways to
-                        contribute to our community and mission.
+                        Join us to celebrate the power of collective learning through mentership donation
                     </p>
 
                     <div className="involved-navigation">

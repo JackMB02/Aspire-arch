@@ -944,7 +944,7 @@ function Design() {
                                     title={
                                         searchQuery
                                             ? `Search Results for "${searchQuery}"`
-                                            : "Design Projects"
+                                            : "project | works"
                                     }
                                     description={
                                         searchQuery

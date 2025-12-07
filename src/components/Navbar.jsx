@@ -369,7 +369,7 @@ const subMenus = {
     "the-colleague-uni": [
         { label: "Archi.Co Lab", path: "/the-colleague-uni", isDefault: true },
         { label: "About", path: "/the-colleague-uni/about" },
-        { label: "Mission", path: "/the-colleague-uni/mission" },
+        { label: "Vision", path: "/the-colleague-uni/vision" },
         { label: "Team", path: "/the-colleague-uni/team" },
         { label: "Contact", path: "/the-colleague-uni/contact" },
     ],

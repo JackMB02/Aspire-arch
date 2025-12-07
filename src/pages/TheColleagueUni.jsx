@@ -71,7 +71,7 @@ function UniAbout() {
                 <div className="uni-content">
                     <h1 className="uni-title">
                         {aboutData?.title ||
-                            "The Archi. Colleagues Lab"}
+                            "TheArchi. Colleagues Lab"}
                     </h1>
                     <p className="uni-description">
                         {aboutData?.description ||
@@ -472,7 +472,7 @@ function UniOverview() {
             <div className="uni-page-wrapper">
                 <div className="uni-content overview-content">
                     <h1 className="uni-main-title">
-                        The Archi. Colleagues Lab
+                        TheArchi. Colleagues Lab
                     </h1>
                     <p className="uni-subtitle">
                         Grounding

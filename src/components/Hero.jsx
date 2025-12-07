@@ -439,7 +439,7 @@ function Hero() {
         const timer = setInterval(() => {
             setDirection(1); // Moving forward
             setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 30000); // Change slide every 30 seconds
+        }, 15000); // Change slide every 15 seconds
 
         return () => clearInterval(timer);
     }, []);
@@ -579,6 +579,19 @@ function Hero() {
                     {slides[currentSlide].description}
                 </DescriptionCard>
             </HeroOverlay>
+
+            {/* Slideshow Dots */}
+            <SlideIndicators>
+                {slides.map((_, index) => (
+                    <Indicator
+                        key={index}
+                        active={index === currentSlide}
+                        onClick={() => goToSlide(index)}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                    />
+                ))}
+            </SlideIndicators>
         </HeroSection>
     );
 }

@@ -551,11 +551,7 @@ function ResearchOverview() {
                 <div className="research-content overview-content">
                     <h1 className="research-main-title">Research & Insights</h1>
                     <p className="research-main-description" style={{ textAlign: 'justify', textAlignLast: 'left' }}>
-                        Advancing architectural knowledge through rigorous
-                        research, innovative methodologies, and collaborative
-                        inquiry. Our work spans technical, environmental,
-                        social, and cultural dimensions of the built
-                        environment.
+                        At ASPIRE Design Lab, research is at the heart of what we do. We focus on understanding how the different parts of a building come together to create functional and meaningful spaces. Equally important to us is exploring how those spaces respond to culture and local context, reflecting how people live, interact, and experience their everyday lives.
                     </p>
 
                     <div className="research-navigation">
@@ -601,12 +597,7 @@ function ResearchOverview() {
                     <div className="partnerships-section">
                         <h2>Research Partnerships</h2>
                         <p style={{ textAlign: 'justify', textAlignLast: 'left' }}>
-                            We collaborate with leading universities, research
-                            institutions, and industry partners worldwide to
-                            advance architectural knowledge and practice. Our
-                            current partners include MIT Sustainable Design Lab,
-                            ETH Zurich Future Cities Laboratory, and the UN
-                            Habitat Research Office.
+                            We collaborate with leading universities, research institutions, and industry partners worldwide to advance architectural knowledge and practice. we are calling and eager to collaborate with leading universites, research institutions and industry patteners in Randa and wold wide to advance archtectual knowledge and practice thats serves, add value and uplift community.
                         </p>
                     </div>
                 </div>

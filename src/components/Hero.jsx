@@ -269,7 +269,7 @@ const DescriptionCard = styled(motion.div)`
     position: absolute;
     bottom: 5rem;
     right: 3rem;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.3);
     padding: 1.5rem;
     border-radius: 10px;
     font-family: "Futura PT", "Futura", "Century Gothic", sans-serif;
@@ -466,7 +466,7 @@ function Hero() {
                 <LogoSection>
                     <LogoImage
                         src="/images/hero%20logo.png"
-                        alt="ASPIRE Design Lab"
+                        alt="Projects"
                     />
                 </LogoSection>
 

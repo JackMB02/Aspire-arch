@@ -215,7 +215,7 @@ function Profession() {
 
     return (
         <PageWrapper
-            title="Professional Projects"
+            title="Projects"
             description="Our portfolio currently highlights academic explorations, competition entries, and professional training or mentorship projects developed through internships. These works reflect our commitment to rigorous research, collaborative learning, and a growing practice that is steadily evolving into a client-facing professional platform."
             projects={projects}
             loading={loading}
@@ -622,7 +622,7 @@ function VisitProject() {
             {/* Project Content */}
             <div className="project-content">
                 <div className="project-header">
-                    <h1 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontSize: "2.5rem", fontWeight: "normal" }}>{project.title}</h1>
+                    <h1 style={{ fontFamily: "'Futura', 'Trebuchet MS', Arial, sans-serif", fontSize: "1.8rem", fontWeight: "normal" }}>{project.title}</h1>
                 </div>
 
                 {/* Project Summary */}
@@ -1073,6 +1073,8 @@ function Design() {
                     line-height: 1.7;
                     max-width: 800px;
                     margin: 0 auto 3rem;
+                    text-align: justify;
+                    text-align-last: left;
                 }
 
                 /* Media Grid - Modern Layout - 3 cards per row */
@@ -1317,7 +1319,7 @@ function Design() {
 
                 .visit-project .project-content h1 {
                     font-family: 'Futura', 'Trebuchet MS', Arial, sans-serif;
-                    font-size: 2.2rem;
+                    font-size: 1.8rem;
                     color: rgba(255, 255, 255, 0.95);
                     margin-bottom: 1rem;
                     font-weight: 700;

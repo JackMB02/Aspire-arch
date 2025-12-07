@@ -550,7 +550,7 @@ function ResearchOverview() {
             <div className="research-page-wrapper">
                 <div className="research-content overview-content">
                     <h1 className="research-main-title">Research & Insights</h1>
-                    <p className="research-main-description">
+                    <p className="research-main-description" style={{ textAlign: 'justify', textAlignLast: 'left' }}>
                         Advancing architectural knowledge through rigorous
                         research, innovative methodologies, and collaborative
                         inquiry. Our work spans technical, environmental,
@@ -600,7 +600,7 @@ function ResearchOverview() {
 
                     <div className="partnerships-section">
                         <h2>Research Partnerships</h2>
-                        <p>
+                        <p style={{ textAlign: 'justify', textAlignLast: 'left' }}>
                             We collaborate with leading universities, research
                             institutions, and industry partners worldwide to
                             advance architectural knowledge and practice. Our

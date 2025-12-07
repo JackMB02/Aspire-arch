@@ -618,7 +618,8 @@ function TheColleagueUni() {
           letter-spacing: 0.3px;
           max-width: 800px;
           margin: 0 auto 2.5rem;
-          text-align: center;
+          text-align: justify;
+          text-align-last: left;
         }
 
         .uni-main-description {

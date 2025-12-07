@@ -488,7 +488,7 @@ function UniOverview() {
                         <Link to="about" className="nav-link">
                             TheArchi.co Lab
                         </Link>
-                        <Link to="mission" className="nav-link">
+                        <Link to="vision" className="nav-link">
                             Vision
                         </Link>
                         <Link to="team" className="nav-link">
@@ -554,7 +554,7 @@ function TheColleagueUni() {
         >
             <Routes>
                 <Route path="about" element={<UniAbout />} />
-                <Route path="mission" element={<UniMission />} />
+                <Route path="vision" element={<UniMission />} />
                 <Route path="team" element={<UniTeam />} />
                 <Route path="contact" element={<UniContact />} />
                 <Route path="*" element={<UniOverview />} />
